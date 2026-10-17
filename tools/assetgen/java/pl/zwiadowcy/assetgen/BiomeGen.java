@@ -64,6 +64,7 @@ public final class BiomeGen {
                         List.of(s("zwiadowcy:wargal", 8, 1, 3), s("zwiadowcy:wargal_zwiadowca", 6, 1, 2), s("zwiadowcy:wargal_oszczepnik", 4, 1, 2)), true)
         );
 
+        Set<String> sparseWritten = new HashSet<>();
         try (ZipFile zip = new ZipFile(jar)) {
             File biomeDir = new File(dataRoot, "zwiadowcy/worldgen/biome");
             biomeDir.mkdirs();
@@ -94,6 +95,20 @@ public final class BiomeGen {
                         if (f.contains("monster_room")) it.remove();
                         else if (spec.dropFlowers && (f.contains("flower") || f.contains("sugar_cane") || f.contains("pumpkin"))) it.remove();
                     }
+                    // rzadsze lasy: własne kopie rozmieszczenia drzew z mniejszą liczbą na chunk (wygodna jazda konno)
+                    for (int i = 0; i < arr.size(); i++) {
+                        String f = arr.get(i).getAsString();
+                        if (!f.startsWith("minecraft:") || !SPARSE_TREES.containsKey(f.substring(10))) continue;
+                        String name = f.substring(10);
+                        arr.set(i, new JsonPrimitive("zwiadowcy:rzadkie/" + name));
+                        if (sparseWritten.add(name)) {
+                            JsonObject placed = read(zip, "data/minecraft/worldgen/placed_feature/" + name + ".json");
+                            scaleCount(placed, SPARSE_TREES.get(name));
+                            File pf = new File(dataRoot, "zwiadowcy/worldgen/placed_feature/rzadkie/" + name + ".json");
+                            pf.getParentFile().mkdirs();
+                            write(pf, placed);
+                        }
+                    }
                 }
                 write(new File(biomeDir, spec.id + ".json"), b);
             }
@@ -104,11 +119,101 @@ public final class BiomeGen {
                     .replace("\"minecraft:windswept_hills\"", "\"minecraft:windswept_hills\", \"zwiadowcy:pogorze_deszczu_i_nocy\"")
                     .replace("\"minecraft:old_growth_spruce_taiga\"", "\"minecraft:old_growth_spruce_taiga\", \"zwiadowcy:stare_bory\"")
                     .replace("\"minecraft:windswept_savanna\"", "\"minecraft:windswept_savanna\", \"zwiadowcy:rownina_samotnosci\"");
+            // Araluen bez mórz: własne kopie funkcji gęstości terenu. Parametr generatora, który decyduje o oceanach
+            // ("continents"), jest przesunięty w stronę lądu, więc nigdzie nie powstaje ocean ani plaża, a cały teren
+            // jest podniesiony o kilka bloków - doliny rzek wysychają. Zostają tylko małe jeziorka z wód gruntowych.
+            String[] chain = {"continents", "offset", "factor", "jaggedness", "depth", "sloped_cheese"};
+            File dfDir = new File(dataRoot, "zwiadowcy/worldgen/density_function/araluen");
+            dfDir.mkdirs();
+            for (String name : chain) {
+                JsonObject df = JsonParser.parseString(relink(readText(zip, "data/minecraft/worldgen/density_function/overworld/" + name + ".json"), chain))
+                        .getAsJsonObject();
+                if (name.equals("continents")) df = towardsLand(df);
+                if (name.equals("offset")) df = raised(df);
+                write(new File(dfDir, name + ".json"), df);
+            }
+            noise = relink(noise, chain);
+            // niższy poziom wody: doliny rzek i niecki wysychają, zostają tylko małe jeziorka w głębszych zagłębieniach
+            noise = noise.replace("\"sea_level\": 63", "\"sea_level\": " + SEA_LEVEL);
             File noiseFile = new File(dataRoot, "zwiadowcy/worldgen/noise_settings/araluen.json");
             noiseFile.getParentFile().mkdirs();
             Files.writeString(noiseFile.toPath(), noise, StandardCharsets.UTF_8);
         }
         System.out.println("Biomy Araluenu wygenerowane: " + specs.size());
+    }
+
+    /**
+     * Rzadsze lasy Araluenu: mnożnik liczby drzew na chunk dla rozmieszczeń vanilla (las 10 → 4, ciemny las 16 → 6).
+     * Pogórze (3 drzewa) i łąki zostają bez zmian.
+     */
+    static final Map<String, Double> SPARSE_TREES = Map.of(
+            "trees_birch_and_oak", 0.4, "trees_birch", 0.4, "dark_forest_vegetation", 0.4,
+            "trees_taiga", 0.4, "trees_old_growth_spruce_taiga", 0.4);
+
+    /** Mnoży "count" w modyfikatorach rozmieszczenia (liczba albo lista ważona), co najmniej 1. */
+    static void scaleCount(JsonObject placed, double factor) {
+        for (JsonElement el : placed.getAsJsonArray("placement")) {
+            JsonObject mod = el.getAsJsonObject();
+            if (!mod.get("type").getAsString().equals("minecraft:count")) continue;
+            JsonElement count = mod.get("count");
+            if (count.isJsonPrimitive()) {
+                mod.addProperty("count", Math.max(1, (int) Math.round(count.getAsInt() * factor)));
+            } else if (count.getAsJsonObject().has("distribution")) {
+                for (JsonElement d : count.getAsJsonObject().getAsJsonArray("distribution")) {
+                    JsonObject entry = d.getAsJsonObject();
+                    if (entry.get("data").isJsonPrimitive()) {
+                        entry.addProperty("data", Math.max(1, (int) Math.round(entry.get("data").getAsInt() * factor)));
+                    }
+                }
+            }
+        }
+    }
+
+    /** Przesunięcie terenu w górę (1.0 w "offset" to ok. 128 bloków): +0.12 ≈ 15 bloków, doliny rzek i niecki nad poziomem morza. */
+    static final double RAISE = 0.12;
+    /** Poziom wody w Araluenie (vanilla: 63). */
+    static final int SEA_LEVEL = 50;
+    /** Kontynentalność c → 0.40 + 0.35·c: z zakresu szumu ok. [-1.2, 1.2] robi się [-0.02, 0.82] - sam ląd (ocean < -0.19). */
+    static final double LAND_SHIFT = 0.40, LAND_SCALE = 0.35;
+
+    /** Odwołania vanilla "minecraft:overworld/x" → własne kopie "zwiadowcy:araluen/x" dla funkcji z łańcucha. */
+    static String relink(String json, String[] chain) {
+        for (String n : chain) json = json.replace("\"minecraft:overworld/" + n + "\"", "\"zwiadowcy:araluen/" + n + "\"");
+        return json;
+    }
+
+    /** flat_cache(x) → flat_cache(LAND_SHIFT + LAND_SCALE·x). */
+    static JsonObject towardsLand(JsonObject flatCache) {
+        JsonObject mul = new JsonObject();
+        mul.addProperty("type", "minecraft:mul");
+        mul.addProperty("argument1", LAND_SCALE);
+        mul.add("argument2", flatCache.get("argument"));
+        JsonObject add = new JsonObject();
+        add.addProperty("type", "minecraft:add");
+        add.addProperty("argument1", LAND_SHIFT);
+        add.add("argument2", mul);
+        JsonObject out = new JsonObject();
+        out.addProperty("type", "minecraft:flat_cache");
+        out.add("argument", add);
+        return out;
+    }
+
+    /** flat_cache(x) → flat_cache(RAISE + x). */
+    static JsonObject raised(JsonObject flatCache) {
+        JsonObject add = new JsonObject();
+        add.addProperty("type", "minecraft:add");
+        add.addProperty("argument1", RAISE);
+        add.add("argument2", flatCache.get("argument"));
+        JsonObject out = new JsonObject();
+        out.addProperty("type", "minecraft:flat_cache");
+        out.add("argument", add);
+        return out;
+    }
+
+    static String readText(ZipFile zip, String path) throws Exception {
+        ZipEntry e = zip.getEntry(path);
+        if (e == null) throw new IllegalStateException("Brak w jarze: " + path);
+        return new String(zip.getInputStream(e).readAllBytes(), StandardCharsets.UTF_8);
     }
 
     static JsonObject spawn(Spawn s) {

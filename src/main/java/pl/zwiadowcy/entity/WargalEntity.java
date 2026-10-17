@@ -175,7 +175,10 @@ public class WargalEntity extends Monster implements RangedAttackMob {
 
     /** Herszt: wycie wzmacnia wszystkich wargalów w pobliżu. */
     private void tickChieftain() {
-        if (bossEvent != null) bossEvent.setProgress(getHealth() / getMaxHealth());
+        if (bossEvent != null) {
+            bossEvent.setProgress(getHealth() / getMaxHealth());
+            BossBarRange.update(this, bossEvent, 24);
+        }
         if (howlCooldown > 0) {
             howlCooldown--;
             return;
@@ -200,12 +203,6 @@ public class WargalEntity extends Monster implements RangedAttackMob {
         SpawnGroupData result = super.finalizeSpawn(level, difficulty, reason, data, tag);
         equipFor(variant);
         return result;
-    }
-
-    @Override
-    public void startSeenByPlayer(ServerPlayer player) {
-        super.startSeenByPlayer(player);
-        if (bossEvent != null) bossEvent.addPlayer(player);
     }
 
     @Override

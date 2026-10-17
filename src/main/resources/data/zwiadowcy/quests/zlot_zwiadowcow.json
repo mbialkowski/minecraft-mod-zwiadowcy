@@ -12,7 +12,7 @@
     },
     {
       "objective": {"type": "reach", "location": "oboz_zlotu:oboz", "radius": 12},
-      "text": "Wyrusz na Zlot Zwiadowców - daleko na północny zachód"
+      "text": "Wyrusz na Zlot Zwiadowców - na północ, za lasami"
     },
     {
       "objective": {"type": "talk", "npc": "crowley"},

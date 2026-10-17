@@ -90,6 +90,13 @@ final class SkinGen {
                 new Spec("kowal").skin(0xb8805e).hair(0x2a1a10, Hair.SHORT).beard(0x2a1a10)
                         .tunic(0x5a4a3a, -1).sleeves(0xb8805e).apron().pants(0x3a3028).boots(0x1e1610),
                 new Spec("chlopka").slim().skin(0xe8b898).hair(0x8a5a2a, Hair.BRAIDS).tunic(0x9a7a4a, -1).dress().apron(),
+                // postoje na szlaku
+                new Spec("kupiec").skin(0xd8a07a).hair(0x4a3020, Hair.SHORT).mustache(0x4a3020)
+                        .tunic(0x2a4a7a, 0xc8a040).belt(0x5a3a20).pants(0x5a4a3a).boots(0x3a2a1a),
+                new Spec("drwal").skin(0xc08860).hair(0x6a4a2a, Hair.SHAGGY).beard(0x6a4a2a)
+                        .tunic(0x7a2a2a, -1).sleeves(0x7a2a2a).pants(0x4a4a3a).boots(0x2a1a10),
+                new Spec("uciekinierka").slim().skin(0xe8b898).hair(0x3a2418, Hair.LONG).tunic(0x6a6a5a, -1)
+                        .dress().scarf(0x8a6a4a),
                 // bandyci (losowo wybierana skórka)
                 new Spec("bandyci/bandyta_0").skin(0xc8946e).hair(0x3a2a1a, Hair.SHAGGY).beard(0x3a2a1a)
                         .tunic(0x6a4a2a, -1).pants(0x4a3a2a).scarf(0xa02020),

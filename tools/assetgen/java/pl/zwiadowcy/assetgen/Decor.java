@@ -36,7 +36,7 @@ final class Decor {
         int px = dx(ccw(facing)), pz = dz(ccw(facing));
         int fx = dx(facing), fz = dz(facing);
         int bx = -fx, bz = -fz;
-        s.set(x, y, z, "minecraft:campfire[lit=true,facing=" + facing + ",signal_fire=false]");
+        s.set(x, y, z, "zwiadowcy:palenisko[facing=" + facing + "]");
         for (int side : new int[]{-1, 1}) {
             s.set(x + px * side, y, z + pz * side, brick);
             s.set(x + px * side, y + 1, z + pz * side, brick);
@@ -104,14 +104,14 @@ final class Decor {
 
     /** Kociołek z wodą zawieszony nad ogniskiem - gotowanie strawy. */
     static void cookingPot(Structure s, int x, int y, int z) {
-        s.set(x, y, z, "minecraft:campfire[lit=true,facing=north,signal_fire=false]");
+        s.set(x, y, z, "zwiadowcy:palenisko[facing=north]");
         s.set(x, y + 1, z, "minecraft:water_cauldron[level=3]");
     }
 
     /** Ognisko z kamiennym kręgiem i ławami z bali. */
     static void campfireRing(Structure s, int x, int y, int z, boolean cooking) {
         if (cooking) cookingPot(s, x, y, z);
-        else s.set(x, y, z, "minecraft:campfire[lit=true,facing=north,signal_fire=false]");
+        else s.set(x, y, z, "zwiadowcy:palenisko[facing=north]");
         for (int[] d : new int[][]{{-1, -1}, {1, -1}, {-1, 1}, {1, 1}}) s.set(x + d[0], y - 1, z + d[1], "minecraft:cobblestone");
         for (int[] d : new int[][]{{0, -1}, {0, 1}, {-1, 0}, {1, 0}}) s.set(x + d[0], y - 1, z + d[1], "minecraft:gravel");
         s.set(x - 3, y, z, "minecraft:spruce_log[axis=z]");

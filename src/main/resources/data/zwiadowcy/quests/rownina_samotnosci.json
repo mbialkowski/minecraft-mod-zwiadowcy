@@ -11,7 +11,8 @@
   "stages": [
     {
       "objective": {"type": "reach", "location": "ruiny_gorlanu:podejscie", "radius": 10},
-      "text": "Podążaj tropem na Równinę Samotności (daleko na południowy wschód)"
+      "text": "Podążaj tropem na Równinę Samotności (daleko na południowy wschód)",
+      "on_complete": [{"type": "cancel_quest", "quest": "szlak_zasadzka_wargalow", "max_stage": 0}]
     },
     {
       "objective": {"type": "talk", "npc": "halt"},

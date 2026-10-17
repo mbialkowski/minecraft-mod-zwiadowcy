@@ -42,18 +42,30 @@ public final class StructurePlacer {
     @javax.annotation.Nullable static BlockPos avoid;
 
     public static LocationData.Placed place(ServerLevel level, StoryLocation loc, LocationData data) {
-        StructureTemplate template = level.getStructureManager().get(Zwiadowcy.id(loc.id)).orElse(null);
+        return place(level, loc.id, loc.id, nominal(data, loc), loc.groundOffset, preferredBiomes(loc), data, loc);
+    }
+
+    /**
+     * Stawia szablon {@code templateId} jako miejsce {@code id} (lokacja fabularna albo postój na szlaku),
+     * szukając terenu wokół punktu nominalnego.
+     */
+    public static LocationData.Placed place(ServerLevel level, String id, String templateId, BlockPos nominal, int groundOffset,
+                                            Set<String> preferred, LocationData data, @javax.annotation.Nullable StoryLocation loc) {
+        StructureTemplate template = level.getStructureManager().get(Zwiadowcy.id(templateId)).orElse(null);
         if (template == null || template.getSize().getX() == 0) {
-            Zwiadowcy.LOGGER.error("Brak pliku struktury {}.nbt - stawiam pusty punkt", loc.id);
-            BlockPos c = new BlockPos(loc.x, height(level, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, loc.x, loc.z), loc.z);
+            Zwiadowcy.LOGGER.error("Brak pliku struktury {}.nbt - stawiam pusty punkt", templateId);
+            BlockPos c = new BlockPos(nominal.getX(), height(level, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, nominal.getX(), nominal.getZ()), nominal.getZ());
             return new LocationData.Placed(c, c);
         }
         Vec3i size = template.getSize();
-        BlockPos center = findSite(level, loc, size, nominal(data, loc), takenAreas(level, data, loc));
+        long t0 = System.nanoTime();
+        BlockPos center = findSite(level, id, preferred, size, nominal, takenAreas(level, data, id));
         int baseY = center.getY();
-        BlockPos origin = new BlockPos(center.getX() - size.getX() / 2, baseY - 1 - loc.groundOffset, center.getZ() - size.getZ() / 2);
+        BlockPos origin = new BlockPos(center.getX() - size.getX() / 2, baseY - 1 - groundOffset, center.getZ() - size.getZ() / 2);
 
-        prepareTerrain(level, origin.above(loc.groundOffset), size, baseY);
+        long t1 = System.nanoTime();
+        prepareTerrain(level, origin.above(groundOffset), size, baseY);
+        long t2 = System.nanoTime();
 
         StructurePlaceSettings settings = new StructurePlaceSettings()
                 .addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK)
@@ -62,6 +74,7 @@ public final class StructurePlacer {
         List<StructureTemplate.StructureBlockInfo> markers = template.filterBlocks(origin, settings, Blocks.STRUCTURE_BLOCK);
         template.placeInWorld(level, origin, origin, settings, level.getRandom(), FLAGS);
 
+        long t3 = System.nanoTime();
         if (loc == StoryLocation.RUINY_GORLANU) paintBiome(level, center, 96, "rownina_samotnosci");
         if (loc == StoryLocation.SPALONA_OSADA) paintBiome(level, center, 36, "rownina_samotnosci");
 
@@ -69,13 +82,15 @@ public final class StructurePlacer {
         for (StructureTemplate.StructureBlockInfo info : markers) {
             CompoundTag nbt = info.nbt();
             if (nbt == null || !"DATA".equals(nbt.getString("mode"))) continue;
-            handleMarker(level, loc, data, placed, info.pos(), nbt.getString("metadata"));
+            handleMarker(level, id, data, placed, info.pos(), nbt.getString("metadata"));
         }
+        Zwiadowcy.LOGGER.info("  {}: wybór miejsca {} ms, teren {} ms, budowla {} ms, reszta {} ms", id, (t1 - t0) / 1_000_000,
+                (t2 - t1) / 1_000_000, (t3 - t2) / 1_000_000, (System.nanoTime() - t3) / 1_000_000);
         return placed;
     }
 
     /** Znacznik ma postać "rodzaj:wartość" z opcjonalnym ";yaw=stopnie". */
-    private static void handleMarker(ServerLevel level, StoryLocation loc, LocationData data,
+    private static void handleMarker(ServerLevel level, String locId, LocationData data,
                                      LocationData.Placed placed, BlockPos pos, String metadata) {
         float yaw = 0f;
         String main = metadata;
@@ -97,7 +112,7 @@ public final class StructurePlacer {
             case "anchor" -> placed.anchors.put(value, pos);
             case "npc" -> {
                 placed.anchors.putIfAbsent(value, pos);
-                NpcService.spawnFromMarker(level, data, loc, value, pos, yaw);
+                NpcService.spawnFromMarker(level, data, locId, value, pos, yaw);
             }
             case "dummy" -> {
                 placed.anchors.put("manekin", pos);
@@ -124,7 +139,7 @@ public final class StructurePlacer {
                     }
                 }
             }
-            default -> Zwiadowcy.LOGGER.warn("Nieznany znacznik '{}' w {}", metadata, loc.id);
+            default -> Zwiadowcy.LOGGER.warn("Nieznany znacznik '{}' w {}", metadata, locId);
         }
     }
 
@@ -140,14 +155,18 @@ public final class StructurePlacer {
         int r2 = radius * radius;
         for (int cx = (center.getX() - radius) >> 4; cx <= (center.getX() + radius) >> 4; cx++) {
             for (int cz = (center.getZ() - radius) >> 4; cz <= (center.getZ() + radius) >> 4; cz++) {
-                var chunk = level.getChunk(cx, cz);
+                // wystarczy etap biomów: jeszcze niewygenerowany teren powstanie od razu z nowym biomem (pełne
+                // generowanie ~150 chunków naraz zamrażało grę na kilkanaście sekund)
+                var raw = level.getChunk(cx, cz, net.minecraft.world.level.chunk.ChunkStatus.BIOMES, true);
+                // chunk już wygenerowany przychodzi jako tylko-do-odczytu "imposter" - malujemy wtedy pełny chunk
+                var chunk = raw instanceof net.minecraft.world.level.chunk.ImposterProtoChunk imposter ? imposter.getWrapped() : raw;
                 chunk.fillBiomesFromNoise((qx, qy, qz, s) -> {
                     int bx = net.minecraft.core.QuartPos.toBlock(qx) + 2 - center.getX();
                     int bz = net.minecraft.core.QuartPos.toBlock(qz) + 2 - center.getZ();
                     return bx * bx + bz * bz <= r2 ? biome : chunk.getNoiseBiome(qx, qy, qz);
                 }, sampler);
                 chunk.setUnsaved(true);
-                changed.add(chunk);
+                if (chunk instanceof net.minecraft.world.level.chunk.LevelChunk) changed.add(chunk);
             }
         }
         level.getChunkSource().chunkMap.resendBiomesForChunks(changed);
@@ -183,11 +202,11 @@ public final class StructurePlacer {
     }
 
     /** Prostokąty (x0, z0, x1, z1) zajęte przez inne postawione lokacje, z zapasem na wyrównany teren. */
-    private static List<int[]> takenAreas(ServerLevel level, LocationData data, StoryLocation loc) {
+    private static List<int[]> takenAreas(ServerLevel level, LocationData data, String id) {
         List<int[]> out = new ArrayList<>();
         for (var e : data.allPlaced().entrySet()) {
-            if (e.getKey().equals(loc.id)) continue;
-            Vec3i s = level.getStructureManager().get(Zwiadowcy.id(e.getKey())).map(StructureTemplate::getSize).orElse(null);
+            if (e.getKey().equals(id)) continue;
+            Vec3i s = level.getStructureManager().get(Zwiadowcy.id(RouteStop.templateOf(e.getKey()))).map(StructureTemplate::getSize).orElse(null);
             if (s == null) continue;
             BlockPos o = e.getValue().origin;
             int pad = MARGIN + 8;
@@ -211,11 +230,12 @@ public final class StructurePlacer {
      * plaży, a miejsce nie może nachodzić na inną lokację. Dopiero wtedy mierzymy teren: bez liści (las nie jest
      * „górą”), z wodą rozpoznawaną po bloku na powierzchni. Preferowany biom daje przewagę, odległość lekko odejmuje.
      */
-    private static BlockPos findSite(ServerLevel level, StoryLocation loc, Vec3i size, BlockPos nominal, List<int[]> taken) {
+    private static BlockPos findSite(ServerLevel level, String id, Set<String> preferred, Vec3i size, BlockPos nominal, List<int[]> taken) {
         int hx = size.getX() / 2, hz = size.getZ() / 2;
         int[][] pts = {{0, 0}, {-hx, -hz}, {hx, -hz}, {-hx, hz}, {hx, hz}, {0, -hz}, {0, hz}, {-hx, 0}, {hx, 0}};
-        Set<String> preferred = preferredBiomes(loc);
         int sea = level.getSeaLevel();
+        var gen = level.getChunkSource().getGenerator();
+        var noise = level.getChunkSource().randomState();
         BlockPos best = null;
         int bestScore = Integer.MAX_VALUE, measured = 0;
         BlockPos.MutableBlockPos m = new BlockPos.MutableBlockPos();
@@ -239,12 +259,13 @@ public final class StructurePlacer {
                 }
                 if (wet) continue;
                 measured++;
+                // wysokość gruntu prosto z szumu generatora: bez generowania chunków (kandydatów są dziesiątki,
+                // a każdy chunk to kilkadziesiąt ms na głównym wątku) i bez drzew; grunt poniżej poziomu morza = woda
                 int[] hs = new int[pts.length];
                 int water = 0;
                 for (int p = 0; p < pts.length; p++) {
-                    int px = x + pts[p][0], pz = z + pts[p][1];
-                    hs[p] = height(level, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, px, pz);
-                    if (!level.getFluidState(m.set(px, hs[p] - 1, pz)).isEmpty()) water++;
+                    hs[p] = gen.getBaseHeight(x + pts[p][0], z + pts[p][1], Heightmap.Types.OCEAN_FLOOR_WG, level, noise);
+                    if (hs[p] < sea) water++;
                 }
                 int[] sorted = hs.clone();
                 Arrays.sort(sorted);
@@ -264,7 +285,7 @@ public final class StructurePlacer {
         }
         if (best == null) {
             // dookoła sama woda - zostaje punkt nominalny (teren zostanie wyrównany i usypany)
-            Zwiadowcy.LOGGER.warn("Nie znaleziono suchego miejsca dla {} - stawiam w punkcie nominalnym", loc.id);
+            Zwiadowcy.LOGGER.warn("Nie znaleziono suchego miejsca dla {} - stawiam w punkcie nominalnym", id);
             int x = nominal.getX(), z = nominal.getZ();
             best = new BlockPos(x, Math.max(height(level, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z), sea + 1), z);
         }

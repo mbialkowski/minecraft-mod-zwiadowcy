@@ -11,6 +11,7 @@ import net.minecraftforge.registries.RegistryObject;
 import pl.zwiadowcy.Zwiadowcy;
 import pl.zwiadowcy.block.ArcheryTargetBlock;
 import pl.zwiadowcy.block.BaronPapersBlock;
+import pl.zwiadowcy.block.HearthBlock;
 import pl.zwiadowcy.block.RopeBlock;
 import pl.zwiadowcy.block.TracksBlock;
 
@@ -35,6 +36,17 @@ public final class ModBlocks {
             () -> new BaronPapersBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.SNOW).noCollission().strength(0.1f).noOcclusion()
                     .sound(SoundType.WOOL).pushReaction(PushReaction.DESTROY)));
+
+    /** Palenisko (wystrój struktur): ognisko bez bloku-encji i bez gęstego dymu. */
+    public static final RegistryObject<Block> PALENISKO = BLOCKS.register("palenisko",
+            () -> new HearthBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PODZOL).strength(2.0f).sound(SoundType.WOOD).lightLevel(s -> 15)
+                    .noOcclusion().ignitedByLava(), false));
+
+    public static final RegistryObject<Block> PALENISKO_DUSZ = BLOCKS.register("palenisko_dusz",
+            () -> new HearthBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PODZOL).strength(2.0f).sound(SoundType.WOOD).lightLevel(s -> 10)
+                    .noOcclusion(), true));
 
     private ModBlocks() {}
 }

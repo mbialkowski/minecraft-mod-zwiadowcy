@@ -28,6 +28,7 @@ public final class StructureGen {
         spalonaOsada();
         ruinyGorlanu();
         RandomStructures.all(out);
+        RouteStopGen.all(out);
     }
 
     static void save(Structure s, String name) throws Exception {
@@ -217,7 +218,7 @@ public final class StructureGen {
         for (int x = x0; x <= x1; x += Math.max(1, x1 - x0)) s.fill(x, 1, z0, x, 4, z0, "minecraft:spruce_log[axis=y]");
         s.clear(x0 + 1, 1, z0, x1 - 1, 4, z0);
         s.fill(x0, 5, z0, x1, 5, z1, "minecraft:stone_brick_slab[type=bottom]");
-        s.set(x1 - 1, 1, z1 - 1, "minecraft:campfire[lit=true,facing=north,signal_fire=false]");
+        s.set(x1 - 1, 1, z1 - 1, "zwiadowcy:palenisko[facing=north]");
         s.set(x1 - 1, 2, z1 - 1, "minecraft:cobblestone");
         s.fill(x1 - 1, 3, z1 - 1, x1 - 1, 6, z1 - 1, "minecraft:bricks");
         s.set(x0 + 2, 1, z0 + 2, "minecraft:anvil[facing=east]");
@@ -247,7 +248,7 @@ public final class StructureGen {
         s.set(x0 + size / 2, 3, z1, "minecraft:air");
         s.set(x0, 9, z0 + size / 2, "minecraft:air");
         s.set(x1, 9, z0 + size / 2, "minecraft:air");
-        s.set(x0 + size / 2, height + 1, z0 + size / 2, "minecraft:campfire[lit=true,facing=north,signal_fire=false]");
+        s.set(x0 + size / 2, height + 1, z0 + size / 2, "zwiadowcy:palenisko[facing=north]");
     }
 
     /** Prosty budynek: ściany, podłoga, dach dwuspadowy, okna. */
@@ -666,6 +667,16 @@ public final class StructureGen {
         s.set(16, 1, 15, "minecraft:hay_block"); s.set(16, 2, 15, "minecraft:hay_block");
         s.set(18, 1, 15, "minecraft:water_cauldron[level=3]");
         s.anchor(17, 1, 17, "wyrwij");
+        // staw za stajenką: woda do misji "Chata w lesie" (4×4 źródła - nie wyczerpuje się), trzcina i lilie
+        for (int x = 23; x <= 26; x++) for (int z = 16; z <= 19; z++) s.set(x, 0, z, "minecraft:water");
+        for (int[] p : new int[][]{{22, 16}, {22, 18}, {27, 17}, {24, 20}}) {
+            s.set(p[0], 1, p[1], "minecraft:sugar_cane");
+            s.set(p[0], 2, p[1], "minecraft:sugar_cane");
+        }
+        s.set(24, 1, 17, "minecraft:lily_pad");
+        s.set(26, 1, 18, "minecraft:lily_pad");
+        for (int[] p : new int[][]{{22, 19}, {27, 19}, {25, 15}}) s.set(p[0], 0, p[1], "minecraft:mossy_cobblestone");
+        s.anchor(22, 1, 20, "staw");
 
         // strzelnica: linia na x=20, tarcze 20/40/60 kratek dalej
         s.fill(20, 0, 26, 21, 0, 34, "minecraft:dirt_path");
@@ -801,6 +812,8 @@ public final class StructureGen {
         s.anchor(18, 1, 21, "halt");
         s.anchor(9, 1, 8, "dzik_1");
         s.anchor(23, 1, 9, "dzik_2");
+        s.anchor(6, 1, 17, "dzik_3");
+        s.anchor(25, 1, 19, "dzik_4");
         save(s, "legowisko_dzika");
     }
 
@@ -1027,31 +1040,64 @@ public final class StructureGen {
             for (int y = 1; y <= h; y++) if (y > 4) s.set(x, y, z, s.pick(RUIN, RUIN_W));
             if (s.rnd.nextDouble() < 0.18) for (int y = 1; y <= 12; y++) s.set(x, y, z, "minecraft:air");
         }
-        // arena w sercu ruin
-        s.fillMix(22, 0, 22, 38, 0, 38, new String[]{"minecraft:polished_andesite", "minecraft:cobblestone", "minecraft:andesite", "minecraft:mossy_cobblestone"},
-                new double[]{0.35, 0.3, 0.2, 0.15});
-        for (int[] p : new int[][]{{22, 22}, {38, 22}, {22, 38}, {38, 38}, {30, 22}, {22, 30}, {38, 30}}) {
-            int h = 2 + s.rnd.nextInt(5);
-            for (int y = 1; y <= h; y++) s.set(p[0], y, p[1], y == h ? "minecraft:chiseled_stone_bricks" : "minecraft:stone_bricks");
-        }
+        // gruz i suche krzaki w ruinach - poza areną
+        int acx = 27, acz = 31, ar = 9;
         for (int i = 0; i < 26; i++) {
             int x = 9 + s.rnd.nextInt(42), z = 9 + s.rnd.nextInt(42);
-            if (x >= 25 && x <= 35 && z >= 25 && z <= 35) continue;
+            if (Math.hypot(x - acx, z - acz) <= ar + 4) continue;
             s.set(x, 1, z, s.rnd.nextBoolean() ? "minecraft:cobblestone" : "minecraft:stone_brick_slab[type=bottom]");
             if (s.rnd.nextDouble() < 0.3) s.set(x, 2, z, "minecraft:mossy_cobblestone");
         }
         for (int i = 0; i < 18; i++) {
             int x = 8 + s.rnd.nextInt(44), z = 8 + s.rnd.nextInt(44);
-            if (!s.has(x, 1, z)) s.set(x, 1, z, s.rnd.nextBoolean() ? "minecraft:dead_bush" : "minecraft:grass");
+            if (Math.hypot(x - acx, z - acz) > ar + 2 && !s.has(x, 1, z)) s.set(x, 1, z, s.rnd.nextBoolean() ? "minecraft:dead_bush" : "minecraft:grass");
         }
-        s.set(33, 1, 27, "minecraft:skeleton_skull[rotation=12]");
-        s.set(26, 1, 34, "minecraft:bone_block[axis=z]");
+        // arena w sercu ruin: okrągła posadzka z oczyszczonym wnętrzem (Kalkar ma 1,3 × 3,1 bloku), pokruszony mur
+        // na 2-3 bloki z przejściami od zachodu (podejście gracza), północy i południa; mury i komnaty twierdzy
+        // zostają na zewnątrz kręgu
+        for (int x = acx - ar - 2; x <= acx + ar + 2; x++) {
+            for (int z = acz - ar - 2; z <= acz + ar + 2; z++) {
+                double d = Math.hypot(x - acx, z - acz);
+                if (d <= ar + 0.5) {
+                    s.set(x, 0, z, s.pick(new String[]{"minecraft:polished_andesite", "minecraft:cobblestone", "minecraft:andesite", "minecraft:mossy_cobblestone"},
+                            new double[]{0.35, 0.3, 0.2, 0.15}));
+                    s.clear(x, 1, z, x, 7, z);
+                } else if (d <= ar + 1.5) {
+                    boolean gate = (Math.abs(z - acz) <= 1 && x < acx) || (Math.abs(x - acx) <= 1);
+                    s.set(x, 0, z, "minecraft:stone_bricks");
+                    s.clear(x, 1, z, x, 7, z);
+                    if (gate) continue;
+                    int h = 2 + (s.rnd.nextDouble() < 0.3 ? 1 : 0);
+                    for (int y = 1; y <= h; y++) s.set(x, y, z, s.pick(RUIN, RUIN_W));
+                }
+            }
+        }
+        // kolumny wewnątrz kręgu: osłona przed spojrzeniem Kalkara, z dala od miejsc, w których bestie się pojawiają
+        for (int k = 0; k < 6; k++) {
+            double ang = k * Math.PI / 3;
+            int px = acx + (int) Math.round(Math.cos(ang) * 6), pz = acz + (int) Math.round(Math.sin(ang) * 6);
+            int h = 3 + s.rnd.nextInt(4);
+            for (int y = 1; y <= h; y++) {
+                s.set(px, y, pz, y == h ? "minecraft:chiseled_stone_bricks" : (s.rnd.nextDouble() < 0.3 ? "minecraft:cracked_stone_bricks" : "minecraft:stone_bricks"));
+            }
+        }
+        // złamane kolumny za murem, czaszka i kości przy przejściach
+        for (int k = 0; k < 6; k++) {
+            double ang = Math.PI / 6 + k * Math.PI / 3;
+            int px = acx + (int) Math.round(Math.cos(ang) * (ar + 3)), pz = acz + (int) Math.round(Math.sin(ang) * (ar + 3));
+            int h = 2 + s.rnd.nextInt(5);
+            for (int y = 1; y <= h; y++) s.set(px, y, pz, y == h ? "minecraft:chiseled_stone_bricks" : "minecraft:stone_bricks");
+        }
+        s.set(acx - ar - 3, 1, acz - 3, "minecraft:skeleton_skull[rotation=4]");
+        s.set(acx + 2, 1, acz + ar + 3, "minecraft:bone_block[axis=z]");
+        s.set(acx - 3, 1, acz - ar - 3, "minecraft:bone_block[axis=x]");
 
         gorlanCrypt(s);
 
-        s.anchor(30, 1, 30, "arena");
-        s.anchor(30, 1, 41, "kalkar_1");
-        s.anchor(42, 1, 22, "kalkar_2");
+        // środek areny i miejsca pojawienia się Kalkarów - na płaskiej posadzce wewnątrz kręgu
+        s.anchor(27, 1, 31, "arena");
+        s.anchor(27, 1, 38, "kalkar_1");
+        s.anchor(33, 1, 26, "kalkar_2");
         s.anchor(12, 1, 30, "wartownik_1");
         s.anchor(36, 1, 13, "wartownik_2");
         s.anchor(42, 1, 34, "wartownik_3");
@@ -1122,8 +1168,8 @@ public final class StructureGen {
         s.set(15, -4, 27, "minecraft:candle[candles=2,lit=true]");
         s.set(15, -4, 25, "minecraft:skeleton_skull[rotation=12]");
         s.set(15, -4, 26, "minecraft:candle[candles=1,lit=true]");
-        s.set(16, -5, 23, "minecraft:soul_campfire[lit=true,facing=east,signal_fire=false]");
-        s.set(16, -5, 28, "minecraft:soul_campfire[lit=true,facing=east,signal_fire=false]");
+        s.set(16, -5, 23, "zwiadowcy:palenisko_dusz[facing=east]");
+        s.set(16, -5, 28, "zwiadowcy:palenisko_dusz[facing=east]");
         s.anchor(18, -5, 26, "krypta");
         s.mob(33, -5, 25, "zwiadowcy:wargal", "Sentry", (byte) 1, "BaseYaw", 90f);
         s.mob(19, -5, 27, "zwiadowcy:wargal_oszczepnik");

@@ -34,6 +34,8 @@ public class LocationData extends SavedData {
     private final Map<String, Integer> npcGenerations = new HashMap<>();
     private final Set<String> spawnedNpcs = new HashSet<>();
     private boolean tugSpawned;
+    /** Wersja jednorazowych poprawek postawionych już lokacji (np. ogniska → paleniska). */
+    private int upgrade;
 
     public static LocationData get(MinecraftServer server) {
         return server.overworld().getDataStorage().computeIfAbsent(LocationData::load, LocationData::new, NAME);
@@ -60,6 +62,9 @@ public class LocationData extends SavedData {
     public boolean tugSpawned() { return tugSpawned; }
     public void setTugSpawned() { tugSpawned = true; setDirty(); }
 
+    public int upgrade() { return upgrade; }
+    public void setUpgrade(int v) { upgrade = v; setDirty(); }
+
     @Override
     public CompoundTag save(CompoundTag tag) {
         CompoundTag pl = new CompoundTag();
@@ -80,6 +85,7 @@ public class LocationData extends SavedData {
         spawnedNpcs.forEach(s -> sp.add(StringTag.valueOf(s)));
         tag.put("spawned", sp);
         tag.putBoolean("tugSpawned", tugSpawned);
+        tag.putInt("upgrade", upgrade);
         return tag;
     }
 
@@ -98,6 +104,7 @@ public class LocationData extends SavedData {
         ListTag sp = tag.getList("spawned", Tag.TAG_STRING);
         for (int i = 0; i < sp.size(); i++) d.spawnedNpcs.add(sp.getString(i));
         d.tugSpawned = tag.getBoolean("tugSpawned");
+        d.upgrade = tag.getInt("upgrade");
         return d;
     }
 }

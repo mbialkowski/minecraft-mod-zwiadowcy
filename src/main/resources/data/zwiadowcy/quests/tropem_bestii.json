@@ -12,7 +12,8 @@
     },
     {
       "objective": {"type": "reach", "location": "spalona_osada:osada", "radius": 12},
-      "text": "Jedź do spalonej osady na wschodzie"
+      "text": "Jedź do spalonej osady na wschodzie",
+      "on_complete": [{"type": "cancel_quest", "quest": "szlak_woz_kupca", "max_stage": 0}]
     },
     {
       "objective": {"type": "event", "id": "use:zestaw_tropiciela"},

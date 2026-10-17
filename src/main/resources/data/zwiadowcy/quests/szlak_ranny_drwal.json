@@ -1,0 +1,32 @@
+{
+  "title": "Na szlaku: ranny drwal",
+  "act": "Postoje na szlaku",
+  "order": 103,
+  "description": "Przy trakcie do Redmont stoi obozowisko drwali. Halt mówił, że jeśli spotkasz kogoś w potrzebie, trzeba pomóc - nawet gdy wracasz z wojny.",
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "szlak_ranny_drwal:miejsce", "radius": 10},
+      "text": "Zajrzyj do obozowiska drwali przy trakcie (dobrowolnie)",
+      "on_complete": [
+        {"type": "track", "quest": "szlak_ranny_drwal"},
+        {"type": "message", "speaker": "Ranny drwal", "text": "Hej, zwiadowco! Tu, przy szałasie... Drzewo zwaliło się nie w tę stronę, co trzeba. Noga puchnie jak bania. Babka zawsze robiła okład z rumianku - rośnie na skraju polany."}
+      ]
+    },
+    {
+      "objective": {"type": "collect", "item": "minecraft:oxeye_daisy", "count": 5},
+      "text": "Zbierz 5 rumianków na okład (rosną na skraju polany)",
+      "location": "szlak_ranny_drwal:miejsce"
+    },
+    {
+      "objective": {"type": "talk", "npc": "drwal"},
+      "text": "Oddaj rumianek drwalowi",
+      "location": "szlak_ranny_drwal:drwal"
+    }
+  ],
+  "on_complete": [
+    {"type": "give_item", "item": "zwiadowcy:kawa_zwiadowcy", "count": 2},
+    {"type": "give_item", "item": "zwiadowcy:racje_podrozne", "count": 3},
+    {"type": "xp", "amount": 30},
+    {"type": "note", "title": "Ranny drwal", "text": "W drodze do Redmont pomogłem drwalowi, którego przygniotło drzewo. Okład z rumianku i trochę cierpliwości - zupełnie jak u Halta. Drwal poczęstował mnie kawą z własnego zapasu i ostrzegł, że na trakcie grasują bandyci, bo wojsko barona wyruszyło na wschód."}
+  ]
+}

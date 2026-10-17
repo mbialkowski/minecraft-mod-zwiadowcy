@@ -37,6 +37,12 @@ public final class StoryService {
         }
     }
 
+    /** Epilog w wersji zależnej od wyboru przed królem (Korpus Zwiadowców albo Szkoła Rycerska). */
+    public static void showEpilog(ServerPlayer p, int delay) {
+        boolean knight = QuestCapability.get(p).hasFlag("wybor_rycerz");
+        queue(p, knight ? StoryTexts.EPILOG_RYCERZ : StoryTexts.EPILOG_ZWIADOWCA, delay);
+    }
+
     public static void onFinished(ServerPlayer p, String story) {
         if (!StoryTexts.PROLOG.equals(story)) return;
         QuestProgress prog = QuestCapability.get(p);

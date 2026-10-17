@@ -1,0 +1,29 @@
+{
+  "npc": "uciekinierka",
+  "entries": [
+    {"when": [{"quest_stage": "szlak_zasadzka_wargalow", "stage": 2}], "start": "dzieki"},
+    {"when": [{"quest_stage": "szlak_zasadzka_wargalow", "stage": 1}], "start": "walka"},
+    {"when": [{"quest_completed": "szlak_zasadzka_wargalow"}], "start": "po"},
+    {"when": [], "start": "witaj"}
+  ],
+  "nodes": {
+    "walka": {
+      "text": "Za tobą! Ten szybszy obchodzi cię od tyłu!",
+      "options": [{"text": "Zostań za kamieniem."}]
+    },
+    "dzieki": {
+      "text": "Myślałam, że to koniec... Uciekliśmy z osady w nocy, gdy zaczęło się palić. Mąż został, żeby ich zatrzymać.\nWidziałam je, zwiadowco. Nie Wargalów - tamte inne. Wysokie jak dwóch ludzi. Szły na południowy wschód, w stronę ruin.\nWeź to. Płonące strzały i olej - mąż mówił, że to jedyne, czego się boją.",
+      "options": [{"text": "Idź do Redmont. Tam będziesz bezpieczna.", "actions": [
+        {"type": "advance", "quest": "szlak_zasadzka_wargalow", "stage": 2}
+      ]}]
+    },
+    "po": {
+      "text": "Dziękuję jeszcze raz. Idę do Redmont, do siostry. Niech ogień prowadzi twoje strzały.",
+      "options": [{"text": "Bezpiecznej drogi."}]
+    },
+    "witaj": {
+      "text": "Zostaw mnie... Nie, przepraszam. Myślałam, że to znowu oni.",
+      "options": [{"text": "Już dobrze."}]
+    }
+  }
+}

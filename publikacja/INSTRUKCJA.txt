@@ -1,34 +1,55 @@
 ZWIADOWCY: RUINY GORLANU - instalacja
 =====================================
 Nieoficjalny mod fanowski na motywach serii „Zwiadowcy” Johna Flanagana. Darmowy i niekomercyjny.
-Nie jest związany z autorem ani wydawcami serii, ani z Mojang czy Microsoftem.
+Nie jest związany z autorem ani wydawcami serii, ani z Mojang czy Microsoftem. Cała fabuła jest po polsku.
 
 Wymagania
-- Minecraft Java Edition 1.20.1
-- Forge dla 1.20.1, wersja 47.x (zalecana 47.4.10 lub nowsza): https://files.minecraftforge.net
+- Minecraft Java Edition (kupiony, oficjalny launcher), wersja 1.20.1. Wersja Bedrock i konsolowa nie zadziałają.
+- Forge dla 1.20.1, wersja 47.x (zalecana 47.4.10 lub nowsza).
+- Komputer z co najmniej 8 GB RAM.
 
-Instalacja
-1. Pobierz instalator Forge dla Minecrafta 1.20.1 i wybierz "Install client".
-2. Uruchom launcher Minecrafta, wybierz profil "forge 1.20.1" i raz włącz grę, żeby utworzył się folder mods.
-   Potem zamknij grę.
-3. Skopiuj plik zwiadowcy-forge-1.20.1-<wersja>.jar do folderu mods:
-   Windows: %APPDATA%\.minecraft\mods
+Najprościej: launcher modów (sam instaluje Forge)
+- CurseForge App (curseforge.com/download/app): Create Custom Profile → Minecraft 1.20.1, Forge → Create.
+  Potem w profilu "..." → Open Folder → wrzuć plik .jar do folderu mods → Play.
+- Modrinth App (modrinth.com/app): "+" → Forge, 1.20.1 → Create. Przeciągnij plik .jar na okno instancji → Play.
+- Prism Launcher (prismlauncher.org): Add Instance → 1.20.1, Forge → Edit → Mods → Add file → Launch.
+- W ustawieniach pamięci launchera ustaw 4 GB. Nie używaj TLaunchera i podobnych nieoficjalnych launcherów.
+
+Ręcznie: oficjalny launcher Minecrafta + Forge
+1. W launcherze Minecrafta: Instalacje → Nowa instalacja → wersja 1.20.1. Uruchom grę raz i zamknij.
+2. Wejdź na https://files.minecraftforge.net, wybierz po lewej 1.20.1 i kliknij "Installer".
+   Strona pokaże reklamę - po kilku sekundach kliknij SKIP w prawym górnym rogu.
+3. Uruchom pobrany plik forge-1.20.1-...-installer.jar (dwuklik), zaznacz "Install client" i kliknij OK.
+   Jeśli plik się nie otwiera, zainstaluj Javę z https://adoptium.net i spróbuj ponownie.
+4. W launcherze pojawi się instalacja "forge". Uruchom ją raz i zamknij grę - powstanie folder mods.
+5. Skopiuj plik zwiadowcy-forge-1.20.1-<wersja>.jar (z tej paczki) do folderu mods. Nie rozpakowuj go!
+   Windows: naciśnij Win + R, wpisz %APPDATA%\.minecraft\mods i naciśnij Enter
    macOS:   ~/Library/Application Support/minecraft/mods
    Linux:   ~/.minecraft/mods
-4. Uruchom grę w profilu Forge. Na liście "Mods" powinien być „Zwiadowcy: Ruiny Gorlanu”.
+6. (Zalecane) Więcej pamięci: w launcherze Instalacje → forge → ... → Edytuj → Więcej opcji →
+   w polu "Argumenty JVM" zamień -Xmx2G na -Xmx4G.
+7. Uruchom instalację "forge". W menu "Mods" powinien być "Zwiadowcy: Ruiny Gorlanu".
 
 Jak zacząć
-- Wejdź do świata. W plecaku znajdziesz Kronikę Araluenu. Użyj jej (prawy przycisk myszy), żeby przenieść się
-  do zamku Redmont. Prolog wyjaśni resztę.
+- Stwórz nowy świat. W ekwipunku znajdziesz Kronikę Araluenu - użyj jej (prawy przycisk myszy), żeby przenieść się
+  do zamku Redmont. Prolog wyjaśni resztę, a baron Arald sam do ciebie podejdzie.
 - Klawisze: J - Dziennik zwiadowcy, V - Bezruch (z płaszczem zwiadowcy), R - zmiana strzały w kołczanie.
-- Kronika w każdej chwili zabierze cię z powrotem do twojego świata.
+- Strzałka w lewym górnym rogu prowadzi do celu misji. Kronika w każdej chwili zabierze cię z powrotem.
+
+Aktualizacja
+- Usuń stary plik zwiadowcy-...jar z folderu mods i wrzuć nowy. Zapisy zostają.
+
+Najczęstsze problemy
+- Moda nie ma w menu Mods: plik w złym folderze albo uruchomiona zwykła instalacja zamiast "forge".
+- Błąd wersji przy starcie: potrzebny Minecraft 1.20.1 i Forge 47.x - inne wersje nie zadziałają.
+- Gra przycina: ustaw -Xmx4G (krok 6) i zmniejsz "odległość symulacji" w ustawieniach wideo do 8.
 
 Serwer
 - Na serwerze Forge 1.20.1 wrzuć ten sam plik do folderu mods serwera. Każdy gracz też musi mieć mod.
 - Fabuła jest pomyślana dla jednego gracza.
 
 Licencje: kod - MIT (LICENSE), grafiki, struktury i teksty - CC BY-NC 4.0 (LICENSE-ZASOBY.txt).
-Strona projektu i zgłoszenia błędów: https://github.com/mbialkowski/minecraft-mod-zwiadowcy
+Strona projektu, nowe wersje i zgłoszenia błędów: https://github.com/mbialkowski/minecraft-mod-zwiadowcy
 
 -------------------------------------------------------------------------------------------------------------
 ENGLISH (short): Unofficial fan-made mod, Polish language only. Install Forge 47.x for Minecraft 1.20.1, put the

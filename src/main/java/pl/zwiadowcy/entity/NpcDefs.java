@@ -48,6 +48,10 @@ public final class NpcDefs {
         add("karczmarz", "Karczmarz", false, false, null, Combat.NONE, () -> new ItemStack(Items.GLASS_BOTTLE), StoryNpc.Mode.IDLE);
         add("kowal", "Kowal", false, false, null, Combat.MELEE, () -> new ItemStack(Items.IRON_AXE), StoryNpc.Mode.IDLE);
         add("chlopka", "Chłopka", true, false, null, Combat.NONE, () -> new ItemStack(Items.WHEAT), StoryNpc.Mode.IDLE);
+        // postoje na szlaku
+        add("kupiec", "Wędrowny kupiec", false, false, null, Combat.NONE, none, StoryNpc.Mode.IDLE);
+        add("drwal", "Ranny drwal", false, false, null, Combat.NONE, none, StoryNpc.Mode.WOUNDED);
+        add("uciekinierka", "Uciekinierka", true, false, null, Combat.NONE, none, StoryNpc.Mode.IDLE);
     }
 
     @Nullable

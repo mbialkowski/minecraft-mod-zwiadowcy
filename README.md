@@ -2,6 +2,8 @@
 
 ![Zwiadowcy: Ruiny Gorlanu](publikacja/baner.png)
 
+**Autorzy:** ABialas & 🤖CC
+
 > **Nieoficjalny mod fanowski.** Mod powstał z sympatii do serii „Zwiadowcy” Johna Flanagana. Nie jest związany
 > z autorem ani z wydawcami serii i nie jest przez nich zatwierdzony. Świat, postacie i nazwy należą do ich
 > właścicieli. Mod jest darmowy i niekomercyjny, a dialogi i misje napisano od nowa, bez cytatów z książek.
@@ -9,20 +11,99 @@
 
 Fabularny mod do Minecraft Java **1.20.1 (Forge 47.x)**, inspirowany pierwszym tomem „Zwiadowców” Johna Flanagana.
 Grasz jako Will, podopieczny barona Aralda, który zostaje uczniem zwiadowcy Halta i staje do walki z Kalkarami Morgaratha.
-Cała fabuła, dialogi i opisy są po polsku (plik `en_us.json` to kopia polskiego, więc gra zawsze wyświetla polski).
+Czeka na ciebie 14 misji fabularnych, nowy wymiar Araluen, skradanie się w płaszczu zwiadowcy, łuk, noże, koń Wyrwij,
+bossowie i otwarty świat po zakończeniu kampanii. Cała fabuła, dialogi i opisy są po polsku.
 *English summary at the end.*
 
-## Instalacja (dla graczy)
+## ⬇ Pobierz
 
-1. Zainstaluj [Forge](https://files.minecraftforge.net) dla Minecrafta **1.20.1** (wersja 47.x, zalecana 47.4.10
-   lub nowsza) i raz uruchom grę w profilu Forge.
-2. Pobierz plik `zwiadowcy-forge-1.20.1-<wersja>.jar` z zakładki
-   [Releases](https://github.com/mbialkowski/minecraft-mod-zwiadowcy/releases) i wrzuć go do folderu `mods`
-   (Windows: `%APPDATA%\.minecraft\mods`).
-3. Uruchom grę w profilu Forge i wejdź do świata. W plecaku czeka **Kronika Araluenu**.
+**[Pobierz najnowszą wersję moda (Releases)](https://github.com/mbialkowski/minecraft-mod-zwiadowcy/releases/latest)**
 
-Do gry na serwerze mod musi być zainstalowany i na serwerze, i u każdego gracza. Szczegóły są w
-[`publikacja/INSTRUKCJA.txt`](publikacja/INSTRUKCJA.txt).
+W sekcji *Assets* wybierz jeden z plików:
+- `zwiadowcy-forge-1.20.1-<wersja>.jar` - sam mod, ten plik wrzucasz do folderu `mods`,
+- `Zwiadowcy-Ruiny-Gorlanu-<wersja>-forge-1.20.1.zip` - ten sam mod plus instrukcja i licencje.
+  Zip trzeba najpierw rozpakować, a do `mods` trafia tylko plik `.jar`.
+
+## Instalacja krok po kroku
+
+**Potrzebujesz:** kupionego Minecraft Java Edition (konto Microsoft z grą) i komputera z co najmniej 8 GB RAM.
+Wersja na konsole, telefony i „Bedrock” z Microsoft Store nie zadziała.
+
+### Najprościej: launcher modów (zalecane)
+
+Darmowe launchery modów same instalują Forge'a, więc wystarczy dodać do nich jeden plik. Wybierz jeden z nich.
+
+**CurseForge App** ([curseforge.com/download/app](https://www.curseforge.com/download/app))
+1. Zainstaluj aplikację, wybierz grę **Minecraft** i zaloguj się kontem Microsoft.
+2. Kliknij **Create Custom Profile**. Wybierz wersję **1.20.1** i modloader **Forge** (najnowszy 47.x), potem **Create**.
+3. Otwórz profil, kliknij **⋯** (trzy kropki) i **Open Folder**. Wrzuć pobrany plik `zwiadowcy-forge-1.20.1-<wersja>.jar`
+   do folderu `mods`. Możesz też przeciągnąć plik na okno profilu.
+4. Kliknij **Play**.
+
+**Modrinth App** ([modrinth.com/app](https://modrinth.com/app))
+1. Zainstaluj aplikację i zaloguj się kontem Microsoft.
+2. Kliknij **+** (nowa instancja). Wybierz loader **Forge** i wersję gry **1.20.1**, potem **Create**.
+3. Otwórz instancję i przeciągnij na jej okno plik `zwiadowcy-forge-1.20.1-<wersja>.jar`. Możesz też kliknąć **⋯**,
+   potem **Open folder** i wrzucić plik do folderu `mods`.
+4. Kliknij **Play**.
+
+**Prism Launcher** ([prismlauncher.org](https://prismlauncher.org))
+1. **Add Instance**: wersja **1.20.1**, a w polu *Mod loader* wybierz **Forge**.
+2. Zaznacz instancję i wejdź w **Edit**, potem **Mods** i **Add file**. Wskaż pobrany plik `.jar`.
+3. Kliknij **Launch**.
+
+W ustawieniach pamięci launchera (*Memory / Allocated memory / Java*) ustaw **4 GB**. Gra będzie wtedy płynniejsza.
+Potem stwórz **nowy świat** i użyj **Kroniki Araluenu** z ekwipunku.
+
+> Nie używaj nieoficjalnych launcherów typu „TLauncher”, bo często zawierają złośliwe oprogramowanie.
+> Do gry potrzebna jest legalna kopia Minecraft Java Edition.
+
+### Ręcznie: oficjalny launcher Minecrafta + Forge
+
+1. **Minecraft 1.20.1.** W launcherze Minecrafta wejdź w *Instalacje → Nowa instalacja*, wybierz wersję **1.20.1**,
+   uruchom grę raz i zamknij. Launcher pobierze wtedy pliki tej wersji.
+2. **Forge.** Wejdź na [files.minecraftforge.net](https://files.minecraftforge.net), z listy po lewej wybierz
+   **1.20.1** i kliknij **Installer**. Wersja 47.4.10 lub nowsza z serii 47.x jest dobra. Strona Forge pokazuje
+   reklamę: po kilku sekundach kliknij **SKIP** w prawym górnym rogu. Nie klikaj innych przycisków „Download”.
+3. **Instalacja Forge.** Uruchom pobrany plik `forge-1.20.1-...-installer.jar` dwuklikiem, zaznacz
+   **Install client** i kliknij **OK**. Jeśli plik się nie otwiera, zainstaluj Javę z
+   [adoptium.net](https://adoptium.net) i spróbuj ponownie.
+4. **Pierwsze uruchomienie Forge.** W launcherze pojawi się instalacja **forge**. Uruchom ją raz i zamknij grę.
+   Powstanie wtedy folder `mods`.
+5. **Mod.** Pobierz plik `zwiadowcy-forge-1.20.1-<wersja>.jar` (link wyżej) i wrzuć go do folderu `mods`:
+   - **Windows:** naciśnij `Win + R`, wpisz `%APPDATA%\.minecraft\mods` i naciśnij Enter,
+   - **macOS:** w Finderze *Idź → Idź do folderu…* i wpisz `~/Library/Application Support/minecraft/mods`,
+   - **Linux:** `~/.minecraft/mods`.
+
+   Nie rozpakowuj pliku `.jar`. Wrzuć go w całości.
+6. **Więcej pamięci (zalecane).** W launcherze: *Instalacje → forge → ⋯ → Edytuj → Więcej opcji*. W polu
+   *Argumenty JVM* zamień początek `-Xmx2G` na `-Xmx4G`. Gra będzie wtedy płynniejsza.
+7. **Graj.** Uruchom instalację **forge**. W menu *Mods* powinien być widoczny „Zwiadowcy: Ruiny Gorlanu”.
+   Stwórz **nowy świat** (*Singleplayer → Create New World*). W ekwipunku czeka **Kronika Araluenu**: użyj jej
+   prawym przyciskiem myszy, a przeniesiesz się do zamku Redmont.
+
+### Aktualizacja do nowej wersji
+
+Usuń z folderu `mods` (w launcherze modów: z folderu `mods` profilu albo instancji) stary plik `zwiadowcy-...jar`
+i wrzuć nowy. Zapisane światy zostają. Część zmian, np. wygląd
+terenu i nowe budowle, zobaczysz jednak tylko w nowo odkrytych terenach albo w nowym świecie.
+
+### Gra na serwerze
+
+Mod musi być zainstalowany i na serwerze Forge 1.20.1 (plik `.jar` w folderze `mods` serwera), i u każdego gracza.
+Fabuła jest pisana dla jednego gracza, więc najlepiej grać w nią w trybie jednoosobowym.
+
+### Najczęstsze problemy
+
+| Problem | Rozwiązanie |
+|---|---|
+| Moda nie ma w menu *Mods* | Plik jest w złym folderze albo uruchomiłeś zwykłą instalację zamiast **forge**. |
+| Błąd o wersji Forge / Minecrafta przy starcie | Potrzebny jest Minecraft **1.20.1** i Forge **47.x**. Inne wersje nie zadziałają. |
+| Gra przycina | Ustaw `-Xmx4G` (krok 6), a w ustawieniach wideo zmniejsz *odległość symulacji* do 8. |
+| Plik `.jar` otwiera się jak archiwum | Nie rozpakowuj go. Skopiuj cały plik do folderu `mods`. |
+| Teksty są po polsku, a gra po angielsku | Tak ma być: mod jest tylko po polsku, niezależnie od języka gry. |
+
+Pełna instrukcja jest też w pliku `INSTRUKCJA.txt` w paczce zip.
 
 ## Uruchomienie ze źródeł (dla twórców)
 
@@ -57,11 +138,22 @@ połóż się do dowolnego łóżka (w Redmont strzałka prowadzi do koszar, pod
 a obudzisz się o zmroku. Zwykły sen w Araluenie przewija noc do rana. Wyjątkiem jest noc, której potrzebuje misja
 (skradanie się, polowanie Kalkarów): wtedy łóżko odmawia, bo ciemność jest sprzymierzeńcem zwiadowcy.
 
+**Punkt odrodzenia.** Gdy misja zaczyna się albo przenosi w nowe miejsce, punkt odrodzenia ustawia się w bezpiecznym
+punkcie tej lokacji: w Redmont przy bramie, przy chacie Halta przed chatą, pod Gorlanem w obozie przed ruinami, a nie
+na arenie. Po śmierci nie trzeba więc wracać przez pół królestwa. Czat pokazuje komunikat „✚ Punkt odrodzenia: …”.
+
 ## Świat Araluenu
 
 **Biomy (9, z polskimi nazwami i własnymi kolorami):** Lasy Redmont, Łąki Araluenu, Brzozowy gaj, Mroczna puszcza,
 Bory Północy, Stare bory, Pogórze Deszczu i Nocy, Szczyty Deszczu i Nocy (kamieniste, ponure) oraz Równina
 Samotności (szara, wymarła). Równina otacza też Ruiny Gorlanu i spaloną osadę.
+
+**Bez mórz.** Araluen to sam ląd: nie ma oceanów, plaż ani długich rzek, są tylko małe jeziorka, które łatwo
+objechać. Teren korzysta z własnych kopii funkcji gęstości (`worldgen/density_function/araluen/`). Parametr
+generatora, który decyduje o oceanach (kontynentalność), jest przesunięty w stronę lądu, a cały teren podniesiony
+o ok. 15 bloków, a poziom wody obniżony z 63 do 50, więc doliny rzek wysychają. Ustawienia są w `BiomeGen.java`
+(`LAND_SHIFT`, `LAND_SCALE`, `RAISE`, `SEA_LEVEL`).
+Zwykły świat Minecrafta się nie zmienia.
 
 **Przeciwnicy:**
 
@@ -123,11 +215,29 @@ ukrycia (gdy nosisz płaszcz) i wybraną strzałę (gdy trzymasz łuk zwiadowcy)
 | 10 | Zlot Zwiadowców (konkurs łuczniczy, wieści o Northolcie) | III: Cień Morgaratha |
 | 11 | Tropem bestii (spalona osada, zasadzka Wargalów, Znak Morgaratha) | III |
 | 12 | Równina Samotności (skradanie się w Ruinach Gorlanu) | III |
-| 13 | Ogień w ciemności (boss: dwóch Kalkarów) | III |
+| 13 | Ogień w ciemności (boss: dwóch Kalkarów na okrągłej arenie z kolumnami) | III |
 | 14 | Przed obliczem króla (wybór: Szkoła Rycerska albo Korpus Zwiadowców) | Epilog |
 
-Po epilogu świat zostaje otwarty, a Halt daje powtarzalne **zlecenia**: patrol Wargalów, dziki w zbożu, list do Starego Boba
+Po ostatniej misji otwiera się **epilog** na pergaminie, podobny do prologu, w dwóch wersjach zależnie od wyboru przed
+królem. Podsumowuje drogę Willa i zapowiada, co dalej. Można go przeczytać ponownie w dzienniku (przycisk „Epilog”).
+Po epilogu świat zostaje otwarty, a Halt w swojej chacie daje codziennie nowe **zlecenia**: patrol Wargalów, dziki w zbożu, list do Starego Boba
 (każde można powtórzyć raz na dobę gry).
+
+**Postoje na szlaku.** Na trzech najdłuższych trasach Halt mówi przed wyjazdem o ludziach w potrzebie przy trakcie
+i pyta, czy po drodze się zatrzymasz. Postoje są dobrowolne. Gdy się zgodzisz, strzałka w HUD poprowadzi przez postój,
+który leży przed tobą na drodze do celu. Minięty postój przestaje być wskazywany i znika z dziennika po dotarciu na
+miejsce. Każdy postój kończy się nagrodą przydatną w drodze i notatką w dzienniku.
+
+| Trasa | Postój | Zadanie |
+|---|---|---|
+| Zlot → spalona osada | przewrócony wóz kupca | pozbieraj 6 bel sukna i oddaj kupcowi |
+| osada → Ruiny Gorlanu | uciekinierzy na skraju równiny | odeprzyj zasadzkę 3 Wargalów |
+| Gorlan → Redmont | obozowisko rannego drwala | zbierz 5 rumianków na okład |
+| Gorlan → Redmont | wóz kupca w poprzek traktu | przegoń 3 bandytów |
+
+Postoje są stawiane w połowie (lub w 1/3 i 2/3) odcinka między lokacjami, na lądzie (`RouteStop.java`,
+szablony w `structures/postoje/`, misje `quests/szlak_*.json`).
+
 
 ### Lokacje
 
@@ -142,8 +252,8 @@ Jeśli w starszym świecie lokacja stanęła w złym miejscu (np. chata Halta w 
 postacie i Wyrwij przechodzą do nowej.
 
 Zamek Redmont (~0, 0) · Wensley (zachód) · Chata Halta ze strzelnicą (wschód) · Farma Starego Boba (południowy wschód) ·
-Legowisko dzika (północny wschód) · Obóz Zlotu (daleko na północnym zachodzie) · Spalona osada (wschód) ·
-Ruiny Gorlanu (daleko na południowym wschodzie).
+Legowisko dzika (północny wschód) · Obóz Zlotu (północ, ~450 bloków) · Spalona osada (wschód, ~450 bloków) ·
+Ruiny Gorlanu (daleko na południowym wschodzie, ~950 bloków). Żaden odcinek podróży w kampanii nie przekracza ~1000 bloków.
 
 ## Zawartość
 
@@ -242,6 +352,20 @@ z opóźnieniem, więc liczniki mobów i wystroju wyjdą puste, a lokacje fabula
 gradlew runServer -Pselftest=true
 ```
 
+## Wydajność
+
+- `gradlew runClient` uruchamia grę z 3–4 GB stałej pamięci i odśmiecaniem G1 nastawionym na krótkie pauzy
+  (konfiguracja `client` w `build.gradle`). W launcherze Minecrafta możesz wpisać w profilu Forge te same argumenty
+  JVM: `-Xms3G -Xmx4G -XX:+UseG1GC -XX:MaxGCPauseMillis=40 -XX:+ParallelRefProcEnabled -XX:+DisableExplicitGC`.
+  Więcej niż 4 GB nie pomaga, bo dłuższe są wtedy pauzy odśmiecania.
+- Kominki, kotły i koksowniki stoją na **palenisku**. Wygląda i świeci jak ognisko, ale nie wypuszcza dziesiątek
+  długo żyjących kłębów dymu, które przy kilkudziesięciu ogniskach w lokacjach mocno obciążały kartę graficzną.
+  W światach z wcześniejszych wersji ogniska w lokacjach zamieniają się w paleniska przy pierwszym uruchomieniu.
+- Miejsce pod lokację jest wybierane na podstawie szumu generatora, bez generowania chunków. Biom wokół Gorlanu
+  malowany jest przed wygenerowaniem terenu. Dzięki temu stawianie lokacji nie zamraża już gry na wiele sekund.
+- Bez utraty wyglądu można zmniejszyć w ustawieniach wideo **odległość symulacji** (np. z 12 na 8). Wpływa ona
+  tylko na to, jak daleko od gracza działają moby i rośliny, a nie na to, jak daleko widać.
+
 ## Ograniczenia
 
 - Dźwięki pochodzą z Minecrafta vanilla (konie, ravager, wilk, flet).
@@ -261,6 +385,11 @@ To polecenie buduje mod i składa w `build/publikacja/` dwa pliki:
 Katalog [`publikacja/`](publikacja/) zawiera ikonę projektu, baner, opis strony (PL i EN), krótkie podsumowanie,
 listę zmian i [ściągawkę z polami formularzy](publikacja/formularze.md) dla Modrinth, CurseForge i GitHub Releases.
 
+## Autorzy
+
+**ABialas & 🤖CC** - pomysł, fabuła, kod, grafiki i struktury.
+Uwagi, pomysły i zgłoszenia błędów: [Issues](https://github.com/mbialkowski/minecraft-mod-zwiadowcy/issues).
+
 ## Licencja
 
 - Kod źródłowy: [MIT](LICENSE).
@@ -278,4 +407,4 @@ ASSOCIATED WITH MOJANG OR MICROSOFT.
 A story mod for Minecraft Java 1.20.1 (Forge 47.x). You play as Will, who becomes the apprentice of the Ranger Halt.
 The mod adds a 14-mission campaign, a new dimension with 9 biomes, story locations, random structures, 22 characters
 with dialogue, new enemies and ranger gear. **All in-game text is in Polish.** Install it like any Forge mod
-(client and server). Code is licensed under MIT; assets and texts under CC BY-NC 4.0.
+(client and server). Code is licensed under MIT; assets and texts under CC BY-NC 4.0. Authors: ABialas & 🤖CC.

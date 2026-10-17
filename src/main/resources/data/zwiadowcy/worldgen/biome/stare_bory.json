@@ -78,7 +78,7 @@
     [
       "minecraft:glow_lichen",
       "minecraft:patch_large_fern",
-      "minecraft:trees_old_growth_spruce_taiga",
+      "zwiadowcy:rzadkie/trees_old_growth_spruce_taiga",
       "minecraft:flower_default",
       "minecraft:patch_grass_taiga",
       "minecraft:patch_dead_bush",

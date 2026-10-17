@@ -1,0 +1,31 @@
+{
+  "npc": "drwal",
+  "entries": [
+    {"when": [{"quest_stage": "szlak_ranny_drwal", "stage": 2}], "start": "oklad"},
+    {"when": [{"quest_stage": "szlak_ranny_drwal", "stage": 1}], "start": "szukaj"},
+    {"when": [{"quest_completed": "szlak_ranny_drwal"}], "start": "zdrowy"},
+    {"when": [], "start": "witaj"}
+  ],
+  "nodes": {
+    "szukaj": {
+      "text": "Rumianek, chłopcze. Białe płatki, żółty środek. Rośnie na skraju polany, przy pniakach. Pięć kwiatów wystarczy na porządny okład.",
+      "options": [{"text": "Zaraz wrócę."}]
+    },
+    "oklad": {
+      "text": "Ooo... od razu chłodzi. Babka miała rację, świeć Panie nad jej duszą.\nNoga wytrzyma do wiosny. Masz, poczęstuj się kawą z mojego zapasu - kupiłem od zwiadowcy, co tędy przejeżdżał. Gorzka jak życie drwala.",
+      "options": [{"text": "Odpocznij. I uważaj na bandytów na trakcie.", "actions": [
+        {"type": "take_item", "item": "minecraft:oxeye_daisy", "count": 5},
+        {"type": "npc_mode", "npc": "drwal", "mode": "idle"},
+        {"type": "advance", "quest": "szlak_ranny_drwal", "stage": 2}
+      ]}]
+    },
+    "zdrowy": {
+      "text": "Zwiadowca od rumianku! Noga jak nowa. Jak będziesz potrzebował drewna na opał - wiesz, gdzie mnie szukać.",
+      "options": [{"text": "Zapamiętam."}]
+    },
+    "witaj": {
+      "text": "Dzień dobry. Las daje drewno, ale lubi zabierać coś w zamian.",
+      "options": [{"text": "Uważaj na siebie."}]
+    }
+  }
+}

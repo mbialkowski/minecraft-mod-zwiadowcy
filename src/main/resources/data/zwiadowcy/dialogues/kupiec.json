@@ -1,0 +1,42 @@
+{
+  "npc": "kupiec",
+  "entries": [
+    {"when": [{"quest_stage": "szlak_woz_kupca", "stage": 2}], "start": "woz_oddaj"},
+    {"when": [{"quest_stage": "szlak_woz_kupca", "stage": 1}], "start": "woz_szukaj"},
+    {"when": [{"quest_stage": "szlak_zasadzka_bandytow", "stage": 2}], "start": "napad_dzieki"},
+    {"when": [{"quest_stage": "szlak_zasadzka_bandytow", "stage": 1}], "start": "napad_trwa"},
+    {"when": [{"quest_completed": "szlak_woz_kupca"}], "start": "po_wozie"},
+    {"when": [], "start": "witaj"}
+  ],
+  "nodes": {
+    "woz_szukaj": {
+      "text": "Sześć bel, zwiadowco. Czerwone, ze złotym szlakiem - farbowane w Wensley, najlepsze w lennie. Leżą gdzieś w trawie, koń rozwlókł je po całej łące.",
+      "options": [{"text": "Zaraz je przyniosę."}]
+    },
+    "woz_oddaj": {
+      "text": "Wszystkie sześć! Ani jednej plamy błota. Niech cię bogowie strzegą, chłopcze.\nWeź racje na drogę - i te strzały. Kupiłem je dla syna, ale on woli liczydło od łuku.",
+      "options": [{"text": "Oto twoje sukno. Bezpiecznej drogi.", "actions": [
+        {"type": "take_item", "item": "zwiadowcy:bela_sukna", "count": 6},
+        {"type": "advance", "quest": "szlak_woz_kupca", "stage": 2}
+      ]}]
+    },
+    "napad_trwa": {
+      "text": "Uważaj! Ten z łukiem siedzi w krzakach!",
+      "options": [{"text": "Schowaj się za wozem."}]
+    },
+    "napad_dzieki": {
+      "text": "Uciekli! Na wszystkie świętości, uciekli przed jednym chłopakiem w zielonym płaszczu.\nMam tu coś, co ci się przyda - gwiżdżące strzały. Myśliwi płoszą nimi zwierzynę. Bandytów chyba też.",
+      "options": [{"text": "Dziękuję. Trzymaj się głównego traktu.", "actions": [
+        {"type": "advance", "quest": "szlak_zasadzka_bandytow", "stage": 2}
+      ]}]
+    },
+    "po_wozie": {
+      "text": "Znowu ty! Sukno sprzedałem w Redmont z zyskiem. Gdyby nie ty, sprzedawałbym błoto.",
+      "options": [{"text": "Miło to słyszeć."}]
+    },
+    "witaj": {
+      "text": "Dzień dobry, zwiadowco. Drogi teraz niespokojne - kupcy jeżdżą tylko za dnia i tylko głównym traktem.",
+      "options": [{"text": "Bezpiecznej drogi."}]
+    }
+  }
+}

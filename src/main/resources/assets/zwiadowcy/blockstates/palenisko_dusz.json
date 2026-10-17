@@ -1,0 +1,1 @@
+{"variants":{"facing=north":{"model":"zwiadowcy:block/palenisko_dusz","y":180},"facing=east":{"model":"zwiadowcy:block/palenisko_dusz","y":270},"facing=south":{"model":"zwiadowcy:block/palenisko_dusz"},"facing=west":{"model":"zwiadowcy:block/palenisko_dusz","y":90}}}

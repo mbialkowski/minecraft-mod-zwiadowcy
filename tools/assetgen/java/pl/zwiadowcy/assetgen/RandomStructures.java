@@ -133,7 +133,7 @@ final class RandomStructures {
         }
         for (int[] p : new int[][]{{x0, x0}, {x1, x0}, {x0, x1}, {x1, x1}}) {
             s.set(p[0], top + 1, p[1], "minecraft:polished_blackstone");
-            s.set(p[0], top + 2, p[1], "minecraft:campfire[lit=true,facing=north,signal_fire=false]");
+            s.set(p[0], top + 2, p[1], "zwiadowcy:palenisko[facing=north]");
         }
         s.clear(7, 1, x1, 7, 2, x1);
         for (int y : new int[]{4, 9, 14}) {

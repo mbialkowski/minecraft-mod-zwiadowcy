@@ -17,7 +17,7 @@
         {"type": "npc_mode", "npc": "halt", "mode": "companion"},
         {"type": "move_npc", "npc": "horace", "to": "ruiny_gorlanu:horace", "mode": "companion", "when": [{"flag": "horace_przyjaciel"}]},
         {"type": "message", "speaker": "Horace", "text": "Nie myślałeś chyba, że puszczę cię samego?", "when": [{"flag": "horace_przyjaciel"}]},
-        {"type": "spawn", "entity": "zwiadowcy:kalkar", "at": "ruiny_gorlanu:kalkar_1", "face": "ruiny_gorlanu:arena"},
+        {"type": "spawn", "entity": "zwiadowcy:kalkar", "at": "ruiny_gorlanu:kalkar_1", "face": "ruiny_gorlanu:arena", "home": "ruiny_gorlanu:arena", "home_radius": 11},
         {"type": "title", "title": "Kalkar!", "subtitle": "Nie patrz mu w oczy. Ogień to jego słabość!"}
       ]
     },
@@ -27,7 +27,7 @@
       "location": "ruiny_gorlanu:arena",
       "triggers": {
         "kalkar_polowa": [
-          {"type": "spawn", "entity": "zwiadowcy:kalkar", "at": "ruiny_gorlanu:kalkar_2", "face": "ruiny_gorlanu:arena"},
+          {"type": "spawn", "entity": "zwiadowcy:kalkar", "at": "ruiny_gorlanu:kalkar_2", "face": "ruiny_gorlanu:arena", "home": "ruiny_gorlanu:arena", "home_radius": 11},
           {"type": "npc_mode", "npc": "halt", "mode": "wounded"},
           {"type": "title", "title": "Halt jest ranny!", "subtitle": "Z ciemności wyłania się drugi Kalkar…"},
           {"type": "message", "speaker": "Halt", "text": "Will… olej… podpal go…"}

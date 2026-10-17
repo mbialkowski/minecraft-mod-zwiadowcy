@@ -76,6 +76,14 @@ public class JournalScreen extends Screen {
             if (minecraft != null) minecraft.setScreen(new StoryScreen(pl.zwiadowcy.story.StoryTexts.PROLOG,
                     pl.zwiadowcy.story.StoryTexts.get(pl.zwiadowcy.story.StoryTexts.PROLOG), false));
         }).bounds(left + 84, top + H - 26, 50, 18).build());
+        // epilog po ukończeniu kampanii (serwer wybiera wersję zależnie od wyboru przed królem)
+        var journal = pl.zwiadowcy.client.ClientQuestData.sync;
+        if (journal != null && journal.quests().stream().anyMatch(q -> q.id().equals("przed_obliczem_krola") && q.completed())) {
+            addRenderableWidget(Button.builder(Component.literal("Epilog"), b -> {
+                ModNetwork.sendToServer(new ActionPacket(ActionPacket.Kind.POKAZ_EPILOG, ""));
+                onClose();
+            }).bounds(left + 138, top + H - 26, 50, 18).build());
+        }
         trackButton = addRenderableWidget(Button.builder(Component.literal("Śledź"), b -> {
             ModNetwork.sendToServer(new ActionPacket(ActionPacket.Kind.SLEDZ_MISJE, selected));
         }).bounds(left + W - 70, top + H - 26, 60, 18).build());

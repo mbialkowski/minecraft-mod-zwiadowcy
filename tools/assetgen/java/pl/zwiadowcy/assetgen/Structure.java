@@ -128,7 +128,7 @@ final class Structure {
 
     private static final String[] NOT_FULL = {"_stairs", "_slab", "fence", "pane", "bars", "door", "torch", "lantern", "carpet",
             "button", "pressure_plate", "sign", "banner", "_bed", "chest", "campfire", "cauldron", "grass", "fern", "flower",
-            "sapling", "vine", "_wall", "skull", "candle", "pot", "anvil", "lectern", "grindstone", "ladder", "rail", "air",
+            "sapling", "vine", "_wall", "skull", "candle", "pot", "palenisko", "anvil", "lectern", "grindstone", "ladder", "rail", "air",
             "water", "lava", "structure_block", "cobweb", "dead_bush", "wheat", "carrots", "potatoes", "farmland", "dirt_path",
             "chain", "bell", "snow", "berry", "poppy", "dandelion", "cornflower", "daisy", "tulip", "beehive", "trapdoor"};
 
@@ -450,7 +450,7 @@ final class Structure {
     private static boolean blocksWalk(String b) {
         if (b.contains("_door") || b.contains("trapdoor") || b.contains("fence_gate")) return false;
         if (isFull(b)) return true;
-        for (String s : new String[]{"chest", "_bed", "fence", "pane", "bars", "_wall", "cauldron", "campfire", "anvil",
+        for (String s : new String[]{"chest", "_bed", "fence", "pane", "bars", "_wall", "cauldron", "campfire", "palenisko", "anvil",
                 "lectern", "grindstone", "decorated_pot", "composter"}) {
             if (b.contains(s) && !b.contains("wall_torch") && !b.contains("wall_banner") && !b.contains("wall_sign")) return true;
         }
@@ -459,7 +459,7 @@ final class Structure {
 
     private static boolean blocksHanging(String b) {
         if (isFull(b)) return true;
-        for (String s : new String[]{"_stairs", "_slab", "fence", "pane", "bars", "door", "chest", "_bed", "_wall", "anvil", "lectern", "campfire", "cauldron"}) {
+        for (String s : new String[]{"_stairs", "_slab", "fence", "pane", "bars", "door", "chest", "_bed", "_wall", "anvil", "lectern", "campfire", "palenisko", "cauldron"}) {
             if (b.contains(s) && !b.contains("wall_torch") && !b.contains("wall_banner")) return true;
         }
         return false;

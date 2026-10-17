@@ -1,0 +1,36 @@
+{
+  "title": "Na szlaku: uciekinierzy",
+  "act": "Postoje na szlaku",
+  "order": 102,
+  "description": "Na skraju Równiny Samotności unosi się dym. Halt podejrzewa, że to uciekinierzy ze spalonej osady - i że Wargalowie mogli ich wytropić.",
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "szlak_zasadzka_wargalow:miejsce", "radius": 14},
+      "text": "Sprawdź dym przy trakcie na skraju równiny (dobrowolnie)",
+      "on_complete": [
+        {"type": "track", "quest": "szlak_zasadzka_wargalow"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "szlak_zasadzka_wargalow:wrog_1", "face": "szlak_zasadzka_wargalow:miejsce"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_zwiadowca", "at": "szlak_zasadzka_wargalow:wrog_2", "face": "szlak_zasadzka_wargalow:miejsce"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "szlak_zasadzka_wargalow:wrog_3", "face": "szlak_zasadzka_wargalow:miejsce"},
+        {"type": "message", "speaker": "Uciekinierka", "text": "Pomocy! Oni wrócili! Schowałam się za kamieniem, ale wyczuły mnie!"},
+        {"type": "title", "title": "Zasadzka!", "subtitle": "Wargalowie napadli na uciekinierów"}
+      ]
+    },
+    {
+      "objective": {"type": "kill", "entity": "*", "count": 3, "tagged": true},
+      "text": "Odeprzyj Wargalów",
+      "location": "szlak_zasadzka_wargalow:miejsce"
+    },
+    {
+      "objective": {"type": "talk", "npc": "uciekinierka"},
+      "text": "Porozmawiaj z uciekinierką",
+      "location": "szlak_zasadzka_wargalow:uciekinierka"
+    }
+  ],
+  "on_complete": [
+    {"type": "give_item", "item": "zwiadowcy:strzala_plonaca", "count": 6},
+    {"type": "give_item", "item": "zwiadowcy:flasza_oleju", "count": 1},
+    {"type": "xp", "amount": 40},
+    {"type": "note", "title": "Uciekinierzy z osady", "text": "Na skraju Równiny Samotności Wargalowie dopadli uciekinierów ze spalonej osady. Kobieta, którą obroniłem, widziała nocą wielkie cienie idące na południowy wschód - do ruin. Dała mi płonące strzały i flaszę oleju, które zostawił jej mąż. Mówi, że ogień to jedyne, czego te bestie się boją."}
+  ]
+}

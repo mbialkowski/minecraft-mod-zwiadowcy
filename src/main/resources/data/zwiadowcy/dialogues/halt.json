@@ -233,7 +233,7 @@
     },
 
     "zl_1": {
-      "text": "Jesień. Czas na Zlot. Raz w roku zwiadowcy z całego królestwa spotykają się w obozie na północnym zachodzie. Pojedziesz ze mną. Poznasz Crowleya. I Gilana - był moim uczniem, zanim pojawiłeś się ty.\nI zabierz łuk. Będzie konkurs.",
+      "text": "Jesień. Czas na Zlot. Raz w roku zwiadowcy z całego królestwa spotykają się w obozie na północy, za lasami. Pojedziesz ze mną. Poznasz Crowleya. I Gilana - był moim uczniem, zanim pojawiłeś się ty.\nI zabierz łuk. Będzie konkurs.",
       "options": [{"text": "Konkurs? Świetnie!", "actions": [
         {"type": "move_npc", "npc": "halt", "to": "oboz_zlotu:halt", "face": "oboz_zlotu:oboz"},
         {"type": "advance", "quest": "zlot_zwiadowcow", "stage": 0}
@@ -245,14 +245,24 @@
     },
 
     "tb_1": {
-      "text": "Kalkarowie. Myślałem, że ostatni zginęli piętnaście lat temu, w wojnie z Morgarathem. Myliłem się.\nWeź zestaw tropiciela. Czytaj ślady: złamane gałęzie, odciski, zapach. Jedziemy do spalonej osady na wschodzie - tam ich widziano. Gilan jedzie z nami.",
-      "options": [{"text": "Jestem gotów.", "actions": [
-        {"type": "give_item", "item": "zwiadowcy:zestaw_tropiciela"},
-        {"type": "give_item", "item": "zwiadowcy:kawa_zwiadowcy", "count": 2},
-        {"type": "move_npc", "npc": "halt", "to": "spalona_osada:halt", "face": "spalona_osada:osada"},
-        {"type": "move_npc", "npc": "gilan", "to": "spalona_osada:gilan", "face": "spalona_osada:osada"},
-        {"type": "advance", "quest": "tropem_bestii", "stage": 0}
-      ]}]
+      "text": "Kalkarowie. Myślałem, że ostatni zginęli piętnaście lat temu, w wojnie z Morgarathem. Myliłem się.\nWeź zestaw tropiciela. Czytaj ślady: złamane gałęzie, odciski, zapach. Jedziemy do spalonej osady na wschodzie - tam ich widziano. Gilan jedzie z nami.\nPo drodze miniemy trakt kupiecki. Ludzie uciekają przed tym, co grasuje w lasach - jeśli zobaczysz kogoś w potrzebie, zatrzymaj się. Nie musisz. Ale zwiadowca nie przejeżdża obojętnie.",
+      "options": [
+        {"text": "Jestem gotów. Rozejrzę się po drodze.", "actions": [
+          {"type": "give_item", "item": "zwiadowcy:zestaw_tropiciela"},
+          {"type": "give_item", "item": "zwiadowcy:kawa_zwiadowcy", "count": 2},
+          {"type": "move_npc", "npc": "halt", "to": "spalona_osada:halt", "face": "spalona_osada:osada"},
+          {"type": "move_npc", "npc": "gilan", "to": "spalona_osada:gilan", "face": "spalona_osada:osada"},
+          {"type": "start_quest", "quest": "szlak_woz_kupca", "quiet": true},
+          {"type": "advance", "quest": "tropem_bestii", "stage": 0}
+        ]},
+        {"text": "Jestem gotów. Jedźmy prosto do osady.", "actions": [
+          {"type": "give_item", "item": "zwiadowcy:zestaw_tropiciela"},
+          {"type": "give_item", "item": "zwiadowcy:kawa_zwiadowcy", "count": 2},
+          {"type": "move_npc", "npc": "halt", "to": "spalona_osada:halt", "face": "spalona_osada:osada"},
+          {"type": "move_npc", "npc": "gilan", "to": "spalona_osada:gilan", "face": "spalona_osada:osada"},
+          {"type": "advance", "quest": "tropem_bestii", "stage": 0}
+        ]}
+      ]
     },
     "tb_trwa": {
       "text": "Rozglądaj się. Ślady nie krzyczą. Szepczą.",
@@ -263,8 +273,14 @@
       "options": [{"text": "Gorlan?", "next": "tb_znak_2"}]
     },
     "tb_znak_2": {
-      "text": "Dawne lenno Morgaratha. Był tam baronem, zanim zdradził króla. Jeśli bestie gdzieś się ukrywają - to właśnie tam. Ruszamy.",
-      "options": [{"text": "Ruszamy.", "actions": [{"type": "advance", "quest": "tropem_bestii", "stage": 5}]}]
+      "text": "Dawne lenno Morgaratha. Był tam baronem, zanim zdradził króla. Jeśli bestie gdzieś się ukrywają - to właśnie tam. Ruszamy.\nI jeszcze jedno: na skraju równiny widziałem dym. Może to uciekinierzy z osady. Jeśli chcesz, zajrzyj tam po drodze - tylko ostrożnie.",
+      "options": [
+        {"text": "Ruszamy. Zajrzę po drodze do tego dymu.", "actions": [
+          {"type": "start_quest", "quest": "szlak_zasadzka_wargalow", "quiet": true},
+          {"type": "advance", "quest": "tropem_bestii", "stage": 5}
+        ]},
+        {"text": "Ruszamy prosto do ruin.", "actions": [{"type": "advance", "quest": "tropem_bestii", "stage": 5}]}
+      ]
     },
 
     "rs_1": {
@@ -298,11 +314,19 @@
       "options": [{"text": "Myślałem, że cię stracę.", "next": "og_ranny_2"}]
     },
     "og_ranny_2": {
-      "text": "Zwiadowcy nie dają się tak łatwo zabić. Zbyt dużo osób by się ucieszyło.\nZabierz mnie do domu, chłopcze. I… dziękuję.",
-      "options": [{"text": "Wracamy do Redmont.", "actions": [
-        {"type": "npc_mode", "npc": "halt", "mode": "idle"},
-        {"type": "advance", "quest": "ogien_w_ciemnosci", "stage": 3}
-      ]}]
+      "text": "Zwiadowcy nie dają się tak łatwo zabić. Zbyt dużo osób by się ucieszyło.\nZabierz mnie do domu, chłopcze. I… dziękuję.\nGilan odwiezie mnie wozem, a ty jedź przodem. Na trakcie do Redmont stoi obozowisko drwali, a bandyci zwęszyli, że wojsko barona poszło na wschód. Jeśli spotkasz kogoś w potrzebie - pomóż. Ja dam sobie radę.",
+      "options": [
+        {"text": "Wracamy do Redmont. Pomogę po drodze, jeśli trzeba.", "actions": [
+          {"type": "npc_mode", "npc": "halt", "mode": "idle"},
+          {"type": "start_quest", "quest": "szlak_ranny_drwal", "quiet": true},
+          {"type": "start_quest", "quest": "szlak_zasadzka_bandytow", "quiet": true},
+          {"type": "advance", "quest": "ogien_w_ciemnosci", "stage": 3}
+        ]},
+        {"text": "Wracamy prosto do Redmont.", "actions": [
+          {"type": "npc_mode", "npc": "halt", "mode": "idle"},
+          {"type": "advance", "quest": "ogien_w_ciemnosci", "stage": 3}
+        ]}
+      ]
     },
 
     "po_trwa": {

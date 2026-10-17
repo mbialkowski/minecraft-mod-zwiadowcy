@@ -21,8 +21,8 @@
     },
     {
       "objective": {"type": "collect", "item": "minecraft:water_bucket"},
-      "text": "Przynieś wiadro wody (puste wiadro jest w skrzyni w chacie)",
-      "location": "chata_halta:chata"
+      "text": "Przynieś wiadro wody ze stawu za stajenką (puste wiadro jest w skrzyni w chacie)",
+      "location": "chata_halta:staw"
     },
     {
       "objective": {"type": "collect", "item": "zwiadowcy:kawa_zwiadowcy"},

@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 /** Klient → serwer: akcje z klawiszy (Bezruch, zmiana strzały, śledzenie misji). */
 public record ActionPacket(Kind kind, String arg) {
 
-    public enum Kind { BEZRUCH, NASTEPNA_STRZALA, SLEDZ_MISJE, KONIEC_OPOWIESCI }
+    public enum Kind { BEZRUCH, NASTEPNA_STRZALA, SLEDZ_MISJE, KONIEC_OPOWIESCI, POKAZ_EPILOG }
 
     public static void encode(ActionPacket msg, FriendlyByteBuf buf) {
         buf.writeEnum(msg.kind);
@@ -37,6 +37,10 @@ public record ActionPacket(Kind kind, String arg) {
                 }
             }
             case KONIEC_OPOWIESCI -> pl.zwiadowcy.story.StoryService.onFinished(player, msg.arg);
+            case POKAZ_EPILOG -> {
+                var st = pl.zwiadowcy.quest.QuestCapability.get(player).get("przed_obliczem_krola");
+                if (st != null && st.status == pl.zwiadowcy.quest.QuestProgress.Status.COMPLETED) pl.zwiadowcy.story.StoryService.showEpilog(player, 1);
+            }
         }
     }
 }

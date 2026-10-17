@@ -10,6 +10,9 @@ public final class StoryTexts {
 
     public static final String KRONIKA = "kronika";
     public static final String PROLOG = "prolog";
+    /** Epilog po ostatniej misji - dwie wersje zależnie od wyboru przed królem. */
+    public static final String EPILOG_ZWIADOWCA = "epilog_zwiadowca";
+    public static final String EPILOG_RYCERZ = "epilog_rycerz";
 
     private static final Map<String, List<Page>> STORIES = Map.of(
             KRONIKA, List.of(
@@ -53,8 +56,54 @@ public final class StoryTexts {
                                     + "• Lewy górny róg ekranu: bieżący cel i kierunek, w którym trzeba iść.\n"
                                     + "• Kronika zabierze cię z powrotem do twojego świata.\n\n"
                                     + "Powodzenia, Willu. Królestwo potrzebuje kogoś, kto patrzy uważniej niż inni.",
-                            "zwiadowcy:dziennik_zwiadowcy"))
+                            "zwiadowcy:dziennik_zwiadowcy")),
+            EPILOG_ZWIADOWCA, epilog(new Page("Brązowy liść dębu",
+                    "Przed królem Duncanem wybrałeś Korpus Zwiadowców. Na twojej szyi wisi brązowy liść dębu - znak ucznia, "
+                            + "który pewnego dnia zamieni się w srebrny.\n\nHalt nic nie powiedział. Tylko skinął głową. Ci, którzy "
+                            + "go znają, mówią, że to najwięcej, co kiedykolwiek od niego usłyszysz.",
+                    "zwiadowcy:brazowy_lisc_debu")),
+            EPILOG_RYCERZ, epilog(new Page("Ścieżka rycerza",
+                    "Przed królem Duncanem wybrałeś Szkołę Rycerską. Sir Rodney klepnął cię w plecy tak mocno, że omal nie "
+                            + "upadłeś - u rycerzy to oznaka najwyższego szacunku.\n\nAle Halt nie zamknął przed tobą drzwi chaty. "
+                            + "Powiedział, że kto raz nauczył się patrzeć jak zwiadowca, nie przestanie tylko dlatego, że nosi miecz.",
+                    "minecraft:iron_sword"))
     );
+
+    /** Strony epilogu wspólne dla obu wyborów; {@code choice} to strona o wyborze przed królem. */
+    private static List<Page> epilog(Page choice) {
+        return List.of(
+                new Page("Ogień w ciemności",
+                        "Kalkarowie z Gorlanu nie żyją. Bestie, przed którymi drżeli rycerze, padły od płonących strzał "
+                                + "ucznia zwiadowcy - tego samego, który jeszcze tej jesieni bał się, że nikt go nie wybierze.\n\n"
+                                + "Halt wraca do zdrowia w chacie pod lasem. Narzeka na bandaże, na zupę i na to, że wszyscy "
+                                + "się nad nim trzęsą. Czyli wszystko jest w porządku.",
+                        "zwiadowcy:strzala_plonaca"),
+                new Page("Droga, którą przeszedłeś",
+                        "Pamiętasz Dzień Wyboru? Nocną wspinaczkę po bluszczu, pierwszą kawę dla Halta i pierwsze strzały, "
+                                + "które leciały wszędzie, tylko nie w tarczę.\n\nPotem przyszła cierpliwość: bezruch w trawie, "
+                                + "upór Wyrwija, polowanie z baronem i Zlot, na którym zwiadowcy z całego królestwa po raz pierwszy "
+                                + "spojrzeli na ciebie jak na jednego z nich. Aż w końcu trop zaprowadził cię na Równinę Samotności.",
+                        "zwiadowcy:dziennik_zwiadowcy"),
+                choice,
+                new Page("Przyjaciele z Redmont",
+                        "Horace nie jest już chłopakiem, którego wszyscy się boją - jest tym, na którego wszyscy liczą. "
+                                + "Alyss ćwiczy przed lustrem dyplomatyczne uśmiechy, a Jenny piecze w kuchni mistrza Chubba tak, "
+                                + "że kolejka sięga dziedzińca.\n\nBaron Arald opowiada każdemu gościowi o podopiecznym, który "
+                                + "podpalił Kalkara. Za każdym razem bestia jest trochę większa.",
+                        "minecraft:cake"),
+                new Page("Cień nad górami",
+                        "Morgarath wciąż czeka w Górach Deszczu i Nocy. Zwiadowcy z północy donoszą o Wargalach "
+                                + "zbierających się na przełęczach i o nowym moście nad przepaścią.\n\nAraluen jeszcze o tym nie "
+                                + "wie. Ale zwiadowcy wiedzą. Zwiadowcy zawsze wiedzą pierwsi.",
+                        "zwiadowcy:znak_morgaratha"),
+                new Page("Co dalej",
+                        "Opowieść o Ruinach Gorlanu dobiegła końca, ale Araluen nie zasypia.\n\n"
+                                + "• Halt czeka w swojej chacie pod lasem i każdego dnia ma dla ciebie nowe zlecenie: patrol "
+                                + "Wargalów, dziki w zbożu albo list do Starego Boba. Odwiedzaj go - zwiadowca nigdy nie kończy nauki.\n"
+                                + "• W całym królestwie czekają obozy Wargalów, kryjówki bandytów, kurhany i zapiski do odnalezienia.\n"
+                                + "• Epilog przeczytasz ponownie w dzienniku (klawisz J).\n\nDziękujemy za wspólną drogę, Willu.",
+                        "minecraft:map"));
+    }
 
     public static final String PROLOG_NOTE_TITLE = "Prolog: kim jestem";
     public static final String PROLOG_NOTE = "Jestem Will, podopieczny barona Aralda z zamku Redmont w królestwie Araluenu. "

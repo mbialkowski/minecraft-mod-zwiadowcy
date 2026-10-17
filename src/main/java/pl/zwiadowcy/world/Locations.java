@@ -19,13 +19,24 @@ public final class Locations {
         LocationData.Placed placed = data.placed(id);
         if (placed != null) return placed;
         StoryLocation loc = StoryLocation.byId(id);
+        RouteStop stop = loc == null ? RouteStop.byId(id) : null;
         ServerLevel level = Araluen.level(server);
-        if (loc == null || level == null) {
+        if ((loc == null && stop == null) || level == null) {
             Zwiadowcy.LOGGER.warn("Nieznana lokacja lub brak wymiaru: {}", id);
             return null;
         }
         long start = System.currentTimeMillis();
-        placed = StructurePlacer.place(level, loc, data);
+        if (loc != null) {
+            placed = StructurePlacer.place(level, loc, data);
+        } else {
+            // postój na szlaku: punkt na odcinku między dwiema lokacjami (obie stawiamy, jeśli jeszcze ich nie ma)
+            LocationData.Placed a = ensure(server, stop.from), b = ensure(server, stop.to);
+            if (a == null || b == null) return null;
+            BlockPos nominal = new BlockPos((int) Math.round(a.center.getX() + (b.center.getX() - a.center.getX()) * stop.along), 0,
+                    (int) Math.round(a.center.getZ() + (b.center.getZ() - a.center.getZ()) * stop.along));
+            placed = StructurePlacer.place(level, stop.id, stop.template, nominal, 0, java.util.Set.of(), data, null);
+            if (placed == null) return null;
+        }
         data.putPlaced(id, placed);
         Zwiadowcy.LOGGER.info("Postawiono lokację {} w {} ({} ms, {} kotwic)", id, placed.center,
                 System.currentTimeMillis() - start, placed.anchors.size());
@@ -52,10 +63,24 @@ public final class Locations {
             StructurePlacer.avoid = null;
         }
         if (old != null && fresh != null) {
-            var size = level.getStructureManager().get(Zwiadowcy.id(id)).map(t -> t.getSize()).orElse(null);
+            var size = level.getStructureManager().get(Zwiadowcy.id(RouteStop.templateOf(id))).map(t -> t.getSize()).orElse(null);
             if (size != null) Relocation.start(level, old.origin, fresh.origin, size);
         }
         return fresh;
+    }
+
+    /** Bezpieczne punkty lokacji (z dala od miejsc walki) - tam ustawiamy punkt odrodzenia na czas misji. */
+    private static final java.util.Map<String, String> SAFE_SPOTS = java.util.Map.of(
+            "redmont", "przybycie", "wensley", "jarmark", "chata_halta", "chata", "stajnia_boba", "stajnia",
+            "legowisko_dzika", "baron", "oboz_zlotu", "oboz", "spalona_osada", "halt", "ruiny_gorlanu", "podejscie");
+
+    /** Bezpieczny punkt postawionej lokacji fabularnej albo null (np. postój na szlaku, lokacja jeszcze niepostawiona). */
+    @Nullable
+    public static BlockPos safeSpot(MinecraftServer server, String locationId) {
+        String anchor = SAFE_SPOTS.get(locationId);
+        LocationData.Placed placed = LocationData.get(server).placed(locationId);
+        if (anchor == null || placed == null) return null;
+        return placed.anchors.get(anchor);
     }
 
     /** Rozwiązuje odwołanie "lokacja[:kotwica]" na pozycję w Araluenie (stawiając strukturę w razie potrzeby). */

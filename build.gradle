@@ -34,6 +34,15 @@ minecraft {
 
         client {
             property 'forge.enabledGameTestNamespaces', mod_id
+            // Pamięć i GC pod płynną grę: stała sterta (bez skokowego powiększania) i G1 nastawiony na krótkie pauzy
+            // ("flagi Aikara"). 4 GB w zupełności wystarcza - większa sterta to dłuższe pauzy odśmiecania, a przy 16 GB
+            // współdzielonych z grafiką zabrałaby pamięć karcie.
+            jvmArgs '-Xms3G', '-Xmx4G', '-XX:+UseG1GC', '-XX:+ParallelRefProcEnabled', '-XX:MaxGCPauseMillis=40',
+                    '-XX:+UnlockExperimentalVMOptions', '-XX:+DisableExplicitGC', '-XX:G1NewSizePercent=30',
+                    '-XX:G1MaxNewSizePercent=40', '-XX:G1HeapRegionSize=8M', '-XX:G1ReservePercent=20',
+                    '-XX:G1HeapWastePercent=5', '-XX:G1MixedGCCountTarget=4', '-XX:InitiatingHeapOccupancyPercent=15',
+                    '-XX:G1MixedGCLiveThresholdPercent=90', '-XX:G1RSetUpdatingPauseTimePercent=5', '-XX:SurvivorRatio=32',
+                    '-XX:+PerfDisableSharedMem', '-XX:MaxTenuringThreshold=1'
         }
 
         server {

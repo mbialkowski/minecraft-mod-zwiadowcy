@@ -231,6 +231,25 @@ public final class TextureGen {
                     "................"},
                     pal('k', 0x5a4a3a, 'I', c(0xe8dcc0, 0xe0d2b4), 'B', 0x8a6a4a), true);
 
+            sprite("bela_sukna", new String[]{
+                    "................",
+                    "................",
+                    "................",
+                    "....kkkkkkkk....",
+                    "...kRRRRRRRRk...",
+                    "..kRrRRRRRRRRk..",
+                    "..kRrRRRRRRRRk..",
+                    "..kYYYYYYYYYYk..",
+                    "..kRrRRRRRRRRk..",
+                    "..kRrRRRRRRRRk..",
+                    "..kRrRRRRRRRRk..",
+                    "..kYYYYYYYYYYk..",
+                    "..kRrRRRRRRRRk..",
+                    "...kRRRRRRRRk...",
+                    "....kkkkkkkk....",
+                    "................"},
+                    pal('k', 0x3a1a14, 'R', c(0x9a2a2a, 0x8e2626, 0xa63030), 'r', 0xc04848, 'Y', 0xd8b048), true);
+
             sprite("kolczan", new String[]{
                     "................",
                     "...........W.W..",

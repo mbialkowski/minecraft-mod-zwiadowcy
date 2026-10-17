@@ -1,0 +1,36 @@
+{
+  "title": "Na szlaku: napad na kupca",
+  "act": "Postoje na szlaku",
+  "order": 104,
+  "description": "Gdy wojsko barona wyruszyło na wschód, bandyci wyszli z lasów na trakty. Ktoś musi przypomnieć im, że królewskie drogi mają strażników - nawet jeśli to tylko zmęczony uczeń zwiadowcy.",
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "szlak_zasadzka_bandytow:miejsce", "radius": 14},
+      "text": "Sprawdź wóz zatrzymany w poprzek traktu (dobrowolnie)",
+      "on_complete": [
+        {"type": "track", "quest": "szlak_zasadzka_bandytow"},
+        {"type": "spawn", "entity": "zwiadowcy:bandyta", "at": "szlak_zasadzka_bandytow:wrog_1", "face": "szlak_zasadzka_bandytow:miejsce"},
+        {"type": "spawn", "entity": "zwiadowcy:bandyta", "at": "szlak_zasadzka_bandytow:wrog_2", "face": "szlak_zasadzka_bandytow:miejsce"},
+        {"type": "spawn", "entity": "zwiadowcy:lucznik_bandytow", "at": "szlak_zasadzka_bandytow:wrog_3", "face": "szlak_zasadzka_bandytow:miejsce"},
+        {"type": "message", "speaker": "Wędrowny kupiec", "text": "Ratunku! Bandyci! Zabrali mi konia, a teraz chcą resztę!"},
+        {"type": "title", "title": "Napad na trakcie!", "subtitle": "Bandyci otoczyli wóz kupca"}
+      ]
+    },
+    {
+      "objective": {"type": "kill", "entity": "*", "count": 3, "tagged": true},
+      "text": "Przegoń bandytów",
+      "location": "szlak_zasadzka_bandytow:miejsce"
+    },
+    {
+      "objective": {"type": "talk", "npc": "kupiec"},
+      "text": "Porozmawiaj z kupcem",
+      "location": "szlak_zasadzka_bandytow:kupiec"
+    }
+  ],
+  "on_complete": [
+    {"type": "give_item", "item": "zwiadowcy:strzala_gwizdzaca", "count": 6},
+    {"type": "give_item", "item": "zwiadowcy:racje_podrozne", "count": 2},
+    {"type": "xp", "amount": 40},
+    {"type": "note", "title": "Napad na trakcie", "text": "Niedaleko Redmont bandyci otoczyli wóz kupca. Przegoniłem ich. Kupiec dał mi gwiżdżące strzały - podobno myśliwi używają ich, żeby odwrócić uwagę zwierzyny. Halt powie pewnie, że to dobra lekcja: bandyta też jest tylko zwierzyną, która nauczyła się kraść."}
+  ]
+}

@@ -137,6 +137,8 @@ public class KalkarEntity extends Monster {
         super.customServerAiStep();
         float hp = getHealth() / getMaxHealth();
         bossEvent.setProgress(hp);
+        BossBarRange.update(this, bossEvent, 40);
+        if (tickCount % 20 == 0) keepNearHome();
         int newPhase = hp > 0.66f ? 1 : hp > 0.33f ? 2 : 3;
         if (newPhase != phase()) {
             entityData.set(PHASE, newPhase);
@@ -211,15 +213,39 @@ public class KalkarEntity extends Monster {
     }
 
     @Override
-    public void startSeenByPlayer(ServerPlayer player) {
-        super.startSeenByPlayer(player);
-        bossEvent.addPlayer(player);
-    }
-
-    @Override
     public void stopSeenByPlayer(ServerPlayer player) {
         super.stopSeenByPlayer(player);
         bossEvent.removePlayer(player);
+    }
+
+    /**
+     * "Smycz" Kalkara z misji: trzyma się areny i nie zapuszcza w mury ani komnaty ruin. Nie wybiera celów poza
+     * areną (ograniczenie obszaru), wraca, gdy z niej wyjdzie, a gdy zabrnie daleko (utknął) - wraca od razu na środek.
+     */
+    private Vec3 leashLastPos;
+    private int leashStuck;
+
+    private void keepNearHome() {
+        CompoundTag data = getPersistentData();
+        if (!data.contains(pl.zwiadowcy.quest.QuestActions.TAG_HOME)) return;
+        net.minecraft.core.BlockPos home = net.minecraft.core.BlockPos.of(data.getLong(pl.zwiadowcy.quest.QuestActions.TAG_HOME));
+        int r = data.getInt(pl.zwiadowcy.quest.QuestActions.TAG_HOME_R);
+        if (!hasRestriction()) restrictTo(home, r);
+        double d = Math.sqrt(distanceToSqr(Vec3.atBottomCenterOf(home)));
+        // poza areną i bez ruchu przez ok. 3 s = utknął (np. w komnacie za murem)
+        leashStuck = d > r && leashLastPos != null && position().distanceToSqr(leashLastPos) < 0.25 ? leashStuck + 1 : 0;
+        leashLastPos = position();
+        if (d > r + 8 || leashStuck >= 3) {
+            teleportTo(home.getX() + 0.5, home.getY(), home.getZ() + 0.5);
+            getNavigation().stop();
+            leashStuck = 0;
+        } else if (d > r) {
+            LivingEntity t = getTarget();
+            if (t == null || !isWithinRestriction(t.blockPosition())) {
+                setTarget(null);
+                getNavigation().moveTo(home.getX() + 0.5, home.getY(), home.getZ() + 0.5, 1.0);
+            }
+        }
     }
 
     @Override

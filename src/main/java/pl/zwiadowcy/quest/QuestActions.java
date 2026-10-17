@@ -41,6 +41,10 @@ public final class QuestActions {
     public static final String TAG_QUEST = "zw_quest";
     public static final String TAG_OWNER = "zw_owner";
     public static final String TAG_DROP = "zw_drop";
+    /** Przedmiot upuszczony przez moba z misji (HUD wskazuje go na etapie "zbierz"). */
+    public static final String TAG_QUEST_DROP = "zw_quest_drop";
+    /** "Dom" moba z misji: środek i promień, których się trzyma (np. Kalkarowie na arenie Gorlanu). */
+    public static final String TAG_HOME = "zw_home", TAG_HOME_R = "zw_home_r";
     public static final String TAG_SCRIPT = "zw_script";
 
     public static void run(ServerPlayer p, @Nullable JsonArray actions, Ctx ctx) {
@@ -61,7 +65,14 @@ public final class QuestActions {
         if (server == null) return;
         String type = GsonHelper.getAsString(a, "type");
         switch (type) {
-            case "start_quest" -> QuestEngine.start(p, str(a, "quest"));
+            case "start_quest" -> QuestEngine.start(p, str(a, "quest"), GsonHelper.getAsBoolean(a, "quiet", false));
+            case "story" -> {
+                String story = str(a, "story");
+                int delay = GsonHelper.getAsInt(a, "delay", 40);
+                if (story.equals("epilog")) pl.zwiadowcy.story.StoryService.showEpilog(p, delay);
+                else pl.zwiadowcy.story.StoryService.queue(p, story, delay);
+            }
+            case "cancel_quest" -> QuestEngine.cancel(p, str(a, "quest"), GsonHelper.getAsInt(a, "max_stage", 0));
             case "advance" -> {
                 String quest = a.has("quest") ? str(a, "quest") : ctx.quest();
                 if (quest == null) return;
@@ -192,6 +203,15 @@ public final class QuestActions {
             if (i == 0 && a.has("name")) e.setCustomName(Component.literal(str(a, "name")));
             if (e instanceof BoarEntity boar && GsonHelper.getAsBoolean(a, "enraged", false)) boar.setEnraged(true);
             if (e instanceof WargalEntity w && GsonHelper.getAsBoolean(a, "sentry", false)) w.setSentry(true, yaw);
+            if (a.has("home")) {
+                BlockPos home = Locations.resolve(p.getServer(), str(a, "home"));
+                int r = GsonHelper.getAsInt(a, "home_radius", 12);
+                if (home != null) {
+                    e.getPersistentData().putLong(TAG_HOME, home.asLong());
+                    e.getPersistentData().putInt(TAG_HOME_R, r);
+                    if (e instanceof net.minecraft.world.entity.PathfinderMob pm) pm.restrictTo(home, r);
+                }
+            }
             level.addFreshEntity(e);
         }
     }

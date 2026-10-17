@@ -36,6 +36,8 @@ public final class ModItems {
             () -> new TooltipItem(new Item.Properties().stacksTo(1), 1));
     public static final RegistryObject<Item> KIEL_DZIKA = ITEMS.register("kiel_dzika",
             () -> new TooltipItem(new Item.Properties(), 1));
+    public static final RegistryObject<Item> BELA_SUKNA = ITEMS.register("bela_sukna",
+            () -> new TooltipItem(new Item.Properties().stacksTo(16), 1));
 
     // --- Wyposażenie zwiadowcy ---
     public static final RegistryObject<Item> LUK_ZWIADOWCY = ITEMS.register("luk_zwiadowcy",

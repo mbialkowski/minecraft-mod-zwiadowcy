@@ -136,7 +136,10 @@ public class BanditEntity extends Monster implements RangedAttackMob {
     public void tick() {
         super.tick();
         if (!level().isClientSide && !equipped && getMainHandItem().isEmpty()) equip();
-        if (bossEvent != null && !level().isClientSide) bossEvent.setProgress(getHealth() / getMaxHealth());
+        if (bossEvent != null && !level().isClientSide) {
+            bossEvent.setProgress(getHealth() / getMaxHealth());
+            BossBarRange.update(this, bossEvent, 24);
+        }
     }
 
     @Override
@@ -150,12 +153,6 @@ public class BanditEntity extends Monster implements RangedAttackMob {
         arrow.shoot(dx, dy + dist * 0.2, dz, 1.6f, 14 - level().getDifficulty().getId() * 4);
         playSound(SoundEvents.SKELETON_SHOOT, 1.0f, 1.0f / (getRandom().nextFloat() * 0.4f + 0.8f));
         level().addFreshEntity(arrow);
-    }
-
-    @Override
-    public void startSeenByPlayer(ServerPlayer player) {
-        super.startSeenByPlayer(player);
-        if (bossEvent != null) bossEvent.addPlayer(player);
     }
 
     @Override

@@ -24,12 +24,14 @@
         {"type": "npc_mode", "npc": "baron_arald", "mode": "companion"},
         {"type": "spawn", "entity": "zwiadowcy:dzik", "at": "legowisko_dzika:dzik_1", "enraged": true},
         {"type": "spawn", "entity": "zwiadowcy:dzik", "at": "legowisko_dzika:dzik_2", "enraged": true, "name": "Stary odyniec"},
+        {"type": "spawn", "entity": "zwiadowcy:dzik", "at": "legowisko_dzika:dzik_3", "enraged": true},
+        {"type": "spawn", "entity": "zwiadowcy:dzik", "at": "legowisko_dzika:dzik_4", "enraged": true},
         {"type": "title", "title": "Polowanie!", "subtitle": "Dziki wypadają z zarośli"}
       ]
     },
     {
-      "objective": {"type": "kill", "entity": "zwiadowcy:dzik", "count": 2, "tagged": true},
-      "text": "Upoluj rozwścieczone dziki",
+      "objective": {"type": "kill", "entity": "zwiadowcy:dzik", "count": 4, "tagged": true},
+      "text": "Upoluj rozwścieczone dziki - wataha wypadła z zarośli z kilku stron",
       "location": "legowisko_dzika:polana",
       "on_complete": [
         {"type": "npc_mode", "npc": "halt", "mode": "idle"},

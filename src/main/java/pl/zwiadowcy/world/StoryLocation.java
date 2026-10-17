@@ -12,9 +12,9 @@ public enum StoryLocation {
     CHATA_HALTA("chata_halta", "Chata Halta", 210, -110, false),
     STAJNIA_BOBA("stajnia_boba", "Farma Starego Boba", 330, 190, false),
     LEGOWISKO_DZIKA("legowisko_dzika", "Legowisko dzika", 460, -300, false),
-    OBOZ_ZLOTU("oboz_zlotu", "Obóz Zlotu Zwiadowców", -700, -520, false),
-    SPALONA_OSADA("spalona_osada", "Spalona osada", 880, 560, false),
-    RUINY_GORLANU("ruiny_gorlanu", "Ruiny Gorlanu", 1350, 900, false, 6);
+    OBOZ_ZLOTU("oboz_zlotu", "Obóz Zlotu Zwiadowców", 0, -450, false),
+    SPALONA_OSADA("spalona_osada", "Spalona osada", 450, 20, false),
+    RUINY_GORLANU("ruiny_gorlanu", "Ruiny Gorlanu", 850, 450, false, 6);
 
     public final String id;
     public final String displayName;

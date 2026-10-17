@@ -1,0 +1,32 @@
+{
+  "title": "Na szlaku: wóz kupca",
+  "act": "Postoje na szlaku",
+  "order": 101,
+  "description": "Przy trakcie do spalonej osady stoi przewrócony wóz wędrownego kupca. Spłoszony koń uciekł, a towar rozsypał się po łące. Halt mówi, że zwiadowca nie przejeżdża obojętnie obok ludzi w potrzebie.",
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "szlak_woz_kupca:miejsce", "radius": 10},
+      "text": "Zajrzyj do przewróconego wozu przy trakcie (dobrowolnie)",
+      "on_complete": [
+        {"type": "track", "quest": "szlak_woz_kupca"},
+        {"type": "message", "speaker": "Wędrowny kupiec", "text": "Na wszystkie świętości, zwiadowca! Koń spłoszył się na widok dymu nad lasem i wóz poszedł w rów. Całe sukno rozsypało się po łące, a mnie łupie w krzyżu. Pomożesz staremu kupcowi?"}
+      ]
+    },
+    {
+      "objective": {"type": "collect", "item": "zwiadowcy:bela_sukna", "count": 6},
+      "text": "Pozbieraj rozsypane bele sukna (strzałka wskazuje najbliższą)",
+      "location": "szlak_woz_kupca:miejsce"
+    },
+    {
+      "objective": {"type": "talk", "npc": "kupiec"},
+      "text": "Oddaj bele kupcowi",
+      "location": "szlak_woz_kupca:kupiec"
+    }
+  ],
+  "on_complete": [
+    {"type": "give_item", "item": "zwiadowcy:racje_podrozne", "count": 4},
+    {"type": "give_item", "item": "zwiadowcy:strzala_szeroki_grot", "count": 8},
+    {"type": "xp", "amount": 30},
+    {"type": "note", "title": "Wóz kupca", "text": "Pomogłem wędrownemu kupcowi pozbierać sukno z przewróconego wozu. Jego koń spłoszył się na widok dymu nad lasem - od strony osady, do której jedziemy. Kupiec dał mi racje na drogę i strzały z szerokim grotem."}
+  ]
+}

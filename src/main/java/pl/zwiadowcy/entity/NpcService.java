@@ -20,14 +20,14 @@ import java.util.List;
 public final class NpcService {
 
     /** Znacznik "npc:id" w strukturze. Postacie unikalne pojawiają się tylko w swojej lokacji startowej. */
-    public static void spawnFromMarker(ServerLevel level, LocationData data, StoryLocation loc, String npcId, BlockPos pos, float yaw) {
+    public static void spawnFromMarker(ServerLevel level, LocationData data, String locId, String npcId, BlockPos pos, float yaw) {
         NpcDefs.NpcDef def = NpcDefs.get(npcId);
         if (def == null) {
             Zwiadowcy.LOGGER.warn("Nieznany NPC w znaczniku: {}", npcId);
             return;
         }
         if (def.unique()) {
-            if (!loc.id.equals(def.initialLocation()) || data.wasSpawned(npcId)) return;
+            if (!locId.equals(def.initialLocation()) || data.wasSpawned(npcId)) return;
             data.markSpawned(npcId);
             spawn(level, npcId, pos, data.generation(npcId), yaw, null);
         } else {

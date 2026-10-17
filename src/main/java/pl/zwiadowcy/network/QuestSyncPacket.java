@@ -42,9 +42,14 @@ public record QuestSyncPacket(String tracked, List<QuestView> quests, List<Quest
                     st.progress, stage != null ? stage.objective().count() : 0,
                     stage != null && stage.objective().type().equals("night"), done));
             if (!completed && def.id().equals(prog.tracked()) && stage != null && p.getServer() != null) {
+                BlockPos drop = stage.objective().type().equals("collect") ? questDrop(p, stage.objective().str("item")) : null;
                 if (st.targetPos != null) {
                     target = st.targetPos;
                     targetName = "cel zlecenia";
+                } else if (drop != null) {
+                    // przedmiot upuszczony przez moba z misji (np. Znak Morgaratha) - strzałka prowadzi prosto do niego
+                    target = drop;
+                    targetName = "upuszczony przedmiot";
                 } else {
                     String loc = QuestEngine.locationOf(stage);
                     target = Locations.peek(p.getServer(), loc);
@@ -53,8 +58,44 @@ public record QuestSyncPacket(String tracked, List<QuestView> quests, List<Quest
                 }
             }
         }
+        // postoje na szlaku: strzałka prowadzi przez postój, który leży przed graczem na drodze do celu
+        // (albo przy którym właśnie trwa zadanie); minięty postój przestaje być wskazywany
+        if (target != null && p.getServer() != null) {
+            BlockPos mainTarget = target;
+            double toTarget = Math.sqrt(p.blockPosition().distSqr(mainTarget));
+            double bestD = Double.MAX_VALUE;
+            for (Map.Entry<String, QuestProgress.State> e : prog.states().entrySet()) {
+                QuestProgress.State st = e.getValue();
+                if (!e.getKey().startsWith("szlak_") || e.getKey().equals(prog.tracked()) || st.status != QuestProgress.Status.ACTIVE) continue;
+                QuestDefinition def = QuestManager.INSTANCE.get(e.getKey());
+                QuestDefinition.Stage stage = def != null ? def.stage(st.stage) : null;
+                BlockPos stop = stage != null ? Locations.peek(p.getServer(), QuestEngine.locationOf(stage)) : null;
+                if (stop == null) continue;
+                double d = p.blockPosition().distSqr(stop);
+                boolean ahead = Math.sqrt(stop.distSqr(mainTarget)) < toTarget - 16;
+                boolean busy = st.stage > 0 && d < 64 * 64;
+                if ((ahead || busy) && d < bestD) {
+                    bestD = d;
+                    target = stop;
+                    targetName = def.title();
+                }
+            }
+        }
         views.sort(Comparator.comparingInt(QuestView::order));
         return new QuestSyncPacket(prog.tracked(), views, new ArrayList<>(prog.notes()), target, targetName);
+    }
+
+    /** Najbliższy leżący przedmiot z misji (oznaczony przy upuszczeniu) pasujący do celu "zbierz". */
+    @Nullable
+    private static BlockPos questDrop(ServerPlayer p, String itemSpec) {
+        if (itemSpec.isEmpty()) return null;
+        net.minecraft.world.entity.item.ItemEntity best = null;
+        for (var e : p.level().getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class, p.getBoundingBox().inflate(128),
+                it -> it.getPersistentData().getBoolean(pl.zwiadowcy.quest.QuestActions.TAG_QUEST_DROP)
+                        && QuestEngine.matches(it.getItem(), itemSpec))) {
+            if (best == null || e.distanceToSqr(p) < best.distanceToSqr(p)) best = e;
+        }
+        return best == null ? null : best.blockPosition();
     }
 
     public static void encode(QuestSyncPacket msg, FriendlyByteBuf buf) {

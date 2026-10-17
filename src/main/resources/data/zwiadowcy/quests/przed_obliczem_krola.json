@@ -7,7 +7,11 @@
   "stages": [
     {
       "objective": {"type": "reach", "location": "redmont:ceremonia", "radius": 10},
-      "text": "Wróć do zamku Redmont - król Duncan czeka na dziedzińcu"
+      "text": "Wróć do zamku Redmont - król Duncan czeka na dziedzińcu",
+      "on_complete": [
+        {"type": "cancel_quest", "quest": "szlak_ranny_drwal", "max_stage": 0},
+        {"type": "cancel_quest", "quest": "szlak_zasadzka_bandytow", "max_stage": 0}
+      ]
     },
     {
       "objective": {"type": "talk", "npc": "krol_duncan"},
@@ -26,6 +30,7 @@
     {"type": "note", "title": "Cień nad Araluenem", "text": "Kalkarowie z Gorlanu nie żyją, ale Halt nie spał tej nocy. Mówi, że Morgarath nie wysłałby swoich bestii bez powodu - że Władca Deszczu i Nocy znów zbiera Wargalów w górach i szuka drogi do królestwa. Zwiadowcy z północy donoszą o nowym moście nad przepaścią. Halt powiedział tylko: „Zaczynamy szkolenie od nowa. Tym razem na poważnie.”"},
     {"type": "title", "title": "Koniec tomu pierwszego", "subtitle": "Ciąg dalszy: Płonący Most"},
     {"type": "move_npc", "npc": "halt", "to": "chata_halta:halt", "face": "chata_halta:linia_strzalu"},
-    {"type": "message", "text": "Araluen pozostaje otwarty. Halt ma w chacie zlecenia dla zwiadowcy."}
+    {"type": "message", "text": "Araluen pozostaje otwarty. Halt ma w chacie zlecenia dla zwiadowcy."},
+    {"type": "story", "story": "epilog", "delay": 120}
   ]
 }

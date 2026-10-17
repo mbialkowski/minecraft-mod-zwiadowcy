@@ -40,6 +40,14 @@ public final class QuestEngine {
     // ------------------------------------------------------------------ cykl życia misji
 
     public static void start(ServerPlayer p, String id) {
+        start(p, id, false);
+    }
+
+    /**
+     * @param quiet misja dodatkowa (np. postój na szlaku): bez tytułu na ekranie i bez przejmowania śledzenia -
+     *              strzałka HUD i tak poprowadzi przez postój, gdy leży on na drodze do celu śledzonej misji
+     */
+    public static void start(ServerPlayer p, String id, boolean quiet) {
         QuestDefinition def = QuestManager.INSTANCE.get(id);
         if (def == null) {
             Zwiadowcy.LOGGER.warn("Próba rozpoczęcia nieznanej misji: {}", id);
@@ -55,11 +63,17 @@ public final class QuestEngine {
             st.completedAt = old.completedAt;
         }
         prog.states().put(id, st);
-        prog.setTracked(id);
-        showTitle(p, Component.literal(def.title()).withStyle(ChatFormatting.GOLD),
-                Component.literal(def.repeatable() ? "Nowe zlecenie" : "Nowa misja").withStyle(ChatFormatting.GRAY));
-        p.sendSystemMessage(Component.literal("✦ Nowa misja: ").withStyle(ChatFormatting.GOLD)
-                .append(Component.literal(def.title()).withStyle(ChatFormatting.YELLOW)));
+        if (quiet) {
+            p.sendSystemMessage(Component.literal("✦ Postój na szlaku: ").withStyle(ChatFormatting.DARK_AQUA)
+                    .append(Component.literal(def.title()).withStyle(ChatFormatting.AQUA))
+                    .append(Component.literal(" (dobrowolnie - strzałka poprowadzi po drodze)").withStyle(ChatFormatting.GRAY)));
+        } else {
+            prog.setTracked(id);
+            showTitle(p, Component.literal(def.title()).withStyle(ChatFormatting.GOLD),
+                    Component.literal(def.repeatable() ? "Nowe zlecenie" : "Nowa misja").withStyle(ChatFormatting.GRAY));
+            p.sendSystemMessage(Component.literal("✦ Nowa misja: ").withStyle(ChatFormatting.GOLD)
+                    .append(Component.literal(def.title()).withStyle(ChatFormatting.YELLOW)));
+        }
         p.level().playSound(null, p.blockPosition(), SoundEvents.BOOK_PAGE_TURN, SoundSource.PLAYERS, 1f, 1f);
         QuestActions.run(p, def.onStart(), new QuestActions.Ctx(id, null));
         enterStage(p, def, st);
@@ -73,7 +87,10 @@ public final class QuestEngine {
         st.targetPos = null;
         st.firedTriggers.clear();
         String loc = locationOf(stage);
-        if (loc != null && p.getServer() != null) Locations.ensure(p.getServer(), loc.split(":", 2)[0]);
+        if (loc != null && p.getServer() != null) {
+            Locations.ensure(p.getServer(), loc.split(":", 2)[0]);
+            if (!def.id().startsWith("szlak_")) updateRespawn(p, loc.split(":", 2)[0]);
+        }
         QuestActions.run(p, stage.onStart(), new QuestActions.Ctx(def.id(), null));
         if (!stage.text().isEmpty()) {
             p.sendSystemMessage(Component.literal("  ▶ " + stage.text()).withStyle(ChatFormatting.GRAY));
@@ -84,6 +101,23 @@ public final class QuestEngine {
             p.sendSystemMessage(Component.literal("  Do zmroku zostało ok. " + min + " min. Nie chcesz czekać? Połóż się "
                     + "do dowolnego łóżka - prześpisz dzień i obudzisz się o zmroku.").withStyle(ChatFormatting.DARK_AQUA));
         }
+    }
+
+    /**
+     * Punkt odrodzenia blisko miejsca misji (w bezpiecznym punkcie lokacji), żeby po śmierci nie wracać przez pół
+     * królestwa. Zmienia się tylko wtedy, gdy misja przenosi się w inne miejsce.
+     */
+    private static void updateRespawn(ServerPlayer p, String locationId) {
+        MinecraftServer server = p.getServer();
+        net.minecraft.server.level.ServerLevel araluen = server != null ? Araluen.level(server) : null;
+        BlockPos safe = server != null ? Locations.safeSpot(server, locationId) : null;
+        if (araluen == null || safe == null) return;
+        BlockPos current = p.getRespawnPosition();
+        if (current != null && araluen.dimension().equals(p.getRespawnDimension()) && current.distSqr(safe) < 48 * 48) return;
+        p.setRespawnPosition(araluen.dimension(), safe, p.getYRot(), true, false);
+        pl.zwiadowcy.world.StoryLocation sl = pl.zwiadowcy.world.StoryLocation.byId(locationId);
+        p.sendSystemMessage(Component.literal("  ✚ Punkt odrodzenia: " + (sl != null ? sl.displayName : locationId))
+                .withStyle(ChatFormatting.DARK_GREEN));
     }
 
     /** Kończy bieżący etap misji i przechodzi do następnego. */
@@ -132,6 +166,19 @@ public final class QuestEngine {
         p.level().playSound(null, p.blockPosition(), SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, SoundSource.PLAYERS, 0.7f, 1f);
         if (def.id().equals(prog.tracked())) prog.setTracked(nextActive(prog, def.id()));
         QuestActions.run(p, def.onComplete(), new QuestActions.Ctx(def.id(), null));
+    }
+
+    /**
+     * Usuwa aktywną misję dodatkową, jeśli gracz nie doszedł dalej niż do etapu {@code maxStage}
+     * (np. pominięty postój na szlaku znika z dziennika po dotarciu do celu podróży).
+     */
+    public static void cancel(ServerPlayer p, String id, int maxStage) {
+        QuestProgress prog = QuestCapability.get(p);
+        QuestProgress.State st = prog.get(id);
+        if (st == null || st.status != QuestProgress.Status.ACTIVE || st.stage > maxStage) return;
+        prog.states().remove(id);
+        if (id.equals(prog.tracked())) prog.setTracked(nextActive(prog, id));
+        sync(p);
     }
 
     private static String nextActive(QuestProgress prog, String except) {
@@ -217,6 +264,15 @@ public final class QuestEngine {
                 default -> {}
             }
         }
+        // przyjęte postoje na szlaku: strzałka zależy od położenia gracza (postój przed nim czy już minięty)
+        if (!dirty && p.tickCount % 40 == 0) {
+            for (Map.Entry<String, QuestProgress.State> e : prog.states().entrySet()) {
+                if (e.getKey().startsWith("szlak_") && e.getValue().status == QuestProgress.Status.ACTIVE) {
+                    dirty = true;
+                    break;
+                }
+            }
+        }
         if (dirty) sync(p);
     }
 
@@ -281,7 +337,9 @@ public final class QuestEngine {
             QuestDefinition.Stage stage = def.stage(e.getValue().stage);
             if (stage == null || !stage.objective().type().equals("kill")) continue;
             QuestDefinition.Objective o = stage.objective();
-            if (!o.str("entity").equals(key.toString())) continue;
+            // "*" = dowolny mob wypuszczony przez tę misję (np. mieszana grupa Wargali albo bandytów z łucznikiem)
+            String want = o.str("entity");
+            if (!want.equals("*") && !want.equals(key.toString())) continue;
             if (o.bool("tagged") && !def.id().equals(questTag)) continue;
             addProgress(p, def.id(), 1);
         }

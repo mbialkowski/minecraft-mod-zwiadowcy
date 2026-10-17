@@ -104,7 +104,16 @@ public final class ModEvents {
         var data = victim.getPersistentData();
         if (data.contains(QuestActions.TAG_DROP)) {
             Item item = ForgeRegistries.ITEMS.getValue(ResourceLocation.parse(data.getString(QuestActions.TAG_DROP)));
-            if (item != null) victim.spawnAtLocation(new ItemStack(item));
+            if (item != null) {
+                net.minecraft.world.entity.item.ItemEntity drop = victim.spawnAtLocation(new ItemStack(item));
+                if (drop != null) {
+                    // przedmiot fabularny: świeci przez ściany, nie znika i nie spłonie; strzałka w HUD prowadzi prosto do niego
+                    drop.setGlowingTag(true);
+                    drop.setUnlimitedLifetime();
+                    drop.setInvulnerable(true);
+                    drop.getPersistentData().putBoolean(QuestActions.TAG_QUEST_DROP, true);
+                }
+            }
         }
         if (data.contains(QuestActions.TAG_QUEST) && data.hasUUID(QuestActions.TAG_OWNER)) {
             ServerPlayer owner = victim.getServer().getPlayerList().getPlayer(data.getUUID(QuestActions.TAG_OWNER));
@@ -173,7 +182,16 @@ public final class ModEvents {
         // spokojne okolice Redmont: wrogowie z losowych struktur nie pojawiają się bliżej niż 350 bloków od zamku
         if (!event.loadedFromDisk() && event.getEntity() instanceof net.minecraft.world.entity.monster.Monster
                 && event.getEntity().getTags().contains("zw_losowe") && Araluen.isAraluen(event.getLevel())) {
-            double x = event.getEntity().getX(), z = event.getEntity().getZ();
+            // środek strefy to faktyczne położenie zamku (mógł odsunąć się od wody), a nie początek układu współrzędnych
+            double cx = 0, cz = 0;
+            if (event.getLevel() instanceof net.minecraft.server.level.ServerLevel sl) {
+                pl.zwiadowcy.world.LocationData.Placed redmont = pl.zwiadowcy.world.LocationData.get(sl.getServer()).placed("redmont");
+                if (redmont != null) {
+                    cx = redmont.center.getX();
+                    cz = redmont.center.getZ();
+                }
+            }
+            double x = event.getEntity().getX() - cx, z = event.getEntity().getZ() - cz;
             if (x * x + z * z < 350.0 * 350.0) event.setCanceled(true);
         }
     }

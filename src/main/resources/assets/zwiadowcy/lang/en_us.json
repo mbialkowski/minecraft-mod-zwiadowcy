@@ -28,6 +28,8 @@
   "item.zwiadowcy.zapieczetowany_list.opis1": "Od Halta do Starego Boba. Nie otwierać.",
   "item.zwiadowcy.kiel_dzika": "Kieł dzika",
   "item.zwiadowcy.kiel_dzika.opis1": "Trofeum z polowania.",
+  "item.zwiadowcy.bela_sukna": "Bela sukna",
+  "item.zwiadowcy.bela_sukna.opis1": "Farbowane sukno z wozu wędrownego kupca.",
 
   "item.zwiadowcy.luk_zwiadowcy": "Łuk zwiadowcy",
   "item.zwiadowcy.luk_zwiadowcy.opis1": "Napina się szybciej i strzela dalej niż zwykły łuk.",
@@ -74,6 +76,8 @@
   "block.zwiadowcy.slady": "Ślady",
   "block.zwiadowcy.lina": "Lina",
   "block.zwiadowcy.papiery_barona": "Papiery barona",
+  "block.zwiadowcy.palenisko": "Palenisko",
+  "block.zwiadowcy.palenisko_dusz": "Palenisko dusz",
 
   "entity.zwiadowcy.npc": "Postać",
   "entity.zwiadowcy.kalkar": "Kalkar",

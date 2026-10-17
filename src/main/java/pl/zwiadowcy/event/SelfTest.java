@@ -34,7 +34,7 @@ public final class SelfTest {
     private static final Set<String> QUEST_KEYS = Set.of("quest", "quest_active", "quest_stage", "quest_completed",
             "quest_not_started", "quest_not_completed", "quest_ready");
     private static final Set<String> ITEM_KEYS = Set.of("item", "has_item", "not_has_item", "drop");
-    private static final Set<String> LOCATION_KEYS = Set.of("location", "checkpoint", "to", "at", "face", "center");
+    private static final Set<String> LOCATION_KEYS = Set.of("location", "checkpoint", "to", "at", "face", "center", "home");
 
     @SubscribeEvent
     public static void onStarted(ServerStartedEvent event) {
@@ -74,6 +74,33 @@ public final class SelfTest {
             info.add(String.format("Lokacja %-16s @ %s, kotwic: %d (%d ms)", loc.id, p.center.toShortString(),
                     p.anchors.size(), System.currentTimeMillis() - t));
         }
+        // 1. punkt odrodzenia na czas misji: każda lokacja ma bezpieczny punkt
+        for (StoryLocation loc : StoryLocation.values()) {
+            if (Locations.safeSpot(server, loc.id) == null) problems.add("Lokacja " + loc.id + " nie ma bezpiecznego punktu odrodzenia");
+        }
+        // 1a. postoje na szlaku - na odcinku między lokacjami, z kotwicami w dobrych miejscach
+        for (pl.zwiadowcy.world.RouteStop stop : pl.zwiadowcy.world.RouteStop.values()) {
+            long t = System.currentTimeMillis();
+            LocationData.Placed p = Locations.ensure(server, stop.id);
+            if (p == null) {
+                problems.add("Nie udało się postawić postoju " + stop.id);
+                continue;
+            }
+            LocationData.Placed a = LocationData.get(server).placed(stop.from), b = LocationData.get(server).placed(stop.to);
+            double route = a != null && b != null ? Math.sqrt(a.center.distSqr(b.center)) : 0;
+            double offRoute = a != null && b != null ? distanceToSegment(p.center, a.center, b.center) : 0;
+            info.add(String.format("Postój %-24s @ %s, trasa %.0f bl., od traktu %.0f bl. (%d ms)", stop.id, p.center.toShortString(),
+                    route, offRoute, System.currentTimeMillis() - t));
+            if (offRoute > 160) problems.add("Postój " + stop.id + " leży daleko od trasy (" + (int) offRoute + " bloków)");
+            for (Map.Entry<String, net.minecraft.core.BlockPos> an : p.anchors.entrySet()) {
+                var lvl = pl.zwiadowcy.world.Araluen.level(server);
+                if (lvl == null) break;
+                var pos = an.getValue();
+                if (!lvl.getBlockState(pos).getCollisionShape(lvl, pos).isEmpty() || !lvl.getBlockState(pos.above()).getCollisionShape(lvl, pos.above()).isEmpty()) {
+                    problems.add("Kotwica " + stop.id + ":" + an.getKey() + " zasypana @ " + pos.toShortString());
+                }
+            }
+        }
         LocationData data = LocationData.get(server);
         net.minecraft.server.level.ServerLevel level = pl.zwiadowcy.world.Araluen.level(server);
         if (level != null) {
@@ -82,6 +109,7 @@ public final class SelfTest {
                 LocationData.Placed p = data.placed(loc.id);
                 if (p != null) checkBiome(level, "Lokacja " + loc.id, p.center, problems, info);
             }
+            checkWater(level, data, problems, info);
             // przeniesienie lokacji komendą /zwiadowcy przestaw
             LocationData.Placed before = data.placed("chata_halta");
             LocationData.Placed moved = Locations.relocate(server, "chata_halta");
@@ -156,6 +184,20 @@ public final class SelfTest {
                         + ", byty w krypcie: " + level.getEntitiesOfClass(pl.zwiadowcy.entity.WargalEntity.class,
                         new net.minecraft.world.phys.AABB(crypt).inflate(25, 4, 10)).size());
             }
+            // arena: Kalkar (1,3 × 3,1 bloku) musi pojawić się na posadzce, z wolnym miejscem 3×3×4 wokół
+            for (String k : new String[]{"kalkar_1", "kalkar_2", "arena"}) {
+                var pos = data.placed("ruiny_gorlanu").anchors.get(k);
+                if (pos == null) {
+                    problems.add("Brak kotwicy ruiny_gorlanu:" + k);
+                    continue;
+                }
+                boolean blocked = false;
+                for (var b : net.minecraft.core.BlockPos.betweenClosed(pos.offset(-1, 0, -1), pos.offset(1, 3, 1))) {
+                    if (!level.getBlockState(b).getCollisionShape(level, b).isEmpty()) blocked = true;
+                }
+                boolean floor = !level.getBlockState(pos.below()).getCollisionShape(level, pos.below()).isEmpty();
+                if (blocked || !floor) problems.add("Arena Gorlanu: miejsce " + k + " " + (blocked ? "zastawione" : "bez posadzki") + " @ " + pos.toShortString());
+            }
         }
 
         // 2. postacie unikalne mają znacznik w lokacji startowej
@@ -194,6 +236,66 @@ public final class SelfTest {
         for (NpcDefs.NpcDef def : NpcDefs.all()) {
             if (!dialogues.containsKey(def.id())) problems.add("Postać " + def.id() + " nie ma pliku dialogu");
         }
+    }
+
+    /**
+     * Woda w Araluenie: siatka 100×100 punktów co 32 bloki wokół Redmontu, wysokość gruntu z szumu generatora.
+     * Grunt poniżej poziomu morza = woda. Największy spójny zbiornik szerszy niż ~160 bloków to problem.
+     */
+    private static void checkWater(net.minecraft.server.level.ServerLevel level, LocationData data, List<String> problems, List<String> info) {
+        var gen = level.getChunkSource().getGenerator();
+        var noise = level.getChunkSource().randomState();
+        int sea = level.getSeaLevel(), n = 100, step = 32;
+        LocationData.Placed redmont = data.placed("redmont");
+        net.minecraft.core.BlockPos c = redmont != null ? redmont.center : net.minecraft.core.BlockPos.ZERO;
+        boolean[][] wet = new boolean[n][n];
+        int count = 0;
+        for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) {
+            int x = c.getX() + (i - n / 2) * step, z = c.getZ() + (j - n / 2) * step;
+            // woda = ciecz nad gruntem (powierzchnia z wodą wyżej niż dno); suche jamy i otwory jaskiń się nie liczą
+            int ground = gen.getBaseHeight(x, z, net.minecraft.world.level.levelgen.Heightmap.Types.OCEAN_FLOOR_WG, level, noise);
+            int surface = gen.getBaseHeight(x, z, net.minecraft.world.level.levelgen.Heightmap.Types.WORLD_SURFACE_WG, level, noise);
+            wet[i][j] = surface > ground;
+            if (wet[i][j]) count++;
+        }
+        boolean[][] seen = new boolean[n][n];
+        int widest = 0;
+        net.minecraft.core.BlockPos widestAt = null;
+        for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) {
+            if (!wet[i][j] || seen[i][j]) continue;
+            int minI = i, maxI = i, minJ = j, maxJ = j;
+            java.util.ArrayDeque<int[]> queue = new java.util.ArrayDeque<>();
+            queue.add(new int[]{i, j});
+            seen[i][j] = true;
+            while (!queue.isEmpty()) {
+                int[] p = queue.poll();
+                minI = Math.min(minI, p[0]); maxI = Math.max(maxI, p[0]);
+                minJ = Math.min(minJ, p[1]); maxJ = Math.max(maxJ, p[1]);
+                for (int[] d : new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}) {
+                    int a = p[0] + d[0], b = p[1] + d[1];
+                    if (a < 0 || b < 0 || a >= n || b >= n || seen[a][b] || !wet[a][b]) continue;
+                    seen[a][b] = true;
+                    queue.add(new int[]{a, b});
+                }
+            }
+            int size = Math.max(maxI - minI + 1, maxJ - minJ + 1) * step;
+            if (size > widest) {
+                widest = size;
+                widestAt = new net.minecraft.core.BlockPos(c.getX() + ((minI + maxI) / 2 - n / 2) * step, sea, c.getZ() + ((minJ + maxJ) / 2 - n / 2) * step);
+            }
+        }
+        info.add(String.format("Woda w Araluenie (siatka %d km²): %.1f%% próbek, najszerszy zbiornik ok. %d bloków%s",
+                (n * step / 1000) * (n * step / 1000), 100.0 * count / (n * n), widest,
+                widestAt == null ? "" : " @ " + widestAt.toShortString() + " (" + level.getBiome(widestAt).unwrapKey().map(k -> k.location().getPath()).orElse("?") + ")"));
+        if (widest > 160) problems.add("W Araluenie jest duży zbiornik wody, szeroki na ok. " + widest + " bloków");
+    }
+
+    private static double distanceToSegment(net.minecraft.core.BlockPos p, net.minecraft.core.BlockPos a, net.minecraft.core.BlockPos b) {
+        double ax = a.getX(), az = a.getZ(), bx = b.getX() - ax, bz = b.getZ() - az, px = p.getX() - ax, pz = p.getZ() - az;
+        double len2 = bx * bx + bz * bz;
+        double t = len2 == 0 ? 0 : Math.max(0, Math.min(1, (px * bx + pz * bz) / len2));
+        double dx = px - t * bx, dz = pz - t * bz;
+        return Math.sqrt(dx * dx + dz * dz);
     }
 
     private static void checkBiome(net.minecraft.server.level.ServerLevel level, String where, net.minecraft.core.BlockPos pos,
@@ -252,7 +354,7 @@ public final class SelfTest {
                     ResourceLocation rl = ResourceLocation.tryParse(s);
                     if (rl == null || !ForgeRegistries.ITEMS.containsKey(rl)) problems.add(where + ": nieznany przedmiot '" + s + "'");
                 }
-                if (k.equals("entity")) {
+                if (k.equals("entity") && !s.equals("*")) {
                     ResourceLocation rl = ResourceLocation.tryParse(s);
                     if (rl == null || !ForgeRegistries.ENTITY_TYPES.containsKey(rl)) problems.add(where + ": nieznany byt '" + s + "'");
                 }
@@ -273,7 +375,7 @@ public final class SelfTest {
 
     private static void checkLocation(String where, String ref, LocationData data, List<String> problems) {
         String[] parts = ref.split(":", 2);
-        if (StoryLocation.byId(parts[0]) == null) {
+        if (StoryLocation.byId(parts[0]) == null && pl.zwiadowcy.world.RouteStop.byId(parts[0]) == null) {
             problems.add(where + ": nieznana lokacja '" + ref + "'");
             return;
         }
