@@ -1,0 +1,41 @@
+{
+  "title": "Lekcja bezruchu",
+  "act": "Akt II: Szkolenie",
+  "order": 6,
+  "advancement": "misje/lekcja_bezruchu",
+  "description": "Ludzie w karczmach opowiadają, że płaszcze zwiadowców są magiczne. Halt twierdzi, że magia polega na tym, by wiedzieć, kiedy się nie ruszać. Czas to sprawdzić - na nim samym.",
+  "stages": [
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Porozmawiaj z Haltem",
+      "location": "chata_halta:halt"
+    },
+    {
+      "objective": {
+        "type": "sneak_reach",
+        "location": "chata_halta:za_plecami_halta",
+        "radius": 2.0,
+        "observers": ["halt"],
+        "detect_range": 18,
+        "checkpoint": "chata_halta:start_bezruch"
+      },
+      "text": "Podkradnij się za plecy Halta tak, by cię nie zauważył (płaszcz, kucanie, zarośla, Bezruch - klawisz V)",
+      "on_start": [
+        {"type": "teleport", "to": "chata_halta:start_bezruch"},
+        {"type": "message", "speaker": "Halt", "text": "Zaczynaj. I nie tupać."}
+      ],
+      "on_complete": [
+        {"type": "npc_mode", "npc": "halt", "mode": "idle"}
+      ]
+    },
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Porozmawiaj z Haltem",
+      "location": "chata_halta:halt_obserwuje"
+    }
+  ],
+  "on_complete": [
+    {"type": "move_npc", "npc": "halt", "to": "chata_halta:halt", "face": "chata_halta:linia_strzalu"},
+    {"type": "start_quest", "quest": "kon_od_boba"}
+  ]
+}

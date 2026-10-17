@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "zwiadowcy:pogorze_deszczu_i_nocy",
+    "zwiadowcy:mroczna_puszcza",
+    "zwiadowcy:bory_polnocy",
+    "zwiadowcy:stare_bory",
+    "zwiadowcy:rownina_samotnosci"
+  ]
+}

@@ -1,0 +1,234 @@
+package pl.zwiadowcy.world;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import pl.zwiadowcy.Zwiadowcy;
+import pl.zwiadowcy.entity.NpcService;
+import pl.zwiadowcy.entity.TugEntity;
+import pl.zwiadowcy.registry.ModEntities;
+
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * Stawia strukturę fabularną z pliku data/zwiadowcy/structures/&lt;id&gt;.nbt:
+ * szuka płaskiego, suchego terenu, wyrównuje go, wstawia szablon i obsługuje znaczniki DATA.
+ * Warstwa y=0 szablonu to fundament (zastępuje darń), warstwa y=1 to poziom gruntu.
+ */
+public final class StructurePlacer {
+    private static final int FLAGS = Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE;
+    private static final int MARGIN = 7;
+
+    public static LocationData.Placed place(ServerLevel level, StoryLocation loc, LocationData data) {
+        StructureTemplate template = level.getStructureManager().get(Zwiadowcy.id(loc.id)).orElse(null);
+        if (template == null || template.getSize().getX() == 0) {
+            Zwiadowcy.LOGGER.error("Brak pliku struktury {}.nbt - stawiam pusty punkt", loc.id);
+            BlockPos c = new BlockPos(loc.x, height(level, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, loc.x, loc.z), loc.z);
+            return new LocationData.Placed(c, c);
+        }
+        Vec3i size = template.getSize();
+        BlockPos center = findSite(level, loc.x, loc.z, size);
+        int baseY = center.getY();
+        BlockPos origin = new BlockPos(center.getX() - size.getX() / 2, baseY - 1 - loc.groundOffset, center.getZ() - size.getZ() / 2);
+
+        prepareTerrain(level, origin.above(loc.groundOffset), size, baseY);
+
+        StructurePlaceSettings settings = new StructurePlaceSettings()
+                .addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK)
+                .setIgnoreEntities(false);
+        List<StructureTemplate.StructureBlockInfo> markers = template.filterBlocks(origin, settings, Blocks.STRUCTURE_BLOCK);
+        template.placeInWorld(level, origin, origin, settings, level.getRandom(), FLAGS);
+
+        if (loc == StoryLocation.RUINY_GORLANU) paintBiome(level, center, 96, "rownina_samotnosci");
+        if (loc == StoryLocation.SPALONA_OSADA) paintBiome(level, center, 36, "rownina_samotnosci");
+
+        LocationData.Placed placed = new LocationData.Placed(center, origin);
+        for (StructureTemplate.StructureBlockInfo info : markers) {
+            CompoundTag nbt = info.nbt();
+            if (nbt == null || !"DATA".equals(nbt.getString("mode"))) continue;
+            handleMarker(level, loc, data, placed, info.pos(), nbt.getString("metadata"));
+        }
+        return placed;
+    }
+
+    /** Znacznik ma postać "rodzaj:wartość" z opcjonalnym ";yaw=stopnie". */
+    private static void handleMarker(ServerLevel level, StoryLocation loc, LocationData data,
+                                     LocationData.Placed placed, BlockPos pos, String metadata) {
+        float yaw = 0f;
+        String main = metadata;
+        int semi = metadata.indexOf(';');
+        if (semi >= 0) {
+            main = metadata.substring(0, semi);
+            for (String opt : metadata.substring(semi + 1).split(";")) {
+                if (opt.startsWith("yaw=")) {
+                    try { yaw = Float.parseFloat(opt.substring(4)); } catch (NumberFormatException ignored) {}
+                }
+            }
+        }
+        String[] kv = main.split(":", 2);
+        String kind = kv[0];
+        String value = kv.length > 1 ? kv[1] : "";
+        // znacznik nie jest stawiany (procesor go pomija) - pod ziemią zostałaby w tym miejscu skała
+        level.setBlock(pos, Blocks.AIR.defaultBlockState(), FLAGS);
+        switch (kind) {
+            case "anchor" -> placed.anchors.put(value, pos);
+            case "npc" -> {
+                placed.anchors.putIfAbsent(value, pos);
+                NpcService.spawnFromMarker(level, data, loc, value, pos, yaw);
+            }
+            case "dummy" -> {
+                placed.anchors.put("manekin", pos);
+                ArmorStand stand = EntityType.ARMOR_STAND.create(level);
+                if (stand != null) {
+                    stand.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, yaw, 0f);
+                    stand.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.CARVED_PUMPKIN));
+                    stand.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Items.LEATHER_CHESTPLATE));
+                    stand.setInvulnerable(true);
+                    stand.setCustomName(Component.literal("Manekin treningowy"));
+                    stand.addTag("zwiadowcy_manekin");
+                    level.addFreshEntity(stand);
+                }
+            }
+            case "tug" -> {
+                placed.anchors.put("wyrwij", pos);
+                if (!data.tugSpawned()) {
+                    TugEntity tug = ModEntities.WYRWIJ.get().create(level);
+                    if (tug != null) {
+                        tug.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, yaw, 0f);
+                        tug.setHomePos(pos);
+                        level.addFreshEntity(tug);
+                        data.setTugSpawned();
+                    }
+                }
+            }
+            default -> Zwiadowcy.LOGGER.warn("Nieznany znacznik '{}' w {}", metadata, loc.id);
+        }
+    }
+
+    /** Zmienia biom w promieniu wokół lokacji (np. wymarła Równina Samotności wokół Gorlanu) i odsyła go klientom. */
+    private static void paintBiome(ServerLevel level, BlockPos center, int radius, String biomeId) {
+        var registry = level.registryAccess().registryOrThrow(net.minecraft.core.registries.Registries.BIOME);
+        var key = net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.BIOME, Zwiadowcy.id(biomeId));
+        var holder = registry.getHolder(key);
+        if (holder.isEmpty()) return;
+        var biome = holder.get();
+        var sampler = level.getChunkSource().randomState().sampler();
+        java.util.List<net.minecraft.world.level.chunk.ChunkAccess> changed = new java.util.ArrayList<>();
+        int r2 = radius * radius;
+        for (int cx = (center.getX() - radius) >> 4; cx <= (center.getX() + radius) >> 4; cx++) {
+            for (int cz = (center.getZ() - radius) >> 4; cz <= (center.getZ() + radius) >> 4; cz++) {
+                var chunk = level.getChunk(cx, cz);
+                chunk.fillBiomesFromNoise((qx, qy, qz, s) -> {
+                    int bx = net.minecraft.core.QuartPos.toBlock(qx) + 2 - center.getX();
+                    int bz = net.minecraft.core.QuartPos.toBlock(qz) + 2 - center.getZ();
+                    return bx * bx + bz * bz <= r2 ? biome : chunk.getNoiseBiome(qx, qy, qz);
+                }, sampler);
+                chunk.setUnsaved(true);
+                changed.add(chunk);
+            }
+        }
+        level.getChunkSource().chunkMap.resendBiomesForChunks(changed);
+    }
+
+    /**
+     * Wysokość terenu (pierwszy wolny blok). Level.getHeight zwraca minimum świata dla niezaładowanych chunków,
+     * dlatego najpierw wymuszamy wygenerowanie chunka.
+     */
+    public static int height(ServerLevel level, Heightmap.Types type, int x, int z) {
+        return level.getChunk(x >> 4, z >> 4).getHeight(type, x & 15, z & 15) + 1;
+    }
+
+    private static BlockPos findSite(ServerLevel level, int cx, int cz, Vec3i size) {
+        int hx = size.getX() / 2, hz = size.getZ() / 2;
+        BlockPos best = null;
+        int bestScore = Integer.MAX_VALUE;
+        for (int r = 0; r <= 112; r += 16) {
+            int steps = r == 0 ? 1 : Math.max(8, r / 8);
+            for (int i = 0; i < steps; i++) {
+                double a = (Math.PI * 2 * i) / steps;
+                int x = cx + (int) Math.round(Math.cos(a) * r);
+                int z = cz + (int) Math.round(Math.sin(a) * r);
+                int[][] pts = {{0, 0}, {-hx, -hz}, {hx, -hz}, {-hx, hz}, {hx, hz}, {0, -hz}, {0, hz}, {-hx, 0}, {hx, 0}};
+                int[] hs = new int[pts.length];
+                int water = 0;
+                for (int p = 0; p < pts.length; p++) {
+                    int px = x + pts[p][0], pz = z + pts[p][1];
+                    hs[p] = height(level, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, px, pz);
+                    int surface = height(level, Heightmap.Types.WORLD_SURFACE, px, pz);
+                    int floor = height(level, Heightmap.Types.OCEAN_FLOOR, px, pz);
+                    if (surface > floor) water++;
+                }
+                int[] sorted = hs.clone();
+                Arrays.sort(sorted);
+                int score = (sorted[sorted.length - 2] - sorted[1]) + water * 40;
+                int median = sorted[sorted.length / 2];
+                if (median < level.getSeaLevel()) score += 30;
+                if (score < bestScore) {
+                    bestScore = score;
+                    best = new BlockPos(x, Math.max(median, level.getSeaLevel() + 1), z);
+                }
+                if (score <= 3) return best;
+            }
+        }
+        return best;
+    }
+
+    private static void prepareTerrain(ServerLevel level, BlockPos origin, Vec3i size, int baseY) {
+        BlockState air = Blocks.AIR.defaultBlockState();
+        BlockState grass = Blocks.GRASS_BLOCK.defaultBlockState();
+        BlockState dirt = Blocks.DIRT.defaultBlockState();
+        int x0 = origin.getX(), z0 = origin.getZ();
+        int x1 = x0 + size.getX() - 1, z1 = z0 + size.getZ() - 1;
+        int clearTop = baseY + size.getY() + 12;
+        BlockPos.MutableBlockPos m = new BlockPos.MutableBlockPos();
+        for (int x = x0 - MARGIN; x <= x1 + MARGIN; x++) {
+            for (int z = z0 - MARGIN; z <= z1 + MARGIN; z++) {
+                int dx = Math.max(0, Math.max(x0 - x, x - x1));
+                int dz = Math.max(0, Math.max(z0 - z, z - z1));
+                int d = Math.max(dx, dz);
+                int natural = height(level, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
+                int target;
+                if (d == 0) {
+                    target = baseY;
+                } else {
+                    double t = d / (double) (MARGIN + 1);
+                    target = (int) Math.round(baseY * (1 - t) + natural * t);
+                }
+                // usuń wszystko powyżej docelowego poziomu (wzgórza, drzewa, woda)
+                int top = d == 0 ? Math.max(clearTop, height(level, Heightmap.Types.WORLD_SURFACE, x, z))
+                        : height(level, Heightmap.Types.WORLD_SURFACE, x, z);
+                for (int y = target; y <= top; y++) {
+                    m.set(x, y, z);
+                    if (!level.getBlockState(m).isAir()) level.setBlock(m, air, FLAGS);
+                }
+                // dosyp ziemi tam, gdzie teren był niżej
+                for (int y = Math.min(natural, target) - 1; y < target; y++) {
+                    m.set(x, y, z);
+                    BlockState cur = level.getBlockState(m);
+                    if (y == target - 1) {
+                        if (natural != target || cur.isAir() || !cur.isSolid()) level.setBlock(m, grass, FLAGS);
+                    } else if (cur.isAir() || !cur.isSolid()) {
+                        level.setBlock(m, dirt, FLAGS);
+                    }
+                }
+            }
+        }
+    }
+
+    private StructurePlacer() {}
+}

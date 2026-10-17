@@ -1,0 +1,20 @@
+{
+  "npc": "chlopka",
+  "entries": [
+    {"when": [{"cooldown_ready": "zagroda", "ticks": 24000}], "start": "chleb"},
+    {"when": [], "start": "witaj"}
+  ],
+  "nodes": {
+    "chleb": {
+      "text": "Dzień dobry, paniczu! Zmęczony wyglądasz. Weź bochenek, dopiero co z pieca. I powiedz baronowi, że w nocy znów słychać było wycie od strony wzgórz.",
+      "options": [{"text": "Dziękuję, przekażę.", "actions": [
+        {"type": "give_item", "item": "minecraft:bread", "count": 3},
+        {"type": "set_cooldown", "id": "zagroda"}
+      ]}]
+    },
+    "witaj": {
+      "text": "Uważaj na krowy, zwłaszcza na tę łaciatą. Gryzie.",
+      "options": [{"text": "Krowy nie gryzą…"}]
+    }
+  }
+}

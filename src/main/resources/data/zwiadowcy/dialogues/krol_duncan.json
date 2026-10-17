@@ -1,0 +1,61 @@
+{
+  "npc": "krol_duncan",
+  "entries": [
+    {"when": [{"quest_stage": "przed_obliczem_krola", "stage": 1}], "start": "po_1"},
+    {"when": [{"flag": "wybor_zwiadowca"}], "start": "po_zwiadowca"},
+    {"when": [{"flag": "wybor_rycerz"}], "start": "po_rycerz"},
+    {"when": [], "start": "domyslny"}
+  ],
+  "nodes": {
+    "domyslny": {
+      "text": "Witaj, młodzieńcze.",
+      "options": [{"text": "Wasza Wysokość."}]
+    },
+    "po_1": {
+      "text": "Willu z Redmont. Baron Arald, zwiadowca Halt i zwiadowca Gilan opowiedzieli mi, co wydarzyło się w Ruinach Gorlanu. Zabiłeś Kalkara - bestię, przed którą uciekali uzbrojeni rycerze. Uratowałeś życie jednemu z moich najlepszych ludzi.\nKrólestwo ma u ciebie dług.",
+      "options": [{"text": "Zrobiłem tylko to, czego nauczył mnie Halt.", "next": "po_2"}]
+    },
+    "po_2": {
+      "text": "Skromność. Rzadka u bohaterów. Ale posłuchaj: Sir Rodney poprosił mnie o coś niezwykłego. Chce przyjąć cię do Szkoły Rycerskiej - mimo swojej wcześniejszej decyzji.\nTo było twoje marzenie, prawda? Mogę ci je dać. Wybieraj, Willu: Szkoła Rycerska… czy Korpus Zwiadowców?",
+      "options": [
+        {"text": "Szkoła Rycerska.", "next": "po_rycerz_pewien"},
+        {"text": "Korpus Zwiadowców.", "next": "po_zwiadowca_wybor"}
+      ]
+    },
+    "po_rycerz_pewien": {
+      "text": "Tego zawsze chciałeś. Rozumiem. Ale zanim odpowiesz na pewno… spójrz na Halta.",
+      "options": [
+        {"text": "Tak. Wybieram rycerstwo.", "next": "po_rycerz_wybor"},
+        {"text": "…Nie. Jednak Korpus Zwiadowców.", "next": "po_zwiadowca_wybor"}
+      ]
+    },
+    "po_rycerz_wybor": {
+      "text": "Niech tak będzie. Sir Rodney zyska niezwykłego ucznia - rycerza, który strzela jak zwiadowca i porusza się jak cień.\nPrzyjmij ten list z moją pieczęcią. Niech wszyscy wiedzą, czego dokonałeś.",
+      "options": [{"text": "Dziękuję, Wasza Wysokość.", "actions": [
+        {"type": "set_flag", "flag": "wybor_rycerz"},
+        {"type": "give_item", "item": "zwiadowcy:list_krolewski"},
+        {"type": "advance", "quest": "przed_obliczem_krola", "stage": 1}
+      ]}]
+    },
+    "po_zwiadowca_wybor": {
+      "text": "Mądry wybór. Mam wrażenie, że trafiłeś tam, gdzie twoje miejsce.\nPrzyjmij ten list z moją pieczęcią. Niech wszyscy wiedzą, czego dokonał uczeń zwiadowcy.\n…Halt, czy ty się uśmiechasz?",
+      "options": [{"text": "Dziękuję, Wasza Wysokość.", "next": "po_zwiadowca_halt", "actions": [
+        {"type": "set_flag", "flag": "wybor_zwiadowca"},
+        {"type": "give_item", "item": "zwiadowcy:list_krolewski"}
+      ]}]
+    },
+    "po_zwiadowca_halt": {
+      "speaker": "halt",
+      "text": "Nie.",
+      "options": [{"text": "…", "actions": [{"type": "advance", "quest": "przed_obliczem_krola", "stage": 1}]}]
+    },
+    "po_zwiadowca": {
+      "text": "Uczeń zwiadowcy, który pokonał Kalkara. Dbaj o swojego mistrza, Willu. Takich ludzi królestwo ma niewielu.",
+      "options": [{"text": "Będę, Wasza Wysokość."}]
+    },
+    "po_rycerz": {
+      "text": "Przyszły rycerz Redmont! Rodney mówi, że ćwiczysz z zapałem. I że wciąż czasem wymykasz się do lasu.",
+      "options": [{"text": "Czasem, Wasza Wysokość."}]
+    }
+  }
+}

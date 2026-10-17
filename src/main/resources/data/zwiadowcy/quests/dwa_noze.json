@@ -1,0 +1,32 @@
+{
+  "title": "Dwa noże",
+  "act": "Akt II: Szkolenie",
+  "order": 5,
+  "advancement": "misje/dwa_noze",
+  "description": "Łuk jest najważniejszy, ale czasem wróg podchodzi zbyt blisko. Zwiadowca nosi dwa noże: ciężką saksę do walki wręcz i lekki nóż do rzucania.",
+  "stages": [
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Porozmawiaj z Haltem",
+      "location": "chata_halta:halt"
+    },
+    {
+      "objective": {"type": "target_hits", "projectile": "knife", "count": 5, "min_distance": 5},
+      "text": "Traf nożem do rzucania w tarczę 5 razy (z co najmniej 5 kratek)",
+      "location": "chata_halta:tarcze_noze"
+    },
+    {
+      "objective": {"type": "event", "id": "manekin_saksa", "count": 10},
+      "text": "Zadaj saksą 10 ciosów w manekin treningowy",
+      "location": "chata_halta:manekin"
+    },
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Wróć do Halta",
+      "location": "chata_halta:halt"
+    }
+  ],
+  "on_complete": [
+    {"type": "start_quest", "quest": "lekcja_bezruchu"}
+  ]
+}

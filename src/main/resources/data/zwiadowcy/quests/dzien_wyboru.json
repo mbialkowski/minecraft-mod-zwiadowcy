@@ -1,0 +1,32 @@
+{
+  "title": "Dzień Wyboru",
+  "act": "Akt I: Redmont",
+  "order": 1,
+  "advancement": "misje/dzien_wyboru",
+  "description": "Piętnaście lat temu baron Arald przyjął pod opiekę garstkę sierot. Dziś, w Dzień Wyboru, każdy z podopiecznych zamku Redmont dowie się, który z mistrzów przyjmie go na ucznia. Will od zawsze marzy o Szkole Rycerskiej - tylko że jest najdrobniejszy z całej gromadki.",
+  "stages": [
+    {
+      "objective": {"type": "talk", "npc": "baron_arald"},
+      "text": "Porozmawiaj z baronem Araldem na dziedzińcu zamku",
+      "location": "redmont:baron_arald"
+    },
+    {
+      "objective": {"type": "talk", "npc": "sir_rodney"},
+      "text": "Zgłoś się do Sir Rodneya, mistrza Szkoły Rycerskiej",
+      "location": "redmont:sir_rodney"
+    },
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Porozmawiaj z milczącym mężczyzną w szarozielonym płaszczu",
+      "location": "redmont:halt"
+    },
+    {
+      "objective": {"type": "talk", "npc": "baron_arald"},
+      "text": "Wróć do barona Aralda",
+      "location": "redmont:baron_arald"
+    }
+  ],
+  "on_complete": [
+    {"type": "start_quest", "quest": "nocna_wspinaczka"}
+  ]
+}

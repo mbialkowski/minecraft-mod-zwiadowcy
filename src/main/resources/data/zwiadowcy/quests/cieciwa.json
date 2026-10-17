@@ -1,0 +1,37 @@
+{
+  "title": "Cięciwa i cierpliwość",
+  "act": "Akt II: Szkolenie",
+  "order": 4,
+  "advancement": "misje/cieciwa",
+  "description": "Zwiadowca bez łuku jest jak kucharz bez noża - niby może coś zrobić, ale nikt nie chce na to patrzeć. Halt ma dla Willa łuk i strzelnicę za chatą. I bardzo dużo strzał do wystrzelenia.",
+  "stages": [
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Porozmawiaj z Haltem o łuku",
+      "location": "chata_halta:halt"
+    },
+    {
+      "objective": {"type": "target_hits", "projectile": "arrow", "count": 5, "min_distance": 15},
+      "text": "Traf w tarczę 5 razy z co najmniej 15 kratek",
+      "location": "chata_halta:linia_strzalu"
+    },
+    {
+      "objective": {"type": "target_hits", "projectile": "arrow", "count": 5, "min_distance": 30},
+      "text": "Traf w tarczę 5 razy z co najmniej 30 kratek",
+      "location": "chata_halta:linia_strzalu"
+    },
+    {
+      "objective": {"type": "target_hits", "projectile": "arrow", "count": 3, "min_distance": 45},
+      "text": "Traf w tarczę 3 razy z co najmniej 45 kratek",
+      "location": "chata_halta:linia_strzalu"
+    },
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Wróć do Halta",
+      "location": "chata_halta:halt"
+    }
+  ],
+  "on_complete": [
+    {"type": "start_quest", "quest": "dwa_noze"}
+  ]
+}

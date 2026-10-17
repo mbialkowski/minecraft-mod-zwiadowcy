@@ -1,0 +1,47 @@
+{
+  "npc": "alda",
+  "entries": [
+    {"when": [{"quest_stage": "jarmark_w_wensley", "stage": 2}], "start": "jw_1"},
+    {"when": [{"quest_stage": "jarmark_w_wensley", "stage": 3}], "start": "jw_walka"},
+    {"when": [{"quest_completed": "jarmark_w_wensley"}], "start": "pokonany"},
+    {"when": [], "start": "domyslny"}
+  ],
+  "nodes": {
+    "domyslny": {
+      "text": "Czego chcesz, smarkaczu? Spadaj, zanim ci pomogę.",
+      "options": [{"text": "…"}]
+    },
+    "jw_1": {
+      "text": "Patrzcie, kto przyszedł! Mały zwiadowca. Przyprowadziłeś niańkę, Horace? Taką malutką?",
+      "options": [
+        {"text": "Zostawcie Horace'a w spokoju.", "next": "jw_2"},
+        {"text": "Trzech na jednego. Bardzo rycersko.", "next": "jw_2"}
+      ]
+    },
+    "jw_2": {
+      "speaker": "bryn",
+      "text": "A jak nie, to co? Strzelisz do nas z tego łuczku?",
+      "options": [
+        {"text": "Nie potrzebuję łuku. Wystarczą pięści.", "next": "jw_3"}
+      ]
+    },
+    "jw_3": {
+      "text": "Ha! Słyszeliście? Dobra, mały. Sam tego chciałeś. Chłopaki - bierzemy go!",
+      "options": [{"text": "Dawajcie.", "actions": [
+        {"type": "npc_mode", "npc": "alda", "mode": "duel"},
+        {"type": "npc_mode", "npc": "bryn", "mode": "duel"},
+        {"type": "npc_mode", "npc": "jerome", "mode": "duel"},
+        {"type": "advance", "quest": "jarmark_w_wensley", "stage": 2},
+        {"type": "actionbar", "text": "Bójka! Nie zabijaj - wystarczy, że się poddadzą."}
+      ]}]
+    },
+    "jw_walka": {
+      "text": "Już dobrze, dobrze… dość. Nie bij.",
+      "options": [{"text": "…"}]
+    },
+    "pokonany": {
+      "text": "Czego jeszcze chcesz? Dajemy mu spokój, słowo. Tylko nie mów Rodneyowi…",
+      "options": [{"text": "Trzymam was za słowo."}]
+    }
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "structures": [{"structure": "zwiadowcy:kamienny_krag", "weight": 1}],
+  "placement": {"type": "minecraft:random_spread", "exclusion_zone": {"other_set": "zwiadowcy:legowisko_niedzwiedzia", "chunk_count": 4}, "spacing": 44, "separation": 16, "salt": 81723007}
+}

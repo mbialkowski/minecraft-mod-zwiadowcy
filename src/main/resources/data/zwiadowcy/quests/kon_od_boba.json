@@ -1,0 +1,40 @@
+{
+  "title": "Koń od Starego Boba",
+  "act": "Akt II: Szkolenie",
+  "order": 7,
+  "advancement": "misje/kon_od_boba",
+  "description": "Konie zwiadowców wyglądają jak kudłate kuce, a potrafią galopować dzień i noc. Stary Bob, który je hoduje, ma dla Willa jednego takiego. Problem w tym, że ten koń sam wybiera, kto może go dosiąść.",
+  "stages": [
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Porozmawiaj z Haltem",
+      "location": "chata_halta:halt"
+    },
+    {
+      "objective": {"type": "reach", "location": "stajnia_boba:stajnia", "radius": 8},
+      "text": "Udaj się na farmę Starego Boba (na południe od chaty)"
+    },
+    {
+      "objective": {"type": "talk", "npc": "stary_bob"},
+      "text": "Porozmawiaj ze Starym Bobem",
+      "location": "stajnia_boba:stary_bob"
+    },
+    {
+      "objective": {"type": "event", "id": "wyrwij_oswojony"},
+      "text": "Podejdź do Wyrwija i grzecznie poproś go o pozwolenie",
+      "location": "stajnia_boba:wyrwij"
+    },
+    {
+      "objective": {"type": "reach", "location": "chata_halta:chata", "radius": 8, "riding": "wyrwij"},
+      "text": "Wróć do chaty Halta na grzbiecie Wyrwija"
+    },
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Pokaż się Haltowi",
+      "location": "chata_halta:halt"
+    }
+  ],
+  "on_complete": [
+    {"type": "start_quest", "quest": "polowanie_na_dzika"}
+  ]
+}

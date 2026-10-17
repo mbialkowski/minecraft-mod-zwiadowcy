@@ -1,0 +1,42 @@
+{
+  "title": "Chata w lesie",
+  "act": "Akt I: Redmont",
+  "order": 3,
+  "advancement": "misje/chata_w_lesie",
+  "description": "Uczeń zwiadowcy nie mieszka w zamku. Halt ma chatę na skraju lasu, na wschód od Redmont - i bardzo konkretne wyobrażenie o tym, jak powinien zaczynać się każdy dzień.",
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "chata_halta:chata", "radius": 6},
+      "text": "Udaj się do chaty Halta w lesie na wschód od zamku"
+    },
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Porozmawiaj z Haltem",
+      "location": "chata_halta:halt"
+    },
+    {
+      "objective": {"type": "collect", "item": "#minecraft:logs", "count": 16},
+      "text": "Narąb drewna na opał",
+      "location": "chata_halta:chata"
+    },
+    {
+      "objective": {"type": "collect", "item": "minecraft:water_bucket"},
+      "text": "Przynieś wiadro wody (puste wiadro jest w skrzyni w chacie)",
+      "location": "chata_halta:chata"
+    },
+    {
+      "objective": {"type": "collect", "item": "zwiadowcy:kawa_zwiadowcy"},
+      "text": "Zaparz kawę z miodem: palone ziarna + butelka miodu + wiadro wody + 2 szklane butelki",
+      "location": "chata_halta:chata"
+    },
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Zanieś kawę Haltowi",
+      "location": "chata_halta:halt"
+    }
+  ],
+  "on_complete": [
+    {"type": "give_item", "item": "zwiadowcy:racje_podrozne", "count": 6},
+    {"type": "start_quest", "quest": "cieciwa"}
+  ]
+}

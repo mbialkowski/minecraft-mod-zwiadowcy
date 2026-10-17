@@ -1,0 +1,1 @@
+{"parent":"zwiadowcy:misje/rownina_samotnosci","display":{"icon":{"item":"zwiadowcy:strzala_plonaca"},"title":{"text":"Ogień w ciemności"},"description":{"text":"Pokonaj Kalkarów Morgaratha"},"frame":"challenge","show_toast":true,"announce_to_chat":false,"hidden":false},"criteria":{"done":{"trigger":"minecraft:impossible"}}}

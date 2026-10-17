@@ -1,0 +1,1 @@
+{"parent":"zwiadowcy:misje/dwa_noze","display":{"icon":{"item":"zwiadowcy:plaszcz_zwiadowcy"},"title":{"text":"Niewidzialny"},"description":{"text":"Podkradnij się do Halta tak, by cię nie zauważył"},"frame":"goal","show_toast":true,"announce_to_chat":false,"hidden":false},"criteria":{"done":{"trigger":"minecraft:impossible"}}}

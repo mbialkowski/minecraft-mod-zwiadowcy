@@ -1,0 +1,51 @@
+{
+  "npc": "wyrwij",
+  "entries": [
+    {"when": [{"quest_stage": "kon_od_boba", "stage": 3}], "start": "proba"},
+    {"when": [{"quest_completed": "kon_od_boba"}], "start": "oswojony"},
+    {"when": [{"quest_stage": "kon_od_boba", "stage_min": 4}], "start": "oswojony"},
+    {"when": [], "start": "nieufny"}
+  ],
+  "nodes": {
+    "nieufny": {
+      "speaker": "wyrwij",
+      "text": "Kudłaty kuc mierzy cię podejrzliwym spojrzeniem spod grzywy i parska. Nie da się dosiąść byle komu.",
+      "options": [{"text": "Dobra, dobra…"}]
+    },
+    "proba": {
+      "speaker": "wyrwij",
+      "text": "Wyrwij przestaje skubać trawę i patrzy na ciebie spod gęstej grzywy. Stary Bob mówił, żeby zapytać go grzecznie…",
+      "options": [
+        {"text": "Hop na grzbiet, koniku!", "next": "zle_1"},
+        {"text": "Dobry konik… Masz, jabłko.", "next": "zle_2"},
+        {"text": "Wio! Ruszaj!", "next": "zle_3"},
+        {"text": "Czy pozwolisz, że cię dosiądę?", "next": "dobrze", "actions": [{"type": "bond_tug"}]}
+      ]
+    },
+    "zle_1": {
+      "speaker": "wyrwij",
+      "text": "Ledwie zarzucasz nogę, Wyrwij robi zgrabny unik. Lądujesz w trawie. Koń parska - chyba się śmieje.",
+      "options": [{"text": "Spróbuję jeszcze raz…", "next": "proba"}]
+    },
+    "zle_2": {
+      "speaker": "wyrwij",
+      "text": "Wyrwij z godnością zjada jabłko… i nadal nie pozwala się dosiąść. Sprytna bestia.",
+      "options": [{"text": "Hm. Spróbuję inaczej.", "next": "proba"}]
+    },
+    "zle_3": {
+      "speaker": "wyrwij",
+      "text": "Wyrwij odwraca się do ciebie zadem. Wymownie.",
+      "options": [{"text": "No dobrze, dobrze…", "next": "proba"}]
+    },
+    "dobrze": {
+      "speaker": "wyrwij",
+      "text": "Wyrwij przez długą chwilę patrzy ci w oczy. Potem spokojnie podchodzi i nadstawia bok.\nUdało się! Od teraz Wyrwij jest twoim koniem.",
+      "options": [{"text": "Ruszajmy, przyjacielu."}]
+    },
+    "oswojony": {
+      "speaker": "wyrwij",
+      "text": "Wyrwij trąca cię nosem w ramię, szukając jabłka. Strzyże uszami, gotów do drogi.",
+      "options": [{"text": "Dobry koń."}]
+    }
+  }
+}

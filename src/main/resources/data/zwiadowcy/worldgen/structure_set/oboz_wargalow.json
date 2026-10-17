@@ -1,0 +1,4 @@
+{
+  "structures": [{"structure": "zwiadowcy:oboz_wargalow", "weight": 1}],
+  "placement": {"type": "minecraft:random_spread", "exclusion_zone": {"other_set": "zwiadowcy:posterunek_morgaratha", "chunk_count": 4}, "spacing": 34, "separation": 12, "salt": 81723001}
+}

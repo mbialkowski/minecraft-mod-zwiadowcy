@@ -1,0 +1,55 @@
+{
+  "title": "Ogień w ciemności",
+  "act": "Akt III: Cień Morgaratha",
+  "order": 13,
+  "advancement": "misje/ogien_w_ciemnosci",
+  "description": "Kalkarowie polują nocą. Zwykła strzała ledwie ich draśnie, a ich spojrzenie potrafi sparaliżować najdzielniejszego rycerza. Ale Halt wie, czego się boją: ognia.",
+  "stages": [
+    {
+      "objective": {"type": "night"},
+      "text": "Zaczekaj do zmroku - Kalkarowie polują nocą",
+      "location": "ruiny_gorlanu:halt"
+    },
+    {
+      "objective": {"type": "reach", "location": "ruiny_gorlanu:arena", "radius": 7},
+      "text": "Wejdź na dziedziniec w sercu ruin",
+      "on_complete": [
+        {"type": "npc_mode", "npc": "halt", "mode": "companion"},
+        {"type": "move_npc", "npc": "horace", "to": "ruiny_gorlanu:horace", "mode": "companion", "when": [{"flag": "horace_przyjaciel"}]},
+        {"type": "message", "speaker": "Horace", "text": "Nie myślałeś chyba, że puszczę cię samego?", "when": [{"flag": "horace_przyjaciel"}]},
+        {"type": "spawn", "entity": "zwiadowcy:kalkar", "at": "ruiny_gorlanu:kalkar_1", "face": "ruiny_gorlanu:arena"},
+        {"type": "title", "title": "Kalkar!", "subtitle": "Nie patrz mu w oczy. Ogień to jego słabość!"}
+      ]
+    },
+    {
+      "objective": {"type": "kill", "entity": "zwiadowcy:kalkar", "count": 2, "tagged": true},
+      "text": "Pokonaj Kalkarów - płonące strzały i olej!",
+      "location": "ruiny_gorlanu:arena",
+      "triggers": {
+        "kalkar_polowa": [
+          {"type": "spawn", "entity": "zwiadowcy:kalkar", "at": "ruiny_gorlanu:kalkar_2", "face": "ruiny_gorlanu:arena"},
+          {"type": "npc_mode", "npc": "halt", "mode": "wounded"},
+          {"type": "title", "title": "Halt jest ranny!", "subtitle": "Z ciemności wyłania się drugi Kalkar…"},
+          {"type": "message", "speaker": "Halt", "text": "Will… olej… podpal go…"}
+        ]
+      },
+      "on_complete": [
+        {"type": "npc_mode", "npc": "horace", "mode": "idle", "when": [{"flag": "horace_przyjaciel"}]}
+      ]
+    },
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Sprawdź, co z Haltem",
+      "location": "ruiny_gorlanu:arena"
+    }
+  ],
+  "on_complete": [
+    {"type": "move_npc", "npc": "halt", "to": "redmont:halt_ceremonia", "face": "redmont:krol"},
+    {"type": "move_npc", "npc": "baron_arald", "to": "redmont:baron_ceremonia", "face": "redmont:ceremonia"},
+    {"type": "move_npc", "npc": "sir_rodney", "to": "redmont:rodney_ceremonia", "face": "redmont:ceremonia"},
+    {"type": "move_npc", "npc": "gilan", "to": "redmont:gilan_ceremonia", "face": "redmont:ceremonia"},
+    {"type": "move_npc", "npc": "krol_duncan", "to": "redmont:krol", "face": "redmont:ceremonia"},
+    {"type": "move_npc", "npc": "horace", "to": "redmont:horace"},
+    {"type": "start_quest", "quest": "przed_obliczem_krola"}
+  ]
+}

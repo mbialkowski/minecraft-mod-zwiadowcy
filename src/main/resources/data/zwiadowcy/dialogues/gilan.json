@@ -1,0 +1,68 @@
+{
+  "npc": "gilan",
+  "entries": [
+    {"when": [{"quest_stage": "zlot_zwiadowcow", "stage": 3}], "start": "zl_1"},
+    {"when": [{"quest_stage": "zlot_zwiadowcow", "stage": 4}], "start": "zl_trwa"},
+    {"when": [{"quest_stage": "zlot_zwiadowcow", "stage": 5}], "start": "zl_wygrana"},
+    {"when": [{"quest_active": "zlot_zwiadowcow"}], "start": "zl_ogolne"},
+    {"when": [{"quest_active": "tropem_bestii"}], "start": "tb"},
+    {"when": [{"quest_stage": "rownina_samotnosci", "stage": 4}], "start": "rs_krol"},
+    {"when": [{"quest_active": "rownina_samotnosci"}], "start": "rs_trwa"},
+    {"when": [{"quest_active": "przed_obliczem_krola"}], "start": "po"},
+    {"when": [{"flag": "kampania_ukonczona"}], "start": "bohater"},
+    {"when": [], "start": "domyslny"}
+  ],
+  "nodes": {
+    "domyslny": {
+      "text": "Gilan, zwiadowca. A ty pewnie jesteś tym nowym uczniem Halta? Współczuję. I zazdroszczę.",
+      "options": [{"text": "Dzięki… chyba."}]
+    },
+    "zl_ogolne": {
+      "text": "Crowley jest w namiocie dowództwa. On tu wszystkim rządzi - choć udaje, że nie.",
+      "options": [{"text": "Dzięki."}]
+    },
+    "zl_1": {
+      "text": "Więc to ty jesteś uczniem Halta! Byłem nim przed tobą. Czy on nadal mówi „Hm” na każde pytanie?",
+      "options": [{"text": "Ciągle.", "next": "zl_2"}]
+    },
+    "zl_2": {
+      "text": "Wiedziałem! No dobrze, pora na konkurs. Zasady są proste: sześć trafień w tarczę z co najmniej czterdziestu kroków. Linia strzału jest przy tamtym słupku.\nJa już oddałem swoje. Dziewięć na dziewięć. Bez presji.",
+      "options": [{"text": "Bez presji. Jasne.", "actions": [{"type": "advance", "quest": "zlot_zwiadowcow", "stage": 3}]}]
+    },
+    "zl_trwa": {
+      "text": "Pamiętaj o wietrze. I nie słuchaj tych starych zrzęd przy ognisku - zawsze komentują.",
+      "options": [{"text": "Dzięki."}]
+    },
+    "zl_wygrana": {
+      "text": "Nieźle! Naprawdę nieźle. Nie pokonałeś mnie, ale pokonałeś wszystkich innych uczniów, a niektórzy szkolą się dwa lata dłużej.\nStrzała Zlotu jest twoja. Tylko nie mów Haltowi, że byłem pod wrażeniem. Będzie nieznośny.",
+      "options": [{"text": "Dziękuję, Gilan!", "actions": [
+        {"type": "give_item", "item": "zwiadowcy:strzala_zlotu"},
+        {"type": "advance", "quest": "zlot_zwiadowcow", "stage": 5}
+      ]}]
+    },
+    "tb": {
+      "text": "Kalkarowie… Mój mistrz szermierki mówił, że to tylko bajki dla dzieci. Teraz już wiem, czemu Halt nigdy się z nich nie śmiał.",
+      "options": [{"text": "Bądź ostrożny, Gilan."}]
+    },
+    "rs_trwa": {
+      "text": "Uważaj na wartowników. Wargalowie mają słaby wzrok, ale świetny węch. Trzymaj się pod wiatr.",
+      "options": [{"text": "Dobrze."}]
+    },
+    "rs_krol": {
+      "text": "Znalazłeś coś? Fragment z herbem Gorlanu… Halt miał rację.\nPosłuchaj, Will. Halt wysyła mnie do króla Duncana. Jeśli Kalkarowie zabili Northolta, król musi wiedzieć, i to szybko. Wy zostajecie. Uważaj na siebie - i na niego. Halt będzie udawał, że się nie boi.",
+      "options": [{"text": "Jedź bezpiecznie, Gilan.", "actions": [
+        {"type": "advance", "quest": "rownina_samotnosci", "stage": 4},
+        {"type": "despawn_npc", "npc": "gilan"},
+        {"type": "message", "text": "Gilan dosiada konia i znika w zmierzchu, pędząc na zachód."}
+      ]}]
+    },
+    "po": {
+      "text": "Dojechałem do króla w półtora dnia. Nigdy w życiu nie jechałem tak szybko. A ty w tym czasie zabiłeś Kalkara. Coś mi mówi, że Halt wybrał dobrze.",
+      "options": [{"text": "Miałem szczęście."}]
+    },
+    "bohater": {
+      "text": "Mówią o tobie na każdym zamku w królestwie. Przyzwyczajaj się - i nie daj sobie zawrócić w głowie.",
+      "options": [{"text": "Postaram się."}]
+    }
+  }
+}

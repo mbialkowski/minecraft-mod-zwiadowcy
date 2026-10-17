@@ -1,0 +1,22 @@
+{
+  "npc": "bryn",
+  "entries": [
+    {"when": [{"quest_completed": "jarmark_w_wensley"}], "start": "pokonany"},
+    {"when": [{"quest_active": "jarmark_w_wensley"}], "start": "jw"},
+    {"when": [], "start": "domyslny"}
+  ],
+  "nodes": {
+    "domyslny": {
+      "text": "Hę? Czego się gapisz?",
+      "options": [{"text": "Na nic."}]
+    },
+    "jw": {
+      "text": "Gadaj z Aldą. On tu rządzi.",
+      "options": [{"text": "Dobrze."}]
+    },
+    "pokonany": {
+      "text": "Dobra, dobra, już nic nie robimy. Spokojnie.",
+      "options": [{"text": "Mam nadzieję."}]
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "zwiadowcy:pogorze_deszczu_i_nocy",
+    "zwiadowcy:szczyty_deszczu_i_nocy",
+    "zwiadowcy:rownina_samotnosci"
+  ]
+}

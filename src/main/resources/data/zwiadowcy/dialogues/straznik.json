@@ -1,0 +1,22 @@
+{
+  "npc": "straznik",
+  "entries": [
+    {"when": [{"night": true}], "start": "noc"},
+    {"when": [{"flag": "kampania_ukonczona"}], "start": "bohater"},
+    {"when": [], "start": "dzien"}
+  ],
+  "nodes": {
+    "noc": {
+      "text": "Hej, młody! Nocą nie wolno kręcić się po dziedzińcu. Do łóżka, zanim zawołam sierżanta.",
+      "options": [{"text": "Już idę…"}]
+    },
+    "dzien": {
+      "text": "Wszystko spokojnie. Na murach cicho, w bramie cicho. Tak lubię.",
+      "options": [{"text": "Dobrej służby."}]
+    },
+    "bohater": {
+      "text": "To ty jesteś tym chłopakiem od Kalkarów? Mój szwagier mówi, że miały po trzy łby. Miały?",
+      "options": [{"text": "Jeden w zupełności wystarczył."}]
+    }
+  }
+}

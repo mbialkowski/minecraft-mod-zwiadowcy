@@ -1,0 +1,1 @@
+{"parent":"zwiadowcy:misje/polowanie_na_dzika","display":{"icon":{"item":"minecraft:shield"},"title":{"text":"Przyjaciel w potrzebie"},"description":{"text":"Pomóż Horace'owi rozprawić się z dręczycielami"},"frame":"task","show_toast":true,"announce_to_chat":false,"hidden":false},"criteria":{"done":{"trigger":"minecraft:impossible"}}}

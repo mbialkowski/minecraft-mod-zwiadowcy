@@ -1,0 +1,82 @@
+{
+  "npc": "horace",
+  "entries": [
+    {"when": [{"quest_active": "dzien_wyboru"}], "start": "dw"},
+    {"when": [{"quest_stage": "polowanie_na_dzika", "stage": 4}], "start": "pd_dzieki"},
+    {"when": [{"quest_active": "polowanie_na_dzika"}], "start": "pd_trwa"},
+    {"when": [{"quest_stage": "jarmark_w_wensley", "stage": 1}], "start": "jw_1"},
+    {"when": [{"quest_stage": "jarmark_w_wensley", "stage": 4}], "start": "jw_koniec"},
+    {"when": [{"quest_active": "jarmark_w_wensley"}], "start": "jw_trwa"},
+    {"when": [{"quest_completed": "polowanie_na_dzika"}, {"quest_not_started": "jarmark_w_wensley"}], "start": "jw_oferta"},
+    {"when": [{"quest_active": "ogien_w_ciemnosci"}, {"flag": "horace_przyjaciel"}], "start": "og"},
+    {"when": [{"flag": "kampania_ukonczona"}], "start": "bohater"},
+    {"when": [{"quest_completed": "polowanie_na_dzika"}], "start": "przyjaciel"},
+    {"when": [], "start": "domyslny"}
+  ],
+  "nodes": {
+    "dw": {
+      "text": "Rodney mnie przyjął! Do Szkoły Rycerskiej! A ty co, kurduplu? Pewnie będziesz obierał ziemniaki u Chubba, ha!",
+      "options": [{"text": "Zobaczymy, Horace."}]
+    },
+    "domyslny": {
+      "text": "Czego? Nie mam czasu na pogaduszki z uczniem zwiadowcy. Mam trening.",
+      "options": [{"text": "Jak chcesz."}]
+    },
+    "pd_trwa": {
+      "text": "Ja się nie boję dzików! Po prostu… trzymaj się z boku, Will. Na wszelki wypadek.",
+      "options": [{"text": "Jasne."}]
+    },
+    "pd_dzieki": {
+      "text": "Will… ten odyniec prawie mnie dopadł. Widziałem już jego kły tuż przed sobą. Gdyby nie twoja strzała…\nDziękuję. Chyba źle cię oceniałem. Byłem dla ciebie… paskudny.",
+      "options": [
+        {"text": "Daj spokój. Zrobiłbyś to samo.", "next": "pd_dzieki_2"},
+        {"text": "Byłeś. Ale przeprosiny przyjęte.", "next": "pd_dzieki_2"}
+      ]
+    },
+    "pd_dzieki_2": {
+      "text": "Weź kieł tego potwora. Należy ci się. I… gdybyś kiedyś potrzebował miecza po swojej stronie - jestem.",
+      "options": [{"text": "Zapamiętam.", "actions": [
+        {"type": "give_item", "item": "zwiadowcy:kiel_dzika"},
+        {"type": "advance", "quest": "polowanie_na_dzika", "stage": 4}
+      ]}]
+    },
+    "jw_oferta": {
+      "text": "Will… mogę cię o coś poprosić? Ale nikomu ani słowa.",
+      "options": [
+        {"text": "Mów, co się dzieje.", "next": "jw_oferta_2"},
+        {"text": "Nie teraz, Horace."}
+      ]
+    },
+    "jw_oferta_2": {
+      "text": "Trzech starszych uczniów - Alda, Bryn i Jerome. Od pierwszego dnia nie dają mi żyć. Biją, kiedy nikt nie patrzy, zabierają jedzenie, wrzucają moje rzeczy do fosy. Jeśli się poskarżę, wyjdę na mięczaka.\nDziś będą na jarmarku w Wensley. Pójdziesz ze mną?",
+      "options": [
+        {"text": "Pewnie, że pójdę.", "actions": [{"type": "start_quest", "quest": "jarmark_w_wensley"}]},
+        {"text": "Muszę się zastanowić."}
+      ]
+    },
+    "jw_1": {
+      "text": "Przyszedłeś! Są tam, w zaułku za karczmą. Śmieją się ze mnie, słyszysz?\nNie chcę nikogo zabijać, Will. Chcę tylko, żeby przestali.",
+      "options": [{"text": "Załatwimy to po rycersku. Uczciwie.", "actions": [{"type": "advance", "quest": "jarmark_w_wensley", "stage": 1}]}]
+    },
+    "jw_trwa": {
+      "text": "Uważaj na Aldę - jest najsilniejszy. Bryn kopie, kiedy się nie patrzysz.",
+      "options": [{"text": "Dzięki."}]
+    },
+    "jw_koniec": {
+      "text": "Widziałem to! Uciekali jak zmoczone koty! Will, nie wiem, jak ci dziękować.\nWeź moją tarczę. Ja dostanę nową w zbrojowni, a tobie się przyda. I wiesz co? Od dziś jesteśmy przyjaciółmi. Prawdziwymi.",
+      "options": [{"text": "Przyjaciółmi.", "actions": [{"type": "advance", "quest": "jarmark_w_wensley", "stage": 4}]}]
+    },
+    "og": {
+      "text": "Gilan przyjechał do zamku i powiedział, gdzie jesteście. Myślałeś, że zostawię cię samego z tymi bestiami? Prowadź!",
+      "options": [{"text": "Dobrze cię widzieć, Horace."}]
+    },
+    "przyjaciel": {
+      "text": "Will! Rodney dziś mówił, że jestem najlepszym szermierzem w swoim roczniku. Ale nie mów nikomu, że to powiedziałem, bo pomyślą, że się przechwalam.",
+      "options": [{"text": "Twoja tajemnica jest bezpieczna."}]
+    },
+    "bohater": {
+      "text": "Pogromca Kalkarów i jego wierny przyjaciel! Kiedyś będą o nas śpiewać pieśni, zobaczysz.",
+      "options": [{"text": "Byle nie fałszowali."}]
+    }
+  }
+}

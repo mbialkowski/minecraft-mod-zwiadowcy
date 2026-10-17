@@ -1,0 +1,22 @@
+{
+  "npc": "jenny",
+  "entries": [
+    {"when": [{"quest_active": "dzien_wyboru"}], "start": "dw"},
+    {"when": [{"flag": "kampania_ukonczona"}], "start": "bohater"},
+    {"when": [], "start": "domyslny"}
+  ],
+  "nodes": {
+    "dw": {
+      "text": "Mistrz Chubb mnie przyjął! Będę gotować dla całego zamku! Wpadnij kiedyś do kuchni, Will - zawsze znajdzie się dla ciebie coś słodkiego. Tylko nie zabieraj już ciast z parapetu, dobrze?",
+      "options": [{"text": "Obiecuję. Prawie."}]
+    },
+    "bohater": {
+      "text": "Upiekłam dla ciebie placek dyniowy! Mistrz Chubb mówi, że bohaterowie powinni dobrze jeść.",
+      "options": [{"text": "Dziękuję, Jenny!", "actions": [{"type": "give_item", "item": "minecraft:pumpkin_pie", "count": 1, "when": [{"not_flag": "placek_jenny"}]}, {"type": "set_flag", "flag": "placek_jenny"}]}]
+    },
+    "domyslny": {
+      "text": "Cześć, Will! Głodny? Ja zawsze coś mam.",
+      "options": [{"text": "Zawsze jestem głodny."}]
+    }
+  }
+}

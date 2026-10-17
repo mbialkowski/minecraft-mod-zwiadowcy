@@ -1,0 +1,1 @@
+{"parent":"zwiadowcy:misje/chata_w_lesie","display":{"icon":{"item":"zwiadowcy:luk_zwiadowcy"},"title":{"text":"Cięciwa i cierpliwość"},"description":{"text":"Traf w tarczę z czterdziestu pięciu kroków"},"frame":"task","show_toast":true,"announce_to_chat":false,"hidden":false},"criteria":{"done":{"trigger":"minecraft:impossible"}}}

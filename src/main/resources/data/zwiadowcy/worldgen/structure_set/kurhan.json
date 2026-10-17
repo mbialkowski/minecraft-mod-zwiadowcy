@@ -1,0 +1,4 @@
+{
+  "structures": [{"structure": "zwiadowcy:kurhan", "weight": 1}],
+  "placement": {"type": "minecraft:random_spread", "exclusion_zone": {"other_set": "zwiadowcy:straznica", "chunk_count": 4}, "spacing": 40, "separation": 14, "salt": 81723005}
+}

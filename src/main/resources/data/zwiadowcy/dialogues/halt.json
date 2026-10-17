@@ -1,0 +1,347 @@
+{
+  "npc": "halt",
+  "entries": [
+    {"when": [{"quest_stage": "dzien_wyboru", "stage": 2}], "start": "dw_1"},
+    {"when": [{"quest_active": "dzien_wyboru"}], "start": "dw_wczesnie"},
+    {"when": [{"quest_stage": "nocna_wspinaczka", "stage": 3}], "start": "nw_1"},
+    {"when": [{"quest_active": "nocna_wspinaczka"}], "start": "nw_wczesnie"},
+    {"when": [{"quest_stage": "chata_w_lesie", "stage": 1}], "start": "cl_1"},
+    {"when": [{"quest_stage": "chata_w_lesie", "stage": 5}], "start": "cl_kawa"},
+    {"when": [{"quest_active": "chata_w_lesie"}], "start": "cl_praca"},
+    {"when": [{"quest_stage": "cieciwa", "stage": 0}], "start": "ci_1"},
+    {"when": [{"quest_stage": "cieciwa", "stage": 4}], "start": "ci_koniec"},
+    {"when": [{"quest_active": "cieciwa"}], "start": "ci_trwa"},
+    {"when": [{"quest_stage": "dwa_noze", "stage": 0}], "start": "dn_1"},
+    {"when": [{"quest_stage": "dwa_noze", "stage": 3}], "start": "dn_koniec"},
+    {"when": [{"quest_active": "dwa_noze"}], "start": "dn_trwa"},
+    {"when": [{"quest_stage": "lekcja_bezruchu", "stage": 0}], "start": "lb_1"},
+    {"when": [{"quest_stage": "lekcja_bezruchu", "stage": 1}], "start": "lb_trwa"},
+    {"when": [{"quest_stage": "lekcja_bezruchu", "stage": 2}], "start": "lb_koniec"},
+    {"when": [{"quest_stage": "kon_od_boba", "stage": 0}], "start": "kb_1"},
+    {"when": [{"quest_stage": "kon_od_boba", "stage": 5}], "start": "kb_koniec"},
+    {"when": [{"quest_active": "kon_od_boba"}], "start": "kb_trwa"},
+    {"when": [{"quest_stage": "polowanie_na_dzika", "stage": 0}], "start": "pd_1"},
+    {"when": [{"quest_active": "polowanie_na_dzika"}], "start": "pd_trwa"},
+    {"when": [{"quest_stage": "zlot_zwiadowcow", "stage": 0}], "start": "zl_1"},
+    {"when": [{"quest_active": "zlot_zwiadowcow"}], "start": "zl_trwa"},
+    {"when": [{"quest_stage": "tropem_bestii", "stage": 0}], "start": "tb_1"},
+    {"when": [{"quest_stage": "tropem_bestii", "stage": 5}], "start": "tb_znak"},
+    {"when": [{"quest_active": "tropem_bestii"}], "start": "tb_trwa"},
+    {"when": [{"quest_stage": "rownina_samotnosci", "stage": 1}], "start": "rs_1"},
+    {"when": [{"quest_stage": "rownina_samotnosci", "stage": 5}], "start": "rs_ogien"},
+    {"when": [{"quest_active": "rownina_samotnosci"}], "start": "rs_trwa"},
+    {"when": [{"quest_stage": "ogien_w_ciemnosci", "stage": 3}], "start": "og_ranny"},
+    {"when": [{"quest_stage": "ogien_w_ciemnosci", "stage": 2}], "start": "og_walka"},
+    {"when": [{"quest_active": "ogien_w_ciemnosci"}], "start": "og_trwa"},
+    {"when": [{"quest_stage": "przed_obliczem_krola", "stage": 2}], "start": "po_koniec"},
+    {"when": [{"quest_active": "przed_obliczem_krola"}], "start": "po_trwa"},
+    {"when": [{"flag": "kampania_ukonczona"}], "start": "zlecenia"},
+    {"when": [], "start": "domyslny"}
+  ],
+  "nodes": {
+    "dw_wczesnie": {
+      "text": "Hm. Baron cię szuka. Zwykle ludzie, których szuka baron, nie stoją i nie gapią się na obcych.",
+      "options": [{"text": "Już idę!"}]
+    },
+    "dw_1": {
+      "text": "Rodney ci odmówił. Widziałem.\nWiesz, co jeszcze widziałem? Chłopca, który przedwczoraj wszedł po murze na dach zbrojowni. Bez liny. Wczoraj - na dach kuchni. Mistrz Chubb do dziś nie wie, kto podebrał mu ciasto.",
+      "options": [
+        {"text": "Skąd pan to wie?", "next": "dw_2"},
+        {"text": "To nie byłem ja.", "next": "dw_klamstwo"}
+      ]
+    },
+    "dw_klamstwo": {
+      "text": "Oczywiście. Ktoś inny, drobny, z twoimi butami i twoim upodobaniem do ciasta.",
+      "options": [{"text": "…Dobrze, to byłem ja. Skąd pan wie?", "next": "dw_2"}]
+    },
+    "dw_2": {
+      "text": "Patrzę. To moja praca.\nZalecenia wszystkich mistrzów leżą na biurku barona, w gabinecie na szczycie wieży. Baron ogłosi swoją decyzję jutro. Ciekawe, prawda? Bardzo ciekawe.",
+      "options": [
+        {"text": "Dlaczego mi pan to mówi?", "next": "dw_3"},
+        {"text": "Rozumiem.", "actions": [{"type": "advance", "quest": "dzien_wyboru", "stage": 2}]}
+      ]
+    },
+    "dw_3": {
+      "text": "Nie mówię. Stwierdzam fakt. Idź do barona, chłopcze.",
+      "options": [{"text": "…", "actions": [{"type": "advance", "quest": "dzien_wyboru", "stage": 2}]}]
+    },
+
+    "nw_wczesnie": {
+      "text": "Ładna noc. Dobra na spacery. Szczególnie takie, przy których nikt cię nie widzi.",
+      "options": [{"text": "Ja… tylko przechodziłem."}]
+    },
+    "nw_1": {
+      "text": "Długo ci to zajęło.",
+      "options": [
+        {"text": "Pan… był tu cały czas?", "next": "nw_2"},
+        {"text": "To nie tak, jak wygląda!", "next": "nw_2b"}
+      ]
+    },
+    "nw_2b": {
+      "text": "A jak wygląda? Jak uczeń z kuchni, który wspiął się nocą na wieżę barona, żeby przeczytać jego papiery? Bo tak to wygląda.",
+      "options": [{"text": "…No tak.", "next": "nw_2"}]
+    },
+    "nw_2": {
+      "text": "Większość czasu. Przyznaję, ostatni odcinek wspinaczki był całkiem przyzwoity. Trochę za głośno przy gzymsie.",
+      "options": [{"text": "A co z baronem?", "next": "nw_3"}]
+    },
+    "nw_3": {
+      "speaker": "baron_arald",
+      "text": "Baron stoi tutaj i dobrze się bawi, Willu. Halt poprosił mnie o pozwolenie, żeby sprawdzić cię w ten sposób. Zwiadowca potrzebuje ucznia, który umie być cichy, cierpliwy i… odrobinę niesforny.",
+      "options": [{"text": "Zwiadowca?", "next": "nw_4"}]
+    },
+    "nw_4": {
+      "text": "Papier, który trzymasz, to moja prośba o ciebie. Korpus Zwiadowców. Jeśli chcesz, od jutra jesteś moim uczniem. Jeśli nie - mistrz Chubb szuka pomocnika do zmywania.",
+      "options": [
+        {"text": "Chcę zostać zwiadowcą!", "next": "nw_5",
+          "actions": [
+            {"type": "take_item", "item": "zwiadowcy:dokument_barona"},
+            {"type": "give_item", "item": "zwiadowcy:brazowy_lisc_debu"}
+          ]},
+        {"text": "A czym właściwie zajmują się zwiadowcy?", "next": "nw_4b"}
+      ]
+    },
+    "nw_4b": {
+      "text": "Patrzą. Słuchają. Wiedzą, zanim inni się domyślą. I strzelają lepiej niż ktokolwiek w królestwie. Ludzie mówią, że uprawiamy czarną magię. Niech mówią.",
+      "options": [{"text": "Chcę zostać zwiadowcą!", "next": "nw_5",
+        "actions": [
+          {"type": "take_item", "item": "zwiadowcy:dokument_barona"},
+          {"type": "give_item", "item": "zwiadowcy:brazowy_lisc_debu"}
+        ]}]
+    },
+    "nw_5": {
+      "text": "Brązowy liść dębu. Znak ucznia. Nie zgub go.\nMoja chata stoi w lesie na wschód od zamku. Bądź tam rano. I Will? Następnym razem wytrzyj buty, zanim wejdziesz komuś przez okno.",
+      "options": [{"text": "Tak jest!", "actions": [{"type": "advance", "quest": "nocna_wspinaczka", "stage": 3}]}]
+    },
+
+    "cl_1": {
+      "text": "Jesteś. Dobrze.\nZwiadowca zaczyna dzień od trzech rzeczy: drewna, wody i kawy. W tej kolejności. Szesnaście bloków drewna, wiadro wody, kawa z miodem. Ziarna, miód i butelki są w skrzyni.",
+      "options": [
+        {"text": "Kawy?", "next": "cl_2"},
+        {"text": "Zabieram się do pracy.", "actions": [{"type": "advance", "quest": "chata_w_lesie", "stage": 1}]}
+      ]
+    },
+    "cl_2": {
+      "text": "Kawy. Napój zwiadowców. Gorzki, mocny, z łyżką miodu. Po pierwszym kubku zrozumiesz. Po drugim nie będziesz chciał niczego innego.",
+      "options": [{"text": "Zabieram się do pracy.", "actions": [{"type": "advance", "quest": "chata_w_lesie", "stage": 1}]}]
+    },
+    "cl_praca": {
+      "text": "Drewno, woda, kawa. Nie słyszę siekiery.",
+      "options": [{"text": "Już, już!"}]
+    },
+    "cl_kawa": {
+      "text": "No i?",
+      "options": [
+        {"text": "Proszę, kawa z miodem.", "when": [{"has_item": "zwiadowcy:kawa_zwiadowcy"}], "next": "cl_kawa_2",
+          "actions": [{"type": "take_item", "item": "zwiadowcy:kawa_zwiadowcy"}]},
+        {"text": "Jeszcze jej nie mam.", "when": [{"not_has_item": "zwiadowcy:kawa_zwiadowcy"}]}
+      ]
+    },
+    "cl_kawa_2": {
+      "text": "…Hm. Mocna. Z miodem.\nMoże jednak coś z ciebie będzie. Weź racje podróżne - jutro zaczynamy prawdziwą naukę.",
+      "options": [{"text": "Dziękuję!", "actions": [{"type": "advance", "quest": "chata_w_lesie", "stage": 5}]}]
+    },
+
+    "ci_1": {
+      "text": "Łuk zwiadowcy. Refleksyjny - krótszy niż długi łuk, a mocniejszy, niż wygląda. Napinasz go szybciej i strzelasz dalej. Do tego kołczan: włóż do niego różne strzały, a klawiszem R wybierzesz, którą chcesz wystrzelić.",
+      "options": [{"text": "Kiedy zaczynamy?", "next": "ci_2"}]
+    },
+    "ci_2": {
+      "text": "Już zaczęliśmy. Strzelnica jest za chatą. Tarcze stoją na dwudziestu, czterdziestu i sześćdziesięciu krokach. Pięć trafień z piętnastu kroków, pięć z trzydziestu, trzy z czterdziestu pięciu. Strzały są w kołczanie.",
+      "options": [{"text": "Trafię.", "actions": [
+        {"type": "give_item", "item": "zwiadowcy:luk_zwiadowcy"},
+        {"type": "give_item", "item": "zwiadowcy:kolczan"},
+        {"type": "give_item", "item": "minecraft:arrow", "count": 64},
+        {"type": "advance", "quest": "cieciwa", "stage": 0}
+      ]}]
+    },
+    "ci_trwa": {
+      "text": "Wdech. Napnij. Wydech. Puść. Nie myśl o celu - patrz na niego.",
+      "options": [{"text": "Wracam na strzelnicę."}]
+    },
+    "ci_koniec": {
+      "text": "Trafiłeś. Większość razy.\nZwiadowca wystrzeliwuje tysiące strzał, zanim nazwie się łucznikiem. Zostało ci jakieś… dziewięćdziesiąt dziewięć tysięcy dziewięćset. Ale to był dobry początek.",
+      "options": [{"text": "Dziękuję, Halt.", "actions": [{"type": "advance", "quest": "cieciwa", "stage": 4}]}]
+    },
+
+    "dn_1": {
+      "text": "Saksa. Ciężki nóż do walki wręcz - zatrzyma miecz, jeśli trzeba. I noże do rzucania, lżejsze, na kilka kroków. Zwiadowca nigdy nie ma tylko jednej broni.\nTarcze do noży stoją przy płocie, manekin przy drewutni.",
+      "options": [{"text": "Rozumiem.", "actions": [
+        {"type": "give_item", "item": "zwiadowcy:noz_saksonski"},
+        {"type": "give_item", "item": "zwiadowcy:noz_do_rzucania", "count": 8},
+        {"type": "advance", "quest": "dwa_noze", "stage": 0}
+      ]}]
+    },
+    "dn_trwa": {
+      "text": "Nóż rzuca się nadgarstkiem, nie ramieniem. I podnosi się go z ziemi, zanim ktoś na niego nadepnie.",
+      "options": [{"text": "Jasne."}]
+    },
+    "dn_koniec": {
+      "text": "Dobrze. Zapamiętaj: nóż to ostatnia linia obrony. Pierwszą jest to, żeby nikt cię nie zauważył. I o tym będzie następna lekcja.",
+      "options": [{"text": "Jestem gotów.", "actions": [{"type": "advance", "quest": "dwa_noze", "stage": 3}]}]
+    },
+
+    "lb_1": {
+      "text": "Płaszcz zwiadowcy. Nie jest magiczny, cokolwiek gadają w karczmach. Ukrywa, bo ma odpowiednie barwy - i bo zwiadowca wie, kiedy się nie ruszać.\nKucnij w trawie, w cieniu, w liściach. Bądź cierpliwy. A gdy naprawdę musisz zniknąć - Bezruch. Stań nieruchomo, a nikt cię nie zobaczy, dopóki nie drgniesz.",
+      "options": [{"text": "Jak mam to przećwiczyć?", "next": "lb_2"}]
+    },
+    "lb_2": {
+      "text": "Na mnie. Stanę na polanie i będę patrzył. Twoje zadanie: podejść za moje plecy tak, żebym cię nie zobaczył. Jeśli cię dostrzegę - wracasz na skraj lasu.",
+      "options": [{"text": "Zaczynajmy.", "actions": [
+        {"type": "give_item", "item": "zwiadowcy:plaszcz_zwiadowcy"},
+        {"type": "move_npc", "npc": "halt", "to": "chata_halta:halt_obserwuje", "mode": "sentry", "face": "chata_halta:start_bezruch"},
+        {"type": "advance", "quest": "lekcja_bezruchu", "stage": 0}
+      ]}]
+    },
+    "lb_trwa": {
+      "text": "Widzę cię. Gadający zwiadowca to martwy zwiadowca. Wracaj na skraj lasu.",
+      "options": [{"text": "Ups.", "actions": [{"type": "teleport", "to": "chata_halta:start_bezruch"}]}]
+    },
+    "lb_koniec": {
+      "text": "Hm.\nNawet nie usłyszałem, kiedy podszedłeś. No… prawie nie usłyszałem. Prawie.\nPłaszcz zostaje u ciebie. Zasłużyłeś.",
+      "options": [{"text": "Dziękuję, Halt.", "actions": [{"type": "advance", "quest": "lekcja_bezruchu", "stage": 2}]}]
+    },
+
+    "kb_1": {
+      "text": "Każdy zwiadowca ma konia. Nie byle jakiego - konia zwiadowcy. Wyglądają jak kudłate kuce, a biegną dzień i noc. Stary Bob hoduje je na farmie na południe stąd. Powiedz mu, że ja cię przysłałem.",
+      "options": [{"text": "Już jadę! To znaczy… idę.", "actions": [{"type": "advance", "quest": "kon_od_boba", "stage": 0}]}]
+    },
+    "kb_trwa": {
+      "text": "Bob nie gryzie. Koń może.",
+      "options": [{"text": "Dzięki za otuchę."}]
+    },
+    "kb_koniec": {
+      "text": "Widzę, że się dogadaliście. Wyrwij, tak? Pasuje do niego.\nWeź ten gwizdek. Gwizdniesz - przybiegnie, gdziekolwiek jesteś. Jeśli się zmęczy, wróci tutaj odpocząć. Dbaj o niego, a on zadba o ciebie.",
+      "options": [{"text": "Będę dbał.", "actions": [
+        {"type": "give_item", "item": "zwiadowcy:gwizdek"},
+        {"type": "advance", "quest": "kon_od_boba", "stage": 5}
+      ]}]
+    },
+
+    "pd_1": {
+      "text": "Baron urządza polowanie. W lasach na północnym wschodzie dziki poturbowały dwóch drwali. Jedziemy z baronem i jego podopiecznym ze Szkoły Rycerskiej - Horace'em.\nDzik szarżuje prosto na cel. Nie stój mu na drodze.",
+      "options": [{"text": "Jedziemy.", "actions": [
+        {"type": "move_npc", "npc": "baron_arald", "to": "legowisko_dzika:baron", "face": "legowisko_dzika:polana"},
+        {"type": "move_npc", "npc": "horace", "to": "legowisko_dzika:horace", "face": "legowisko_dzika:polana"},
+        {"type": "move_npc", "npc": "halt", "to": "legowisko_dzika:halt", "face": "legowisko_dzika:polana"},
+        {"type": "advance", "quest": "polowanie_na_dzika", "stage": 0}
+      ]}]
+    },
+    "pd_trwa": {
+      "text": "Strzelaj w bok, za łopatkę. I miej oko na tego wielkiego chłopaka - ma więcej odwagi niż rozsądku.",
+      "options": [{"text": "Dobrze."}]
+    },
+
+    "zl_1": {
+      "text": "Jesień. Czas na Zlot. Raz w roku zwiadowcy z całego królestwa spotykają się w obozie na północnym zachodzie. Pojedziesz ze mną. Poznasz Crowleya. I Gilana - był moim uczniem, zanim pojawiłeś się ty.\nI zabierz łuk. Będzie konkurs.",
+      "options": [{"text": "Konkurs? Świetnie!", "actions": [
+        {"type": "move_npc", "npc": "halt", "to": "oboz_zlotu:halt", "face": "oboz_zlotu:oboz"},
+        {"type": "advance", "quest": "zlot_zwiadowcow", "stage": 0}
+      ]}]
+    },
+    "zl_trwa": {
+      "text": "Nie przynoś mi wstydu. A jeśli już musisz - to przynajmniej celnie.",
+      "options": [{"text": "Postaram się."}]
+    },
+
+    "tb_1": {
+      "text": "Kalkarowie. Myślałem, że ostatni zginęli piętnaście lat temu, w wojnie z Morgarathem. Myliłem się.\nWeź zestaw tropiciela. Czytaj ślady: złamane gałęzie, odciski, zapach. Jedziemy do spalonej osady na wschodzie - tam ich widziano. Gilan jedzie z nami.",
+      "options": [{"text": "Jestem gotów.", "actions": [
+        {"type": "give_item", "item": "zwiadowcy:zestaw_tropiciela"},
+        {"type": "give_item", "item": "zwiadowcy:kawa_zwiadowcy", "count": 2},
+        {"type": "move_npc", "npc": "halt", "to": "spalona_osada:halt", "face": "spalona_osada:osada"},
+        {"type": "move_npc", "npc": "gilan", "to": "spalona_osada:gilan", "face": "spalona_osada:osada"},
+        {"type": "advance", "quest": "tropem_bestii", "stage": 0}
+      ]}]
+    },
+    "tb_trwa": {
+      "text": "Rozglądaj się. Ślady nie krzyczą. Szepczą.",
+      "options": [{"text": "Słucham."}]
+    },
+    "tb_znak": {
+      "text": "Pokaż.\n…Znak Morgaratha. Władca Deszczu i Nocy nie zapomniał o Araluenie. Wargalowie nie zapuszczają się tak daleko bez rozkazu.\nŚlady prowadzą na południowy wschód. Na Równinę Samotności. Do Ruin Gorlanu.",
+      "options": [{"text": "Gorlan?", "next": "tb_znak_2"}]
+    },
+    "tb_znak_2": {
+      "text": "Dawne lenno Morgaratha. Był tam baronem, zanim zdradził króla. Jeśli bestie gdzieś się ukrywają - to właśnie tam. Ruszamy.",
+      "options": [{"text": "Ruszamy.", "actions": [{"type": "advance", "quest": "tropem_bestii", "stage": 5}]}]
+    },
+
+    "rs_1": {
+      "text": "Ciszej. Wargalowie pilnują ruin - trzech wartowników, może więcej. Wejdź na mur od północy, na stary punkt obserwacyjny, i rozejrzyj się.\nNie daj się zobaczyć. Płaszcz, cień, cierpliwość. Jeśli coś pójdzie nie tak - wycofaj się tutaj.",
+      "options": [{"text": "Idę.", "actions": [{"type": "advance", "quest": "rownina_samotnosci", "stage": 1}]}]
+    },
+    "rs_trwa": {
+      "text": "Gilan chce z tobą zamienić słowo. A potem przyjdź do mnie.",
+      "options": [{"text": "Dobrze."}]
+    },
+    "rs_ogien": {
+      "text": "Słuchaj uważnie, bo powiem to raz.\nKalkara nie zabijesz zwykłą strzałą. Jego futro jest twarde jak skóra, a spojrzenie paraliżuje - nie patrz mu w oczy. Ale boi się ognia. Weź płonące strzały i flasze oleju. Najpierw olej, potem ogień.\nKalkarowie polują nocą. Zaczekamy.",
+      "options": [{"text": "Zrozumiałem.", "actions": [
+        {"type": "give_item", "item": "zwiadowcy:strzala_plonaca", "count": 24},
+        {"type": "give_item", "item": "zwiadowcy:flasza_oleju", "count": 4},
+        {"type": "give_item", "item": "zwiadowcy:racje_podrozne", "count": 4},
+        {"type": "advance", "quest": "rownina_samotnosci", "stage": 5}
+      ]}]
+    },
+
+    "og_trwa": {
+      "text": "Ciii. Czekaj. I sprawdź jeszcze raz strzały.",
+      "options": [{"text": "…"}]
+    },
+    "og_walka": {
+      "text": "Will… nie stój tu… olej… i ogień… szybko…",
+      "options": [{"text": "Trzymaj się, Halt!"}]
+    },
+    "og_ranny": {
+      "text": "Will…\nDobra robota. Nie patrz tak na mnie. To tylko zadrapanie.\n…No dobrze, trochę więcej niż zadrapanie.",
+      "options": [{"text": "Myślałem, że cię stracę.", "next": "og_ranny_2"}]
+    },
+    "og_ranny_2": {
+      "text": "Zwiadowcy nie dają się tak łatwo zabić. Zbyt dużo osób by się ucieszyło.\nZabierz mnie do domu, chłopcze. I… dziękuję.",
+      "options": [{"text": "Wracamy do Redmont.", "actions": [
+        {"type": "npc_mode", "npc": "halt", "mode": "idle"},
+        {"type": "advance", "quest": "ogien_w_ciemnosci", "stage": 3}
+      ]}]
+    },
+
+    "po_trwa": {
+      "text": "Król czeka. Nie każ królom czekać, Will. To jedyna rada dworska, jaką ci dam.",
+      "options": [{"text": "Idę."}]
+    },
+    "po_koniec": {
+      "text": "No i stało się.\nDobrze wybrałeś. A jeśli źle - to i tak będę cię uczył, dopóki nie wybierzesz dobrze.\nŚwit, jutro, przy chacie. Lekcje zaczynamy od nowa. I nie myśl, że teraz będzie łatwiej.",
+      "options": [{"text": "Nie myślałem.", "actions": [{"type": "advance", "quest": "przed_obliczem_krola", "stage": 2}]}]
+    },
+
+    "zlecenia": {
+      "text": "Królestwo nie śpi, więc i zwiadowca nie może. Mam kilka zadań, jeśli szukasz zajęcia.",
+      "options": [
+        {"text": "Złożę raport z patrolu.", "when": [{"quest_stage": "zlecenie_patrol", "stage": 1}], "next": "raport",
+          "actions": [{"type": "advance", "quest": "zlecenie_patrol", "stage": 1}]},
+        {"text": "Złożę raport z polowania.", "when": [{"quest_stage": "zlecenie_polowanie", "stage": 1}], "next": "raport",
+          "actions": [{"type": "advance", "quest": "zlecenie_polowanie", "stage": 1}]},
+        {"text": "Rozbiję patrol Wargalów.", "when": [{"quest_ready": "zlecenie_patrol"}],
+          "actions": [{"type": "start_quest", "quest": "zlecenie_patrol"}]},
+        {"text": "Zajmę się dzikami.", "when": [{"quest_ready": "zlecenie_polowanie"}],
+          "actions": [{"type": "start_quest", "quest": "zlecenie_polowanie"}]},
+        {"text": "Zawiozę list do Starego Boba.", "when": [{"quest_ready": "zlecenie_kurier"}],
+          "actions": [{"type": "start_quest", "quest": "zlecenie_kurier"}]},
+        {"text": "Opowiedz mi o Morgaracie.", "next": "morgarath"},
+        {"text": "Nic, dziękuję."}
+      ]
+    },
+    "raport": {
+      "text": "Dobra robota. Krótko, cicho i bez zbędnych bohaterskich gestów. Tak ma być.",
+      "options": [{"text": "Coś jeszcze?", "next": "zlecenia"}, {"text": "Dziękuję."}]
+    },
+    "morgarath": {
+      "text": "Był baronem Gorlanu. Ambitnym, okrutnym i bardzo, bardzo cierpliwym. Spróbował sięgnąć po koronę, przegrał i uciekł w Góry Deszczu i Nocy. Od piętnastu lat siedzi tam i czeka.\nTacy jak on nie przestają czekać. Dlatego my nie przestajemy patrzeć.",
+      "options": [{"text": "Rozumiem.", "next": "zlecenia"}]
+    },
+    "domyslny": {
+      "text": "Hm.",
+      "options": [{"text": "…"}]
+    }
+  }
+}

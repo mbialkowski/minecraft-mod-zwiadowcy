@@ -1,0 +1,46 @@
+{
+  "title": "Zlot Zwiadowców",
+  "act": "Akt III: Cień Morgaratha",
+  "order": 10,
+  "advancement": "misje/zlot_zwiadowcow",
+  "description": "Raz w roku zwiadowcy całego królestwa spotykają się na Zlocie - pięćdziesięciu ludzi, z których każdy wolałby być sam w lesie. Jest konkurs łuczniczy, są stare znajomości. I są wieści, których nikt nie chce usłyszeć.",
+  "stages": [
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Porozmawiaj z Haltem",
+      "location": "chata_halta:halt"
+    },
+    {
+      "objective": {"type": "reach", "location": "oboz_zlotu:oboz", "radius": 12},
+      "text": "Wyrusz na Zlot Zwiadowców - daleko na północny zachód"
+    },
+    {
+      "objective": {"type": "talk", "npc": "crowley"},
+      "text": "Przywitaj się z Crowleyem, dowódcą Korpusu",
+      "location": "oboz_zlotu:crowley"
+    },
+    {
+      "objective": {"type": "talk", "npc": "gilan"},
+      "text": "Znajdź Gilana, byłego ucznia Halta",
+      "location": "oboz_zlotu:gilan"
+    },
+    {
+      "objective": {"type": "target_hits", "projectile": "arrow", "count": 6, "min_distance": 40},
+      "text": "Konkurs łuczniczy: 6 trafień w tarczę z co najmniej 40 kratek",
+      "location": "oboz_zlotu:linia_zawodow"
+    },
+    {
+      "objective": {"type": "talk", "npc": "gilan"},
+      "text": "Wróć do Gilana",
+      "location": "oboz_zlotu:gilan"
+    },
+    {
+      "objective": {"type": "talk", "npc": "crowley"},
+      "text": "Crowley chce z tobą porozmawiać",
+      "location": "oboz_zlotu:crowley"
+    }
+  ],
+  "on_complete": [
+    {"type": "start_quest", "quest": "tropem_bestii"}
+  ]
+}

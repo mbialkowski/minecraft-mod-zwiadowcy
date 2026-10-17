@@ -1,0 +1,22 @@
+{
+  "npc": "mistrz_nigel",
+  "entries": [
+    {"when": [{"quest_active": "dzien_wyboru"}], "start": "dw"},
+    {"when": [{"quest_active": "rownina_samotnosci"}], "start": "gorlan"},
+    {"when": [], "start": "domyslny"}
+  ],
+  "nodes": {
+    "dw": {
+      "text": "Masz ładne pismo, chłopcze? Nie? Tak myślałem. Skryba potrzebuje cierpliwości i spokojnej ręki. Ty masz w sobie raczej… niepokój. W dobrym sensie, rzecz jasna.",
+      "options": [{"text": "Chyba tak, mistrzu."}]
+    },
+    "gorlan": {
+      "text": "Gorlan? W kronikach to ponure miejsce. Morgarath był tam baronem, zanim podniósł bunt. Po jego ucieczce zamek opustoszał, a ludzie omijają ruiny szerokim łukiem.",
+      "options": [{"text": "Dziękuję, mistrzu."}]
+    },
+    "domyslny": {
+      "text": "Ciii… Kopiuję właśnie kronikę lenna. Jeden kleks i trzy dni pracy pójdą na marne.",
+      "options": [{"text": "Już mnie nie ma."}]
+    }
+  }
+}

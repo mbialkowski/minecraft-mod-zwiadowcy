@@ -1,0 +1,80 @@
+{
+  "npc": "baron_arald",
+  "entries": [
+    {"when": [{"quest_stage": "dzien_wyboru", "stage": 0}], "start": "dw_1"},
+    {"when": [{"quest_stage": "dzien_wyboru", "stage": 3}], "start": "dw_koniec"},
+    {"when": [{"quest_active": "dzien_wyboru"}], "start": "dw_trwa"},
+    {"when": [{"quest_stage": "nocna_wspinaczka", "stage": 3}], "start": "nw_gabinet"},
+    {"when": [{"quest_active": "nocna_wspinaczka"}], "start": "nw_trwa"},
+    {"when": [{"quest_stage": "polowanie_na_dzika", "stage": 2}], "start": "pd_1"},
+    {"when": [{"quest_active": "polowanie_na_dzika"}], "start": "pd_trwa"},
+    {"when": [{"quest_active": "przed_obliczem_krola"}], "start": "po"},
+    {"when": [{"flag": "kampania_ukonczona"}], "start": "bohater"},
+    {"when": [{"quest_completed": "nocna_wspinaczka"}], "start": "uczen"},
+    {"when": [], "start": "domyslny"}
+  ],
+  "nodes": {
+    "dw_1": {
+      "text": "Ach, jesteś wreszcie, Willu! Dzień Wyboru! Piętnaście lat temu przyjąłem pod swój dach garstkę sierot, a dziś każde z was znajdzie swoje miejsce w zamku.\nNo więc? Kim chcesz zostać?",
+      "options": [
+        {"text": "Rycerzem, panie! Chcę wstąpić do Szkoły Rycerskiej.", "next": "dw_rycerz"},
+        {"text": "Jeszcze nie wiem, panie.", "next": "dw_niewiem"}
+      ]
+    },
+    "dw_rycerz": {
+      "text": "Odważny wybór, odważny! Sir Rodney przyjmuje kandydatów osobiście - stoi tam, przy zbrojowni. Tylko… przygotuj się na szczerość. Rodney nie owija w bawełnę.",
+      "options": [{"text": "Pójdę do niego od razu!", "actions": [{"type": "advance", "quest": "dzien_wyboru", "stage": 0}]}]
+    },
+    "dw_niewiem": {
+      "text": "Uczciwa odpowiedź. Rzadka w tym zamku. Porozmawiaj z mistrzami - Sir Rodneyem, mistrzem Nigelem, mistrzem Chubbem i lady Pauline. Może któryś z nich zobaczy w tobie coś, czego ty jeszcze nie widzisz.\nZacznij od Rodneya. Widzę, jak patrzysz na jego zbrojownię.",
+      "options": [{"text": "Dobrze, panie.", "actions": [{"type": "advance", "quest": "dzien_wyboru", "stage": 0}]}]
+    },
+    "dw_trwa": {
+      "text": "Rodney stoi przy zbrojowni. No, idź, idź!",
+      "options": [{"text": "Już idę."}]
+    },
+    "dw_koniec": {
+      "text": "Halt poprosił, żebym wstrzymał się z decyzją co do ciebie, Willu. Halt! On o nic nikogo nie prosi. Ciekawe, bardzo ciekawe…\nWszystkie zalecenia mistrzów leżą u mnie w gabinecie, na szczycie wieży. Decyzję ogłoszę jutro rano. Idź odpocząć.",
+      "options": [
+        {"text": "Dobrze, panie. Dobranoc.", "actions": [{"type": "advance", "quest": "dzien_wyboru", "stage": 3}]},
+        {"text": "A nie mógłby pan powiedzieć teraz?", "next": "dw_koniec_2"}
+      ]
+    },
+    "dw_koniec_2": {
+      "text": "Ha! Nie, nie mógłbym. Cierpliwość, chłopcze. Ponoć to cnota. Przynajmniej tak twierdzi Halt.",
+      "options": [{"text": "Dobranoc, panie.", "actions": [{"type": "advance", "quest": "dzien_wyboru", "stage": 3}]}]
+    },
+    "nw_trwa": {
+      "text": "Nie śpisz jeszcze, Willu? Jutro wielki dzień. Do łóżka!",
+      "options": [{"text": "Już idę, panie…"}]
+    },
+    "nw_gabinet": {
+      "text": "Ha! Nie patrz na mnie, chłopcze, to nie ja tu rządzę dzisiejszej nocy. Porozmawiaj z Haltem. To był jego pomysł.",
+      "options": [{"text": "Dobrze…"}]
+    },
+    "pd_1": {
+      "text": "Jest i nasz zwiadowca! Halt mówi, że strzelasz już lepiej niż połowa moich łuczników. Zobaczymy!\nDziki są w gęstwinie. Gdy wypadną - nie wahaj się. Horace, trzymaj włócznię nisko. Ruszamy!",
+      "options": [{"text": "Gotów!", "actions": [{"type": "advance", "quest": "polowanie_na_dzika", "stage": 2}]}]
+    },
+    "pd_trwa": {
+      "text": "Uważaj! Dzik szarżuje prosto - zejdź mu z drogi i strzelaj w bok!",
+      "options": [{"text": "Tak jest!"}]
+    },
+    "po": {
+      "text": "Willu! Król Duncan we własnej osobie, w moim zamku! Nie stój tak, chłopcze - król chce z tobą mówić!",
+      "options": [{"text": "Już idę, panie."}]
+    },
+    "bohater": {
+      "text": "Bohater Gorlanu! Moje drzwi zawsze są dla ciebie otwarte, Willu. A drzwi kuchni Chubba - tym bardziej.",
+      "options": [{"text": "Dziękuję, panie."}]
+    },
+    "uczen": {
+      "text": "Mój podopieczny - uczniem zwiadowcy! Kto by pomyślał. No, Halt pomyślał, oczywiście. Halt zawsze myśli o dwa kroki do przodu. To trochę męczące.",
+      "options": [{"text": "Wiem coś o tym, panie."}]
+    },
+    "domyslny": {
+      "text": "Witaj, Willu! Piękny dzień, prawda?",
+      "options": [{"text": "Piękny, panie."}]
+    }
+  }
+}

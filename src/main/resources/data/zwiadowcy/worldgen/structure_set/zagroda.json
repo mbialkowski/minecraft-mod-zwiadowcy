@@ -1,0 +1,4 @@
+{
+  "structures": [{"structure": "zwiadowcy:zagroda", "weight": 1}],
+  "placement": {"type": "minecraft:random_spread", "exclusion_zone": {"other_set": "zwiadowcy:kamienny_krag", "chunk_count": 4}, "spacing": 30, "separation": 10, "salt": 81723009}
+}

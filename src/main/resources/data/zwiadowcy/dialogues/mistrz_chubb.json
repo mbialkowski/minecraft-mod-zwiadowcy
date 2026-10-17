@@ -1,0 +1,36 @@
+{
+  "npc": "mistrz_chubb",
+  "entries": [
+    {"when": [{"quest_active": "dzien_wyboru"}], "start": "dw"},
+    {"when": [{"quest_active": "chata_w_lesie"}, {"not_flag": "chubb_ziarna"}], "start": "ziarna"},
+    {"when": [{"flag": "kampania_ukonczona"}], "start": "bohater"},
+    {"when": [{"quest_completed": "nocna_wspinaczka"}], "start": "po"},
+    {"when": [], "start": "domyslny"}
+  ],
+  "nodes": {
+    "dw": {
+      "text": "W kuchni zawsze przyda się para zręcznych rąk… Ale ty patrzysz w stronę murów, chłopcze, nie w stronę garnków. A do tego ktoś podebrał mi wczoraj ciasto z parapetu. Hm. Ciekawe kto.",
+      "options": [{"text": "Nie mam pojęcia, mistrzu."}]
+    },
+    "ziarna": {
+      "text": "Kawa dla Halta, co? Ten człowiek pije jej więcej niż wody! Masz, weź trochę palonych ziaren. I tak przyszedłby po nie sam, a wolę, żeby nie zaglądał mi do spiżarni.",
+      "options": [{"text": "Dziękuję, mistrzu!", "actions": [
+        {"type": "give_item", "item": "zwiadowcy:palone_ziarna_kawy", "count": 4},
+        {"type": "give_item", "item": "minecraft:honey_bottle", "count": 2},
+        {"type": "set_flag", "flag": "chubb_ziarna"}
+      ]}]
+    },
+    "po": {
+      "text": "Uczeń zwiadowcy! A myślałem, że będziesz u mnie zmywał. Szkoda. Masz dobre wyczucie do ciasta. Szczególnie cudzego.",
+      "options": [{"text": "Hehe…"}]
+    },
+    "bohater": {
+      "text": "Dla bohatera Gorlanu - zawsze świeży chleb i miska gulaszu. Na koszt kuchni!",
+      "options": [{"text": "Dziękuję, mistrzu Chubb."}]
+    },
+    "domyslny": {
+      "text": "Nie stój w przejściu, chłopcze! Gulasz sam się nie zamiesza!",
+      "options": [{"text": "Przepraszam!"}]
+    }
+  }
+}

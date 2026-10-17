@@ -1,0 +1,4 @@
+{
+  "structures": [{"structure": "zwiadowcy:posterunek_morgaratha", "weight": 1}],
+  "placement": {"type": "minecraft:random_spread", "exclusion_zone": {"other_set": "zwiadowcy:kurhan", "chunk_count": 4}, "spacing": 52, "separation": 18, "salt": 81723002}
+}

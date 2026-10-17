@@ -1,0 +1,51 @@
+{
+  "title": "Nocna wspinaczka",
+  "act": "Akt I: Redmont",
+  "order": 2,
+  "advancement": "misje/nocna_wspinaczka",
+  "description": "Zalecenia mistrzów leżą na biurku barona, w gabinecie na szczycie wieży. Decyzja zapadnie rano, ale Will nie wytrzyma do rana. Drzwi wieży są zamknięte, a po dziedzińcu krążą strażnicy. Na szczęście mury Redmont porasta stary bluszcz…",
+  "stages": [
+    {
+      "objective": {"type": "night"},
+      "text": "Zaczekaj do zmroku",
+      "location": "redmont:start_wspinaczki"
+    },
+    {
+      "objective": {
+        "type": "sneak_reach",
+        "location": "redmont:gabinet",
+        "radius": 2.5,
+        "observers": ["straznik"],
+        "detect_range": 14,
+        "checkpoint": "redmont:start_wspinaczki"
+      },
+      "text": "Zakradnij się do gabinetu na szczycie wieży - wspinaj się po bluszczu, unikaj strażników",
+      "on_start": [
+        {"type": "message", "text": "Strażnicy patrolują dziedziniec. Trzymaj się cienia, kucaj (Shift) i nie wchodź im w pole widzenia. Bluszcz porasta wieżę od strony studni."}
+      ]
+    },
+    {
+      "objective": {"type": "collect", "item": "zwiadowcy:dokument_barona"},
+      "text": "Przejrzyj papiery na biurku barona",
+      "location": "redmont:gabinet",
+      "on_complete": [
+        {"type": "move_npc", "npc": "halt", "to": "redmont:gabinet_halt", "face": "redmont:gabinet"},
+        {"type": "move_npc", "npc": "baron_arald", "to": "redmont:gabinet_baron", "face": "redmont:gabinet"},
+        {"type": "sound", "sound": "minecraft:block.wooden_door.open"},
+        {"type": "title", "title": "Nie jesteś sam…", "subtitle": "Ktoś czekał na ciebie w ciemności"}
+      ]
+    },
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Odwróć się i porozmawiaj z tym, kto na ciebie czekał",
+      "location": "redmont:gabinet_halt"
+    }
+  ],
+  "on_complete": [
+    {"type": "move_npc", "npc": "halt", "to": "chata_halta:halt", "face": "chata_halta:linia_strzalu"},
+    {"type": "move_npc", "npc": "baron_arald", "to": "redmont:baron_arald"},
+    {"type": "teleport", "to": "redmont:dziedziniec"},
+    {"type": "message", "text": "Baron sam odprowadza cię na dziedziniec. Od jutra twój dom jest w lesie."},
+    {"type": "start_quest", "quest": "chata_w_lesie"}
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "npc": "stary_bob",
+  "entries": [
+    {"when": [{"quest_stage": "kon_od_boba", "stage": 2}], "start": "kb_1"},
+    {"when": [{"quest_stage": "kon_od_boba", "stage": 3}], "start": "kb_podpowiedz"},
+    {"when": [{"quest_stage": "zlecenie_kurier", "stage": 0}], "start": "kurier"},
+    {"when": [{"quest_completed": "kon_od_boba"}], "start": "po"},
+    {"when": [], "start": "domyslny"}
+  ],
+  "nodes": {
+    "domyslny": {
+      "text": "Hej, hej, młody. Konie trzeba kochać i szanować. Wtedy i one cię pokochają. No, prawie wszystkie.",
+      "options": [{"text": "Dzień dobry."}]
+    },
+    "kb_1": {
+      "text": "Halt cię przysłał? Dobrze, dobrze… Mam tu kogoś dla ciebie. O, tam. Wyrwij!\nKoń zwiadowcy. Niepozorny, kudłaty, ale wytrzyma trzy dni galopu i wyczuje wroga, zanim ty go zobaczysz.",
+      "options": [{"text": "Mogę go dosiąść?", "next": "kb_2"}]
+    },
+    "kb_2": {
+      "text": "Hehe. Możesz spróbować. Ale wiesz, konie zwiadowców są szkolone, żeby słuchać tylko tego, kto zna właściwe słowa. Inaczej każdy złodziej mógłby odjechać z koniem zwiadowcy.\nPodejdź do niego i porozmawiaj. Grzecznie. On lubi grzecznych.",
+      "options": [{"text": "Grzecznie. Zrozumiałem.", "actions": [{"type": "advance", "quest": "kon_od_boba", "stage": 2}]}]
+    },
+    "kb_podpowiedz": {
+      "text": "Nie da się, co? Hehe. Słuchaj staruszka: konie zwiadowców nie lubią, jak się im rozkazuje. Lubią, jak się je pyta. O pozwolenie.",
+      "options": [{"text": "Spróbuję jeszcze raz."}]
+    },
+    "kurier": {
+      "text": "List od Halta? Pewnie znowu o owsie dla Wyrwija. Ten człowiek liczy każde ziarenko… Dziękuję, chłopcze. Weź to za fatygę - zrobiłem je z najlepszych piór gęsi.",
+      "options": [{"text": "Dziękuję, Bob.", "actions": [
+        {"type": "take_item", "item": "zwiadowcy:zapieczetowany_list"},
+        {"type": "advance", "quest": "zlecenie_kurier", "stage": 0}
+      ]}]
+    },
+    "po": {
+      "text": "Jak tam mój Wyrwij? Dbasz o niego? Jabłko od czasu do czasu, marchewka… On ci tego nie zapomni.",
+      "options": [{"text": "Dbam, Bob."}]
+    }
+  }
+}

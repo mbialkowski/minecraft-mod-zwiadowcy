@@ -1,0 +1,21 @@
+{
+  "title": "Zlecenie: list do Starego Boba",
+  "act": "Zlecenia zwiadowcy",
+  "order": 102,
+  "repeatable": true,
+  "description": "Halt ma zapieczętowany list dla Starego Boba. Nie mówi, co w nim jest. Zwiadowca nie zadaje głupich pytań.",
+  "on_start": [
+    {"type": "give_item", "item": "zwiadowcy:zapieczetowany_list"}
+  ],
+  "stages": [
+    {
+      "objective": {"type": "talk", "npc": "stary_bob"},
+      "text": "Zawieź zapieczętowany list Staremu Bobowi",
+      "location": "stajnia_boba:stary_bob"
+    }
+  ],
+  "on_complete": [
+    {"type": "give_item", "item": "zwiadowcy:strzala_gwizdzaca", "count": 8},
+    {"type": "xp", "amount": 30}
+  ]
+}

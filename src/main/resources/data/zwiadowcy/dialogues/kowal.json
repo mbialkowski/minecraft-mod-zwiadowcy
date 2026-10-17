@@ -1,0 +1,30 @@
+{
+  "npc": "kowal",
+  "entries": [
+    {"when": [], "start": "witaj"}
+  ],
+  "nodes": {
+    "witaj": {
+      "text": "Hej, młody! Uważaj na iskry. Kuję podkowy dla stajni barona i groty dla łuczników. Masz coś do naprawy?",
+      "options": [
+        {"text": "Napraw to, co trzymam w dłoni.", "when": [{"cooldown_ready": "kowal", "ticks": 24000}],
+          "actions": [{"type": "repair_held"}, {"type": "set_cooldown", "id": "kowal"}], "next": "naprawa"},
+        {"text": "Napraw to, co trzymam w dłoni.", "when": [{"cooldown_active": "kowal", "ticks": 24000}], "next": "zajety"},
+        {"text": "Co wiesz o broni Wargalów?", "next": "wargale"},
+        {"text": "Nie przeszkadzam."}
+      ]
+    },
+    "naprawa": {
+      "text": "Gotowe. Jak nowe. Dobra robota zasługuje na dobrą stal.",
+      "options": [{"text": "Dziękuję!", "next": "witaj"}]
+    },
+    "zajety": {
+      "text": "Dzisiaj już nie dam rady, palenisko ledwie dyszy, a baron chce sto podków na jutro. Przyjdź rano.",
+      "options": [{"text": "Rozumiem.", "next": "witaj"}]
+    },
+    "wargale": {
+      "text": "Prymitywna, ale groźna. Toporzyska z jesionu, ostrza z kradzionego żelaza, oszczepy z utwardzanym w ogniu grotem. Jak przyniesiesz mi topór ich herszta, chętnie go obejrzę. Słyszałem, że to kawał porządnej stali - pewnie zrabowanej.",
+      "options": [{"text": "Zapamiętam.", "next": "witaj"}]
+    }
+  }
+}

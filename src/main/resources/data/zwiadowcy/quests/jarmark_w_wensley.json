@@ -1,0 +1,41 @@
+{
+  "title": "Jarmark w Wensley",
+  "act": "Misja poboczna",
+  "order": 9,
+  "advancement": "misje/jarmark_w_wensley",
+  "description": "Horace przyznał się do czegoś, o czym nie wie nikt w zamku: trzej starsi uczniowie Szkoły Rycerskiej - Alda, Bryn i Jerome - od miesięcy nie dają mu żyć. Dziś będą na jarmarku w Wensley.",
+  "on_start": [
+    {"type": "move_npc", "npc": "horace", "to": "wensley:horace", "face": "wensley:jarmark"}
+  ],
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "wensley:jarmark", "radius": 10},
+      "text": "Spotkaj się z Horace'em na jarmarku w Wensley"
+    },
+    {
+      "objective": {"type": "talk", "npc": "horace"},
+      "text": "Porozmawiaj z Horace'em",
+      "location": "wensley:horace"
+    },
+    {
+      "objective": {"type": "talk", "npc": "alda"},
+      "text": "Rozmów się z dręczycielami w zaułku",
+      "location": "wensley:zaulek"
+    },
+    {
+      "objective": {"type": "event", "id": "npc_pokonany", "count": 3},
+      "text": "Pokonaj Aldę, Bryna i Jerome'a w uczciwej bójce (poddadzą się, gdy oberwą)",
+      "location": "wensley:zaulek"
+    },
+    {
+      "objective": {"type": "talk", "npc": "horace"},
+      "text": "Wróć do Horace'a",
+      "location": "wensley:horace"
+    }
+  ],
+  "on_complete": [
+    {"type": "set_flag", "flag": "horace_przyjaciel"},
+    {"type": "give_item", "item": "minecraft:shield", "name": "Tarcza Horace'a"},
+    {"type": "move_npc", "npc": "horace", "to": "redmont:horace"}
+  ]
+}

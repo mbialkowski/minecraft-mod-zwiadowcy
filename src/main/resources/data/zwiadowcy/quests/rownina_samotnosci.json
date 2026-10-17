@@ -1,0 +1,56 @@
+{
+  "title": "Równina Samotności",
+  "act": "Akt III: Cień Morgaratha",
+  "order": 12,
+  "advancement": "misje/rownina_samotnosci",
+  "description": "Ślady Kalkarów prowadzą na Równinę Samotności, do Ruin Gorlanu - dawnego lenna Morgaratha, zanim zdradził króla. Wargalowie pilnują ruin. Trzeba się rozejrzeć, zanim zapadnie noc.",
+  "on_start": [
+    {"type": "move_npc", "npc": "halt", "to": "ruiny_gorlanu:halt", "face": "ruiny_gorlanu:podejscie"},
+    {"type": "move_npc", "npc": "gilan", "to": "ruiny_gorlanu:gilan", "face": "ruiny_gorlanu:podejscie"}
+  ],
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "ruiny_gorlanu:podejscie", "radius": 10},
+      "text": "Podążaj tropem na Równinę Samotności (daleko na południowy wschód)"
+    },
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Porozmawiaj z Haltem przed ruinami",
+      "location": "ruiny_gorlanu:halt",
+      "on_complete": [
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "ruiny_gorlanu:wartownik_1", "sentry": true, "face": "ruiny_gorlanu:podejscie"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "ruiny_gorlanu:wartownik_2", "sentry": true, "face": "ruiny_gorlanu:podejscie"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "ruiny_gorlanu:wartownik_3", "sentry": true, "face": "ruiny_gorlanu:arena"}
+      ]
+    },
+    {
+      "objective": {
+        "type": "sneak_reach",
+        "location": "ruiny_gorlanu:punkt_zwiadu",
+        "radius": 2.5,
+        "observers": ["zwiadowcy:wargal"],
+        "detect_range": 16,
+        "checkpoint": "ruiny_gorlanu:podejscie"
+      },
+      "text": "Zakradnij się na punkt obserwacyjny na murze ruin - omijaj wartowników"
+    },
+    {
+      "objective": {"type": "collect", "item": "zwiadowcy:fragment_z_gorlanu"},
+      "text": "Przeszukaj ruiny (skrzynia w zawalonej wieży)",
+      "location": "ruiny_gorlanu:skrzynia"
+    },
+    {
+      "objective": {"type": "talk", "npc": "gilan"},
+      "text": "Wróć do Gilana",
+      "location": "ruiny_gorlanu:gilan"
+    },
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Porozmawiaj z Haltem",
+      "location": "ruiny_gorlanu:halt"
+    }
+  ],
+  "on_complete": [
+    {"type": "start_quest", "quest": "ogien_w_ciemnosci"}
+  ]
+}

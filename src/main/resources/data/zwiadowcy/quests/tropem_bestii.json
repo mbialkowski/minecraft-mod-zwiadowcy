@@ -1,0 +1,54 @@
+{
+  "title": "Tropem bestii",
+  "act": "Akt III: Cień Morgaratha",
+  "order": 11,
+  "advancement": "misje/tropem_bestii",
+  "description": "Lord Northolt, dowódca armii królewskiej, nie żyje. Świadkowie mówią o bestiach wysokich jak dwóch ludzi. Halt podejrzewa Kalkarów - stworzenia, które Morgarath, Władca Deszczu i Nocy, sprowadził z gór. Ostatnio widziano je przy osadzie na wschodzie.",
+  "stages": [
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Porozmawiaj z Haltem",
+      "location": "oboz_zlotu:halt"
+    },
+    {
+      "objective": {"type": "reach", "location": "spalona_osada:osada", "radius": 12},
+      "text": "Jedź do spalonej osady na wschodzie"
+    },
+    {
+      "objective": {"type": "event", "id": "use:zestaw_tropiciela"},
+      "text": "Użyj zestawu tropiciela, by odczytać ślady",
+      "location": "spalona_osada:osada"
+    },
+    {
+      "objective": {"type": "kill", "entity": "zwiadowcy:wargal", "count": 4, "tagged": true},
+      "text": "Zasadzka! Odeprzyj atak Wargalów",
+      "location": "spalona_osada:osada",
+      "on_start": [
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "spalona_osada:wargal_1", "drop": "zwiadowcy:znak_morgaratha", "name": "Wargal-tropiciel"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "spalona_osada:wargal_2"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "spalona_osada:wargal_3"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "spalona_osada:wargal_4"},
+        {"type": "npc_mode", "npc": "halt", "mode": "companion"},
+        {"type": "npc_mode", "npc": "gilan", "mode": "companion"},
+        {"type": "title", "title": "Zasadzka!", "subtitle": "Wargalowie wypadają spomiędzy zgliszcz"}
+      ],
+      "on_complete": [
+        {"type": "npc_mode", "npc": "halt", "mode": "idle"},
+        {"type": "npc_mode", "npc": "gilan", "mode": "idle"}
+      ]
+    },
+    {
+      "objective": {"type": "collect", "item": "zwiadowcy:znak_morgaratha"},
+      "text": "Podnieś znak, który upuścił Wargal-tropiciel",
+      "location": "spalona_osada:osada"
+    },
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Pokaż znak Haltowi",
+      "location": "spalona_osada:halt"
+    }
+  ],
+  "on_complete": [
+    {"type": "start_quest", "quest": "rownina_samotnosci"}
+  ]
+}

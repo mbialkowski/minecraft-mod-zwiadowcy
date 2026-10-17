@@ -1,0 +1,44 @@
+{
+  "npc": "sir_rodney",
+  "entries": [
+    {"when": [{"quest_stage": "dzien_wyboru", "stage": 1}], "start": "dw_1"},
+    {"when": [{"quest_active": "dzien_wyboru"}], "start": "dw_po"},
+    {"when": [{"quest_active": "jarmark_w_wensley"}], "start": "jarmark"},
+    {"when": [{"quest_active": "przed_obliczem_krola"}], "start": "po"},
+    {"when": [{"flag": "kampania_ukonczona"}], "start": "bohater"},
+    {"when": [], "start": "domyslny"}
+  ],
+  "nodes": {
+    "dw_1": {
+      "text": "Ty? Do Szkoły Rycerskiej?\nJesteś szybki i zręczny, przyznaję. Widziałem, jak wspinasz się po murach. Ale jesteś drobny, chłopcze. Rycerz musi przez cały dzień bitwy dźwigać zbroję, miecz i tarczę.",
+      "options": [
+        {"text": "Ale ja jeszcze urosnę!", "next": "dw_2"},
+        {"text": "Proszę mi dać szansę, panie!", "next": "dw_2"}
+      ]
+    },
+    "dw_2": {
+      "text": "Może urośniesz. A może nie. Nie mogę ryzykować życia ucznia na „może”. Przykro mi, Willu. Odpowiedź brzmi: nie.\n…Ale nie zwieszaj głowy. Tamten człowiek w szarozielonym płaszczu przyglądał ci się przez całą ceremonię. Zwiadowca Halt. Lepiej, żebyś wiedział.",
+      "options": [{"text": "…Rozumiem, panie.", "actions": [{"type": "advance", "quest": "dzien_wyboru", "stage": 1}]}]
+    },
+    "dw_po": {
+      "text": "Moja decyzja jest ostateczna, chłopcze. Ale jak mówiłem - ktoś inny ma na ciebie oko.",
+      "options": [{"text": "Wiem."}]
+    },
+    "jarmark": {
+      "text": "Alda, Bryn i Jerome? Hm. Słyszałem plotki, ale żaden uczeń się nie skarżył. Jeśli Horace w końcu przestanie milczeć… cóż, w Szkole Rycerskiej nie ma miejsca dla tchórzy, którzy biją słabszych.",
+      "options": [{"text": "Dobrze to słyszeć, panie."}]
+    },
+    "po": {
+      "text": "Król chce cię widzieć. A ja… cóż. Chyba się co do ciebie pomyliłem, Willu. Rycerz, który to przyznaje, jest wart więcej niż ten, który nigdy się nie myli.",
+      "options": [{"text": "Dziękuję, panie."}]
+    },
+    "bohater": {
+      "text": "Ha! Nasz pogromca Kalkarów. Gdybyś kiedyś chciał nauczyć się władać mieczem - wiesz, gdzie mnie szukać.",
+      "options": [{"text": "Zapamiętam, panie."}]
+    },
+    "domyslny": {
+      "text": "Trening, trening i jeszcze raz trening. Tylko tak powstaje rycerz.",
+      "options": [{"text": "Rozumiem, panie."}]
+    }
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "structures": [{"structure": "zwiadowcy:straznica", "weight": 1}],
+  "placement": {"type": "minecraft:random_spread", "exclusion_zone": {"other_set": "zwiadowcy:kryjowka_bandytow", "chunk_count": 4}, "spacing": 28, "separation": 9, "salt": 81723004}
+}

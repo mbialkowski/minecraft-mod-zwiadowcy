@@ -1,0 +1,39 @@
+{
+  "npc": "karczmarz",
+  "entries": [
+    {"when": [], "start": "witaj"}
+  ],
+  "nodes": {
+    "witaj": {
+      "text": "Witaj w zajeździe, wędrowcze! Ciepła strawa, suchy kąt i najświeższe plotki z traktu. Czym mogę służyć?",
+      "options": [
+        {"text": "Chcę odpocząć i coś zjeść.", "when": [{"cooldown_ready": "zajazd", "ticks": 24000}], "next": "odpoczynek",
+          "actions": [
+            {"type": "heal"},
+            {"type": "set_cooldown", "id": "zajazd"},
+            {"type": "give_item", "item": "zwiadowcy:racje_podrozne", "count": 2}
+          ]},
+        {"text": "Chcę odpocząć i coś zjeść.", "when": [{"cooldown_active": "zajazd", "ticks": 24000}], "next": "pelno"},
+        {"text": "Co słychać na traktach?", "next": "plotki"},
+        {"text": "Widziałeś tu Wargali?", "next": "wargale"},
+        {"text": "Bywaj zdrów."}
+      ]
+    },
+    "odpoczynek": {
+      "text": "Proszę, gulasz z kaszą i kubek cydru. Izba na górze jest wolna. Śpij spokojnie - u mnie nikt nie zaczepia gości, a już na pewno nie zwiadowców.",
+      "options": [{"text": "Dziękuję.", "next": "witaj"}]
+    },
+    "pelno": {
+      "text": "Już dziś u mnie jadłeś i spałeś, przyjacielu. Wróć jutro, a garnek znów będzie pełny.",
+      "options": [{"text": "Rozumiem.", "next": "witaj"}]
+    },
+    "plotki": {
+      "text": "Kupcy narzekają na bandytów w lasach. Mają kryjówki za palisadami, z wieżyczką dla łucznika. Pasterze unikają kurhanów na łąkach - podobno ktoś grzebie w starych grobach. A w kamiennym kręgu na wzgórzach ponoć obozują zwiadowcy, bo widać stamtąd całą dolinę.",
+      "options": [{"text": "Ciekawe…", "next": "witaj"}]
+    },
+    "wargale": {
+      "text": "Tutaj? Nie, dzięki niech będą. Ale myśliwi z północy mówią o obozach na pogórzu, z czaszkami na palach i czarnymi chorągwiami. Niektóre mają wieże z ciemnego kamienia. Strzeż się zwłaszcza tego ich herszta - wyje tak, że reszta wpada w szał.",
+      "options": [{"text": "Będę uważał.", "next": "witaj"}]
+    }
+  }
+}

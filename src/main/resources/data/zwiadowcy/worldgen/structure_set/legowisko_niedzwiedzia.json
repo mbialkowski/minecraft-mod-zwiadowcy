@@ -1,0 +1,4 @@
+{
+  "structures": [{"structure": "zwiadowcy:legowisko_niedzwiedzia", "weight": 1}],
+  "placement": {"type": "minecraft:random_spread", "exclusion_zone": {"other_set": "zwiadowcy:oboz_wargalow", "chunk_count": 4}, "spacing": 30, "separation": 10, "salt": 81723006}
+}

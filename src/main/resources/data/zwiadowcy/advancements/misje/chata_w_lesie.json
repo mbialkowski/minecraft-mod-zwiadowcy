@@ -1,0 +1,1 @@
+{"parent":"zwiadowcy:misje/nocna_wspinaczka","display":{"icon":{"item":"zwiadowcy:kawa_zwiadowcy"},"title":{"text":"Drewno, woda, kawa"},"description":{"text":"Zaparz Haltowi kawę z miodem"},"frame":"task","show_toast":true,"announce_to_chat":false,"hidden":false},"criteria":{"done":{"trigger":"minecraft:impossible"}}}

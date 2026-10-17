@@ -1,0 +1,26 @@
+{
+  "title": "Zlecenie: dziki w zbożu",
+  "act": "Zlecenia zwiadowcy",
+  "order": 101,
+  "repeatable": true,
+  "description": "Rolnicy spod Wensley skarżą się na dziki, które ryją pola. Halt mówi, że to dobra okazja do ćwiczeń - dla ciebie, nie dla dzików.",
+  "stages": [
+    {
+      "objective": {"type": "kill", "entity": "zwiadowcy:dzik", "count": 2, "tagged": true},
+      "text": "Upoluj dwa rozwścieczone dziki (kierunek wskazuje dziennik)",
+      "on_start": [
+        {"type": "spawn_random", "entity": "zwiadowcy:dzik", "count": 2, "center": "chata_halta", "min": 80, "max": 150, "enraged": true}
+      ]
+    },
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Złóż raport Haltowi",
+      "location": "chata_halta:halt"
+    }
+  ],
+  "on_complete": [
+    {"type": "give_item", "item": "zwiadowcy:racje_podrozne", "count": 6},
+    {"type": "give_item", "item": "zwiadowcy:kiel_dzika", "count": 1},
+    {"type": "xp", "amount": 40}
+  ]
+}

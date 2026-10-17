@@ -1,0 +1,32 @@
+{
+  "npc": "alyss",
+  "entries": [
+    {"when": [{"quest_active": "dzien_wyboru"}], "start": "dw"},
+    {"when": [{"quest_active": "nocna_wspinaczka"}], "start": "nw"},
+    {"when": [{"flag": "kampania_ukonczona"}], "start": "bohater"},
+    {"when": [{"quest_completed": "nocna_wspinaczka"}], "start": "po"},
+    {"when": [], "start": "domyslny"}
+  ],
+  "nodes": {
+    "dw": {
+      "text": "Lady Pauline mnie przyjęła, Will! Służba Dyplomatyczna!\nA ty? Nie rób takiej miny. Widziałam, jak rozmawiałeś z Rodneyem. Ale widziałam też, kto potem na ciebie patrzył.",
+      "options": [{"text": "Wszyscy coś widzieli, tylko nie ja."}]
+    },
+    "nw": {
+      "text": "Nie możesz zasnąć, co? Ja też nie. Tylko proszę, nie rób niczego głupiego. Na przykład wspinania się po wieży barona.",
+      "options": [{"text": "Skąd ci to przyszło do głowy?"}]
+    },
+    "po": {
+      "text": "Uczeń zwiadowcy! Wiedziałam. Pasuje do ciebie ten płaszcz. Albo będzie pasował, jak już go dostaniesz.",
+      "options": [{"text": "Dzięki, Alyss."}]
+    },
+    "bohater": {
+      "text": "Słyszałam o Gorlanie. Cieszę się, że wróciłeś, Will. Naprawdę.",
+      "options": [{"text": "Ja też się cieszę."}]
+    },
+    "domyslny": {
+      "text": "Cześć, Will.",
+      "options": [{"text": "Cześć, Alyss."}]
+    }
+  }
+}

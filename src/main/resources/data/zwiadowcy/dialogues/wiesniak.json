@@ -1,0 +1,22 @@
+{
+  "npc": "wiesniak",
+  "entries": [
+    {"when": [{"quest_active": "jarmark_w_wensley"}], "start": "jarmark"},
+    {"when": [{"flag": "kampania_ukonczona"}], "start": "bohater"},
+    {"when": [], "start": "domyslny"}
+  ],
+  "nodes": {
+    "jarmark": {
+      "text": "Jarmark, jarmark! Jabłka, miód, wełna! A w zaułku za karczmą znowu kręcą się ci trzej z zamku. Lepiej tam nie chodź, chłopcze.",
+      "options": [{"text": "Dzięki za ostrzeżenie."}]
+    },
+    "bohater": {
+      "text": "To ty! Ten od zwiadowcy! Całe Wensley o tobie gada. Weź jabłko, na zdrowie!",
+      "options": [{"text": "Dziękuję!"}]
+    },
+    "domyslny": {
+      "text": "Dzień dobry, paniczu. Ładna pogoda na siano.",
+      "options": [{"text": "Dzień dobry."}]
+    }
+  }
+}

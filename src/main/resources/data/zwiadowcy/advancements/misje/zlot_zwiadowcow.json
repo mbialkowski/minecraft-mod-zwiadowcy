@@ -1,0 +1,1 @@
+{"parent":"zwiadowcy:misje/polowanie_na_dzika","display":{"icon":{"item":"zwiadowcy:strzala_zlotu"},"title":{"text":"Zlot Zwiadowców"},"description":{"text":"Zdobądź Strzałę Zlotu w konkursie łuczniczym"},"frame":"task","show_toast":true,"announce_to_chat":false,"hidden":false},"criteria":{"done":{"trigger":"minecraft:impossible"}}}

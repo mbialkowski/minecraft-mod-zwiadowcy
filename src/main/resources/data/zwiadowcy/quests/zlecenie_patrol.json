@@ -1,0 +1,26 @@
+{
+  "title": "Zlecenie: patrol Wargalów",
+  "act": "Zlecenia zwiadowcy",
+  "order": 100,
+  "repeatable": true,
+  "description": "Po Gorlanie w lasach wciąż kręcą się niedobitki Wargalów. Halt chce, żeby ktoś je przegonił, zanim znajdą drogę do wiosek.",
+  "stages": [
+    {
+      "objective": {"type": "kill", "entity": "zwiadowcy:wargal", "count": 5, "tagged": true},
+      "text": "Rozbij patrol Wargalów (kierunek wskazuje dziennik)",
+      "on_start": [
+        {"type": "spawn_random", "entity": "zwiadowcy:wargal", "count": 5, "center": "chata_halta", "min": 90, "max": 170}
+      ]
+    },
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Złóż raport Haltowi",
+      "location": "chata_halta:halt"
+    }
+  ],
+  "on_complete": [
+    {"type": "give_item", "item": "zwiadowcy:strzala_szeroki_grot", "count": 8},
+    {"type": "give_item", "item": "zwiadowcy:racje_podrozne", "count": 3},
+    {"type": "xp", "amount": 60}
+  ]
+}

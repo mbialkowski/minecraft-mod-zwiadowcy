@@ -1,0 +1,1 @@
+{"parent":"zwiadowcy:misje/ogien_w_ciemnosci","display":{"icon":{"item":"zwiadowcy:list_krolewski"},"title":{"text":"Przed obliczem króla"},"description":{"text":"Ukończ pierwszy tom przygód ucznia zwiadowcy"},"frame":"challenge","show_toast":true,"announce_to_chat":false,"hidden":false},"criteria":{"done":{"trigger":"minecraft:impossible"}}}

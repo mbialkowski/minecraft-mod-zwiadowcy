@@ -1,0 +1,7 @@
+{
+  "fallback": "minecraft:empty",
+  "elements": [
+    {"weight": 3, "element": {"element_type": "minecraft:single_pool_element", "location": "zwiadowcy:losowe/kryjowka_bandytow", "projection": "rigid", "processors": {"processors": []}}},
+    {"weight": 1, "element": {"element_type": "minecraft:single_pool_element", "location": "zwiadowcy:losowe/kryjowka_bandytow_b", "projection": "rigid", "processors": {"processors": []}}}
+  ]
+}

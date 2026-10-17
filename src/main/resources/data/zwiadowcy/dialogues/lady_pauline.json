@@ -1,0 +1,26 @@
+{
+  "npc": "lady_pauline",
+  "entries": [
+    {"when": [{"quest_active": "dzien_wyboru"}], "start": "dw"},
+    {"when": [{"flag": "kampania_ukonczona"}], "start": "bohater"},
+    {"when": [], "start": "domyslny"}
+  ],
+  "nodes": {
+    "dw": {
+      "text": "Służba Dyplomatyczna wybrała już na ten rok Alyss - ma talent do słów i do milczenia we właściwym momencie.\nAle nie martw się, Willu. Zauważyłam, że ktoś inny bardzo uważnie ci się przygląda.",
+      "options": [{"text": "Kto taki?", "next": "dw_2"}]
+    },
+    "dw_2": {
+      "text": "Dyplomata nigdy nie mówi wprost. Rozejrzyj się. Szukaj kogoś, kogo nie chcesz zauważyć.",
+      "options": [{"text": "…Dziękuję, pani."}]
+    },
+    "bohater": {
+      "text": "Moje gratulacje, Willu. Na dworze królewskim mówi się o tobie z podziwem. Halt zaś mówi o tobie… „Hm”. Co u niego oznacza najwyższe uznanie.",
+      "options": [{"text": "Dziękuję, pani."}]
+    },
+    "domyslny": {
+      "text": "Dzień dobry, Willu. Pamiętaj: słowo potrafi zranić bardziej niż strzała. I uleczyć skuteczniej niż zioła.",
+      "options": [{"text": "Zapamiętam, pani."}]
+    }
+  }
+}

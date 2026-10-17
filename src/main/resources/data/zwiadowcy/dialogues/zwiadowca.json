@@ -1,0 +1,17 @@
+{
+  "npc": "zwiadowca",
+  "entries": [
+    {"when": [{"quest_active": "zlot_zwiadowcow"}], "start": "zlot"},
+    {"when": [], "start": "domyslny"}
+  ],
+  "nodes": {
+    "zlot": {
+      "text": "Uczeń Halta, co? Słyszałem, że to ty przeszedłeś przez jego „lekcję bezruchu” za pierwszym razem. Ja potrzebowałem jedenastu prób. Nie mów nikomu.",
+      "options": [{"text": "Moje usta są zamknięte."}]
+    },
+    "domyslny": {
+      "text": "Hm.",
+      "options": [{"text": "…Wszyscy tak mówicie?"}]
+    }
+  }
+}

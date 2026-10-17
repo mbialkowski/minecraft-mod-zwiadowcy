@@ -1,0 +1,4 @@
+{
+  "structures": [{"structure": "zwiadowcy:zajazd", "weight": 1}],
+  "placement": {"type": "minecraft:random_spread", "exclusion_zone": {"other_set": "zwiadowcy:zagroda", "chunk_count": 4}, "spacing": 38, "separation": 14, "salt": 81723008}
+}

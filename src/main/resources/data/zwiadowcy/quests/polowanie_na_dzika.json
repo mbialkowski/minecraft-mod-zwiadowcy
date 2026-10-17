@@ -1,0 +1,53 @@
+{
+  "title": "Polowanie na dzika",
+  "act": "Akt II: Szkolenie",
+  "order": 8,
+  "advancement": "misje/polowanie_na_dzika",
+  "description": "W lasach na północnym wschodzie grasują dziki, które poturbowały już dwóch drwali. Baron Arald urządza polowanie - jadą Halt, Will i Horace, uczeń Szkoły Rycerskiej, który za Willem raczej nie przepada.",
+  "stages": [
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Porozmawiaj z Haltem",
+      "location": "chata_halta:halt"
+    },
+    {
+      "objective": {"type": "reach", "location": "legowisko_dzika:polana", "radius": 10},
+      "text": "Dołącz do polowania w lesie na północnym wschodzie"
+    },
+    {
+      "objective": {"type": "talk", "npc": "baron_arald"},
+      "text": "Zamelduj się u barona Aralda",
+      "location": "legowisko_dzika:baron",
+      "on_complete": [
+        {"type": "npc_mode", "npc": "halt", "mode": "companion"},
+        {"type": "npc_mode", "npc": "horace", "mode": "companion"},
+        {"type": "npc_mode", "npc": "baron_arald", "mode": "companion"},
+        {"type": "spawn", "entity": "zwiadowcy:dzik", "at": "legowisko_dzika:dzik_1", "enraged": true},
+        {"type": "spawn", "entity": "zwiadowcy:dzik", "at": "legowisko_dzika:dzik_2", "enraged": true, "name": "Stary odyniec"},
+        {"type": "title", "title": "Polowanie!", "subtitle": "Dziki wypadają z zarośli"}
+      ]
+    },
+    {
+      "objective": {"type": "kill", "entity": "zwiadowcy:dzik", "count": 2, "tagged": true},
+      "text": "Upoluj rozwścieczone dziki",
+      "location": "legowisko_dzika:polana",
+      "on_complete": [
+        {"type": "npc_mode", "npc": "halt", "mode": "idle"},
+        {"type": "npc_mode", "npc": "horace", "mode": "idle"},
+        {"type": "npc_mode", "npc": "baron_arald", "mode": "idle"}
+      ]
+    },
+    {
+      "objective": {"type": "talk", "npc": "horace"},
+      "text": "Porozmawiaj z Horace'em",
+      "location": "legowisko_dzika:horace"
+    }
+  ],
+  "on_complete": [
+    {"type": "move_npc", "npc": "baron_arald", "to": "redmont:baron_arald"},
+    {"type": "move_npc", "npc": "horace", "to": "redmont:horace"},
+    {"type": "move_npc", "npc": "halt", "to": "chata_halta:halt", "face": "chata_halta:linia_strzalu"},
+    {"type": "message", "text": "Horace wspomniał o jarmarku w Wensley. Może warto z nim jeszcze porozmawiać w zamku? (misja poboczna)"},
+    {"type": "start_quest", "quest": "zlot_zwiadowcow"}
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "title": "Przed obliczem króla",
+  "act": "Epilog",
+  "order": 14,
+  "advancement": "misje/przed_obliczem_krola",
+  "description": "Wieść o Kalkarach z Gorlanu dotarła do króla Duncana szybciej, niż ranny Halt zdążył wrócić do domu. Król przybył do Redmont osobiście. Chce poznać chłopca, który podpalił bestię Morgaratha.",
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "redmont:ceremonia", "radius": 10},
+      "text": "Wróć do zamku Redmont - król Duncan czeka na dziedzińcu"
+    },
+    {
+      "objective": {"type": "talk", "npc": "krol_duncan"},
+      "text": "Stań przed królem Duncanem",
+      "location": "redmont:krol"
+    },
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Porozmawiaj z Haltem",
+      "location": "redmont:halt_ceremonia"
+    }
+  ],
+  "on_complete": [
+    {"type": "set_flag", "flag": "kampania_ukonczona"},
+    {"type": "xp", "amount": 500},
+    {"type": "note", "title": "Cień nad Araluenem", "text": "Kalkarowie z Gorlanu nie żyją, ale Halt nie spał tej nocy. Mówi, że Morgarath nie wysłałby swoich bestii bez powodu - że Władca Deszczu i Nocy znów zbiera Wargalów w górach i szuka drogi do królestwa. Zwiadowcy z północy donoszą o nowym moście nad przepaścią. Halt powiedział tylko: „Zaczynamy szkolenie od nowa. Tym razem na poważnie.”"},
+    {"type": "title", "title": "Koniec tomu pierwszego", "subtitle": "Ciąg dalszy: Płonący Most"},
+    {"type": "move_npc", "npc": "halt", "to": "chata_halta:halt", "face": "chata_halta:linia_strzalu"},
+    {"type": "message", "text": "Araluen pozostaje otwarty. Halt ma w chacie zlecenia dla zwiadowcy."}
+  ]
+}

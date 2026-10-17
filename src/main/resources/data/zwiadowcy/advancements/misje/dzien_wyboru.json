@@ -1,0 +1,1 @@
+{"parent":"zwiadowcy:misje/araluen","display":{"icon":{"item":"minecraft:iron_sword"},"title":{"text":"Dzień Wyboru"},"description":{"text":"Zostań odrzucony przez Szkołę Rycerską… i zauważony przez kogoś innego"},"frame":"task","show_toast":true,"announce_to_chat":false,"hidden":false},"criteria":{"done":{"trigger":"minecraft:impossible"}}}

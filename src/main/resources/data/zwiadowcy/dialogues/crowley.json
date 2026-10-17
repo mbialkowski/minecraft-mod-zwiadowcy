@@ -1,0 +1,36 @@
+{
+  "npc": "crowley",
+  "entries": [
+    {"when": [{"quest_stage": "zlot_zwiadowcow", "stage": 2}], "start": "zl_1"},
+    {"when": [{"quest_stage": "zlot_zwiadowcow", "stage": 6}], "start": "zl_wiesci"},
+    {"when": [{"quest_active": "zlot_zwiadowcow"}], "start": "zl_trwa"},
+    {"when": [{"quest_active": "tropem_bestii"}], "start": "tb"},
+    {"when": [], "start": "domyslny"}
+  ],
+  "nodes": {
+    "domyslny": {
+      "text": "Crowley, dowódca Korpusu Zwiadowców. Brzmi groźnie, ale głównie zajmuję się pilnowaniem, żeby pięćdziesięciu samotników nie pozabijało się nawzajem przy jednym ognisku.",
+      "options": [{"text": "To musi być trudne."}]
+    },
+    "zl_1": {
+      "text": "No proszę! Halt przywiózł ucznia! Wiesz, chłopcze, że przez piętnaście lat odmawiał każdemu kandydatowi, jakiego mu podsunąłem? Musisz być kimś wyjątkowym. Albo bardzo upartym.\nWitaj na Zlocie. Mamy tu tradycję: konkurs łuczniczy dla uczniów. Gilan go poprowadzi - znajdziesz go przy strzelnicy.",
+      "options": [{"text": "Dziękuję, panie dowódco.", "actions": [{"type": "advance", "quest": "zlot_zwiadowcow", "stage": 2}]}]
+    },
+    "zl_trwa": {
+      "text": "Konkurs, chłopcze, konkurs! Gilan czeka.",
+      "options": [{"text": "Już idę."}]
+    },
+    "zl_wiesci": {
+      "text": "Gratuluję wyniku, Willu. Szkoda, że muszę zepsuć ci ten dzień.\nZ północy przyszły złe wieści. Lord Northolt, dowódca armii królewskiej, nie żyje. Zginął w swoim zamku. Straże rozszarpane jak szmaciane lalki… Świadkowie mówią o bestiach wysokich jak dwóch ludzi.",
+      "options": [{"text": "Bestiach?", "next": "zl_wiesci_2"}]
+    },
+    "zl_wiesci_2": {
+      "text": "Halt podejrzewa Kalkarów. Jeśli ma rację - a Halt zwykle ma rację, co jest bardzo irytujące - to Morgarath wysłał je, żeby zabijać tych, którzy pokonali go piętnaście lat temu.\nHalt jedzie ich tropem. A ty jedziesz z nim. Powodzenia, chłopcze.",
+      "options": [{"text": "Nie zawiodę.", "actions": [{"type": "advance", "quest": "zlot_zwiadowcow", "stage": 6}]}]
+    },
+    "tb": {
+      "text": "Halt już się pakuje. Ruszajcie, zanim ślady ostygną.",
+      "options": [{"text": "Tak jest."}]
+    }
+  }
+}

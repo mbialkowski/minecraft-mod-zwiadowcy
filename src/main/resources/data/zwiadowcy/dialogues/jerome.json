@@ -1,0 +1,22 @@
+{
+  "npc": "jerome",
+  "entries": [
+    {"when": [{"quest_completed": "jarmark_w_wensley"}], "start": "pokonany"},
+    {"when": [{"quest_active": "jarmark_w_wensley"}], "start": "jw"},
+    {"when": [], "start": "domyslny"}
+  ],
+  "nodes": {
+    "domyslny": {
+      "text": "Ruszaj się, uczniaku. To nasz kawałek ulicy.",
+      "options": [{"text": "Nie wiedziałem, że ulice się kupuje."}]
+    },
+    "jw": {
+      "text": "Hehe. Alda zaraz ci pokaże, gdzie twoje miejsce.",
+      "options": [{"text": "Zobaczymy."}]
+    },
+    "pokonany": {
+      "text": "Nikomu ani słowa, jasne? My… już nic nie robimy.",
+      "options": [{"text": "Jasne."}]
+    }
+  }
+}

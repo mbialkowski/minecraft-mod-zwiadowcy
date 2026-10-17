@@ -1,0 +1,1 @@
+{"parent":"zwiadowcy:misje/lekcja_bezruchu","display":{"icon":{"item":"zwiadowcy:gwizdek"},"title":{"text":"Czy pozwolisz?"},"description":{"text":"Zdobądź zaufanie Wyrwija"},"frame":"task","show_toast":true,"announce_to_chat":false,"hidden":false},"criteria":{"done":{"trigger":"minecraft:impossible"}}}
