@@ -15,6 +15,17 @@ Czeka na ciebie 14 misji fabularnych, nowy wymiar Araluen, skradanie się w pła
 bossowie i otwarty świat po zakończeniu kampanii. Cała fabuła, dialogi i opisy są po polsku.
 *English summary at the end.*
 
+## Zrzuty ekranu
+
+| | |
+|:---:|:---:|
+| ![Dziedziniec zamku Redmont](publikacja/zrzuty/01_redmont.jpg)<br>Dziedziniec zamku Redmont | ![Wielka sala zamku](publikacja/zrzuty/02_wielka_sala.jpg)<br>Wielka sala zamku |
+| ![Baron Arald](publikacja/zrzuty/03_baron.jpg)<br>Baron Arald | ![Halt przed chatą w lesie](publikacja/zrzuty/04_halt.jpg)<br>Halt przed chatą w lesie |
+| ![Rozmowa z Haltem](publikacja/zrzuty/05_rozmowa.jpg)<br>Rozmowa z Haltem | ![Strzelnica przy chacie Halta](publikacja/zrzuty/06_strzelnica.jpg)<br>Strzelnica przy chacie Halta |
+| ![Farma Starego Boba](publikacja/zrzuty/07_farma_boba.jpg)<br>Farma Starego Boba | ![Obóz Zlotu Zwiadowców](publikacja/zrzuty/08_oboz_zlotu.jpg)<br>Obóz Zlotu Zwiadowców |
+| ![Jarmark w Wensley](publikacja/zrzuty/09_wensley.jpg)<br>Jarmark w Wensley | ![Zasadzka Wargalów w spalonej osadzie](publikacja/zrzuty/10_zasadzka.jpg)<br>Zasadzka Wargalów w spalonej osadzie |
+| ![Kalkar w Ruinach Gorlanu](publikacja/zrzuty/11_kalkar.jpg)<br>Kalkar w Ruinach Gorlanu | ![Dziennik zwiadowcy](publikacja/zrzuty/12_dziennik.jpg)<br>Dziennik zwiadowcy |
+
 ## ⬇ Pobierz
 
 **[Pobierz najnowszą wersję moda (Releases)](https://github.com/mbialkowski/minecraft-mod-zwiadowcy/releases/latest)**
@@ -119,6 +130,13 @@ gradlew build
 ```
 
 Gotowy plik moda: `build/libs/zwiadowcy-forge-1.20.1-<wersja>.jar`. Wrzuć go do folderu `mods` w instalacji Forge 1.20.1.
+
+```bash
+gradlew runClient -Pzdjecia=true
+```
+
+To polecenie robi zrzuty ekranu do README: tworzy nowy świat, sam przelatuje po lokacjach i NPC, zapisuje zdjęcia
+w `run/screenshots/zwiadowcy_*.png` i zamyka grę. Nie dotykaj w tym czasie myszy ani klawiatury.
 
 ## Jak zacząć grę
 
@@ -390,7 +408,7 @@ To polecenie buduje mod i składa w `build/publikacja/` dwa pliki:
 - `Zwiadowcy-Ruiny-Gorlanu-<wersja>-forge-1.20.1.zip` dla graczy (jar, instrukcja instalacji i licencje),
   np. do GitHub Releases.
 
-Katalog [`publikacja/`](publikacja/) zawiera ikonę projektu, baner, opis strony (PL i EN), krótkie podsumowanie,
+Katalog [`publikacja/`](publikacja/) zawiera ikonę projektu, baner, zrzuty ekranu, opis strony (PL i EN), krótkie podsumowanie,
 listę zmian i [ściągawkę z polami formularzy](publikacja/formularze.md) dla Modrinth, CurseForge i GitHub Releases.
 
 ## Autorzy
