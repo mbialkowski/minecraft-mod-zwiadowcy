@@ -32,6 +32,32 @@ public final class Locations {
         return placed;
     }
 
+    /**
+     * Stawia lokację od nowa w lepszym miejscu (np. gdy w starym świecie trafiła do morza). Stara budowla zostaje,
+     * ale kotwice, postacie i koń przechodzą do nowej. Redmontu nie przenosimy - to punkt przybycia do Araluenu.
+     */
+    @Nullable
+    public static LocationData.Placed relocate(MinecraftServer server, String id) {
+        StoryLocation loc = StoryLocation.byId(id);
+        ServerLevel level = Araluen.level(server);
+        if (loc == null || loc == StoryLocation.REDMONT || level == null) return null;
+        LocationData data = LocationData.get(server);
+        LocationData.Placed old = data.placed(id);
+        data.removePlaced(id);
+        StructurePlacer.avoid = old != null ? old.center : null;
+        LocationData.Placed fresh;
+        try {
+            fresh = ensure(server, id);
+        } finally {
+            StructurePlacer.avoid = null;
+        }
+        if (old != null && fresh != null) {
+            var size = level.getStructureManager().get(Zwiadowcy.id(id)).map(t -> t.getSize()).orElse(null);
+            if (size != null) Relocation.start(level, old.origin, fresh.origin, size);
+        }
+        return fresh;
+    }
+
     /** Rozwiązuje odwołanie "lokacja[:kotwica]" na pozycję w Araluenie (stawiając strukturę w razie potrzeby). */
     @Nullable
     public static BlockPos resolve(MinecraftServer server, @Nullable String ref) {
@@ -56,7 +82,7 @@ public final class Locations {
         LocationData.Placed placed = LocationData.get(server).placed(parts[0]);
         if (placed == null) {
             StoryLocation loc = StoryLocation.byId(parts[0]);
-            return loc == null ? null : new BlockPos(loc.x, 70, loc.z);
+            return loc == null ? null : StructurePlacer.nominal(LocationData.get(server), loc).atY(70);
         }
         if (parts.length == 1) return placed.center;
         return placed.anchors.getOrDefault(parts[1], placed.center);

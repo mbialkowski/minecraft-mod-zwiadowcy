@@ -7,7 +7,7 @@
   "stages": [
     {
       "objective": {"type": "night"},
-      "text": "Zaczekaj do zmroku - Kalkarowie polują nocą",
+      "text": "Zaczekaj do zmroku - Kalkarowie polują nocą. Możesz przespać dzień na posłaniu w obozie przed ruinami",
       "location": "ruiny_gorlanu:halt"
     },
     {

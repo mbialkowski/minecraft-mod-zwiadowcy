@@ -63,6 +63,21 @@ public final class ZwiadowcyCommands {
                                     + " - kotwice: " + String.join(", ", placed.anchors.keySet())), false);
                             return 1;
                         })))
+                .then(Commands.literal("przestaw").then(Commands.argument("lokacja", StringArgumentType.word())
+                        .suggests((c, b) -> SharedSuggestionProvider.suggest(Arrays.stream(StoryLocation.values())
+                                .filter(l -> l != StoryLocation.REDMONT).map(l -> l.id), b))
+                        .executes(c -> {
+                            String id = StringArgumentType.getString(c, "lokacja");
+                            c.getSource().sendSuccess(() -> Component.literal("Szukam nowego miejsca dla " + id + "…"), false);
+                            LocationData.Placed placed = Locations.relocate(c.getSource().getServer(), id);
+                            if (placed == null) {
+                                c.getSource().sendFailure(Component.literal("Nie mogę przestawić lokacji " + id + " (Redmontu nie przenoszę)."));
+                                return 0;
+                            }
+                            c.getSource().sendSuccess(() -> Component.literal(id + " stoi teraz @ " + placed.center.toShortString()
+                                    + ". Postacie i koń przejdą tam w ciągu kilkunastu sekund. Dojazd: /zwiadowcy tp " + id), true);
+                            return 1;
+                        })))
                 .then(Commands.literal("podroz").executes(c -> {
                     Araluen.travel(c.getSource().getPlayerOrException());
                     return 1;

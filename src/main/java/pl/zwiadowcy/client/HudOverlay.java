@@ -43,6 +43,15 @@ public final class HudOverlay implements IGuiOverlay {
         int x = 6, y = 6, w = 190;
         String objective = q.currentText();
         if (q.required() > 1) objective += " (" + q.progress() + "/" + q.required() + ")";
+        if (q.awaitNight() && mc.level != null) {
+            // czas do zmroku (cel "night" spełnia się od 13000 ticku doby); 1 minuta = 1200 ticków
+            long t = Math.floorMod(mc.level.getDayTime(), 24000L);
+            if (t < 13000 || t > 23000) {
+                long ticks = t < 13000 ? 13000 - t : 24000 - t + 13000;
+                long min = (ticks + 1199) / 1200;
+                objective += min <= 1 ? " (zmrok za chwilę)" : " (zmrok za ok. " + min + " min)";
+            }
+        }
         List<FormattedCharSequence> lines = font.split(Component.literal(objective), w - 8);
         String nav = navigation(mc.player, sync);
         int h = 16 + lines.size() * 10 + (nav != null ? 11 : 0);

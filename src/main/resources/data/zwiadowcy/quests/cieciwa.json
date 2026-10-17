@@ -21,11 +21,6 @@
       "location": "chata_halta:linia_strzalu"
     },
     {
-      "objective": {"type": "target_hits", "projectile": "arrow", "count": 3, "min_distance": 45},
-      "text": "Traf w tarczę 3 razy z co najmniej 45 kratek",
-      "location": "chata_halta:linia_strzalu"
-    },
-    {
       "objective": {"type": "talk", "npc": "halt"},
       "text": "Wróć do Halta",
       "location": "chata_halta:halt"

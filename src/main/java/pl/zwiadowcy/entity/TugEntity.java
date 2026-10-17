@@ -62,6 +62,8 @@ public class TugEntity extends AbstractHorse {
         restrictTo(pos, 10);
     }
 
+    @Nullable public BlockPos homePos() { return homePos; }
+
     public void setGeneration(int g) { this.generation = g; }
 
     public boolean isTired() {

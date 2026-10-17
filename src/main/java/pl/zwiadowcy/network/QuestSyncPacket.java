@@ -21,7 +21,7 @@ public record QuestSyncPacket(String tracked, List<QuestView> quests, List<Quest
 
     public record QuestView(String id, String title, String act, String description, boolean completed,
                             boolean repeatable, int order, int stage, int stageCount, String currentText,
-                            int progress, int required, List<String> doneStages) {}
+                            int progress, int required, boolean awaitNight, List<String> doneStages) {}
 
     public static QuestSyncPacket build(ServerPlayer p) {
         QuestProgress prog = QuestCapability.get(p);
@@ -39,7 +39,8 @@ public record QuestSyncPacket(String tracked, List<QuestView> quests, List<Quest
             for (int i = 0; i < doneCount && i < def.stages().size(); i++) done.add(def.stages().get(i).text());
             views.add(new QuestView(def.id(), def.title(), def.act(), def.description(), completed, def.repeatable(),
                     def.order(), st.stage, def.stages().size(), stage != null ? stage.text() : "",
-                    st.progress, stage != null ? stage.objective().count() : 0, done));
+                    st.progress, stage != null ? stage.objective().count() : 0,
+                    stage != null && stage.objective().type().equals("night"), done));
             if (!completed && def.id().equals(prog.tracked()) && stage != null && p.getServer() != null) {
                 if (st.targetPos != null) {
                     target = st.targetPos;
@@ -72,6 +73,7 @@ public record QuestSyncPacket(String tracked, List<QuestView> quests, List<Quest
             buf.writeUtf(q.currentText, 1024);
             buf.writeVarInt(q.progress);
             buf.writeVarInt(q.required);
+            buf.writeBoolean(q.awaitNight);
             buf.writeVarInt(q.doneStages.size());
             for (String s : q.doneStages) buf.writeUtf(s, 1024);
         }
@@ -102,10 +104,11 @@ public record QuestSyncPacket(String tracked, List<QuestView> quests, List<Quest
             String current = buf.readUtf(1024);
             int progress = buf.readVarInt();
             int required = buf.readVarInt();
+            boolean awaitNight = buf.readBoolean();
             int dn = buf.readVarInt();
             List<String> done = new ArrayList<>(dn);
             for (int j = 0; j < dn; j++) done.add(buf.readUtf(1024));
-            quests.add(new QuestView(id, title, act, desc, completed, repeatable, order, stage, stageCount, current, progress, required, done));
+            quests.add(new QuestView(id, title, act, desc, completed, repeatable, order, stage, stageCount, current, progress, required, awaitNight, done));
         }
         int nn = buf.readVarInt();
         List<QuestProgress.Note> notes = new ArrayList<>(nn);

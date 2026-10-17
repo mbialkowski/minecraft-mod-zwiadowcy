@@ -77,6 +77,19 @@ public final class SelfTest {
         LocationData data = LocationData.get(server);
         net.minecraft.server.level.ServerLevel level = pl.zwiadowcy.world.Araluen.level(server);
         if (level != null) {
+            // biom pod każdą lokacją: żadna nie może stać w morzu, rzece ani na plaży
+            for (StoryLocation loc : StoryLocation.values()) {
+                LocationData.Placed p = data.placed(loc.id);
+                if (p != null) checkBiome(level, "Lokacja " + loc.id, p.center, problems, info);
+            }
+            // przeniesienie lokacji komendą /zwiadowcy przestaw
+            LocationData.Placed before = data.placed("chata_halta");
+            LocationData.Placed moved = Locations.relocate(server, "chata_halta");
+            if (moved == null || before == null || moved.center.equals(before.center)) {
+                problems.add("Przestawienie chaty Halta nie zmieniło jej położenia");
+            } else {
+                checkBiome(level, "Przestawiona chata_halta", moved.center, problems, info);
+            }
             for (StoryLocation loc : StoryLocation.values()) {
                 LocationData.Placed p = data.placed(loc.id);
                 if (p == null) continue;
@@ -181,6 +194,16 @@ public final class SelfTest {
         for (NpcDefs.NpcDef def : NpcDefs.all()) {
             if (!dialogues.containsKey(def.id())) problems.add("Postać " + def.id() + " nie ma pliku dialogu");
         }
+    }
+
+    private static void checkBiome(net.minecraft.server.level.ServerLevel level, String where, net.minecraft.core.BlockPos pos,
+                                   List<String> problems, List<String> info) {
+        var biome = level.getBiome(pos);
+        String id = biome.unwrapKey().map(k -> k.location().toString()).orElse("?");
+        boolean wet = biome.is(net.minecraft.tags.BiomeTags.IS_OCEAN) || biome.is(net.minecraft.tags.BiomeTags.IS_DEEP_OCEAN)
+                || biome.is(net.minecraft.tags.BiomeTags.IS_RIVER) || biome.is(net.minecraft.tags.BiomeTags.IS_BEACH);
+        info.add(String.format("  biom %-24s %s @ %s", where, id, pos.toShortString()));
+        if (wet) problems.add(where + " stoi w biomie wodnym (" + id + ") @ " + pos.toShortString());
     }
 
     private static void checkDecor(net.minecraft.server.level.ServerLevel level, String where, net.minecraft.world.phys.AABB box,

@@ -52,6 +52,11 @@ Gotowy plik moda: `build/libs/zwiadowcy-forge-1.20.1-1.0.0.jar`. Wrzuć go do fo
 W Araluenie nie pojawiają się zombie ani szkielety. Wrogami są stworzenia Morgaratha i bandyci, a w okolicy Redmont
 (do ~400 bloków) panuje spokój.
 
+**Czekanie na zmrok.** Gdy misja każe zaczekać do zmroku, HUD pokazuje, ile minut zostało. Nie musisz czekać:
+połóż się do dowolnego łóżka (w Redmont strzałka prowadzi do koszar, pod Gorlanem są posłania w obozie przed ruinami),
+a obudzisz się o zmroku. Zwykły sen w Araluenie przewija noc do rana. Wyjątkiem jest noc, której potrzebuje misja
+(skradanie się, polowanie Kalkarów): wtedy łóżko odmawia, bo ciemność jest sprzymierzeńcem zwiadowcy.
+
 ## Świat Araluenu
 
 **Biomy (9, z polskimi nazwami i własnymi kolorami):** Lasy Redmont, Łąki Araluenu, Brzozowy gaj, Mroczna puszcza,
@@ -109,7 +114,7 @@ ukrycia (gdy nosisz płaszcz) i wybraną strzałę (gdy trzymasz łuk zwiadowcy)
 | 1 | Dzień Wyboru | I: Redmont |
 | 2 | Nocna wspinaczka (skradanie się do gabinetu barona po bluszczu) | I |
 | 3 | Chata w lesie (drewno, woda, kawa dla Halta) | I |
-| 4 | Cięciwa i cierpliwość (strzelnica 20/40/60 kratek) | II: Szkolenie |
+| 4 | Cięciwa i cierpliwość (strzelnica: trafienia z 15 i 30 kratek) | II: Szkolenie |
 | 5 | Dwa noże (noże do rzucania, saksa i manekin) | II |
 | 6 | Lekcja bezruchu (podejdź Halta niezauważony) | II |
 | 7 | Koń od Starego Boba (oswojenie Wyrwija) | II |
@@ -127,7 +132,14 @@ Po epilogu świat zostaje otwarty, a Halt daje powtarzalne **zlecenia**: patrol 
 ### Lokacje
 
 Struktury stoją w wymiarze Araluen. Redmont powstaje przy pierwszym wejściu. Pozostałe lokacje powstają automatycznie,
-gdy zaczyna się etap misji, który ich potrzebuje: mod szuka wtedy płaskiego, suchego terenu i wyrównuje go.
+gdy zaczyna się etap misji, który ich potrzebuje. Mod szuka wtedy płaskiego, suchego terenu w pasującym biomie
+(chata Halta, legowisko dzika i obóz Zlotu w lesie, Wensley i farma na łąkach lub w gaju, Gorlan i spalona osada na
+równinie) i wyrównuje go. Morze, rzeki, plaże i inne lokacje są pomijane. Gdy w pobliżu jest sama woda, poszukiwania
+sięgają nawet ~770 bloków dalej. Położenie pozostałych lokacji liczy się względem Redmontu.
+
+Jeśli w starszym świecie lokacja stanęła w złym miejscu (np. chata Halta w morzu), komenda
+`/zwiadowcy przestaw <lokacja>` postawi ją od nowa w lepszym miejscu. Stara budowla zostaje, ale kotwice misji,
+postacie i Wyrwij przechodzą do nowej.
 
 Zamek Redmont (~0, 0) · Wensley (zachód) · Chata Halta ze strzelnicą (wschód) · Farma Starego Boba (południowy wschód) ·
 Legowisko dzika (północny wschód) · Obóz Zlotu (daleko na północnym zachodzie) · Spalona osada (wschód) ·
@@ -212,6 +224,7 @@ Znaczniki (`npc:halt;yaw=0`, `anchor:gabinet`, `dummy`, `tug`) muszą zostać na
 /zwiadowcy misja start|dalej|ukoncz <id>   /zwiadowcy misja reset
 /zwiadowcy tp <lokacja[:kotwica]>           /zwiadowcy kotwice <lokacja>
 /zwiadowcy podroz                            /zwiadowcy flaga <nazwa>
+/zwiadowcy przestaw <lokacja>                (stawia lokację od nowa w lepszym miejscu, bez Redmontu)
 ```
 
 ## Autotest
@@ -219,7 +232,8 @@ Znaczniki (`npc:halt;yaw=0`, `anchor:gabinet`, `dummy`, `tug`) muszą zostać na
 Autotest uruchamia serwer deweloperski, stawia wszystkie lokacje, sprawdza każde odwołanie w misjach i dialogach
 (misje, węzły, przedmioty, moby, dźwięki, osiągnięcia, kotwice) oraz to, czy miejsca NPC nie są zasypane.
 Odnajduje też każdą losową strukturę w świecie, liczy moby i NPC wokół niej i sprawdza biom przy Gorlanie oraz kryptę.
-Sprawdza też, czy każdy obraz i każda ramka w lokacjach i strukturach losowych ma ścianę (`survives()`).
+Sprawdza też, czy każdy obraz i każda ramka w lokacjach i strukturach losowych ma ścianę (`survives()`), czy żadna
+lokacja nie stoi w biomie wodnym (morze, rzeka, plaża) i czy `/zwiadowcy przestaw` przenosi chatę Halta w nowe miejsce.
 Raport trafia do `run/selftest.txt`, po czym serwer się zamyka. EULA Minecrafta jest zaakceptowana w `run/eula.txt`.
 Test uruchamiaj na świeżym świecie (usuń albo przenieś `run/world`). W zapisanym świecie byty z chunków wczytują się
 z opóźnieniem, więc liczniki mobów i wystroju wyjdą puste, a lokacje fabularne zostaną w starej wersji.

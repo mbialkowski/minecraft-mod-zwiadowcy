@@ -146,6 +146,12 @@ public class StoryNpc extends PathfinderMob implements RangedAttackMob {
     public void setBaseYaw(float yaw) { this.baseYaw = yaw; }
     @Nullable public BlockPos home() { return home; }
 
+    /** Przesuwa postać i jej miejsce domowe (przeniesienie lokacji komendą). */
+    public void shiftHome(BlockPos shift) {
+        if (home != null) home = home.offset(shift);
+        teleportTo(getX() + shift.getX(), getY() + shift.getY(), getZ() + shift.getZ());
+    }
+
     @Nullable
     public ServerPlayer ownerPlayer() {
         if (owner == null || level().isClientSide || level().getServer() == null) return null;

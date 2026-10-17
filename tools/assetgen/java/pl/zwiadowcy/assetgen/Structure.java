@@ -391,6 +391,16 @@ final class Structure {
                 }
                 if (!ok && !(above != null && above.startsWith("minecraft:vine"))) problem = "pnącze bez ściany";
             }
+            // drzwi: przejście na wprost (po obu stronach, na wysokość gracza) musi być wolne
+            if (problem == null && s.contains("_door[") && s.contains("half=lower")) {
+                String f = prop(s, "facing");
+                for (int side : new int[]{-1, 1}) {
+                    for (int dy = 0; dy <= 1; dy++) {
+                        String n = states.get(rawKey(x + Decor.dx(f) * side, iy + dy, z + Decor.dz(f) * side));
+                        if (n != null && !n.equals("minecraft:air") && blocksWalk(base(n))) problem = "drzwi zablokowane przez " + n;
+                    }
+                }
+            }
             if (problem != null) {
                 warnings++;
                 if (warnings <= 12) System.out.printf("    ! %s: %s @ (%d, %d, %d) %s%n", name, problem, x, iy - groundY, z, s);
@@ -434,6 +444,17 @@ final class Structure {
         }
         if (warnings > 12) System.out.printf("    ! %s: … i %d kolejnych%n", name, warnings - 12);
         return warnings;
+    }
+
+    /** Blok, przez który nie da się przejść (schody i półpłyty można pokonać krokiem). */
+    private static boolean blocksWalk(String b) {
+        if (b.contains("_door") || b.contains("trapdoor") || b.contains("fence_gate")) return false;
+        if (isFull(b)) return true;
+        for (String s : new String[]{"chest", "_bed", "fence", "pane", "bars", "_wall", "cauldron", "campfire", "anvil",
+                "lectern", "grindstone", "decorated_pot", "composter"}) {
+            if (b.contains(s) && !b.contains("wall_torch") && !b.contains("wall_banner") && !b.contains("wall_sign")) return true;
+        }
+        return false;
     }
 
     private static boolean blocksHanging(String b) {

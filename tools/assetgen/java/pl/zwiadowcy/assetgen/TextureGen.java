@@ -540,7 +540,11 @@ public final class TextureGen {
                     px.set(ax - 1, ay, feather);
                     px.set(ax, ay + 1, feather);
                 }
-                px.save(file(stage < 0 ? "item/luk_zwiadowcy" : "item/luk_zwiadowcy_pulling_" + stage));
+                // odbicie w poziomie: jak w łuku vanilla strzała celuje w lewo-górę, a cięciwa jest naciągana w prawo-dół.
+                // Model dziedziczy obroty z minecraft:item/bow, więc odwrotny rysunek wyglądał w dłoni, jakby łuk celował w niebo.
+                Px out = new Px(16, 16, 0);
+                for (int y = 0; y < 16; y++) for (int x = 0; x < 16; x++) out.set(15 - x, y, px.get(x, y));
+                out.save(file(stage < 0 ? "item/luk_zwiadowcy" : "item/luk_zwiadowcy_pulling_" + stage));
             }
         }
 

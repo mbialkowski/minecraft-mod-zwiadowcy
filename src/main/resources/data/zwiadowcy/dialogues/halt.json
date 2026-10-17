@@ -9,7 +9,7 @@
     {"when": [{"quest_stage": "chata_w_lesie", "stage": 5}], "start": "cl_kawa"},
     {"when": [{"quest_active": "chata_w_lesie"}], "start": "cl_praca"},
     {"when": [{"quest_stage": "cieciwa", "stage": 0}], "start": "ci_1"},
-    {"when": [{"quest_stage": "cieciwa", "stage": 4}], "start": "ci_koniec"},
+    {"when": [{"quest_stage": "cieciwa", "stage": 3}], "start": "ci_koniec"},
     {"when": [{"quest_active": "cieciwa"}], "start": "ci_trwa"},
     {"when": [{"quest_stage": "dwa_noze", "stage": 0}], "start": "dn_1"},
     {"when": [{"quest_stage": "dwa_noze", "stage": 3}], "start": "dn_koniec"},
@@ -147,7 +147,7 @@
       "options": [{"text": "Kiedy zaczynamy?", "next": "ci_2"}]
     },
     "ci_2": {
-      "text": "Już zaczęliśmy. Strzelnica jest za chatą. Tarcze stoją na dwudziestu, czterdziestu i sześćdziesięciu krokach. Pięć trafień z piętnastu kroków, pięć z trzydziestu, trzy z czterdziestu pięciu. Strzały są w kołczanie.",
+      "text": "Już zaczęliśmy. Strzelnica jest za chatą. Tarcze stoją na dwudziestu, czterdziestu i sześćdziesięciu krokach. Pięć trafień z piętnastu kroków i pięć z trzydziestu. Strzały są w kołczanie.",
       "options": [{"text": "Trafię.", "actions": [
         {"type": "give_item", "item": "zwiadowcy:luk_zwiadowcy"},
         {"type": "give_item", "item": "zwiadowcy:kolczan"},
@@ -161,7 +161,7 @@
     },
     "ci_koniec": {
       "text": "Trafiłeś. Większość razy.\nZwiadowca wystrzeliwuje tysiące strzał, zanim nazwie się łucznikiem. Zostało ci jakieś… dziewięćdziesiąt dziewięć tysięcy dziewięćset. Ale to był dobry początek.",
-      "options": [{"text": "Dziękuję, Halt.", "actions": [{"type": "advance", "quest": "cieciwa", "stage": 4}]}]
+      "options": [{"text": "Dziękuję, Halt.", "actions": [{"type": "advance", "quest": "cieciwa", "stage": 3}]}]
     },
 
     "dn_1": {
@@ -286,7 +286,7 @@
     },
 
     "og_trwa": {
-      "text": "Ciii. Czekaj. I sprawdź jeszcze raz strzały.",
+      "text": "Ciii. Za dnia Kalkarowie śpią w ruinach, wyjdą o zmroku. Jeśli chcesz, prześpij się na posłaniu - obudzę cię, kiedy zrobi się ciemno. I sprawdź jeszcze raz strzały.",
       "options": [{"text": "…"}]
     },
     "og_walka": {

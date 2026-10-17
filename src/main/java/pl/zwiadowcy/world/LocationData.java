@@ -41,6 +41,7 @@ public class LocationData extends SavedData {
 
     @Nullable public Placed placed(String id) { return placed.get(id); }
     public void putPlaced(String id, Placed p) { placed.put(id, p); setDirty(); }
+    public void removePlaced(String id) { placed.remove(id); setDirty(); }
     public Map<String, Placed> allPlaced() { return placed; }
 
     public int generation(String npc) { return npcGenerations.getOrDefault(npc, 0); }

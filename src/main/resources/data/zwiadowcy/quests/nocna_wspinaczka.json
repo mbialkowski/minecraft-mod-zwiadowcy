@@ -7,8 +7,8 @@
   "stages": [
     {
       "objective": {"type": "night"},
-      "text": "Zaczekaj do zmroku",
-      "location": "redmont:start_wspinaczki"
+      "text": "Zaczekaj do zmroku albo prześpij dzień w koszarach - obudzisz się o zmroku",
+      "location": "redmont:koszary"
     },
     {
       "objective": {

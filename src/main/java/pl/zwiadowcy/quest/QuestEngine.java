@@ -78,6 +78,12 @@ public final class QuestEngine {
         if (!stage.text().isEmpty()) {
             p.sendSystemMessage(Component.literal("  ▶ " + stage.text()).withStyle(ChatFormatting.GRAY));
         }
+        if (stage.objective().type().equals("night") && !isNight(p)) {
+            long ticks = nextDusk(p.level().getDayTime()) - p.level().getDayTime();
+            long min = Math.max(1, (ticks + 1199) / 1200);
+            p.sendSystemMessage(Component.literal("  Do zmroku zostało ok. " + min + " min. Nie chcesz czekać? Połóż się "
+                    + "do dowolnego łóżka - prześpisz dzień i obudzisz się o zmroku.").withStyle(ChatFormatting.DARK_AQUA));
+        }
     }
 
     /** Kończy bieżący etap misji i przechodzi do następnego. */
@@ -170,6 +176,11 @@ public final class QuestEngine {
             if (st.status != QuestProgress.Status.ACTIVE) continue;
             QuestDefinition def = QuestManager.INSTANCE.get(e.getKey());
             if (def == null) continue;
+            if (st.stage >= def.stages().size() && !def.stages().isEmpty()) {
+                // misja w zapisie miała więcej etapów niż obecna wersja - wracamy na ostatni istniejący etap
+                st.stage = def.stages().size() - 1;
+                dirty = true;
+            }
             QuestDefinition.Stage stage = def.stage(st.stage);
             if (stage == null) continue;
             QuestDefinition.Objective o = stage.objective();
@@ -327,6 +338,34 @@ public final class QuestEngine {
     public static boolean isNight(ServerPlayer p) {
         long t = p.level().getDayTime() % 24000L;
         return t >= 13000 && t <= 23000;
+    }
+
+    /** Najbliższy zmrok (13000. tick doby), od którego cel "night" jest spełniony. */
+    public static long nextDusk(long dayTime) {
+        long t = Math.floorMod(dayTime, 24000L);
+        long dayStart = dayTime - t;
+        return t < 13000 ? dayStart + 13000 : dayStart + 24000 + 13000;
+    }
+
+    /** Czy bieżący etap którejś aktywnej misji to czekanie na zmrok. */
+    public static boolean awaitsNight(ServerPlayer p) {
+        return currentStageMatches(p, 0, "night");
+    }
+
+    /** Czy bieżący etap następuje zaraz po czekaniu na zmrok - wtedy noc jest potrzebna i nie wolno jej przespać. */
+    public static boolean needsDarkness(ServerPlayer p) {
+        return currentStageMatches(p, -1, "night");
+    }
+
+    private static boolean currentStageMatches(ServerPlayer p, int offset, String type) {
+        for (Map.Entry<String, QuestProgress.State> e : QuestCapability.get(p).states().entrySet()) {
+            QuestProgress.State st = e.getValue();
+            if (st.status != QuestProgress.Status.ACTIVE) continue;
+            QuestDefinition def = QuestManager.INSTANCE.get(e.getKey());
+            QuestDefinition.Stage stage = def != null && st.stage + offset >= 0 ? def.stage(st.stage + offset) : null;
+            if (stage != null && stage.objective().type().equals(type)) return true;
+        }
+        return false;
     }
 
     public static long gameTime(ServerPlayer p) {

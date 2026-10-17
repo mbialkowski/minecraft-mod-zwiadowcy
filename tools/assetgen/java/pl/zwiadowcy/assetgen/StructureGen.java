@@ -104,7 +104,9 @@ public final class StructureGen {
         Decor.armorStand(s, 9, 1, 34, -90f, "minecraft:chainmail_boots", "minecraft:chainmail_leggings", "minecraft:chainmail_chestplate", "minecraft:chainmail_helmet");
         Decor.tableSet(s, 12, 1, 29, "spruce", "minecraft:candle[candles=2,lit=true]");
         Decor.tableSet(s, 12, 1, 35, "spruce", "minecraft:candle[candles=2,lit=true]");
-        for (int z = 28; z <= 36; z += 4) s.chest(17, 1, z, "west", "zwiadowcy:chests/redmont_zbrojownia");
+        // skrzynie w nogach łóżek (bez środkowej - stoi tam wejście z dziedzińca)
+        for (int z : new int[]{28, 36}) s.chest(17, 1, z, "west", "zwiadowcy:chests/redmont_zbrojownia");
+        s.anchor(16, 1, 30, "koszary");
         Decor.rug(s, 11, 31, 13, 33, 1, "gray", "light_gray");
         Decor.painting(s, 10, 3, 37, "north", "courbet");
         // kuchnia - wschód
@@ -1054,6 +1056,10 @@ public final class StructureGen {
         s.anchor(36, 1, 13, "wartownik_2");
         s.anchor(42, 1, 34, "wartownik_3");
         s.anchor(2, 1, 30, "podejscie");
+        // ukryty obóz przed ruinami: posłania do przespania dnia (Kalkarowie polują nocą)
+        s.bed(1, 1, 22, "north", "brown");
+        s.bed(3, 1, 22, "north", "green");
+        s.barrel(4, 1, 21, null);
         s.anchor(2, 1, 26, "halt");
         s.anchor(2, 1, 34, "gilan");
         s.anchor(3, 1, 31, "horace");
