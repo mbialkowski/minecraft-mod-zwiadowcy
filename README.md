@@ -1,12 +1,30 @@
 # Zwiadowcy: Ruiny Gorlanu
 
-Fabularny mod do Minecraft Java **1.20.1 (Forge 47.4.10)**, inspirowany pierwszym tomem „Zwiadowców” Johna Flanagana.
+![Zwiadowcy: Ruiny Gorlanu](publikacja/baner.png)
+
+> **Nieoficjalny mod fanowski.** Mod powstał z sympatii do serii „Zwiadowcy” Johna Flanagana. Nie jest związany
+> z autorem ani z wydawcami serii i nie jest przez nich zatwierdzony. Świat, postacie i nazwy należą do ich
+> właścicieli. Mod jest darmowy i niekomercyjny, a dialogi i misje napisano od nowa, bez cytatów z książek.
+> NIE JEST OFICJALNYM PRODUKTEM MINECRAFT. NIE JEST ZATWIERDZONY PRZEZ MOJANG ANI MICROSOFT ANI Z NIMI ZWIĄZANY.
+
+Fabularny mod do Minecraft Java **1.20.1 (Forge 47.x)**, inspirowany pierwszym tomem „Zwiadowców” Johna Flanagana.
 Grasz jako Will, podopieczny barona Aralda, który zostaje uczniem zwiadowcy Halta i staje do walki z Kalkarami Morgaratha.
 Cała fabuła, dialogi i opisy są po polsku (plik `en_us.json` to kopia polskiego, więc gra zawsze wyświetla polski).
+*English summary at the end.*
 
-> Mod fanowski, niekomercyjny. Postacie i świat należą do autora serii. Dialogi są napisane od zera, bez cytatów z książki.
+## Instalacja (dla graczy)
 
-## Uruchomienie
+1. Zainstaluj [Forge](https://files.minecraftforge.net) dla Minecrafta **1.20.1** (wersja 47.x, zalecana 47.4.10
+   lub nowsza) i raz uruchom grę w profilu Forge.
+2. Pobierz plik `zwiadowcy-forge-1.20.1-<wersja>.jar` z zakładki
+   [Releases](https://github.com/mbialkowski/minecraft-mod-zwiadowcy/releases) i wrzuć go do folderu `mods`
+   (Windows: `%APPDATA%\.minecraft\mods`).
+3. Uruchom grę w profilu Forge i wejdź do świata. W plecaku czeka **Kronika Araluenu**.
+
+Do gry na serwerze mod musi być zainstalowany i na serwerze, i u każdego gracza. Szczegóły są w
+[`publikacja/INSTRUKCJA.txt`](publikacja/INSTRUKCJA.txt).
+
+## Uruchomienie ze źródeł (dla twórców)
 
 Wymagany **JDK 17** (np. Eclipse Temurin 17). Ustaw `JAVA_HOME` na JDK 17 albo dopisz
 `org.gradle.java.home=<ścieżka do JDK 17>` w swoim `~/.gradle/gradle.properties`.
@@ -19,7 +37,7 @@ gradlew runClient
 gradlew build
 ```
 
-Gotowy plik moda: `build/libs/zwiadowcy-1.0.0.jar`. Wrzuć go do folderu `mods` w instalacji Forge 1.20.1.
+Gotowy plik moda: `build/libs/zwiadowcy-forge-1.20.1-1.0.0.jar`. Wrzuć go do folderu `mods` w instalacji Forge 1.20.1.
 
 ## Jak zacząć grę
 
@@ -146,7 +164,8 @@ src/main/java/pl/zwiadowcy/
 src/main/resources/data/zwiadowcy/
   quests/      17 misji (JSON)        dialogues/   20 plików dialogów (JSON)
   structures/  8 lokacji + losowe (.nbt) dimension/, dimension_type/, recipes/, loot_tables/, advancements/
-tools/assetgen/java/   generatory tekstur (pixel-art) i struktur (.nbt) w czystej Javie
+tools/assetgen/java/   generatory tekstur (pixel-art), struktur (.nbt) i grafik do publikacji w czystej Javie
+publikacja/           ikona, baner, opisy, lista zmian i instrukcja do publikacji moda
 ```
 
 ### Edycja fabuły bez kompilacji
@@ -172,7 +191,8 @@ Wszystkie tekstury i struktury generuje kod, więc można je odtworzyć albo pod
 gradlew generateAssets
 ```
 
-`generateAssets` uruchamia trzy generatory: tekstury, struktury (`structures/` i `structures/losowe/`) oraz biomy
+`generateAssets` uruchamia cztery generatory: tekstury, struktury (`structures/` i `structures/losowe/`), grafiki
+do publikacji (`generatePromo`: ikona, baner i logo na liście modów) oraz biomy
 Araluenu (budowane z biomów vanilla z pliku `client-extra.jar` w cache Gradle).
 
 Generator struktur sprawdza każdy plik i wypisuje ostrzeżenia `!` dla elementów, które w grze by odpadły albo nie
@@ -212,3 +232,36 @@ gradlew runServer -Pselftest=true
 
 - Dźwięki pochodzą z Minecrafta vanilla (konie, ravager, wilk, flet).
 - Mod jest zaprojektowany dla jednego gracza. Działa w sieci klient-serwer Forge, ale fabuła zakłada jednego Willa.
+
+## Publikacja
+
+```bash
+gradlew paczka
+```
+
+To polecenie buduje mod i składa w `build/publikacja/` dwa pliki:
+- `zwiadowcy-forge-1.20.1-<wersja>.jar` do wgrania na Modrinth i CurseForge,
+- `Zwiadowcy-Ruiny-Gorlanu-<wersja>-forge-1.20.1.zip` dla graczy (jar, instrukcja instalacji i licencje),
+  np. do GitHub Releases.
+
+Katalog [`publikacja/`](publikacja/) zawiera ikonę projektu, baner, opis strony (PL i EN), krótkie podsumowanie,
+listę zmian i [ściągawkę z polami formularzy](publikacja/formularze.md) dla Modrinth, CurseForge i GitHub Releases.
+
+## Licencja
+
+- Kod źródłowy: [MIT](LICENSE).
+- Grafiki, struktury oraz teksty misji, dialogów i kroniki:
+  [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.pl). Szczegóły w [`LICENSE-ZASOBY.txt`](LICENSE-ZASOBY.txt).
+- Świat, postacie i nazwy z serii „Zwiadowcy” należą do Johna Flanagana i wydawców i żadna z licencji ich nie
+  obejmuje. Minecraft jest znakiem towarowym Mojang AB; ten projekt nie jest z Mojang ani Microsoftem związany.
+
+## English
+
+**Unofficial fan-made mod** inspired by John Flanagan's *Ranger's Apprentice* series. It is not affiliated with
+the author or the publishers. Free and non-commercial. NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR
+ASSOCIATED WITH MOJANG OR MICROSOFT.
+
+A story mod for Minecraft Java 1.20.1 (Forge 47.x). You play as Will, who becomes the apprentice of the Ranger Halt.
+The mod adds a 14-mission campaign, a new dimension with 9 biomes, story locations, random structures, 22 characters
+with dialogue, new enemies and ranger gear. **All in-game text is in Polish.** Install it like any Forge mod
+(client and server). Code is licensed under MIT; assets and texts under CC BY-NC 4.0.

@@ -1,0 +1,42 @@
+Zwiadowcy: Ruiny Gorlanu - licencje i zastrzeżenia
+===================================================
+
+NIEOFICJALNY MOD FANOWSKI
+Mod powstał z sympatii do serii „Zwiadowcy” (ang. „Ranger's Apprentice”) Johna Flanagana. Nie jest związany
+z autorem ani z wydawcami serii i nie jest przez nich zatwierdzony. Świat, postacie i nazwy z serii należą do
+ich właścicieli. Żadna z licencji projektu nie obejmuje tych praw. Mod nie zawiera fragmentów książek: dialogi,
+misje i opisy napisano od nowa. Mod jest darmowy i niekomercyjny.
+
+1. Kod źródłowy (src/main/java, tools/, skrypty Gradle) - licencja MIT, zobacz plik LICENSE.
+
+2. Zasoby: tekstury, modele, struktury (.nbt), teksty misji, dialogów i kroniki oraz grafiki z katalogu
+   publikacja/ - licencja Creative Commons Uznanie autorstwa - Użycie niekomercyjne 4.0 (CC BY-NC 4.0):
+   https://creativecommons.org/licenses/by-nc/4.0/deed.pl
+   Możesz je kopiować i przerabiać w celach niekomercyjnych, podając autora (ABialas) i link
+   do projektu: https://github.com/mbialkowski/minecraft-mod-zwiadowcy
+
+3. Minecraft
+   NIE JEST OFICJALNYM PRODUKTEM MINECRAFT. NIE JEST ZATWIERDZONY PRZEZ MOJANG ANI MICROSOFT ANI Z NIMI ZWIĄZANY.
+   Mod nie zawiera plików gry. Dźwięki i część bloków to odwołania do zasobów Minecrafta, które gracz ma we
+   własnej, legalnej kopii gry.
+
+---------------------------------------------------------------------------------------------------------------
+
+Zwiadowcy: Ruiny Gorlanu - licenses and notices
+
+UNOFFICIAL FAN MOD
+This mod is a tribute to John Flanagan's "Ranger's Apprentice" series. It is not affiliated with, endorsed or
+approved by the author or the publishers. The setting, characters and names belong to their respective owners
+and no license of this project covers them. The mod contains no text from the books: all dialogue, quests and
+descriptions were written from scratch. The mod is free and non-commercial.
+
+1. Source code (src/main/java, tools/, Gradle scripts) - MIT License, see LICENSE.
+
+2. Assets: textures, models, structures (.nbt), quest, dialogue and chronicle texts, and the graphics in
+   publikacja/ - Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0):
+   https://creativecommons.org/licenses/by-nc/4.0/
+   Credit: ABialas, https://github.com/mbialkowski/minecraft-mod-zwiadowcy
+
+3. Minecraft
+   NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.
+   The mod ships no game files. Sounds and some blocks reference assets from the player's own copy of the game.

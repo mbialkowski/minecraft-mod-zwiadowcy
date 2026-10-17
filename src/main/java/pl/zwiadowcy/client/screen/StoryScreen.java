@@ -99,6 +99,11 @@ public class StoryScreen extends Screen {
         }
         String counter = (page + 1) + " / " + pages.size();
         g.drawString(font, counter, left + W / 2 - font.width(counter) / 2, top + H - 23, FAINT, false);
+        if (page == 0) {
+            // pierwsza strona kroniki i prologu: informacja, że to nieoficjalny mod fanowski
+            String fan = "Nieoficjalny mod fanowski na motywach „Zwiadowców” Johna Flanagana";
+            g.drawString(font, fan, width / 2 - font.width(fan) / 2, Math.min(height - 10, top + H + 8), 0xFFB8A888, false);
+        }
         super.render(g, mouseX, mouseY, partialTick);
     }
 

@@ -1,0 +1,36 @@
+ZWIADOWCY: RUINY GORLANU - instalacja
+=====================================
+Nieoficjalny mod fanowski na motywach serii „Zwiadowcy” Johna Flanagana. Darmowy i niekomercyjny.
+Nie jest związany z autorem ani wydawcami serii, ani z Mojang czy Microsoftem.
+
+Wymagania
+- Minecraft Java Edition 1.20.1
+- Forge dla 1.20.1, wersja 47.x (zalecana 47.4.10 lub nowsza): https://files.minecraftforge.net
+
+Instalacja
+1. Pobierz instalator Forge dla Minecrafta 1.20.1 i wybierz "Install client".
+2. Uruchom launcher Minecrafta, wybierz profil "forge 1.20.1" i raz włącz grę, żeby utworzył się folder mods.
+   Potem zamknij grę.
+3. Skopiuj plik zwiadowcy-forge-1.20.1-<wersja>.jar do folderu mods:
+   Windows: %APPDATA%\.minecraft\mods
+   macOS:   ~/Library/Application Support/minecraft/mods
+   Linux:   ~/.minecraft/mods
+4. Uruchom grę w profilu Forge. Na liście "Mods" powinien być „Zwiadowcy: Ruiny Gorlanu”.
+
+Jak zacząć
+- Wejdź do świata. W plecaku znajdziesz Kronikę Araluenu. Użyj jej (prawy przycisk myszy), żeby przenieść się
+  do zamku Redmont. Prolog wyjaśni resztę.
+- Klawisze: J - Dziennik zwiadowcy, V - Bezruch (z płaszczem zwiadowcy), R - zmiana strzały w kołczanie.
+- Kronika w każdej chwili zabierze cię z powrotem do twojego świata.
+
+Serwer
+- Na serwerze Forge 1.20.1 wrzuć ten sam plik do folderu mods serwera. Każdy gracz też musi mieć mod.
+- Fabuła jest pomyślana dla jednego gracza.
+
+Licencje: kod - MIT (LICENSE), grafiki, struktury i teksty - CC BY-NC 4.0 (LICENSE-ZASOBY.txt).
+Strona projektu i zgłoszenia błędów: https://github.com/mbialkowski/minecraft-mod-zwiadowcy
+
+-------------------------------------------------------------------------------------------------------------
+ENGLISH (short): Unofficial fan-made mod, Polish language only. Install Forge 47.x for Minecraft 1.20.1, put the
+.jar into your .minecraft/mods folder and start the game with the Forge profile. Use the "Kronika Araluenu"
+book from your inventory to travel to Araluen. Required on both client and server.

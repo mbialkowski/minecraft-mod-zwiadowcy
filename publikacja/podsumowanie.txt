@@ -1,0 +1,7 @@
+Krótki opis projektu (pole "Summary" na Modrinth i CurseForge, do 250 znaków).
+
+PL:
+Nieoficjalny mod fanowski na motywach „Zwiadowców”: zostań uczniem zwiadowcy Halta. 14 misji, zamek Redmont, Wargale i Kalkarowie, skradanie się w płaszczu zwiadowcy. Całość po polsku.
+
+EN:
+Unofficial fan-made story mod inspired by Ranger's Apprentice: become Halt's apprentice in a 14-mission campaign with stealth, archery and a new dimension. Polish language only.

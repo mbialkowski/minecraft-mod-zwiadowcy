@@ -1,13 +1,17 @@
 modLoader="javafml"
 loaderVersion="${loader_version_range}"
 license="${mod_license}"
+issueTrackerURL="https://github.com/mbialkowski/minecraft-mod-zwiadowcy/issues"
 
 [[mods]]
 modId="${mod_id}"
 version="${mod_version}"
 displayName="${mod_name}"
+displayURL="https://github.com/mbialkowski/minecraft-mod-zwiadowcy"
+logoFile="logo.png"
+logoBlur=false
 authors="${mod_authors}"
-credits="Inspirowane serią „Zwiadowcy” Johna Flanagana. Mod fanowski, niekomercyjny."
+credits="Nieoficjalny, niekomercyjny mod fanowski na motywach serii „Zwiadowcy” (Ranger's Apprentice) Johna Flanagana. Nie jest związany z autorem ani wydawcami. NIE JEST OFICJALNYM PRODUKTEM MINECRAFT."
 description='''${mod_description}'''
 
 [[dependencies.${mod_id}]]
