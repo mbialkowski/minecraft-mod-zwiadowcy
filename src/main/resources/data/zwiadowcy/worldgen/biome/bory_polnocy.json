@@ -149,16 +149,16 @@
     "misc": [],
     "monster": [
       {
-        "type": "zwiadowcy:wargal_zwiadowca",
+        "type": "zwiadowcy:bandyta",
         "weight": 6,
         "minCount": 1,
         "maxCount": 2
       },
       {
-        "type": "zwiadowcy:wargal",
-        "weight": 4,
+        "type": "zwiadowcy:lucznik_bandytow",
+        "weight": 3,
         "minCount": 1,
-        "maxCount": 2
+        "maxCount": 1
       }
     ],
     "underground_water_creature": [

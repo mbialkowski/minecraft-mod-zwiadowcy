@@ -118,7 +118,7 @@ gradlew runClient
 gradlew build
 ```
 
-Gotowy plik moda: `build/libs/zwiadowcy-forge-1.20.1-1.0.0.jar`. Wrzuć go do folderu `mods` w instalacji Forge 1.20.1.
+Gotowy plik moda: `build/libs/zwiadowcy-forge-1.20.1-<wersja>.jar`. Wrzuć go do folderu `mods` w instalacji Forge 1.20.1.
 
 ## Jak zacząć grę
 
@@ -131,7 +131,8 @@ Gotowy plik moda: `build/libs/zwiadowcy-forge-1.20.1-1.0.0.jar`. Wrzuć go do fo
    czat przypomina, którą misję śledzisz.
 
 W Araluenie nie pojawiają się zombie ani szkielety. Wrogami są stworzenia Morgaratha i bandyci, a w okolicy Redmont
-(do ~400 bloków) panuje spokój.
+(do ~350 bloków) panuje spokój. Wargale, wrogowie z trzeciego aktu, nie pojawiają się bliżej niż ~600 bloków od zamku,
+czyli w okolicach Wensley, chaty Halta, farmy Boba, legowiska dzika i obozu Zlotu. Wyjątkiem są zasadzki w misjach.
 
 **Czekanie na zmrok.** Gdy misja każe zaczekać do zmroku, HUD pokazuje, ile minut zostało. Nie musisz czekać:
 połóż się do dowolnego łóżka (w Redmont strzałka prowadzi do koszar, pod Gorlanem są posłania w obozie przed ruinami),
@@ -168,7 +169,8 @@ Zwykły świat Minecrafta się nie zmienia.
 | Niedźwiedź brunatny | atakuje, gdy podejdziesz bliżej niż 6 bloków, chyba że się skradasz |
 | Kalkar | boss fabularny |
 
-Nocne patrole Wargalów pojawiają się w ciemnych, odległych biomach: pogórze, szczyty, bory, puszcza, równina.
+Wargale pojawiają się tylko w groźnych, odległych terenach: na pogórzu, w górach Deszczu i Nocy i na Równinie Samotności.
+Tam też stoją ich obozy i posterunki. W lasach bliżej domu grasują bandyci.
 
 **Losowe struktury (tylko w Araluenie):** obóz Wargalów (czasem z hersztem), posterunek Morgaratha (wieża z ciemnego
 kamienia), kryjówka bandytów (palisada, chaty, wieżyczka łucznika), ruina strażnicy, kurhan z kryptą (czasem

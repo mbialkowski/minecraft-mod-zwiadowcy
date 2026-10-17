@@ -155,11 +155,30 @@ public final class ModEvents {
         }
     }
 
+    /** Promień wokół Redmontu bez Wargali (obejmuje lokacje pierwszego i drugiego aktu). */
+    private static final double WARGAL_FREE_RADIUS = 600;
+
+    /** Odległość (w poziomie) od faktycznego położenia zamku Redmont - albo od (0, 0), zanim zamek stanie. */
+    private static double distanceToRedmont(net.minecraft.server.level.ServerLevel level, double x, double z) {
+        pl.zwiadowcy.world.LocationData.Placed redmont = pl.zwiadowcy.world.LocationData.get(level.getServer()).placed("redmont");
+        double cx = redmont != null ? redmont.center.getX() : 0, cz = redmont != null ? redmont.center.getZ() : 0;
+        return Math.hypot(x - cx, z - cz);
+    }
+
     /** W Araluenie nie ma zombie ani szkieletów - jedynymi potworami są stworzenia Morgaratha. */
     @SubscribeEvent
     public static void onFinalizeSpawn(MobSpawnEvent.FinalizeSpawn event) {
         if (!(event.getLevel() instanceof net.minecraft.server.level.ServerLevel level) || !Araluen.isAraluen(level)) return;
         if (!(event.getEntity() instanceof Enemy)) return;
+        MobSpawnType spawn = event.getSpawnType();
+        // Wargale to wrogowie z trzeciego aktu: w spokojnym lennie Redmont (Wensley, chata Halta, farma Boba, legowisko
+        // dzika, obóz Zlotu) nie pojawiają się same - tylko w zasadzkach z misji
+        if (event.getEntity() instanceof pl.zwiadowcy.entity.WargalEntity && (spawn == MobSpawnType.NATURAL
+                || spawn == MobSpawnType.CHUNK_GENERATION || spawn == MobSpawnType.PATROL || spawn == MobSpawnType.EVENT)
+                && distanceToRedmont(level, event.getEntity().getX(), event.getEntity().getZ()) < WARGAL_FREE_RADIUS) {
+            event.setSpawnCancelled(true);
+            return;
+        }
         ResourceLocation key = ForgeRegistries.ENTITY_TYPES.getKey(event.getEntity().getType());
         if (key != null && key.getNamespace().equals(Zwiadowcy.MODID)) return;
         MobSpawnType type = event.getSpawnType();
@@ -179,20 +198,13 @@ public final class ModEvents {
         if (event.getEntity() instanceof Phantom && Araluen.isAraluen(event.getLevel()) && !event.loadedFromDisk()) {
             event.setCanceled(true);
         }
-        // spokojne okolice Redmont: wrogowie z losowych struktur nie pojawiają się bliżej niż 350 bloków od zamku
+        // spokojne okolice Redmont: wrogowie z losowych struktur nie pojawiają się bliżej niż 350 bloków od zamku,
+        // a Wargale - bliżej niż 600 (to wrogowie z trzeciego aktu)
         if (!event.loadedFromDisk() && event.getEntity() instanceof net.minecraft.world.entity.monster.Monster
-                && event.getEntity().getTags().contains("zw_losowe") && Araluen.isAraluen(event.getLevel())) {
-            // środek strefy to faktyczne położenie zamku (mógł odsunąć się od wody), a nie początek układu współrzędnych
-            double cx = 0, cz = 0;
-            if (event.getLevel() instanceof net.minecraft.server.level.ServerLevel sl) {
-                pl.zwiadowcy.world.LocationData.Placed redmont = pl.zwiadowcy.world.LocationData.get(sl.getServer()).placed("redmont");
-                if (redmont != null) {
-                    cx = redmont.center.getX();
-                    cz = redmont.center.getZ();
-                }
-            }
-            double x = event.getEntity().getX() - cx, z = event.getEntity().getZ() - cz;
-            if (x * x + z * z < 350.0 * 350.0) event.setCanceled(true);
+                && event.getEntity().getTags().contains("zw_losowe") && event.getLevel() instanceof net.minecraft.server.level.ServerLevel sl
+                && Araluen.isAraluen(sl)) {
+            double radius = event.getEntity() instanceof pl.zwiadowcy.entity.WargalEntity ? WARGAL_FREE_RADIUS : 350;
+            if (distanceToRedmont(sl, event.getEntity().getX(), event.getEntity().getZ()) < radius) event.setCanceled(true);
         }
     }
 

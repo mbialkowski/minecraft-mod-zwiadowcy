@@ -220,6 +220,19 @@ public final class StructurePlacer {
         return false;
     }
 
+    /**
+     * Czy w prostokącie wokół (x, z) leży jakakolwiek struktura losowa. Sprawdzamy odwołania do struktur w chunkach -
+     * wystarcza do tego etap STRUCTURE_REFERENCES, bez generowania terenu.
+     */
+    private static boolean touchesStructure(ServerLevel level, int x, int z, int rx, int rz) {
+        for (int cx = (x - rx) >> 4; cx <= (x + rx) >> 4; cx++) {
+            for (int cz = (z - rz) >> 4; cz <= (z + rz) >> 4; cz++) {
+                if (level.getChunk(cx, cz, net.minecraft.world.level.chunk.ChunkStatus.STRUCTURE_REFERENCES).hasAnyStructureReferences()) return true;
+            }
+        }
+        return false;
+    }
+
     private static boolean isWet(Holder<Biome> biome) {
         return biome.is(BiomeTags.IS_OCEAN) || biome.is(BiomeTags.IS_DEEP_OCEAN) || biome.is(BiomeTags.IS_RIVER) || biome.is(BiomeTags.IS_BEACH);
     }
@@ -258,6 +271,8 @@ public final class StructurePlacer {
                     }
                 }
                 if (wet) continue;
+                // nie wchodzimy na struktury losowe (zajazd, kryjówka, obóz…): wyrównanie terenu ścięłoby im ściany
+                if (touchesStructure(level, x, z, hx + MARGIN + 4, hz + MARGIN + 4)) continue;
                 measured++;
                 // wysokość gruntu prosto z szumu generatora: bez generowania chunków (kandydatów są dziesiątki,
                 // a każdy chunk to kilkadziesiąt ms na głównym wątku) i bez drzew; grunt poniżej poziomu morza = woda
