@@ -1,7 +1,8 @@
 ![Zwiadowcy: Ruiny Gorlanu](https://raw.githubusercontent.com/mbialkowski/minecraft-mod-zwiadowcy/main/publikacja/baner.png)
 
 > **Nieoficjalny mod fanowski** na motywach serii „Zwiadowcy” Johna Flanagana. Nie jest związany z autorem ani
-> z wydawcami serii. Jest darmowy i niekomercyjny. Dialogi i misje napisano od nowa, bez cytatów z książek.
+> z wydawcami serii. Jest darmowy i niekomercyjny. Fabuła jest wolną interpretacją wydarzeń z pierwszego tomu,
+> „Ruin Gorlanu”. Dialogi i opisy misji napisano własnymi słowami, bez cytatów z książek.
 > **Cała fabuła jest po polsku.** *(English summary below.)*
 
 ## O modzie
@@ -67,7 +68,8 @@ Kod źródłowy i zgłoszenia błędów: https://github.com/mbialkowski/minecraf
 ## English summary
 
 > **Unofficial fan-made mod** inspired by John Flanagan's *Ranger's Apprentice* series. Not affiliated with
-> the author or publishers. Free and non-commercial. **All story text is in Polish only.**
+> the author or publishers. Free and non-commercial. The story is a loose interpretation of the events of the first
+> book, *The Ruins of Gorlan*, retold without quotes from the books. **All story text is in Polish only.**
 
 Play as Will, a ward of Castle Redmont who becomes the apprentice of the Ranger Halt. The mod adds a 14-mission
 story campaign with a side quest and repeatable contracts, a new dimension (Araluen) with 9 biomes, 8 story

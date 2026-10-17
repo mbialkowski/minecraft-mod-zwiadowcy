@@ -1,6 +1,7 @@
 ZWIADOWCY: RUINY GORLANU - instalacja
 =====================================
 Nieoficjalny mod fanowski na motywach serii „Zwiadowcy” Johna Flanagana. Darmowy i niekomercyjny.
+Fabuła jest wolną interpretacją wydarzeń z pierwszego tomu, „Ruin Gorlanu”.
 Nie jest związany z autorem ani wydawcami serii, ani z Mojang czy Microsoftem. Cała fabuła jest po polsku.
 
 Wymagania

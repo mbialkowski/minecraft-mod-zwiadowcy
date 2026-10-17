@@ -6,10 +6,13 @@
 
 > **Nieoficjalny mod fanowski.** Mod powstał z sympatii do serii „Zwiadowcy” Johna Flanagana. Nie jest związany
 > z autorem ani z wydawcami serii i nie jest przez nich zatwierdzony. Świat, postacie i nazwy należą do ich
-> właścicieli. Mod jest darmowy i niekomercyjny, a dialogi i misje napisano od nowa, bez cytatów z książek.
+> właścicieli. Fabuła nie jest naszym pomysłem: to wolna interpretacja wydarzeń opisanych w pierwszym tomie,
+> „Ruinach Gorlanu”. Dialogi i opisy misji napisaliśmy własnymi słowami, bez cytatów z książek.
+> Mod jest darmowy i niekomercyjny.
 > NIE JEST OFICJALNYM PRODUKTEM MINECRAFT. NIE JEST ZATWIERDZONY PRZEZ MOJANG ANI MICROSOFT ANI Z NIMI ZWIĄZANY.
 
-Fabularny mod do Minecraft Java **1.20.1 (Forge 47.x)**, inspirowany pierwszym tomem „Zwiadowców” Johna Flanagana.
+Fabularny mod do Minecraft Java **1.20.1 (Forge 47.x)**. Kampania to wolna interpretacja wydarzeń z pierwszego tomu
+„Zwiadowców” Johna Flanagana, „Ruiny Gorlanu”.
 Grasz jako Will, podopieczny barona Aralda, który zostaje uczniem zwiadowcy Halta i staje do walki z Kalkarami Morgaratha.
 Czeka na ciebie 14 misji fabularnych, nowy wymiar Araluen, skradanie się w płaszczu zwiadowcy, łuk, noże, koń Wyrwij,
 bossowie i otwarty świat po zakończeniu kampanii. Cała fabuła, dialogi i opisy są po polsku.
@@ -413,7 +416,8 @@ listę zmian i [ściągawkę z polami formularzy](publikacja/formularze.md) dla 
 
 ## Autorzy
 
-**ABialas & 🤖CC** - pomysł, fabuła, kod, grafiki i struktury.
+**ABialas & 🤖CC** - przeniesienie historii do gry: misje, dialogi, kod, grafiki i struktury.
+Fabuła pochodzi z książki „Ruiny Gorlanu” Johna Flanagana, a mod jest jej wolną interpretacją.
 Uwagi, pomysły i zgłoszenia błędów: [Issues](https://github.com/mbialkowski/minecraft-mod-zwiadowcy/issues).
 
 ## Licencja
@@ -421,7 +425,7 @@ Uwagi, pomysły i zgłoszenia błędów: [Issues](https://github.com/mbialkowski
 - Kod źródłowy: [MIT](LICENSE).
 - Grafiki, struktury oraz teksty misji, dialogów i kroniki:
   [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.pl). Szczegóły w [`LICENSE-ZASOBY.txt`](LICENSE-ZASOBY.txt).
-- Świat, postacie i nazwy z serii „Zwiadowcy” należą do Johna Flanagana i wydawców i żadna z licencji ich nie
+- Świat, fabuła, postacie i nazwy z serii „Zwiadowcy” należą do Johna Flanagana i wydawców i żadna z licencji ich nie
   obejmuje. Minecraft jest znakiem towarowym Mojang AB; ten projekt nie jest z Mojang ani Microsoftem związany.
 
 ## English
@@ -430,7 +434,9 @@ Uwagi, pomysły i zgłoszenia błędów: [Issues](https://github.com/mbialkowski
 the author or the publishers. Free and non-commercial. NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR
 ASSOCIATED WITH MOJANG OR MICROSOFT.
 
-A story mod for Minecraft Java 1.20.1 (Forge 47.x). You play as Will, who becomes the apprentice of the Ranger Halt.
+A story mod for Minecraft Java 1.20.1 (Forge 47.x). The story is not ours: it is a loose interpretation of the events
+of the first book, *The Ruins of Gorlan*, retold in our own words without quotes from the books.
+You play as Will, who becomes the apprentice of the Ranger Halt.
 The mod adds a 14-mission campaign, a new dimension with 9 biomes, story locations, random structures, 22 characters
 with dialogue, new enemies and ranger gear. **All in-game text is in Polish.** Install it like any Forge mod
 (client and server). Code is licensed under MIT; assets and texts under CC BY-NC 4.0. Authors: ABialas & 🤖CC.

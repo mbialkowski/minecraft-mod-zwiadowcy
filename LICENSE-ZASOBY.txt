@@ -3,9 +3,10 @@ Zwiadowcy: Ruiny Gorlanu - licencje i zastrzeżenia
 
 NIEOFICJALNY MOD FANOWSKI
 Mod powstał z sympatii do serii „Zwiadowcy” (ang. „Ranger's Apprentice”) Johna Flanagana. Nie jest związany
-z autorem ani z wydawcami serii i nie jest przez nich zatwierdzony. Świat, postacie i nazwy z serii należą do
-ich właścicieli. Żadna z licencji projektu nie obejmuje tych praw. Mod nie zawiera fragmentów książek: dialogi,
-misje i opisy napisano od nowa. Mod jest darmowy i niekomercyjny.
+z autorem ani z wydawcami serii i nie jest przez nich zatwierdzony. Świat, fabuła, postacie i nazwy z serii
+należą do ich właścicieli. Żadna z licencji projektu nie obejmuje tych praw. Fabuła moda jest wolną interpretacją
+wydarzeń opisanych w pierwszym tomie, „Ruinach Gorlanu”. Mod nie zawiera fragmentów książek: dialogi i opisy
+misji napisano własnymi słowami. Mod jest darmowy i niekomercyjny.
 
 1. Kod źródłowy (src/main/java, tools/, skrypty Gradle) - licencja MIT, zobacz plik LICENSE.
 
@@ -26,9 +27,10 @@ Zwiadowcy: Ruiny Gorlanu - licenses and notices
 
 UNOFFICIAL FAN MOD
 This mod is a tribute to John Flanagan's "Ranger's Apprentice" series. It is not affiliated with, endorsed or
-approved by the author or the publishers. The setting, characters and names belong to their respective owners
-and no license of this project covers them. The mod contains no text from the books: all dialogue, quests and
-descriptions were written from scratch. The mod is free and non-commercial.
+approved by the author or the publishers. The setting, story, characters and names belong to their respective
+owners and no license of this project covers them. The mod's story is a loose interpretation of the events
+described in the first book, "The Ruins of Gorlan". The mod contains no text from the books: dialogue and quest
+descriptions are written in our own words. The mod is free and non-commercial.
 
 1. Source code (src/main/java, tools/, Gradle scripts) - MIT License, see LICENSE.
 
