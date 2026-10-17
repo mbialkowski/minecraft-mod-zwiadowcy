@@ -98,6 +98,15 @@ public final class StructureGen {
         s.set(21, 2, 27, "zwiadowcy:tarcza_lucznicza");
         s.set(20, 1, 37, "minecraft:hay_block");
         s.set(20, 2, 37, "minecraft:hay_block");
+        // koszary: broń na ścianie, zbroje na stojakach, stoły, skrzynie w nogach łóżek
+        for (int z : new int[]{29, 31, 33, 35}) Decor.itemFrame(s, 8, 3, z, "east", z == 33 ? "minecraft:shield" : "minecraft:iron_sword");
+        Decor.armorStand(s, 9, 1, 30, -90f, "minecraft:iron_boots", "minecraft:iron_leggings", "minecraft:iron_chestplate", "minecraft:iron_helmet");
+        Decor.armorStand(s, 9, 1, 34, -90f, "minecraft:chainmail_boots", "minecraft:chainmail_leggings", "minecraft:chainmail_chestplate", "minecraft:chainmail_helmet");
+        Decor.tableSet(s, 12, 1, 29, "spruce", "minecraft:candle[candles=2,lit=true]");
+        Decor.tableSet(s, 12, 1, 35, "spruce", "minecraft:candle[candles=2,lit=true]");
+        for (int z = 28; z <= 36; z += 4) s.chest(17, 1, z, "west", "zwiadowcy:chests/redmont_zbrojownia");
+        Decor.rug(s, 11, 31, 13, 33, 1, "gray", "light_gray");
+        Decor.painting(s, 10, 3, 37, "north", "courbet");
         // kuchnia - wschód
         building(s, 44, 30, 53, 40, 5, "minecraft:stone_bricks", "dark_oak", "minecraft:dark_oak_planks", false);
         s.door(44, 1, 35, "west", "oak");
@@ -108,7 +117,17 @@ public final class StructureGen {
         s.set(48, 1, 33, "minecraft:crafting_table");
         s.barrel(46, 1, 39, null);
         s.barrel(47, 1, 39, null);
-        s.fill(49, 6, 36, 49, 9, 36, "minecraft:bricks");
+        // kuchnia: wielkie palenisko, kocioł nad ogniem, stół, zioła na półkach
+        Decor.fireplace(s, 49, 1, 31, "south", 12, "minecraft:bricks");
+        Decor.cookingPot(s, 46, 1, 32);
+        Decor.tableSet(s, 48, 1, 37, "dark_oak", "minecraft:candle[candles=3,lit=true]");
+        s.set(46, 2, 39, "minecraft:cake");
+        s.set(47, 2, 39, "minecraft:potted_red_mushroom");
+        Decor.shelf(s, 45, 3, 32, "spruce", "minecraft:potted_fern");
+        Decor.shelf(s, 45, 3, 38, "spruce", "minecraft:potted_brown_mushroom");
+        s.set(45, 1, 38, "minecraft:composter[level=4]");
+        s.set(51, 1, 39, "minecraft:hay_block");
+        Decor.painting(s, 51, 3, 39, "north", "kebab");
         // stajnie - południowy zachód
         s.fill(7, 4, 43, 17, 4, 50, "minecraft:spruce_slab[type=bottom]");
         for (int x = 7; x <= 17; x += 5) { s.fill(x, 1, 43, x, 3, 43, "minecraft:spruce_fence"); s.fill(x, 1, 50, x, 3, 50, "minecraft:spruce_fence"); }
@@ -129,6 +148,13 @@ public final class StructureGen {
             s.set(l[0], 2, l[1], "minecraft:oak_fence");
             s.set(l[0], 3, l[1], "minecraft:lantern[hanging=false]");
         }
+        // rabaty kwiatowe, ławki i kram na dziedzińcu
+        String[] flowers = {"minecraft:poppy", "minecraft:cornflower", "minecraft:oxeye_daisy", "minecraft:allium", "minecraft:red_tulip", "minecraft:dandelion"};
+        for (int x = 25; x <= 31; x++) s.set(x, 1, 20, flowers[x % flowers.length]);
+        for (int x = 15; x <= 20; x++) s.set(x, 1, 20, flowers[(x + 3) % flowers.length]);
+        for (int x : new int[]{26, 27, 32, 33}) Decor.chair(s, x, 1, 21, "dark_oak", "south");
+        stall(s, 38, 36, "minecraft:red_wool");
+        s.set(39, 2, 36, "minecraft:cake");
         s.set(16, 1, 23, "minecraft:barrel[facing=up,open=false]");
         s.set(17, 1, 23, "minecraft:barrel[facing=up,open=false]");
         smithy(s, 18, 41, 24, 46, "zwiadowcy:chests/redmont_zbrojownia");
@@ -141,6 +167,10 @@ public final class StructureGen {
         s.set(49, 1, 12, "minecraft:dark_oak_planks");
         s.set(49, 2, 12, "minecraft:candle[candles=3,lit=false]");
         s.set(48, 1, 12, stairs("dark_oak", "east"));
+        Decor.rug(s, 46, 11, 50, 13, 1, "blue", "light_blue");
+        Decor.painting(s, 50, 3, 13, "west", "alban");
+        Decor.itemFrame(s, 47, 3, 13, "north", "minecraft:writable_book");
+        s.set(50, 1, 13, "minecraft:potted_azure_bluet");
         // schody na mur północny (chodnik obronny)
         for (int i = 0; i < 8; i++) {
             int x = 34 + i;
@@ -195,6 +225,12 @@ public final class StructureGen {
         s.chest(x0 + 3, 1, z1 - 1, "north", loot);
         s.barrel(x1 - 1, 1, z0 + 1, null);
         s.set(x0 + 3, 4, z0 + 2, "minecraft:lantern[hanging=true]");
+        // narzędzia na tylnej ścianie i kolczuga na stojaku
+        Decor.itemFrame(s, x0 + 1, 3, z1 - 1, "north", "minecraft:iron_pickaxe");
+        Decor.itemFrame(s, x0 + 2, 3, z1 - 1, "north", "minecraft:iron_axe");
+        Decor.itemFrame(s, x0 + 3, 3, z1 - 1, "north", "minecraft:iron_sword");
+        Decor.armorStand(s, x1 - 2, 1, z0 + 3, 180f, null, null, "minecraft:chainmail_chestplate", "minecraft:iron_helmet");
+        s.set(x1 - 1, 2, z0 + 1, "minecraft:iron_block");
     }
 
     static void tower(Structure s, int x0, int z0, int size, int height) {
@@ -209,7 +245,7 @@ public final class StructureGen {
         s.set(x0 + size / 2, 3, z1, "minecraft:air");
         s.set(x0, 9, z0 + size / 2, "minecraft:air");
         s.set(x1, 9, z0 + size / 2, "minecraft:air");
-        s.set(x0 + size / 2, height + 2, z0 + size / 2, "minecraft:torch");
+        s.set(x0 + size / 2, height + 1, z0 + size / 2, "minecraft:campfire[lit=true,facing=north,signal_fire=false]");
     }
 
     /** Prosty budynek: ściany, podłoga, dach dwuspadowy, okna. */
@@ -232,7 +268,8 @@ public final class StructureGen {
             s.set(x1, 2, z, "minecraft:glass_pane");
         }
         s.gableRoof(x0, z0, x1, z1, wallH + 1, roofMat, gable, roofAlongX);
-        s.set((x0 + x1) / 2, wallH, (z0 + z1) / 2, "minecraft:lantern[hanging=true]");
+        for (int x = x0 + 1; x <= x1 - 1; x++) s.set(x, wallH, (z0 + z1) / 2, "minecraft:stripped_spruce_log[axis=x]");
+        s.set((x0 + x1) / 2, wallH - 1, (z0 + z1) / 2, "minecraft:lantern[hanging=true]");
     }
 
     static void greatHall(Structure s) {
@@ -262,10 +299,31 @@ public final class StructureGen {
             s.set(x, 1, 14, stairs("spruce", "south"));
             s.set(x, 1, 12, stairs("spruce", "north"));
         }
-        for (int x = 14; x <= 30; x += 4) s.set(x, 4, 8, wallTorch("south"));
-        for (int x = 14; x <= 30; x += 4) s.set(x, 4, 18, wallTorch("north"));
+        for (int x : new int[]{16, 20, 24, 28}) s.set(x, 4, 18, wallTorch("north"));
         s.set(20, 4, 8, "minecraft:red_wall_banner[facing=south]");
         s.set(25, 4, 8, "minecraft:red_wall_banner[facing=south]");
+        s.set(20, 6, 18, "minecraft:red_wall_banner[facing=north]");
+        s.set(24, 6, 18, "minecraft:red_wall_banner[facing=north]");
+        // kominki na filarach północnej ściany (między oknami), komin przebija dach
+        Decor.fireplace(s, 16, 1, 8, "south", 11, "minecraft:bricks");
+        Decor.fireplace(s, 28, 1, 8, "south", 11, "minecraft:bricks");
+        Decor.painting(s, 16, 5, 9, "south", "graham");
+        Decor.painting(s, 28, 5, 9, "south", "wanderer");
+        Decor.rug(s, 14, 10, 18, 11, 1, "red", "orange");
+        Decor.rug(s, 27, 10, 30, 11, 1, "red", "orange");
+        // żyrandole nad stołami
+        for (int x : new int[]{17, 22, 27}) Decor.chandelier(s, x, 13, 13, 8, false);
+        // świece na długich stołach
+        for (int x : new int[]{15, 18, 27, 30}) s.set(x, 2, 13, "minecraft:candle[candles=3,lit=true]");
+        s.set(16, 2, 13, "minecraft:candle[candles=1,lit=true]");
+        s.set(29, 2, 13, "minecraft:candle[candles=1,lit=true]");
+        // portrety na południowej ścianie
+        Decor.painting(s, 15, 5, 18, "north", "graham");
+        Decor.painting(s, 29, 5, 18, "north", "wanderer");
+        Decor.painting(s, 31, 5, 18, "north", "plant");
+        Decor.painting(s, 13, 5, 18, "north", "alban");
+        // podest: dywan pod tronem
+        s.fill(21, 2, 10, 24, 2, 10, "minecraft:purple_carpet");
     }
 
     static void baronTower(Structure s) {
@@ -292,16 +350,20 @@ public final class StructureGen {
         s.set(40, 20, 16, "zwiadowcy:papiery_barona");
         s.set(39, 20, 16, "minecraft:candle[candles=2,lit=false]");
         s.set(40, 19, 17, stairs("dark_oak", "south"));
-        s.fill(38, 19, 18, 42, 19, 20, "minecraft:red_carpet");
+        Decor.rug(s, 38, 18, 42, 20, 19, "red", "orange");
+        Decor.painting(s, 37, 21, 19, "east", "graham");
+        Decor.pot(s, 41, 20, 16, "red_tulip");
+        Decor.itemFrame(s, 42, 21, 21, "north", "minecraft:map");
+        Decor.itemFrame(s, 38, 21, 21, "north", "minecraft:writable_book");
         s.set(40, 23, 18, "minecraft:lantern[hanging=true]");
         s.chest(42, 19, 21, "west", "zwiadowcy:chests/redmont_kuchnia");
-        s.set(43, 19, 19, "minecraft:red_wall_banner[facing=west]");
+        s.set(43, 21, 19, "minecraft:red_wall_banner[facing=west]");
         // okno od południa, przez które wchodzi Will
         s.set(40, 20, z1, "minecraft:air");
         s.set(40, 21, z1, "minecraft:air");
-        s.set(40, 19, z1, "minecraft:stone_brick_slab[type=bottom]");
+        s.set(40, 19, z1, "minecraft:stone_bricks");
         // bluszcz na południowej ścianie
-        for (int y = 1; y <= 20; y++) s.set(40, y, z1 + 1, "minecraft:vine[north=true]");
+        for (int y = 1; y <= 19; y++) s.set(40, y, z1 + 1, "minecraft:vine[north=true]");
         for (int y = 2; y <= 17; y++) s.set(39, y, z1 + 1, "minecraft:vine[north=true]");
         for (int y = 4; y <= 19; y++) s.set(41, y, z1 + 1, "minecraft:vine[north=true]");
         for (int y = 6; y <= 14; y++) s.set(42, y, z1 + 1, "minecraft:vine[north=true]");
@@ -325,8 +387,39 @@ public final class StructureGen {
 
         // karczma (piętrowa) i zaułek
         house(s, 15, 3, 27, 11, 7, "south", "dark_oak");
+        // izba karczmy: zamiast domowego umeblowania - szynkwas, beczki, stoły, kominek
+        s.clear(16, 1, 4, 26, 3, 10);
+        Decor.fireplace(s, 21, 1, 4, "south", 16, "minecraft:bricks");
         s.fill(16, 4, 4, 26, 4, 10, "minecraft:spruce_planks");
+        s.set(21, 4, 4, "minecraft:bricks");
+        for (int x = 16; x <= 26; x++) s.set(x, 4, 7, "minecraft:stripped_dark_oak_log[axis=x]");
         s.set(21, 3, 12, "minecraft:oak_wall_sign[facing=south]");
+        // szynkwas w kształcie L i beczki z piwem pod wschodnią ścianą
+        for (int z = 4; z <= 7; z++) s.set(23, 1, z, "minecraft:stripped_spruce_log[axis=z]");
+        s.set(24, 1, 7, "minecraft:stripped_spruce_log[axis=x]");
+        s.set(25, 1, 7, "minecraft:stripped_spruce_log[axis=x]");
+        s.set(23, 2, 5, "minecraft:candle[candles=2,lit=true]");
+        s.set(23, 2, 7, "minecraft:potted_red_mushroom");
+        s.set(24, 2, 7, "minecraft:brewing_stand[has_bottle_0=true,has_bottle_1=true,has_bottle_2=false]");
+        Decor.kegs(s, 26, 1, 4, 3, false, "west");
+        Decor.kegs(s, 26, 2, 4, 3, false, "west");
+        Decor.itemFrame(s, 26, 3, 5, "west", "minecraft:honey_bottle");
+        Decor.itemFrame(s, 25, 3, 4, "south", "minecraft:glass_bottle");
+        s.npc(24, 1, 5, "karczmarz", 90f);
+        for (int z = 6; z <= 7; z++) Decor.chair(s, 22, 1, z, "dark_oak", "east");
+        Decor.chair(s, 24, 1, 8, "dark_oak", "north");
+        Decor.chair(s, 25, 1, 8, "dark_oak", "north");
+        // stoły ze świecami, dywan przed kominkiem
+        Decor.tableSet(s, 17, 1, 6, "dark_oak", "minecraft:candle[candles=3,lit=true]");
+        Decor.tableSet(s, 19, 1, 9, "dark_oak", "minecraft:candle[candles=1,lit=true]");
+        Decor.rug(s, 20, 6, 22, 8, 1, "red", "orange");
+        for (int[] l : new int[][]{{17, 6}, {19, 9}, {24, 5}}) s.set(l[0], 3, l[1], "minecraft:lantern[hanging=true]");
+        Decor.painting(s, 16, 3, 9, "east", "sunset");
+        Decor.painting(s, 18, 3, 4, "south", "pool");
+        Decor.itemFrame(s, 16, 2, 4, "south", "minecraft:cooked_chicken");
+        s.set(26, 1, 10, "minecraft:barrel[facing=up,open=false]");
+        s.set(26, 2, 10, "minecraft:potted_fern");
+        s.set(16, 1, 10, "minecraft:barrel[facing=up,open=false]");
         house(s, 31, 3, 38, 10, 4, "south", "spruce");
         s.fillMix(28, 0, 3, 30, 0, 11, new String[]{"minecraft:coarse_dirt", "minecraft:cobblestone", "minecraft:mud"}, new double[]{0.5, 0.3, 0.2});
         s.barrel(28, 1, 3, null);
@@ -417,10 +510,74 @@ public final class StructureGen {
         for (int z = z0 + 2; z < z1 - 1; z += 3) { if (z != mz) { s.set(x0, 2, z, "minecraft:glass_pane"); s.set(x1, 2, z, "minecraft:glass_pane"); } }
         boolean alongX = (x1 - x0) >= (z1 - z0);
         s.gableRoof(x0, z0, x1, z1, wallH + 1, roofMat, "minecraft:white_terracotta", alongX);
-        s.set(x0 + 1, 1, z0 + 1, "minecraft:crafting_table");
-        s.bed(x1 - 1, 1, z0 + 2, "north", "red");
+        // belka stropowa - podpora dla latarni (pod dachem dwuspadowym nad środkiem jest pusto)
+        for (int x = x0 + 1; x <= x1 - 1; x++) s.set(x, wallH, mz, "minecraft:stripped_dark_oak_log[axis=x]");
         s.set(mx, wallH - 1, mz, "minecraft:lantern[hanging=true]");
-        s.barrel(x0 + 1, 1, z1 - 1, null);
+        furnishRoom(s, x0, z0, x1, z1, wallH, doorSide, mx, mz, roofMat);
+    }
+
+    /**
+     * Umeblowanie izby liczone względem drzwi: kominek na ścianie naprzeciw wejścia, łóżko w rogu ze skrzynią
+     * w nogach, stół warsztatowy i beczka z doniczką, stół z krzesłami i świecą, dywan, obraz na bocznej ścianie.
+     * u - oś wzdłuż tylnej ściany, v - od tylnej ściany w stronę drzwi.
+     */
+    static void furnishRoom(Structure s, int x0, int z0, int x1, int z1, int wallH, String doorSide, int mx, int mz, String style) {
+        int ox, oz, ux, uz, vx, vz, w, d, uc;
+        switch (doorSide) {
+            case "south" -> { ox = x0 + 1; oz = z0 + 1; ux = 1; uz = 0; vx = 0; vz = 1; w = x1 - x0 - 1; d = z1 - z0 - 1; uc = mx - ox; }
+            case "north" -> { ox = x1 - 1; oz = z1 - 1; ux = -1; uz = 0; vx = 0; vz = -1; w = x1 - x0 - 1; d = z1 - z0 - 1; uc = ox - mx; }
+            case "east" -> { ox = x0 + 1; oz = z1 - 1; ux = 0; uz = -1; vx = 1; vz = 0; w = z1 - z0 - 1; d = x1 - x0 - 1; uc = oz - mz; }
+            default -> { ox = x1 - 1; oz = z0 + 1; ux = 0; uz = 1; vx = -1; vz = 0; w = z1 - z0 - 1; d = x1 - x0 - 1; uc = mz - oz; }
+        }
+        if (w < 5 || d < 4) return;
+        final int fox = ox, foz = oz, fux = ux, fuz = uz, fvx = vx, fvz = vz;
+        java.util.function.BiFunction<Integer, Integer, int[]> at = (u, v) -> new int[]{fox + u * fux + v * fvx, foz + u * fuz + v * fvz};
+        String toDoor = dirOf(vx, vz), alongU = dirOf(ux, uz);
+        String[] palette = switch (style) {
+            case "dark_oak" -> new String[]{"red", "orange"};
+            case "oak" -> new String[]{"green", "lime"};
+            default -> new String[]{"brown", "light_gray"};
+        };
+        // kominek na tylnej ścianie
+        int[] f = at.apply(uc, 0);
+        Decor.fireplace(s, f[0], 1, f[1], toDoor, wallH + 3 + Math.max(x1 - x0, z1 - z0) / 2, "minecraft:bricks");
+        // łóżko w rogu (wezgłowie przy ścianie), skrzynia w nogach
+        int[] bed = at.apply(0, 1);
+        s.bed(bed[0], 1, bed[1], Decor.opposite(toDoor), palette[0]);
+        int[] chest = at.apply(0, 2);
+        s.chest(chest[0], 1, chest[1], alongU, "minecraft:chests/village/village_plains_house");
+        // kącik roboczy po drugiej stronie
+        int[] craft = at.apply(w - 1, 0);
+        s.set(craft[0], 1, craft[1], "minecraft:crafting_table");
+        int[] barrel = at.apply(w - 1, 1);
+        s.barrel(barrel[0], 1, barrel[1], null);
+        Decor.pot(s, barrel[0], 2, barrel[1], (mx + mz) % 2 == 0 ? "red_tulip" : "azure_bluet");
+        // stół ze świecą i krzesłami (bez zastawiania przejścia od drzwi)
+        int tu = w - 2, tv = d - 2;
+        if (tu > uc && tv >= 2) {
+            int[] t = at.apply(tu, tv);
+            Decor.table(s, t[0], 1, t[1], "spruce", "minecraft:candle[candles=2,lit=true]");
+            int[] c1 = at.apply(tu, tv - 1);
+            Decor.chair(s, c1[0], 1, c1[1], "spruce", toDoor);
+            if (tu + 1 < w) {
+                int[] c2 = at.apply(tu + 1, tv);
+                Decor.chair(s, c2[0], 1, c2[1], "spruce", Decor.opposite(alongU));
+            }
+        }
+        // dywan przed kominkiem
+        int[] r0 = at.apply(uc - 1, 2), r1 = at.apply(uc + 1, Math.max(2, d - 2));
+        Decor.rug(s, r0[0], r0[1], r1[0], r1[1], 1, palette[0], palette[1]);
+        // obraz na bocznej ścianie (nad łóżkiem/skrzynią)
+        String[] variants = {"plant", "wasteland", "alban", "aztec", "kebab", "wanderer", "graham", "sea", "sunset", "courbet"};
+        int[] p = at.apply(0, Math.min(3, d - 1));
+        String variant = variants[Math.floorMod(x0 * 31 + z0 * 17, variants.length)];
+        Decor.painting(s, p[0], Structure.paintingSize(variant)[1] > 1 ? 2 : 3, p[1], alongU, variant);
+    }
+
+    static String dirOf(int x, int z) {
+        if (x > 0) return "east";
+        if (x < 0) return "west";
+        return z > 0 ? "south" : "north";
     }
 
     static void stall(Structure s, int x, int z, String wool) {
@@ -428,6 +585,9 @@ public final class StructureGen {
         s.fill(x, 3, z, x + 2, 3, z + 1, wool);
         s.set(x + 1, 1, z, "minecraft:barrel[facing=up,open=false]");
         s.set(x + 1, 1, z + 1, "minecraft:hay_block");
+        String[] goods = {"minecraft:melon", "minecraft:pumpkin", "minecraft:cake", "minecraft:honey_block", "minecraft:potted_red_mushroom"};
+        s.set(x + 1, 2, z, goods[Math.floorMod(x * 7 + z * 13, goods.length)]);
+        s.set(x + 1, 2, z + 1, "minecraft:barrel[facing=up,open=false]");
     }
 
     // =========================================================================== CHATA HALTA
@@ -450,10 +610,12 @@ public final class StructureGen {
         // komin
         s.fill(5, 0, 17, 5, 8, 17, "minecraft:cobblestone");
         s.set(5, 9, 17, "minecraft:campfire[lit=true,facing=north,signal_fire=false]");
-        // wnętrze
-        s.set(7, 1, 16, "minecraft:smoker[facing=east,lit=false]");
-        s.set(7, 1, 17, "minecraft:cobblestone");
-        s.set(7, 1, 18, "minecraft:furnace[facing=east,lit=false]");
+        // wnętrze: kamienne palenisko przy zachodniej ścianie (łączy się z kominem na zewnątrz)
+        Decor.fireplace(s, 7, 1, 17, "east", 4, "minecraft:cobblestone");
+        s.set(7, 1, 20, "minecraft:smoker[facing=north,lit=false]");
+        s.barrel(8, 1, 20, null);
+        s.set(7, 1, 19, "minecraft:spruce_slab[type=top]");
+        s.set(7, 2, 19, "minecraft:potted_brown_mushroom");
         s.set(8, 1, 15, "minecraft:crafting_table");
         s.chest(9, 1, 15, "south", "zwiadowcy:chests/chata_halta");
         s.barrel(11, 1, 15, null);
@@ -464,16 +626,29 @@ public final class StructureGen {
         s.set(10, 2, 18, "minecraft:spruce_pressure_plate");
         s.set(9, 1, 18, stairs("spruce", "west"));
         s.set(11, 1, 18, stairs("spruce", "east"));
-        s.set(10, 4, 17, "minecraft:lantern[hanging=true]");
-        s.set(13, 1, 20, "minecraft:flower_pot");
+        for (int x = 8; x <= 13; x++) s.set(x, 4, 17, "minecraft:stripped_spruce_log[axis=x]");
+        s.set(10, 3, 17, "minecraft:lantern[hanging=true]");
+        s.set(13, 1, 20, "minecraft:potted_spruce_sapling");
+        // kawa z miodem na beczce, świeca na stole, dywan, łuk i strzała na ścianie
+        s.set(11, 2, 15, "minecraft:brewing_stand[has_bottle_0=true,has_bottle_1=false,has_bottle_2=false]");
+        s.set(10, 2, 18, "minecraft:candle[candles=2,lit=true]");
+        Decor.rug(s, 9, 16, 12, 19, 1, "brown", "green");
+        Decor.painting(s, 8, 2, 15, "south", "wanderer");
+        Decor.itemFrame(s, 13, 3, 20, "north", "minecraft:bow");
+        Decor.itemFrame(s, 11, 3, 20, "north", "minecraft:arrow");
+        Decor.itemFrame(s, 13, 3, 15, "south", "minecraft:spyglass");
         // weranda
         s.fill(x0, 0, 22, x1, 0, 24, "minecraft:spruce_planks");
-        s.fill(x0, 4, 22, x1, 4, 24, "minecraft:spruce_slab[type=top]");
+        s.fill(x0, 4, 22, x1, 4, 24, "minecraft:spruce_slab[type=bottom]");
         for (int x : new int[]{x0, x1}) s.fill(x, 1, 24, x, 3, 24, "minecraft:spruce_fence");
         s.set(8, 1, 23, stairs("spruce", "north"));
         s.set(12, 1, 23, stairs("spruce", "north"));
-        s.set(7, 3, 23, "minecraft:lantern[hanging=false]");
-        s.set(x0, 3, 23, wallTorch("east"));
+        s.set(7, 3, 23, "minecraft:lantern[hanging=true]");
+        Decor.table(s, 13, 1, 23, "spruce", "minecraft:potted_blue_orchid");
+        s.barrel(7, 1, 22, null);
+        Decor.pot(s, 6, 1, 23, "red_tulip");
+        // ognisko z kociołkiem przed chatą
+        Decor.campfireRing(s, 3, 1, 29, true);
         // ul (miód do kawy) i kwietnik
         s.set(3, 1, 22, "minecraft:beehive[facing=south,honey_level=5]");
         s.set(2, 1, 22, "minecraft:oak_fence");
@@ -558,7 +733,20 @@ public final class StructureGen {
         for (int x = 17; x <= 26; x += 3) s.fill(x, 1, 4, x, 1, 7, "minecraft:oak_fence");
         for (int x = 15; x <= 26; x += 3) { s.set(x, 1, 4, "minecraft:hay_block"); s.set(x + 1, 1, 4, "minecraft:water_cauldron[level=3]"); }
         s.set(15, 1, 11, "minecraft:hay_block"); s.set(15, 2, 11, "minecraft:hay_block"); s.set(16, 1, 11, "minecraft:hay_block");
-        s.set(20, 4, 8, "minecraft:lantern[hanging=true]");
+        for (int x = 15; x <= 26; x++) s.set(x, 4, 8, "minecraft:stripped_dark_oak_log[axis=x]");
+        s.set(20, 3, 8, "minecraft:lantern[hanging=true]");
+        // uprząż na ścianie, beczki z owsem
+        Decor.itemFrame(s, 16, 3, 11, "north", "minecraft:saddle");
+        Decor.itemFrame(s, 17, 3, 11, "north", "minecraft:lead");
+        Decor.itemFrame(s, 24, 3, 11, "north", "minecraft:leather_horse_armor");
+        s.barrel(26, 1, 11, null);
+        s.barrel(25, 1, 11, null);
+        s.set(26, 2, 11, "minecraft:barrel[facing=north,open=false]");
+        s.set(24, 1, 11, "minecraft:composter[level=6]");
+        // strach na wróble w polu i kompostownik przy grządkach
+        Decor.armorStand(s, 8, 1, 16, 0f, null, "minecraft:leather_leggings", "minecraft:leather_chestplate", "minecraft:carved_pumpkin");
+        s.set(11, 1, 13, "minecraft:composter[level=3]");
+        s.set(11, 1, 14, "minecraft:barrel[facing=up,open=false]");
         // wybieg
         for (int x = 13; x <= 31; x++) { s.set(x, 1, 15, "minecraft:oak_fence"); s.set(x, 1, 27, "minecraft:oak_fence"); }
         for (int z = 15; z <= 27; z++) { s.set(13, 1, z, "minecraft:oak_fence"); s.set(31, 1, z, "minecraft:oak_fence"); }
@@ -603,6 +791,8 @@ public final class StructureGen {
             s.set(b[0], 2, b[1], "minecraft:mossy_cobblestone");
             s.set(b[0], 1, b[1] + 1, "minecraft:moss_block");
         }
+        // postój myśliwych barona na skraju polany
+        Decor.campfireRing(s, 9, 1, 25, false);
         s.anchor(16, 1, 16, "polana");
         s.anchor(12, 1, 20, "baron");
         s.anchor(14, 1, 21, "horace");
@@ -616,7 +806,10 @@ public final class StructureGen {
     static void obozZlotu() throws Exception {
         Structure s = new Structure(72, 12, 48, 6006);
         // ognisko i ławy
-        s.set(30, 1, 22, "minecraft:campfire[lit=true,facing=north,signal_fire=false]");
+        Decor.cookingPot(s, 30, 1, 22);
+        s.barrel(35, 1, 19, null);
+        s.set(35, 1, 20, "minecraft:barrel[facing=east,open=false]");
+        s.set(35, 2, 19, "minecraft:barrel[facing=east,open=false]");
         for (int x = 28; x <= 32; x++) { s.set(x, 1, 19, "minecraft:spruce_log[axis=x]"); s.set(x, 1, 25, "minecraft:spruce_log[axis=x]"); }
         for (int z = 20; z <= 24; z++) { s.set(27, 1, z, "minecraft:spruce_log[axis=z]"); s.set(33, 1, z, "minecraft:spruce_log[axis=z]"); }
         s.fillMix(26, 0, 18, 34, 0, 26, new String[]{"minecraft:coarse_dirt", "minecraft:dirt_path"}, new double[]{0.5, 0.5});
@@ -640,6 +833,17 @@ public final class StructureGen {
         s.set(30, 1, 6, "minecraft:spruce_fence");
         s.set(30, 2, 6, "minecraft:spruce_pressure_plate");
         s.set(29, 4, 7, "minecraft:lantern[hanging=true]");
+        // narady dowódców: stół kartograficzny, pulpit z raportami, mapa na płótnie, dywan
+        s.set(26, 1, 5, "minecraft:cartography_table");
+        s.set(32, 1, 8, "minecraft:lectern[facing=west,has_book=false,powered=false]");
+        Decor.itemFrame(s, 30, 2, 5, "south", "minecraft:map");
+        Decor.chair(s, 29, 1, 6, "spruce", "east");
+        Decor.chair(s, 31, 1, 6, "spruce", "west");
+        s.set(30, 2, 6, "minecraft:candle[candles=3,lit=true]");
+        s.barrel(33, 1, 6, null);
+        s.set(33, 1, 7, "minecraft:barrel[facing=up,open=false]");
+        Decor.decoratedPot(s, 25, 1, 8);
+        Decor.rug(s, 27, 7, 31, 9, 1, "green", "lime");
         s.fill(29, 1, 13, 29, 3, 13, "minecraft:spruce_fence");
         s.set(29, 4, 13, "minecraft:green_banner[rotation=0]");
         // strzelnica konkursowa (linia x=6, tarcze 42 i 50 kratek dalej)
@@ -683,6 +887,7 @@ public final class StructureGen {
         }
         s.set(x0 + len - 1, 1, z0 + 2, "minecraft:white_wool");
         s.bed(x0 + 1, 1, z0 + 2, "east", "brown");
+        s.set(x0 + 3, 2, z0 + 2, "minecraft:lantern[hanging=true]");
     }
 
     // =========================================================================== SPALONA OSADA
@@ -744,7 +949,21 @@ public final class StructureGen {
             double r = s.rnd.nextDouble();
             if (r < 0.06) s.set(x, 1, z, "minecraft:cobweb");
             else if (r < 0.12) s.set(x, 1, z, "minecraft:dark_oak_log[axis=x]");
+            else if (r < 0.22) s.set(x, 1, z, r < 0.17 ? "minecraft:gray_carpet" : "minecraft:black_carpet");
         }
+        // jedyne, co ocalało: kamienny komin z wygasłym paleniskiem, zwęglony stół, przewrócone krzesło, kocioł
+        int mx = (x0 + x1) / 2;
+        int ch = 4 + s.rnd.nextInt(3);
+        for (int y = 1; y <= ch; y++) {
+            s.set(mx - 1, y, z0, s.rnd.nextDouble() < 0.3 ? "minecraft:cobbled_deepslate" : "minecraft:cobblestone");
+            s.set(mx, y, z0, s.rnd.nextDouble() < 0.3 ? "minecraft:cobbled_deepslate" : "minecraft:cobblestone");
+            if (y <= 2) s.set(mx + 1, y, z0, "minecraft:cobblestone");
+        }
+        s.set(mx, 1, z0 + 1, "minecraft:campfire[lit=false,facing=south,signal_fire=false]");
+        s.set(x1 - 2, 1, z0 + 2, "minecraft:dark_oak_fence");
+        s.set(x1 - 2, 2, z0 + 2, "minecraft:dark_oak_pressure_plate");
+        s.set(x1 - 3, 1, z0 + 2, "minecraft:dark_oak_stairs[facing=west,half=top]");
+        s.set(x0 + 2, 1, z1 - 2, "minecraft:cauldron");
         s.clear((x0 + x1) / 2, 1, z1, (x0 + x1) / 2, 2, z1);
     }
 
@@ -891,6 +1110,14 @@ public final class StructureGen {
         s.set(18, -2, 25, "minecraft:soul_lantern[hanging=true]");
         s.set(18, -2, 28, "minecraft:soul_lantern[hanging=true]");
         for (int i = 0; i < 8; i++) s.set(15 + s.rnd.nextInt(7), -5 + s.rnd.nextInt(3), 20 + (s.rnd.nextBoolean() ? 0 : 11), "minecraft:cobweb");
+        // dawne urny i świece Kalkarów na kościanym ołtarzu
+        for (int[] p : new int[][]{{21, 21}, {21, 30}, {17, 31}, {15, 30}, {18, 20}}) Decor.decoratedPot(s, p[0], -5, p[1]);
+        s.set(15, -4, 24, "minecraft:candle[candles=3,lit=true]");
+        s.set(15, -4, 27, "minecraft:candle[candles=2,lit=true]");
+        s.set(15, -4, 25, "minecraft:skeleton_skull[rotation=12]");
+        s.set(15, -4, 26, "minecraft:candle[candles=1,lit=true]");
+        s.set(16, -5, 23, "minecraft:soul_campfire[lit=true,facing=east,signal_fire=false]");
+        s.set(16, -5, 28, "minecraft:soul_campfire[lit=true,facing=east,signal_fire=false]");
         s.anchor(18, -5, 26, "krypta");
         s.mob(33, -5, 25, "zwiadowcy:wargal", "Sentry", (byte) 1, "BaseYaw", 90f);
         s.mob(19, -5, 27, "zwiadowcy:wargal_oszczepnik");

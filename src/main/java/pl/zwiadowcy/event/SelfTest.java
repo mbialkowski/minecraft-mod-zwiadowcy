@@ -112,7 +112,8 @@ public final class SelfTest {
                 } else {
                     net.minecraft.core.BlockPos pos = found.getFirst();
                     for (int dx = -3; dx <= 3; dx++) for (int dz = -3; dz <= 3; dz++) level.getChunk((pos.getX() >> 4) + dx, (pos.getZ() >> 4) + dz);
-                    var box = new net.minecraft.world.phys.AABB(pos).inflate(40, 80, 40);
+                    var box = new net.minecraft.world.phys.AABB(pos.getX() - 40, level.getMinBuildHeight(), pos.getZ() - 40,
+                            pos.getX() + 40, level.getMaxBuildHeight(), pos.getZ() + 40);
                     java.util.Map<String, Integer> counts = new java.util.TreeMap<>();
                     for (var e : level.getEntitiesOfClass(net.minecraft.world.entity.Mob.class, box)) {
                         String name = e instanceof pl.zwiadowcy.entity.StoryNpc npc ? "npc:" + npc.npcId()
@@ -120,7 +121,16 @@ public final class SelfTest {
                         counts.merge(name, 1, Integer::sum);
                     }
                     info.add(String.format("Losowa %-24s @ %s (%d ms) byty: %s", id, pos.toShortString(), System.currentTimeMillis() - t, counts));
+                    checkDecor(level, "losowa " + id, box, problems, info);
                 }
+            }
+        }
+
+        // 1c. wystrój lokacji fabularnych: obrazy i ramki muszą wisieć na ścianie (inaczej odpadną)
+        if (level != null) {
+            for (StoryLocation loc : StoryLocation.values()) {
+                LocationData.Placed p = data.placed(loc.id);
+                if (p != null) checkDecor(level, "lokacja " + loc.id, new net.minecraft.world.phys.AABB(p.center).inflate(48, 32, 48), problems, info);
             }
         }
 
@@ -170,6 +180,20 @@ public final class SelfTest {
         });
         for (NpcDefs.NpcDef def : NpcDefs.all()) {
             if (!dialogues.containsKey(def.id())) problems.add("Postać " + def.id() + " nie ma pliku dialogu");
+        }
+    }
+
+    private static void checkDecor(net.minecraft.server.level.ServerLevel level, String where, net.minecraft.world.phys.AABB box,
+                                   List<String> problems, List<String> info) {
+        int paintings = 0, frames = 0;
+        for (var e : level.getEntitiesOfClass(net.minecraft.world.entity.decoration.HangingEntity.class, box)) {
+            boolean painting = e instanceof net.minecraft.world.entity.decoration.Painting;
+            if (painting) paintings++; else frames++;
+            if (!e.survives()) problems.add(where + ": " + (painting ? "obraz" : "ramka") + " odpadnie @ " + e.blockPosition().toShortString());
+        }
+        int stands = level.getEntitiesOfClass(net.minecraft.world.entity.decoration.ArmorStand.class, box).size();
+        if (paintings + frames + stands > 0) {
+            info.add(String.format("  wystrój %-26s obrazy: %d, ramki: %d, stojaki: %d", where, paintings, frames, stands));
         }
     }
 

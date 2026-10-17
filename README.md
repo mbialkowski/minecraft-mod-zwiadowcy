@@ -64,6 +64,13 @@ trafiają do dziennika.
 **Rozbudowane lokacje fabularne:** kuźnia z kowalem (naprawa broni raz na dobę) i archiwum w Redmont, schody na mury,
 kuźnia i wiatrak w Wensley, ul przy chacie Halta oraz krypta pod twierdzą Gorlanu.
 
+**Wystrój wnętrz i obejść:** domy mają kominki z kominem nad dachem, dywany, stoły ze świecami, łóżka ze skrzyniami
+i obrazy. Wielka sala ma kominki, żyrandole i portrety. Kuchnia w Redmont ma palenisko i kocioł nad ogniem, a w
+koszarach jest broń na ścianach i zbroje na stojakach. W karczmie w Wensley stoi szynkwas, są beczki z piwem
+i karczmarz. W chacie Halta jest kamienne palenisko, łuk na ścianie i ognisko z kociołkiem. W obozie Zlotu stoi
+namiot narad z mapą. Spalona osada ma ocalałe kominy i zwęglone meble, a w kryptach są urny i świece. Struktury
+losowe dostały kominki, kotły ze strawą, legowiska ze skór i ołtarze, każda w swoim stylu.
+
 ### Sterowanie
 
 | Klawisz | Działanie |
@@ -138,7 +145,7 @@ src/main/java/pl/zwiadowcy/
   client/      GUI (dialog, dziennik, kołczan), HUD, modele, renderery
 src/main/resources/data/zwiadowcy/
   quests/      17 misji (JSON)        dialogues/   20 plików dialogów (JSON)
-  structures/  8 struktur (.nbt)      dimension/, dimension_type/, recipes/, loot_tables/, advancements/
+  structures/  8 lokacji + losowe (.nbt) dimension/, dimension_type/, recipes/, loot_tables/, advancements/
 tools/assetgen/java/   generatory tekstur (pixel-art) i struktur (.nbt) w czystej Javie
 ```
 
@@ -168,6 +175,12 @@ gradlew generateAssets
 `generateAssets` uruchamia trzy generatory: tekstury, struktury (`structures/` i `structures/losowe/`) oraz biomy
 Araluenu (budowane z biomów vanilla z pliku `client-extra.jar` w cache Gradle).
 
+Generator struktur sprawdza każdy plik i wypisuje ostrzeżenia `!` dla elementów, które w grze by odpadły albo nie
+działały. Chodzi o latarnie, świece, doniczki, dywany, pochodnie, drabiny, pnącza i chorągwie bez podparcia, świece
+na półpłytach, skrzynie przywalone pełnym blokiem oraz obrazy i ramki bez ściany lub zasłonięte. Elementy wystroju
+(kominki, dywany, stoły, krzesła, żyrandole, kotły, obrazy, ramki, stojaki na zbroję) są w `Decor.java`.
+Obrazy i ramki w szablonach dostają w świecie właściwe współrzędne dzięki procesorowi `zwiadowcy:hanging_fix`.
+
 Losowe struktury mają definicje w `data/zwiadowcy/worldgen/` (structure, structure_set, template_pool), a biomy, w których
 się pojawiają, są w tagach `tags/worldgen/biome/has_structure/`. Struktury można też otworzyć w grze Blokiem struktury,
 poprawić ręcznie i nadpisać pliki `.nbt`.
@@ -186,7 +199,10 @@ Znaczniki (`npc:halt;yaw=0`, `anchor:gabinet`, `dummy`, `tug`) muszą zostać na
 Autotest uruchamia serwer deweloperski, stawia wszystkie lokacje, sprawdza każde odwołanie w misjach i dialogach
 (misje, węzły, przedmioty, moby, dźwięki, osiągnięcia, kotwice) oraz to, czy miejsca NPC nie są zasypane.
 Odnajduje też każdą losową strukturę w świecie, liczy moby i NPC wokół niej i sprawdza biom przy Gorlanie oraz kryptę.
+Sprawdza też, czy każdy obraz i każda ramka w lokacjach i strukturach losowych ma ścianę (`survives()`).
 Raport trafia do `run/selftest.txt`, po czym serwer się zamyka. EULA Minecrafta jest zaakceptowana w `run/eula.txt`.
+Test uruchamiaj na świeżym świecie (usuń albo przenieś `run/world`). W zapisanym świecie byty z chunków wczytują się
+z opóźnieniem, więc liczniki mobów i wystroju wyjdą puste, a lokacje fabularne zostaną w starej wersji.
 
 ```bash
 gradlew runServer -Pselftest=true

@@ -50,6 +50,7 @@ public final class StructurePlacer {
 
         StructurePlaceSettings settings = new StructurePlaceSettings()
                 .addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK)
+                .addProcessor(HangingFixProcessor.INSTANCE)
                 .setIgnoreEntities(false);
         List<StructureTemplate.StructureBlockInfo> markers = template.filterBlocks(origin, settings, Blocks.STRUCTURE_BLOCK);
         template.placeInWorld(level, origin, origin, settings, level.getRandom(), FLAGS);

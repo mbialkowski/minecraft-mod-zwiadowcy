@@ -1,7 +1,7 @@
 {
   "fallback": "minecraft:empty",
   "elements": [
-    {"weight": 1, "element": {"element_type": "minecraft:single_pool_element", "location": "zwiadowcy:losowe/straznica", "projection": "rigid", "processors": {"processors": []}}},
-    {"weight": 1, "element": {"element_type": "minecraft:single_pool_element", "location": "zwiadowcy:losowe/straznica_b", "projection": "rigid", "processors": {"processors": []}}}
+    {"weight": 1, "element": {"element_type": "minecraft:single_pool_element", "location": "zwiadowcy:losowe/straznica", "projection": "rigid", "processors": {"processors": [{"processor_type": "zwiadowcy:hanging_fix"}]}}},
+    {"weight": 1, "element": {"element_type": "minecraft:single_pool_element", "location": "zwiadowcy:losowe/straznica_b", "projection": "rigid", "processors": {"processors": [{"processor_type": "zwiadowcy:hanging_fix"}]}}}
   ]
 }

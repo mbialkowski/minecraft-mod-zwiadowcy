@@ -80,7 +80,12 @@ final class RandomStructures {
             int x = 3 + s.rnd.nextInt(17), z = 3 + s.rnd.nextInt(17);
             if (!s.has(x, 1, z)) s.set(x, 1, z, s.rnd.nextBoolean() ? "minecraft:bone_block[axis=x]" : "minecraft:bone_block[axis=z]");
         }
-        s.chest(15, 1, 7, "west", "zwiadowcy:chests/losowe/oboz_wargalow");
+        s.chest(17, 1, 6, "west", "zwiadowcy:chests/losowe/oboz_wargalow");
+        // kocioł ze strawą, skóry wokół ogniska, zapasy
+        Decor.cookingPot(s, 14, 1, 14);
+        for (int[] p : new int[][]{{c - 2, c + 1}, {c + 2, c - 1}, {c - 1, c - 2}}) s.set(p[0], 1, p[1], (p[0] + p[1]) % 2 == 0 ? "minecraft:brown_carpet" : "minecraft:black_carpet");
+        s.set(19, 1, 7, "minecraft:barrel[facing=up,open=false]");
+        s.set(19, 1, 8, "minecraft:barrel[facing=west,open=false]");
         s.set(8, 1, 16, "minecraft:hay_block");
         s.mob(c, 1, 2, "zwiadowcy:wargal", "Sentry", (byte) 1, "BaseYaw", 180f);
         s.mob(c - 3, 1, c + 2, "zwiadowcy:wargal_zwiadowca");
@@ -99,6 +104,9 @@ final class RandomStructures {
         }
         s.set(x0 + 3, 1, z0 + 2, wool);
         s.set(x0 + 1, 1, z0 + 2, "minecraft:hay_block");
+        // posłanie ze skór
+        s.set(x0 + 2, 1, z0 + 2, "minecraft:brown_carpet");
+        s.set(x0, 1, z0 + 2, "minecraft:black_carpet");
     }
 
     // ===================================================================== POSTERUNEK MORGARATHA
@@ -138,6 +146,21 @@ final class RandomStructures {
         s.set(7, 8, x0 - 1, "minecraft:black_wall_banner[facing=north]");
         s.chest(9, 13, 9, "west", "zwiadowcy:chests/losowe/posterunek_morgaratha");
         s.set(9, 7, 9, "minecraft:soul_lantern[hanging=false]");
+        // parter: stół wartowni, broń na ścianie, czarne skóry; piętro: legowiska z siana; szczyt: mapa podbojów
+        Decor.table(s, 8, 1, 7, "dark_oak", "minecraft:soul_lantern[hanging=false]");
+        Decor.chair(s, 8, 1, 8, "dark_oak", "north");
+        Decor.rug(s, 6, 6, 8, 8, 1, "black", "gray");
+        Decor.itemFrame(s, 9, 2, 6, "west", "minecraft:iron_axe");
+        Decor.itemFrame(s, 9, 2, 8, "west", "minecraft:stone_sword");
+        for (int y : new int[]{5, 11, 15}) s.set(7, y, 7, "minecraft:soul_lantern[hanging=true]");
+        s.set(8, 7, 5, "minecraft:hay_block");
+        s.set(9, 7, 5, "minecraft:hay_block");
+        Decor.rug(s, 6, 7, 8, 8, 7, "black", "black");
+        s.set(9, 13, 8, "minecraft:barrel[facing=up,open=false]");
+        Decor.table(s, 7, 13, 8, "dark_oak", "minecraft:candle[candles=3,lit=true]");
+        Decor.itemFrame(s, 5, 14, 8, "east", "minecraft:map");
+        s.set(7, 13, 5, "minecraft:black_carpet");
+        s.set(8, 13, 5, "minecraft:black_carpet");
         // pale z czaszkami wokół
         for (int[] p : new int[][]{{1, 1}, {13, 1}, {1, 13}, {13, 13}, {7, 13}, {1, 7}}) {
             s.fill(p[0], 1, p[1], p[0], 2, p[1], "minecraft:dark_oak_fence");
@@ -169,12 +192,15 @@ final class RandomStructures {
         // wieżyczka łucznika
         for (int[] p : new int[][]{{18, 16}, {20, 16}, {18, 18}, {20, 18}}) s.fill(p[0], 1, p[1], p[0], 4, p[1], "minecraft:oak_log[axis=y]");
         s.fill(18, 5, 16, 20, 5, 18, "minecraft:oak_planks");
-        for (int x = 18; x <= 20; x++) { s.set(x, 6, 16, "minecraft:oak_fence"); s.set(x, 6, 18, "minecraft:oak_fence"); }
+        for (int x = 18; x <= 20; x++) { s.set(x, 6, 16, "minecraft:oak_fence"); if (x != 19) s.set(x, 6, 18, "minecraft:oak_fence"); }
         s.set(18, 6, 17, "minecraft:oak_fence");
+        s.fill(19, 1, 18, 19, 4, 18, "minecraft:oak_log[axis=y]");
         for (int y = 1; y <= 5; y++) s.set(19, y, 19, "minecraft:ladder[facing=south]");
-        s.set(19, 5, 18, "minecraft:air");
         // ognisko, ławy, łupy
-        s.set(10, 1, 13, "minecraft:campfire[lit=true,facing=north,signal_fire=false]");
+        Decor.cookingPot(s, 10, 1, 13);
+        Decor.tableSet(s, 16, 1, 11, "oak", "minecraft:candle[candles=2,lit=true]");
+        Decor.decoratedPot(s, 7, 1, 20);
+        Decor.decoratedPot(s, 3, 1, 20);
         s.set(8, 1, 13, "minecraft:oak_log[axis=z]");
         s.set(12, 1, 13, "minecraft:oak_log[axis=z]");
         s.set(10, 1, 15, "minecraft:oak_log[axis=x]");
@@ -203,6 +229,12 @@ final class RandomStructures {
         s.bed(x0 + 1, 1, z0 + 1, "east", "red");
         s.set(x1 - 1, 1, z0 + 1, "minecraft:crafting_table");
         s.set(x1 - 1, 3, z0 + 2, "minecraft:lantern[hanging=true]");
+        // skromny wystrój: świeca na stole, skrzynka z łupem, chodnik, broń na ścianie
+        s.set(x1 - 1, 2, z0 + 1, "minecraft:candle[candles=1,lit=true]");
+        s.set(x1 - 1, 1, z0 + 3, "minecraft:barrel[facing=up,open=false]");
+        s.set(x1 - 1, 2, z0 + 3, "minecraft:potted_dead_bush");
+        Decor.rug(s, x0 + 1, z0 + 2, x0 + 3, z0 + 3, 1, "red", "red");
+        Decor.itemFrame(s, x0 + 1, 2, z0 + 3, "north", "minecraft:iron_sword");
     }
 
     // ===================================================================== RUINA STRAŻNICY
@@ -223,9 +255,18 @@ final class RandomStructures {
         for (int x = 2; x <= 8; x++) for (int z = 2; z <= 8; z++) {
             if (Math.hypot(x - c, z - c) < 3.4 && s.rnd.nextDouble() < 0.8) s.set(x, 6, z, "minecraft:spruce_planks");
         }
-        for (int y = 1; y <= 6; y++) s.set(c, y, 2, "minecraft:ladder[facing=south]");
-        s.set(c, 6, 2, "minecraft:air");
+        for (int y = 1; y <= 6; y++) s.set(8, y, c, "minecraft:ladder[facing=west]");
+        s.set(8, 6, c, "minecraft:air");
         s.chest(6, 7, 6, "west", "zwiadowcy:chests/losowe/straznica");
+        // ślady obozowania: wygasłe ognisko i posłanie na dole, stolik ze świecą na pomoście
+        s.set(4, 1, 4, "minecraft:campfire[lit=false,facing=north,signal_fire=false]");
+        s.set(3, 1, 6, "minecraft:brown_carpet");
+        s.set(3, 1, 7, "minecraft:brown_carpet");
+        s.set(6, 1, 3, "minecraft:barrel[facing=up,open=false]");
+        s.set(4, 6, 6, "minecraft:spruce_planks");
+        s.set(3, 6, 6, "minecraft:spruce_planks");
+        Decor.table(s, 4, 7, 6, "spruce", "minecraft:candle[candles=1,lit=" + occupied + "]");
+        Decor.chair(s, 3, 7, 6, "spruce", "east");
         for (int i = 0; i < 10; i++) {
             int x = s.rnd.nextInt(11), z = s.rnd.nextInt(11);
             if (Math.hypot(x - c, z - c) > 4.8) s.set(x, 1, z, s.rnd.nextBoolean() ? "minecraft:cobblestone" : "minecraft:mossy_cobblestone_slab[type=bottom]");
@@ -281,6 +322,10 @@ final class RandomStructures {
         s.set(6, -4, 13, "minecraft:skeleton_skull[rotation=4]");
         s.set(5, -4, 7, "minecraft:bone_block[axis=x]");
         s.set(6, -2, 10, "minecraft:soul_lantern[hanging=true]");
+        // urny grobowe i świece na sarkofagu (zapalone, jeśli w kurhanie siedzą rabusie)
+        for (int[] p : new int[][]{{4, 8}, {4, 12}, {7, 13}}) Decor.decoratedPot(s, p[0], -4, p[1]);
+        s.set(6, -3, 9, "minecraft:candle[candles=1,lit=" + robbers + "]");
+        s.set(6, -3, 11, "minecraft:candle[candles=2,lit=" + robbers + "]");
         if (robbers) {
             s.mob(6, -4, 8, "zwiadowcy:bandyta");
             s.mob(6, -4, 12, "zwiadowcy:bandyta");
@@ -334,10 +379,14 @@ final class RandomStructures {
             }
             int h = 2 + s.rnd.nextInt(3);
             for (int y = 1; y <= h; y++) s.set(x, y, z, s.pick(stones, sw));
-            if (s.rnd.nextBoolean()) s.set(x, h, z + 1, "minecraft:moss_carpet");
+            if (s.rnd.nextBoolean()) s.set(x, h + 1, z, "minecraft:moss_carpet");
         }
         s.fill(c - 1, 0, c - 1, c + 1, 0, c + 1, "minecraft:polished_andesite");
-        s.set(c, 1, c, "minecraft:polished_andesite_slab[type=bottom]");
+        // ołtarz z rzeźbionego kamienia ze świecami
+        s.set(c, 1, c, "minecraft:chiseled_stone_bricks");
+        s.set(c, 2, c, "minecraft:candle[candles=4,lit=true]");
+        s.set(c, 1, c + 1, "minecraft:stone_brick_stairs[facing=north,half=bottom]");
+        s.set(c, 1, c - 1, "minecraft:stone_brick_stairs[facing=south,half=bottom]");
         s.set(c - 1, 1, c, "minecraft:moss_carpet");
         s.chest(c + 1, 1, c, "west", "zwiadowcy:chests/losowe/kamienny_krag");
         String[] flowers = {"minecraft:cornflower", "minecraft:poppy", "minecraft:oxeye_daisy", "minecraft:dandelion", "minecraft:azure_bluet"};
@@ -380,13 +429,27 @@ final class RandomStructures {
         }
         s.set(8, 3, 7, "minecraft:lantern[hanging=true]");
         s.set(12, 3, 5, "minecraft:lantern[hanging=true]");
+        // izba: kominek przy zachodniej ścianie, świece na stołach, dywan, beczki z piwem, obrazy
+        Decor.fireplace(s, x0 + 1, 1, 8, "east", 13, "minecraft:bricks");
+        s.set(x0 + 2, 4, 7, "minecraft:spruce_planks");
+        s.set(x0 + 2, 4, 9, "minecraft:spruce_planks");
+        for (int[] t : new int[][]{{10, 6}, {12, 9}, {10, 9}}) s.set(t[0], 2, t[1], "minecraft:candle[candles=" + (1 + (t[0] + t[1]) % 3) + ",lit=true]");
+        Decor.rug(s, 5, 8, 7, 10, 1, "brown", "orange");
+        s.set(7, 1, 4, "minecraft:barrel[facing=south,open=false]");
+        s.set(6, 2, 4, "minecraft:barrel[facing=south,open=false]");
+        s.set(x0 + 1, 3, 6, "minecraft:potted_fern");
+        s.set(x0 + 4, 3, 6, "minecraft:potted_red_mushroom");
+        Decor.itemFrame(s, 9, 3, 4, "south", "minecraft:honey_bottle");
+        Decor.painting(s, 6, 3, 10, "north", "sunset");
+        Decor.painting(s, 12, 3, 10, "north", "pool");
         // piętro: izby (drabina)
         for (int y = 1; y <= 4; y++) s.set(x1 - 1, y, z0 + 1, "minecraft:ladder[facing=west]");
         s.set(x1 - 1, 4, z0 + 1, "minecraft:air");
         s.bed(x0 + 2, 5, z0 + 2, "south", "red");
         s.bed(x0 + 5, 5, z0 + 2, "south", "blue");
         s.bed(x0 + 8, 5, z0 + 2, "south", "green");
-        s.set(8, 7, 7, "minecraft:lantern[hanging=true]");
+        for (int x = 4; x <= 13; x++) s.set(x, 7, 7, "minecraft:stripped_dark_oak_log[axis=x]");
+        s.set(8, 6, 7, "minecraft:lantern[hanging=true]");
         // stajnia i studnia
         s.fill(16, 4, 4, 21, 4, 10, "minecraft:spruce_slab[type=top]");
         for (int[] p : new int[][]{{16, 4}, {21, 4}, {16, 10}, {21, 10}}) s.fill(p[0], 1, p[1], p[0], 3, p[1], "minecraft:spruce_fence");
@@ -400,7 +463,7 @@ final class RandomStructures {
         s.set(2, 1, 13, "minecraft:spruce_fence");
         s.set(2, 2, 13, "minecraft:spruce_fence");
         s.set(2, 3, 13, "minecraft:lantern[hanging=false]");
-        s.npcEntity(x0 + 2, 1, 7, "karczmarz", 180f);
+        s.npcEntity(x0 + 2, 1, 5, "karczmarz", 0f);
         s.npcEntity(10, 1, 8, "wiesniak", 90f);
         Map<String, Object> horse = new LinkedHashMap<>();
         horse.put("id", "minecraft:horse");
@@ -422,6 +485,18 @@ final class RandomStructures {
         s.gableRoof(bx0, bz0, bx1, bz1, 5, "spruce", "minecraft:spruce_planks", true);
         s.fill(bx0 + 1, 1, bz0 + 1, bx0 + 2, 2, bz0 + 2, "minecraft:hay_block");
         s.chest(bx1 - 1, 1, bz0 + 1, "west", "zwiadowcy:chests/losowe/zagroda");
+        // stodoła: belka z latarnią, narzędzia na ścianie, kompostownik i beczki
+        for (int x = bx0 + 1; x <= bx1 - 1; x++) s.set(x, 4, 5, "minecraft:stripped_spruce_log[axis=x]");
+        s.set(15, 3, 5, "minecraft:lantern[hanging=true]");
+        Decor.itemFrame(s, 13, 3, bz1 - 1, "north", "minecraft:shears");
+        Decor.itemFrame(s, 17, 3, bz1 - 1, "north", "minecraft:bucket");
+        s.set(bx1 - 1, 1, bz0 + 2, "minecraft:barrel[facing=up,open=false]");
+        s.set(bx1 - 1, 1, bz0 + 3, "minecraft:composter[level=5]");
+        s.set(bx0 + 1, 1, bz1 - 1, "minecraft:grindstone[face=floor,facing=east]");
+        // ul i kwiaty przy domu
+        s.set(9, 1, 3, "minecraft:beehive[facing=east,honey_level=3]");
+        Decor.pot(s, 4, 1, 8, "poppy");
+        Decor.pot(s, 6, 1, 8, "dandelion");
         // zagroda dla zwierząt
         for (int x = 11; x <= 20; x++) { s.set(x, 1, 10, "minecraft:oak_fence"); s.set(x, 1, 17, "minecraft:oak_fence"); }
         for (int z = 10; z <= 17; z++) { s.set(11, 1, z, "minecraft:oak_fence"); s.set(20, 1, z, "minecraft:oak_fence"); }
