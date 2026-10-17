@@ -25,6 +25,7 @@ public class Zwiadowcy {
         ModMenus.MENUS.register(bus);
         ModCreativeTabs.TABS.register(bus);
         pl.zwiadowcy.world.HangingFixProcessor.PROCESSORS.register(bus);
+        pl.zwiadowcy.world.DistanceGradient.TYPES.register(bus);
         bus.addListener(this::commonSetup);
     }
 

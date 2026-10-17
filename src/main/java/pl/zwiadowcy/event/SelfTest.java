@@ -250,12 +250,22 @@ public final class SelfTest {
         net.minecraft.core.BlockPos c = redmont != null ? redmont.center : net.minecraft.core.BlockPos.ZERO;
         boolean[][] wet = new boolean[n][n];
         int count = 0;
+        int nearMax = 0, farMax = 0, nearCount = 0;
+        long nearSum = 0;
         for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) {
             int x = c.getX() + (i - n / 2) * step, z = c.getZ() + (j - n / 2) * step;
             // woda = ciecz nad gruntem (powierzchnia z wodą wyżej niż dno); suche jamy i otwory jaskiń się nie liczą
             int ground = gen.getBaseHeight(x, z, net.minecraft.world.level.levelgen.Heightmap.Types.OCEAN_FLOOR_WG, level, noise);
             int surface = gen.getBaseHeight(x, z, net.minecraft.world.level.levelgen.Heightmap.Types.WORLD_SURFACE_WG, level, noise);
             wet[i][j] = surface > ground;
+            double fromHome = Math.hypot(x - c.getX(), z - c.getZ());
+            if (fromHome < 700) {
+                nearMax = Math.max(nearMax, ground);
+                nearSum += ground;
+                nearCount++;
+            } else if (fromHome > 1200) {
+                farMax = Math.max(farMax, ground);
+            }
             if (wet[i][j]) count++;
         }
         boolean[][] seen = new boolean[n][n];
@@ -288,6 +298,9 @@ public final class SelfTest {
                 (n * step / 1000) * (n * step / 1000), 100.0 * count / (n * n), widest,
                 widestAt == null ? "" : " @ " + widestAt.toShortString() + " (" + level.getBiome(widestAt).unwrapKey().map(k -> k.location().getPath()).orElse("?") + ")"));
         if (widest > 160) problems.add("W Araluenie jest duży zbiornik wody, szeroki na ok. " + widest + " bloków");
+        info.add(String.format("Teren do 700 bl. od Redmontu: średnio y=%d, najwyżej y=%d; dalej niż 1200 bl.: najwyżej y=%d",
+                nearCount == 0 ? 0 : nearSum / nearCount, nearMax, farMax));
+        if (nearMax > 150) problems.add("Wysokie góry blisko Redmontu (do y=" + nearMax + ")");
     }
 
     private static double distanceToSegment(net.minecraft.core.BlockPos p, net.minecraft.core.BlockPos a, net.minecraft.core.BlockPos b) {

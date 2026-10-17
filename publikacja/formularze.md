@@ -8,13 +8,13 @@ gradlew paczka
 
 | Plik | Do czego |
 |---|---|
-| `build/publikacja/zwiadowcy-forge-1.20.1-1.0.1.jar` | plik moda do wgrania na Modrinth i CurseForge |
-| `build/publikacja/Zwiadowcy-Ruiny-Gorlanu-1.0.1-forge-1.20.1.zip` | paczka dla graczy (jar, instrukcja, licencje) do GitHub Releases |
+| `build/publikacja/zwiadowcy-forge-1.20.1-1.0.2.jar` | plik moda do wgrania na Modrinth i CurseForge |
+| `build/publikacja/Zwiadowcy-Ruiny-Gorlanu-1.0.2-forge-1.20.1.zip` | paczka dla graczy (jar, instrukcja, licencje) do GitHub Releases |
 | `ikona.png` (512×512) | ikona projektu |
 | `baner.png` (1280×400) | obraz w galerii / baner strony |
 | `opis.md` | pełny opis strony projektu (Markdown, PL + EN) |
 | `podsumowanie.txt` | krótki opis (pole „Summary”) |
-| `zmiany-1.0.1.md` | lista zmian wersji (changelog) |
+| `zmiany-1.0.2.md` | lista zmian wersji (changelog) |
 
 ## Zanim opublikujesz
 
@@ -42,10 +42,10 @@ gradlew paczka
      Issues `https://github.com/mbialkowski/minecraft-mod-zwiadowcy/issues`
    - **Gallery:** `baner.png` (zaznacz „Featured”) i zrzuty ekranu
 3. **Versions → Create a version:**
-   - plik: `zwiadowcy-forge-1.20.1-1.0.1.jar`
-   - Version number: `1.0.1`, Name: `1.0.1 (Forge 1.20.1)`, Channel: Release
+   - plik: `zwiadowcy-forge-1.20.1-1.0.2.jar`
+   - Version number: `1.0.2`, Name: `1.0.2 (Forge 1.20.1)`, Channel: Release
    - Loaders: Forge, Game versions: 1.20.1, Dependencies: brak
-   - Changelog: `zmiany-1.0.1.md`
+   - Changelog: `zmiany-1.0.2.md`
 4. **Submit for review.** Weryfikacja trwa zwykle od jednego do kilku dni.
 
 ## CurseForge (authors.curseforge.com)
@@ -60,22 +60,22 @@ gradlew paczka
    - Source / Issues: adresy GitHuba jak wyżej
    - Program nagród dla twórców (Rewards): wyłącz, bo mod jest niekomercyjny
 2. **Files → Upload File:**
-   - plik: `zwiadowcy-forge-1.20.1-1.0.1.jar`
-   - Display name: `Zwiadowcy: Ruiny Gorlanu 1.0.1 (Forge 1.20.1)`
+   - plik: `zwiadowcy-forge-1.20.1-1.0.2.jar`
+   - Display name: `Zwiadowcy: Ruiny Gorlanu 1.0.2 (Forge 1.20.1)`
    - Release type: Release
    - Game versions: Minecraft 1.20.1, Forge, Java 17; Environment: Client i Server
-   - Changelog: `zmiany-1.0.1.md` (Markdown)
+   - Changelog: `zmiany-1.0.2.md` (Markdown)
 3. Projekt przechodzi moderację, zwykle od kilku godzin do kilku dni.
 
 ## GitHub Releases
 
 1. Na stronie repozytorium: **Releases → Draft a new release**.
-2. Tag `v1.0.1` (utwórz z gałęzi `main`), tytuł `Zwiadowcy: Ruiny Gorlanu 1.0.1`.
-3. Opis: zawartość `zmiany-1.0.1.md`.
+2. Tag `v1.0.2` (utwórz z gałęzi `main`), tytuł `Zwiadowcy: Ruiny Gorlanu 1.0.2`.
+3. Opis: zawartość `zmiany-1.0.2.md`.
 4. Załączniki: jar i zip z `build/publikacja/`. Kliknij **Publish release**.
 
 ## Kolejne wersje
 
-1. Zmień `mod_version` w `gradle.properties` (np. `1.0.1`).
+1. Zmień `mod_version` w `gradle.properties` (np. `1.0.2`).
 2. Dopisz plik `zmiany-<wersja>.md`.
 3. Uruchom `gradlew paczka` i wgraj nowy jar jako nową wersję na każdej platformie.

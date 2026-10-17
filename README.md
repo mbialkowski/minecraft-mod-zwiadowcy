@@ -156,6 +156,12 @@ o ok. 15 bloków, a poziom wody obniżony z 63 do 50, więc doliny rzek wysychaj
 (`LAND_SHIFT`, `LAND_SCALE`, `RAISE`, `SEA_LEVEL`).
 Zwykły świat Minecrafta się nie zmienia.
 
+**Spokojna okolica domu.** Do ~700 bloków od Redmontu, czyli w okolicy Wensley, chaty Halta, farmy Boba, legowiska dzika,
+obozu Zlotu i spalonej osady, teren jest łagodny: lasy, łąki i pagórki, bez wysokich gór i stromych płaskowyżów.
+Dalej teren stopniowo robi się górzysty, a ponad ~1200 bloków od zamku zaczynają się pełne Góry Deszczu i Nocy.
+Odpowiada za to własna funkcja gęstości `zwiadowcy:odleglosc_od_srodka` (`DistanceGradient.java`), która w okolicy
+domu uspokaja kontynentalność i erozję (ustawienia `CALM_*` w `BiomeGen.java`).
+
 **Przeciwnicy:**
 
 | Wróg | Opis |

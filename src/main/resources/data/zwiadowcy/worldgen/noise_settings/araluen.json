@@ -26,7 +26,7 @@
     },
     "continents": "zwiadowcy:araluen/continents",
     "depth": "zwiadowcy:araluen/depth",
-    "erosion": "minecraft:overworld/erosion",
+    "erosion": "zwiadowcy:araluen/erosion",
     "final_density": {
       "type": "minecraft:min",
       "argument1": {

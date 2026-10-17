@@ -122,13 +122,14 @@ public final class BiomeGen {
             // Araluen bez mórz: własne kopie funkcji gęstości terenu. Parametr generatora, który decyduje o oceanach
             // ("continents"), jest przesunięty w stronę lądu, więc nigdzie nie powstaje ocean ani plaża, a cały teren
             // jest podniesiony o kilka bloków - doliny rzek wysychają. Zostają tylko małe jeziorka z wód gruntowych.
-            String[] chain = {"continents", "offset", "factor", "jaggedness", "depth", "sloped_cheese"};
+            String[] chain = {"continents", "erosion", "offset", "factor", "jaggedness", "depth", "sloped_cheese"};
             File dfDir = new File(dataRoot, "zwiadowcy/worldgen/density_function/araluen");
             dfDir.mkdirs();
             for (String name : chain) {
                 JsonObject df = JsonParser.parseString(relink(readText(zip, "data/minecraft/worldgen/density_function/overworld/" + name + ".json"), chain))
                         .getAsJsonObject();
-                if (name.equals("continents")) df = towardsLand(df);
+                if (name.equals("continents")) df = calmNearHome(towardsLand(df), CALM_CONTINENTS, false);
+                if (name.equals("erosion")) df = calmNearHome(df, CALM_EROSION_FLOOR, true);
                 if (name.equals("offset")) df = raised(df);
                 write(new File(dfDir, name + ".json"), df);
             }
@@ -180,6 +181,42 @@ public final class BiomeGen {
     static String relink(String json, String[] chain) {
         for (String n : chain) json = json.replace("\"minecraft:overworld/" + n + "\"", "\"zwiadowcy:araluen/" + n + "\"");
         return json;
+    }
+
+    /**
+     * Spokojna okolica domu: w promieniu CALM_INNER od środka świata teren bez wysokich gór, dalej niż CALM_OUTER -
+     * pełne góry (Góry Deszczu i Nocy z trzeciego aktu), płynne przejście pomiędzy.
+     */
+    static final double CALM_INNER = 700, CALM_OUTER = 1200;
+    /** Kontynentalność w okolicy domu: "środek lądu" - bez szczytów. */
+    static final double CALM_CONTINENTS = 0.15;
+    /** Dolna granica erozji w okolicy domu: niska erozja daje strome płaskowyże i góry. */
+    static final double CALM_EROSION_FLOOR = -0.2;
+
+    static JsonObject num(String type, Object a, Object b) {
+        JsonObject o = new JsonObject();
+        o.addProperty("type", type);
+        if (a instanceof Number n) o.addProperty("argument1", n); else o.add("argument1", (JsonElement) a);
+        if (b instanceof Number n) o.addProperty("argument2", n); else o.add("argument2", (JsonElement) b);
+        return o;
+    }
+
+    /**
+     * flat_cache(x) → flat_cache(spokój + g·(x - spokój)), gdzie g = 0 blisko domu i 1 daleko.
+     * Dla kontynentalności "spokój" to stała; dla erozji ({@code floor}) - max(x, próg), czyli tylko odcięcie niskich wartości.
+     */
+    static JsonObject calmNearHome(JsonObject flatCache, double calm, boolean floor) {
+        JsonElement x = flatCache.get("argument");
+        JsonElement quiet = floor ? num("minecraft:max", x.deepCopy(), calm) : new JsonPrimitive(calm);
+        JsonObject g = new JsonObject();
+        g.addProperty("type", "zwiadowcy:odleglosc_od_srodka");
+        g.addProperty("inner", CALM_INNER);
+        g.addProperty("outer", CALM_OUTER);
+        JsonObject diff = num("minecraft:add", x.deepCopy(), num("minecraft:mul", -1.0, quiet.deepCopy()));
+        JsonObject out = new JsonObject();
+        out.addProperty("type", "minecraft:flat_cache");
+        out.add("argument", num("minecraft:add", quiet, num("minecraft:mul", g, diff)));
+        return out;
     }
 
     /** flat_cache(x) → flat_cache(LAND_SHIFT + LAND_SCALE·x). */
