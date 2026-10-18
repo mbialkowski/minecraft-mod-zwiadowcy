@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zwiadowcy: Ruiny Gorlanu - galeria</title>
+<meta name="description" content="Zrzuty ekranu z fanowskiego moda do Minecrafta 1.20.1 (Forge) na motywach „Zwiadowców” Johna Flanagana.">
+<meta property="og:title" content="Zwiadowcy: Ruiny Gorlanu - galeria">
+<meta property="og:description" content="Zrzuty ekranu z fanowskiego moda do Minecrafta 1.20.1 (Forge) na motywach „Zwiadowców”.">
+<meta property="og:image" content="https://mbialkowski.github.io/minecraft-mod-zwiadowcy/zrzuty/01_redmont.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root {
+    --bg: #efe6d1;
+    --surface: #f8f1e1;
+    --ink: #2f2418;
+    --muted: #6b5b45;
+    --accent: #8f2a1c;
+    --line: #d6c5a2;
+    --button: #4d6b35;
+    --button-ink: #fbf7ec;
+    --shadow: 0 1px 2px rgba(60, 40, 20, .12), 0 6px 18px rgba(60, 40, 20, .10);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #17130e;
+      --surface: #221c15;
+      --ink: #ece2cc;
+      --muted: #a8997f;
+      --accent: #e3926a;
+      --line: #3b3024;
+      --button: #6f8f4f;
+      --button-ink: #10140b;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 6px 18px rgba(0, 0, 0, .35);
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  html.lb-open { overflow: hidden; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 16px; }
+
+  header { padding: 32px 0 8px; }
+  .banner { display: block; width: 100%; height: auto; border-radius: 8px; box-shadow: var(--shadow); }
+  .kicker { margin: 24px 0 4px; color: var(--muted); font-size: 14px; letter-spacing: .02em; }
+  h1 {
+    margin: 0;
+    font: 700 clamp(28px, 4.5vw, 40px)/1.15 Georgia, "Times New Roman", serif;
+    color: var(--accent);
+    text-wrap: balance;
+  }
+  .lead { margin: 10px 0 0; max-width: 68ch; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0 8px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 18px; border-radius: 6px;
+    font-weight: 600; text-decoration: none;
+    border: 1px solid var(--button);
+  }
+  .btn.primary { background: var(--button); color: var(--button-ink); }
+  .btn.secondary { color: var(--ink); border-color: var(--line); background: var(--surface); }
+  .btn:hover { filter: brightness(1.08); }
+  .btn:focus-visible, .shot:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+  h2 {
+    margin: 36px 0 4px;
+    font: 700 24px/1.2 Georgia, "Times New Roman", serif;
+  }
+  .hint { margin: 0 0 18px; color: var(--muted); font-size: 14px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .card {
+    margin: 0;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .shot { display: block; position: relative; aspect-ratio: 16 / 9; background: var(--line); }
+  .shot img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .25s ease; }
+  .shot:hover img { transform: scale(1.03); }
+  .card figcaption { padding: 10px 14px 14px; }
+  .card strong { display: block; font-size: 16px; }
+  .card span { display: block; color: var(--muted); font-size: 14px; margin-top: 2px; }
+
+  footer {
+    margin: 48px 0 0;
+    padding: 24px 0 40px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 13px;
+  }
+  footer p { margin: 0 0 8px; max-width: 90ch; }
+
+  /* Podgląd na pełnym ekranie */
+  dialog.lb {
+    position: fixed; inset: 0;
+    width: 100%; height: 100%;
+    max-width: none; max-height: none;
+    margin: 0; padding: 0; border: 0;
+    background: rgba(12, 9, 6, .96);
+    color: #efe6d2;
+    overflow: hidden;
+  }
+  dialog.lb::backdrop { background: transparent; }
+  .lb-stage {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    padding: 56px 76px 20px;
+    touch-action: pan-y;
+  }
+  .lb-fig { margin: 0; display: flex; flex-direction: column; align-items: center; max-width: 100%; }
+  .lb-fig img {
+    display: block;
+    max-width: 100%;
+    max-height: calc(100vh - 170px);
+    max-height: calc(100dvh - 170px);
+    width: auto; height: auto;
+    border-radius: 4px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, .6);
+    transition: opacity .2s ease;
+  }
+  .lb-fig img.loading { opacity: 0; }
+  .lb-fig figcaption { margin-top: 14px; text-align: center; max-width: 70ch; padding: 0 8px; }
+  .lb-fig strong { display: block; font: 700 19px/1.3 Georgia, "Times New Roman", serif; }
+  .lb-desc { display: block; color: #c9bda4; font-size: 15px; margin-top: 2px; }
+  .lb-count { display: block; color: #918670; font-size: 13px; margin-top: 6px; font-variant-numeric: tabular-nums; }
+  .lb-btn {
+    position: absolute;
+    display: grid; place-items: center;
+    width: 52px; height: 52px;
+    border: 0; border-radius: 50%;
+    background: rgba(255, 255, 255, .08);
+    color: #efe6d2;
+    cursor: pointer;
+  }
+  .lb-btn:hover { background: rgba(255, 255, 255, .18); }
+  .lb-btn:focus-visible { outline: 3px solid #e3926a; outline-offset: 2px; }
+  .lb-btn svg { width: 26px; height: 26px; }
+  .lb-prev { left: 14px; top: 50%; transform: translateY(-50%); }
+  .lb-next { right: 14px; top: 50%; transform: translateY(-50%); }
+  .lb-close { right: 12px; top: 10px; width: 44px; height: 44px; }
+  @media (max-width: 700px) {
+    .lb-stage { padding: 56px 8px 16px; }
+    .lb-prev, .lb-next { top: auto; bottom: 14px; transform: none; width: 44px; height: 44px; }
+    .lb-fig figcaption { padding: 0 52px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .shot img, .lb-fig img { transition: none; }
+  }
+</style>
+</head>
+<body>
+<header class="wrap">
+  <img class="banner" src="https://raw.githubusercontent.com/mbialkowski/minecraft-mod-zwiadowcy/main/publikacja/baner.png"
+       alt="Zwiadowcy: Ruiny Gorlanu" width="1280" height="400">
+  <p class="kicker">Nieoficjalny mod fanowski do Minecraft Java 1.20.1 (Forge)</p>
+  <h1>Zwiadowcy: Ruiny Gorlanu</h1>
+  <p class="lead">Fabularny mod na motywach „Zwiadowców” Johna Flanagana. Grasz jako Will, który zostaje uczniem
+    zwiadowcy Halta: 14 misji, nowy wymiar Araluen, skradanie się, łuk, koń i bossowie. Wszystko po polsku.</p>
+  <div class="actions">
+    <a class="btn primary" href="https://github.com/mbialkowski/minecraft-mod-zwiadowcy/releases/latest">Pobierz moda</a>
+    <a class="btn secondary" href="https://github.com/mbialkowski/minecraft-mod-zwiadowcy#instalacja-krok-po-kroku">Instrukcja instalacji</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <h2>Zrzuty ekranu</h2>
+  <p class="hint">Kliknij zdjęcie, żeby je powiększyć. Między zdjęciami przechodzisz strzałkami albo przesuwając palcem.</p>
+  <ul class="grid">
+    <li><figure class="card" id="01_redmont">
+      <a class="shot" href="zrzuty/01_redmont.jpg"><img src="zrzuty/male/01_redmont.jpg" alt="Dziedziniec zamku Redmont" width="640" height="360"></a>
+      <figcaption><strong>Dziedziniec zamku Redmont</strong><span>Tu zaczyna się Dzień Wyboru.</span></figcaption>
+    </figure></li>
+    <li><figure class="card" id="02_wielka_sala">
+      <a class="shot" href="zrzuty/02_wielka_sala.jpg"><img src="zrzuty/male/02_wielka_sala.jpg" alt="Wielka sala zamku" width="640" height="360"></a>
+      <figcaption><strong>Wielka sala zamku</strong><span>Kominki, sztandary i portrety w sercu Redmontu.</span></figcaption>
+    </figure></li>
+    <li><figure class="card" id="03_baron">
+      <a class="shot" href="zrzuty/03_baron.jpg"><img src="zrzuty/male/03_baron.jpg" alt="Baron Arald" width="640" height="360"></a>
+      <figcaption><strong>Baron Arald</strong><span>Pan na Redmont i opiekun Willa.</span></figcaption>
+    </figure></li>
+    <li><figure class="card" id="04_halt">
+      <a class="shot" href="zrzuty/04_halt.jpg"><img src="zrzuty/male/04_halt.jpg" alt="Halt przed chatą w lesie" width="640" height="360" loading="lazy"></a>
+      <figcaption><strong>Halt przed chatą w lesie</strong><span>Zwiadowca lenna Redmont i nauczyciel Willa.</span></figcaption>
+    </figure></li>
+    <li><figure class="card" id="05_rozmowa">
+      <a class="shot" href="zrzuty/05_rozmowa.jpg"><img src="zrzuty/male/05_rozmowa.jpg" alt="Rozmowa z Haltem" width="640" height="360" loading="lazy"></a>
+      <figcaption><strong>Rozmowa z Haltem</strong><span>Dialogi z wyborem odpowiedzi prowadzą przez kampanię.</span></figcaption>
+    </figure></li>
+    <li><figure class="card" id="06_strzelnica">
+      <a class="shot" href="zrzuty/06_strzelnica.jpg"><img src="zrzuty/male/06_strzelnica.jpg" alt="Strzelnica przy chacie Halta" width="640" height="360" loading="lazy"></a>
+      <figcaption><strong>Strzelnica przy chacie Halta</strong><span>Tu Will uczy się strzelać z łuku.</span></figcaption>
+    </figure></li>
+    <li><figure class="card" id="07_farma_boba">
+      <a class="shot" href="zrzuty/07_farma_boba.jpg"><img src="zrzuty/male/07_farma_boba.jpg" alt="Farma Starego Boba" width="640" height="360" loading="lazy"></a>
+      <figcaption><strong>Farma Starego Boba</strong><span>Stary Bob hoduje konie dla zwiadowców.</span></figcaption>
+    </figure></li>
+    <li><figure class="card" id="08_oboz_zlotu">
+      <a class="shot" href="zrzuty/08_oboz_zlotu.jpg"><img src="zrzuty/male/08_oboz_zlotu.jpg" alt="Obóz Zlotu Zwiadowców" width="640" height="360" loading="lazy"></a>
+      <figcaption><strong>Obóz Zlotu Zwiadowców</strong><span>Zwiadowcy z całego królestwa przy wspólnym ognisku.</span></figcaption>
+    </figure></li>
+    <li><figure class="card" id="09_wensley">
+      <a class="shot" href="zrzuty/09_wensley.jpg"><img src="zrzuty/male/09_wensley.jpg" alt="Jarmark w Wensley" width="640" height="360" loading="lazy"></a>
+      <figcaption><strong>Jarmark w Wensley</strong><span>Wioska z karczmą, kramami i misją poboczną.</span></figcaption>
+    </figure></li>
+    <li><figure class="card" id="10_zasadzka">
+      <a class="shot" href="zrzuty/10_zasadzka.jpg"><img src="zrzuty/male/10_zasadzka.jpg" alt="Zasadzka Wargalów w spalonej osadzie" width="640" height="360" loading="lazy"></a>
+      <figcaption><strong>Zasadzka Wargalów</strong><span>Spalona osada, a w niej Wargale Morgaratha.</span></figcaption>
+    </figure></li>
+    <li><figure class="card" id="11_kalkar">
+      <a class="shot" href="zrzuty/11_kalkar.jpg"><img src="zrzuty/male/11_kalkar.jpg" alt="Kalkar w Ruinach Gorlanu" width="640" height="360" loading="lazy"></a>
+      <figcaption><strong>Kalkar w Ruinach Gorlanu</strong><span>Finałowa walka na arenie wśród ruin.</span></figcaption>
+    </figure></li>
+    <li><figure class="card" id="12_dziennik">
+      <a class="shot" href="zrzuty/12_dziennik.jpg"><img src="zrzuty/male/12_dziennik.jpg" alt="Dziennik zwiadowcy" width="640" height="360" loading="lazy"></a>
+      <figcaption><strong>Dziennik zwiadowcy</strong><span>Misje, notatki i prolog zawsze pod ręką.</span></figcaption>
+    </figure></li>
+  </ul>
+</main>
+
+<footer class="wrap">
+  <p><strong>Autorzy:</strong> ABialas &amp; 🤖CC ·
+    <a href="https://github.com/mbialkowski/minecraft-mod-zwiadowcy">kod i README na GitHubie</a></p>
+  <p>Nieoficjalny mod fanowski. Fabuła jest wolną interpretacją wydarzeń z „Ruin Gorlanu” Johna Flanagana; świat,
+    postacie i nazwy należą do ich właścicieli. Mod nie jest związany z autorem ani wydawcami serii, jest darmowy
+    i niekomercyjny.</p>
+  <p>NIE JEST OFICJALNYM PRODUKTEM MINECRAFT. NIE JEST ZATWIERDZONY PRZEZ MOJANG ANI MICROSOFT ANI Z NIMI ZWIĄZANY.</p>
+</footer>
+
+<dialog class="lb" id="lb" aria-label="Podgląd zdjęcia">
+  <div class="lb-stage" id="lb-stage">
+    <figure class="lb-fig">
+      <img id="lb-img" alt="">
+      <figcaption>
+        <strong id="lb-title"></strong>
+        <span class="lb-desc" id="lb-desc"></span>
+        <span class="lb-count" id="lb-count"></span>
+      </figcaption>
+    </figure>
+  </div>
+  <button class="lb-btn lb-prev" id="lb-prev" type="button" aria-label="Poprzednie zdjęcie">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+  </button>
+  <button class="lb-btn lb-next" id="lb-next" type="button" aria-label="Następne zdjęcie">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+  </button>
+  <button class="lb-btn lb-close" id="lb-close" type="button" aria-label="Zamknij podgląd" autofocus>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+</dialog>
+
+<script>
+(function () {
+  var dlg = document.getElementById('lb');
+  if (!dlg || typeof dlg.showModal !== 'function') return; // stara przeglądarka: linki otwierają same zdjęcia
+
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
+  var items = cards.map(function (card) {
+    var link = card.querySelector('.shot');
+    return {
+      id: card.id,
+      full: link.getAttribute('href'),
+      link: link,
+      title: card.querySelector('strong').textContent,
+      desc: card.querySelector('figcaption span').textContent,
+      alt: card.querySelector('img').alt
+    };
+  });
+  var img = document.getElementById('lb-img');
+  var title = document.getElementById('lb-title');
+  var desc = document.getElementById('lb-desc');
+  var count = document.getElementById('lb-count');
+  var stage = document.getElementById('lb-stage');
+  var current = -1;
+
+  function indexOf(id) {
+    for (var i = 0; i < items.length; i++) if (items[i].id === id) return i;
+    return -1;
+  }
+
+  function preload(i) {
+    var it = items[(i + items.length) % items.length];
+    var p = new Image();
+    p.src = it.full;
+  }
+
+  function show(i) {
+    current = (i + items.length) % items.length;
+    var it = items[current];
+    img.classList.add('loading');
+    img.onload = function () { img.classList.remove('loading'); };
+    img.src = it.full;
+    img.alt = it.alt;
+    title.textContent = it.title;
+    desc.textContent = it.desc;
+    count.textContent = (current + 1) + ' / ' + items.length;
+    history.replaceState(null, '', '#' + it.id);
+    preload(current + 1);
+    preload(current - 1);
+  }
+
+  function open(i) {
+    show(i);
+    if (!dlg.open) {
+      document.documentElement.classList.add('lb-open');
+      dlg.showModal();
+    }
+  }
+
+  function close() {
+    if (dlg.open) dlg.close();
+  }
+
+  dlg.addEventListener('close', function () {
+    document.documentElement.classList.remove('lb-open');
+    history.replaceState(null, '', location.pathname + location.search);
+    // fokus wraca na ostatnio oglądane zdjęcie, a strona przewija się do niego
+    if (items[current]) items[current].link.focus();
+    current = -1;
+  });
+
+  items.forEach(function (it, i) {
+    it.link.addEventListener('click', function (e) {
+      if (e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0) return;
+      e.preventDefault();
+      open(i);
+    });
+  });
+
+  document.getElementById('lb-prev').addEventListener('click', function () { show(current - 1); });
+  document.getElementById('lb-next').addEventListener('click', function () { show(current + 1); });
+  document.getElementById('lb-close').addEventListener('click', close);
+
+  // klik w ciemne tło zamyka podgląd
+  stage.addEventListener('click', function (e) {
+    if (e.target === stage) close();
+  });
+
+  dlg.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); show(current - 1); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); show(current + 1); }
+  });
+
+  // przesuwanie palcem
+  var sx = 0, sy = 0, tracking = false;
+  stage.addEventListener('touchstart', function (e) {
+    if (e.touches.length !== 1) { tracking = false; return; }
+    tracking = true;
+    sx = e.touches[0].clientX;
+    sy = e.touches[0].clientY;
+  }, { passive: true });
+  stage.addEventListener('touchend', function (e) {
+    if (!tracking) return;
+    tracking = false;
+    var dx = e.changedTouches[0].clientX - sx;
+    var dy = e.changedTouches[0].clientY - sy;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) show(current + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+
+  // link z README (#01_redmont) otwiera od razu właściwe zdjęcie
+  function fromHash() {
+    var id = decodeURIComponent(location.hash.slice(1));
+    var i = indexOf(id);
+    if (i >= 0) open(i);
+    else if (dlg.open && !id) close();
+  }
+  window.addEventListener('hashchange', fromHash);
+  fromHash();
+})();
+</script>
+</body>
+</html>

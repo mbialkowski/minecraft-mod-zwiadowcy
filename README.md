@@ -18,16 +18,38 @@ Czeka na ciebie 14 misji fabularnych, nowy wymiar Araluen, skradanie się w pła
 bossowie i otwarty świat po zakończeniu kampanii. Cała fabuła, dialogi i opisy są po polsku.
 *English summary at the end.*
 
+## Spis treści
+
+- [Zrzuty ekranu](#zrzuty-ekranu)
+- [Pobierz](#-pobierz)
+- [Instalacja krok po kroku](#instalacja-krok-po-kroku)
+  - [Launcher modów (zalecane)](#najprościej-launcher-modów-zalecane) ·
+    [Ręcznie: oficjalny launcher + Forge](#ręcznie-oficjalny-launcher-minecrafta--forge) ·
+    [Aktualizacja](#aktualizacja-do-nowej-wersji) · [Gra na serwerze](#gra-na-serwerze) ·
+    [Najczęstsze problemy](#najczęstsze-problemy)
+- [Uruchomienie ze źródeł (dla twórców)](#uruchomienie-ze-źródeł-dla-twórców)
+- [Jak zacząć grę](#jak-zacząć-grę)
+- [Świat Araluenu](#świat-araluenu) · [Sterowanie](#sterowanie)
+- [Kampania](#kampania) · [Lokacje](#lokacje)
+- [Zawartość](#zawartość)
+- [Struktura projektu](#struktura-projektu) · [Edycja fabuły bez kompilacji](#edycja-fabuły-bez-kompilacji) ·
+  [Tekstury i struktury](#tekstury-i-struktury)
+- [Komendy testowe (op)](#komendy-testowe-op) · [Autotest](#autotest)
+- [Wydajność](#wydajność) · [Ograniczenia](#ograniczenia)
+- [Publikacja](#publikacja) · [Autorzy](#autorzy) · [Licencja](#licencja)
+- [English](#english)
+
 ## Zrzuty ekranu
 
-| | |
-|:---:|:---:|
-| ![Dziedziniec zamku Redmont](publikacja/zrzuty/01_redmont.jpg)<br>Dziedziniec zamku Redmont | ![Wielka sala zamku](publikacja/zrzuty/02_wielka_sala.jpg)<br>Wielka sala zamku |
-| ![Baron Arald](publikacja/zrzuty/03_baron.jpg)<br>Baron Arald | ![Halt przed chatą w lesie](publikacja/zrzuty/04_halt.jpg)<br>Halt przed chatą w lesie |
-| ![Rozmowa z Haltem](publikacja/zrzuty/05_rozmowa.jpg)<br>Rozmowa z Haltem | ![Strzelnica przy chacie Halta](publikacja/zrzuty/06_strzelnica.jpg)<br>Strzelnica przy chacie Halta |
-| ![Farma Starego Boba](publikacja/zrzuty/07_farma_boba.jpg)<br>Farma Starego Boba | ![Obóz Zlotu Zwiadowców](publikacja/zrzuty/08_oboz_zlotu.jpg)<br>Obóz Zlotu Zwiadowców |
-| ![Jarmark w Wensley](publikacja/zrzuty/09_wensley.jpg)<br>Jarmark w Wensley | ![Zasadzka Wargalów w spalonej osadzie](publikacja/zrzuty/10_zasadzka.jpg)<br>Zasadzka Wargalów w spalonej osadzie |
-| ![Kalkar w Ruinach Gorlanu](publikacja/zrzuty/11_kalkar.jpg)<br>Kalkar w Ruinach Gorlanu | ![Dziennik zwiadowcy](publikacja/zrzuty/12_dziennik.jpg)<br>Dziennik zwiadowcy |
+**[Otwórz galerię](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/)**. Kliknij miniaturę, żeby obejrzeć zdjęcie
+w powiększeniu. W galerii przechodzisz między zdjęciami strzałkami albo przesuwając palcem.
+
+| | | |
+|:---:|:---:|:---:|
+| [![Dziedziniec zamku Redmont](docs/zrzuty/male/01_redmont.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#01_redmont)<br>Dziedziniec zamku Redmont | [![Wielka sala zamku](docs/zrzuty/male/02_wielka_sala.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#02_wielka_sala)<br>Wielka sala zamku | [![Baron Arald](docs/zrzuty/male/03_baron.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#03_baron)<br>Baron Arald |
+| [![Halt przed chatą w lesie](docs/zrzuty/male/04_halt.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#04_halt)<br>Halt przed chatą w lesie | [![Rozmowa z Haltem](docs/zrzuty/male/05_rozmowa.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#05_rozmowa)<br>Rozmowa z Haltem | [![Strzelnica przy chacie Halta](docs/zrzuty/male/06_strzelnica.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#06_strzelnica)<br>Strzelnica przy chacie Halta |
+| [![Farma Starego Boba](docs/zrzuty/male/07_farma_boba.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#07_farma_boba)<br>Farma Starego Boba | [![Obóz Zlotu Zwiadowców](docs/zrzuty/male/08_oboz_zlotu.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#08_oboz_zlotu)<br>Obóz Zlotu Zwiadowców | [![Jarmark w Wensley](docs/zrzuty/male/09_wensley.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#09_wensley)<br>Jarmark w Wensley |
+| [![Zasadzka Wargalów w spalonej osadzie](docs/zrzuty/male/10_zasadzka.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#10_zasadzka)<br>Zasadzka Wargalów | [![Kalkar w Ruinach Gorlanu](docs/zrzuty/male/11_kalkar.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#11_kalkar)<br>Kalkar w Ruinach Gorlanu | [![Dziennik zwiadowcy](docs/zrzuty/male/12_dziennik.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#12_dziennik)<br>Dziennik zwiadowcy |
 
 ## ⬇ Pobierz
 
@@ -411,7 +433,10 @@ To polecenie buduje mod i składa w `build/publikacja/` dwa pliki:
 - `Zwiadowcy-Ruiny-Gorlanu-<wersja>-forge-1.20.1.zip` dla graczy (jar, instrukcja instalacji i licencje),
   np. do GitHub Releases.
 
-Katalog [`publikacja/`](publikacja/) zawiera ikonę projektu, baner, zrzuty ekranu, opis strony (PL i EN), krótkie podsumowanie,
+Galeria zrzutów ekranu to strona w [`docs/`](docs/) publikowana przez GitHub Pages
+(zdjęcia w `docs/zrzuty/`, miniatury w `docs/zrzuty/male/`).
+
+Katalog [`publikacja/`](publikacja/) zawiera ikonę projektu, baner, opis strony (PL i EN), krótkie podsumowanie,
 listę zmian i [ściągawkę z polami formularzy](publikacja/formularze.md) dla Modrinth, CurseForge i GitHub Releases.
 
 ## Autorzy
