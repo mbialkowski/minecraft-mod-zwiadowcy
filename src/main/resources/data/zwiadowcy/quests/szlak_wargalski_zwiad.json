@@ -1,0 +1,30 @@
+{
+  "title": "Na szlaku: wargalski zwiad",
+  "act": "Postoje na szlaku",
+  "tom": 2,
+  "order": 214,
+  "description": "Kilku Wargali, którzy przeżyli pożar mostu, kręci się przy trakcie do Uthal. Jeśli dotrą do swoich, Morgarath dowie się, kto spalił jego most.",
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "szlak_wargalski_zwiad:miejsce", "radius": 14},
+      "text": "Sprawdź ślady Wargali przy trakcie (dobrowolnie)",
+      "on_complete": [
+        {"type": "track", "quest": "szlak_wargalski_zwiad"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "szlak_wargalski_zwiad:wrog_1", "face": "szlak_wargalski_zwiad:miejsce"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "szlak_wargalski_zwiad:wrog_2", "face": "szlak_wargalski_zwiad:miejsce"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_kusznik", "at": "szlak_wargalski_zwiad:wrog_3", "face": "szlak_wargalski_zwiad:miejsce"},
+        {"type": "message", "speaker": "Horace", "text": "Wargale z mostu! Nie mogą donieść Morgarathowi, kto tam był."}
+      ]
+    },
+    {
+      "objective": {"type": "kill", "entity": "*", "count": 3, "tagged": true},
+      "text": "Rozbij wargalski zwiad (2 Wargali i kusznik)",
+      "location": "szlak_wargalski_zwiad:miejsce"
+    }
+  ],
+  "on_complete": [
+    {"type": "give_item", "item": "zwiadowcy:strzala_plonaca", "count": 8},
+    {"type": "xp", "amount": 40},
+    {"type": "note", "title": "Wargalski zwiad", "text": "Zwiad Wargali nie doniesie już nikomu o moście. W juku kusznika było osiem płonących strzał - zabrane, zanim zdążył ich użyć przeciwko nam."}
+  ]
+}

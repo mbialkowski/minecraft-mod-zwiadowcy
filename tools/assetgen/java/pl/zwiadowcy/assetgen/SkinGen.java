@@ -16,6 +16,8 @@ final class SkinGen {
         int beardColor = -1;
         int tunic = 0x6a4a2a, trim = -1, sleeves = -1, pants = 0x4a3a2a, boots = 0x2e2014, belt = 0x2a1a10;
         boolean rangerCloak, hood, crown, chefHat, strawHat, helmet, apron, robe, dress, chainmail, fur;
+        /** Rogaty hełm skandyjski (tom II). */
+        boolean horns;
         int surcoat = -1;
         int scarf = -1, clothHood = -1;
 
@@ -44,6 +46,7 @@ final class SkinGen {
         Spec mail() { chainmail = true; return this; }
         Spec surcoat(int c) { surcoat = c; return this; }
         Spec fur() { fur = true; return this; }
+        Spec horns() { horns = true; return this; }
     }
 
     static final int[] CAMO = {Px.rgb(0x4f5a3a), Px.rgb(0x3e4a30), Px.rgb(0x5f6a48), Px.rgb(0x5a5a4a), Px.rgb(0x4a4232)};
@@ -216,6 +219,14 @@ final class SkinGen {
                 if (f.equals("bottom")) return;
                 p.noisy(x, y, w, f.equals("top") ? h : 2, straw, 0.1);
                 if (!f.equals("top")) p.rect(x, y + 2, w, 1, Px.rgb(0x8a6a3a));
+            });
+        } else if (s.horns) {
+            int iron = Px.rgb(0x7a7e84), horn = Px.rgb(0xe0d4b4);
+            px.box(32, 0, 8, 8, 8, (p, f, x, y, w, h) -> {
+                if (f.equals("bottom")) return;
+                p.noisy(x, y, w, f.equals("top") ? h : 3, iron, 0.06);
+                if (f.equals("front")) { p.rect(x + 3, y + 3, 2, 2, iron); p.set(x, y, horn); p.set(x + w - 1, y, horn); }
+                if (f.equals("right") || f.equals("left")) { p.rect(x + 2, y, 2, 2, horn); p.set(x + 3, y + 2, horn); }
             });
         } else if (s.helmet) {
             int iron = Px.rgb(0x9a9ea4);

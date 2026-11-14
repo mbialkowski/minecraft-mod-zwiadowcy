@@ -1,0 +1,31 @@
+{
+  "title": "Strzał Gilana",
+  "act": "Tom II · Misja poboczna",
+  "tom": 2,
+  "order": 253,
+  "advancement": "tom2/strzal_gilana",
+  "description": "Zanim Gilan odjedzie na wschód, chce sprawdzić, czy uczeń Halta umie strzelać z siodła. Na łące w Dolinie Mgieł rozstawił tarcze. Jego wynik: sześć trafień.",
+  "stages": [
+    {
+      "objective": {"type": "talk", "npc": "gilan"},
+      "text": "Posłuchaj zasad konkursu",
+      "location": "dolina_mgiel:gilan"
+    },
+    {
+      "objective": {"type": "target_hits", "projectile": "arrow", "count": 7, "z_siodla": true},
+      "text": "Pobij wynik Gilana: 7 trafień w tarcze z siodła",
+      "location": "dolina_mgiel:konkurs"
+    },
+    {
+      "objective": {"type": "talk", "npc": "gilan"},
+      "text": "Pochwal się Gilanowi",
+      "location": "dolina_mgiel:gilan"
+    }
+  ],
+  "on_complete": [
+    {"type": "skill", "id": "jezdziec"},
+    {"type": "trust", "npc": "gilan", "delta": 5},
+    {"type": "xp", "amount": 60},
+    {"type": "note", "title": "Strzał Gilana", "text": "Pokonałem Gilana w strzelaniu z siodła. Siedem do sześciu. Gilan twierdzi, że wiatr mu przeszkadzał. Halt by powiedział, że wiatr przeszkadza tylko tym, którzy przegrywają."}
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "location": "most",
+  "frame": "kanion",
+  "keyframes": [
+    {"t": 0, "pos": [-70, -30, 0], "look": [0, -18, 0], "fov": 70},
+    {"t": 90, "pos": [-38, -14, -2], "look": [0, -2, 0], "fov": 68},
+    {"t": 170, "pos": [-12, 8, -14], "look": [0, 0, 18], "fov": 64},
+    {"t": 250, "pos": [4, 22, 22], "look": [0, 0, 62], "fov": 58},
+    {"t": 310, "pos": [8, 26, 34], "look": [0, 2, 74], "fov": 55}
+  ],
+  "subtitles": [
+    {"t": 10, "d": 80, "text": "Rozpadlina. Poza Przełęczą Trzech Stopni jedyna droga z płaskowyżu Morgaratha."},
+    {"t": 100, "d": 80, "text": "Nad przepaścią wisiał most - prawie gotowy: belki, liny, wieża na brzegu."},
+    {"t": 195, "d": 105, "text": "A za nim, w obozie, pracowali jeńcy. Celtowie z kopalń pod Kruczą Skałą."}
+  ]
+}

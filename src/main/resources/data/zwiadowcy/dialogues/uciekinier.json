@@ -1,0 +1,19 @@
+{
+  "npc": "uciekinier",
+  "entries": [
+    {
+      "when": [],
+      "start": "domyslny"
+    }
+  ],
+  "nodes": {
+    "domyslny": {
+      "text": "Wargale zabrali wszystko: owce, narzędzia, ludzi. Zostawili tylko popiół. Idziemy na wschód, bo na zachodzie nie ma już nic.",
+      "options": [
+        {
+          "text": "Na wschodzie jest armia króla. Będziecie bezpieczni."
+        }
+      ]
+    }
+  }
+}

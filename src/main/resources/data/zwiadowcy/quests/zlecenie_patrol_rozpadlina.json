@@ -1,0 +1,27 @@
+{
+  "title": "Zlecenie: patrol nad Rozpadliną",
+  "act": "Zlecenia zwiadowcy",
+  "tom": 2,
+  "order": 230,
+  "repeatable": true,
+  "description": "Przy zwęglonym moście wciąż kręcą się Wargale, którzy nie zdążyli uciec za Rozpadlinę. Gilan chce mieć pewność, że nie zejdą do celtyckich wiosek.",
+  "stages": [
+    {
+      "objective": {"type": "kill", "entity": "zwiadowcy:wargal", "count": 4, "tagged": true},
+      "text": "Rozbij Wargali przy zwęglonym moście (kierunek wskazuje dziennik)",
+      "on_start": [
+        {"type": "spawn_random", "entity": "zwiadowcy:wargal", "count": 4, "center": "krawedz", "min": 40, "max": 110}
+      ]
+    },
+    {
+      "objective": {"type": "talk", "npc": "gilan"},
+      "text": "Złóż raport Gilanowi na Krawędzi",
+      "location": "krawedz:ognisko"
+    }
+  ],
+  "on_complete": [
+    {"type": "give_item", "item": "zwiadowcy:strzala_plonaca", "count": 6},
+    {"type": "give_item", "item": "zwiadowcy:racje_podrozne", "count": 3},
+    {"type": "xp", "amount": 60}
+  ]
+}

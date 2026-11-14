@@ -1,0 +1,59 @@
+{
+  "title": "Wyścig z czasem",
+  "act": "Tom II · Akt III: Płonący most",
+  "tom": 2,
+  "order": 212,
+  "advancement": "tom2/wyscig_z_czasem",
+  "description": "Most spłonął, ale Morgarath ma jeszcze Przełęcz Trzech Stopni - i armię, która nie lubi czekać. Król musi się dowiedzieć, co zaszło nad Rozpadliną, zanim rozpocznie się bitwa.",
+  "on_start": [
+    {"type": "companion_order", "order": "ZA_MNA"},
+    {"type": "start_quest", "quest": "szlak_celtyccy_uciekinierzy", "quiet": true},
+    {"type": "start_quest", "quest": "szlak_wargalski_zwiad", "quiet": true},
+    {"type": "start_quest", "quest": "obcy_na_trakcie", "quiet": true},
+    {"type": "move_npc", "npc": "halt", "to": "oboz_krolewski:halt", "mode": "idle", "face": "oboz_krolewski:ognisko"},
+    {"type": "move_npc", "npc": "crowley", "to": "oboz_krolewski:crowley", "mode": "idle", "face": "oboz_krolewski:krol"},
+    {"type": "move_npc", "npc": "krol_duncan", "to": "oboz_krolewski:krol", "mode": "idle", "face": "oboz_krolewski:namiot_krola"},
+    {"type": "move_npc", "npc": "sir_rodney", "to": "oboz_krolewski:rodney", "mode": "idle", "face": "oboz_krolewski:ognisko"},
+    {"type": "message", "speaker": "Horace", "text": "Obóz króla jest daleko na wschodzie, nad Uthal. Jeśli Wyrwij da radę - jedźmy galopem."}
+  ],
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "oboz_krolewski:brama", "radius": 8},
+      "text": "Pędź do obozu królewskiego nad Uthal - ok. 1600 bloków na wschód (szybka podróż zablokowana)",
+      "no_fast_travel": true,
+      "on_complete": [
+        {"type": "spawn_npc", "npc": "straznik", "at": "oboz_krolewski:straznik", "face": "oboz_krolewski:brama"},
+        {"type": "message", "speaker": "Strażnik", "text": "Stój! Kto… Zwiadowca? Z Celtyki? Biegnij do namiotu zwiadowców, twój mistrz chodzi tam w kółko od trzech dni."}
+      ]
+    },
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Znajdź Halta przy ognisku zwiadowców",
+      "no_fast_travel": true,
+      "location": "oboz_krolewski:halt"
+    },
+    {
+      "objective": {"type": "talk", "npc": "crowley"},
+      "text": "Złóż raport Crowleyowi w namiocie króla",
+      "no_fast_travel": true,
+      "location": "oboz_krolewski:crowley",
+      "on_start": [
+        {"type": "companion_leave", "npc": "evanlyn"},
+        {"type": "move_npc", "npc": "evanlyn", "to": "oboz_krolewski:evanlyn_konie", "mode": "idle", "face": "oboz_krolewski:konie"},
+        {"type": "message", "speaker": "Evanlyn", "text": "Idźcie beze mnie. Ja… popilnuję koni. Ktoś przecież musi."}
+      ]
+    },
+    {
+      "objective": {"type": "talk", "npc": "krol_duncan"},
+      "text": "Opowiedz królowi Duncanowi o moście",
+      "no_fast_travel": true,
+      "location": "oboz_krolewski:krol"
+    }
+  ],
+  "on_complete": [
+    {"type": "xp", "amount": 150},
+    {"type": "campfire", "id": "oboz_krolewski"},
+    {"type": "note", "title": "Raport u króla", "text": "Król wysłuchał wszystkiego: o Celtach, o moście, o kolumnie Wargali. Halt powiedział tylko „Dobra robota” - ale słyszałem, jak potem powtarzał to Crowleyowi. Dziwne: Evanlyn nie chciała wejść do namiotu króla. Pilnuje koni, jakby się kogoś bała."},
+    {"type": "start_quest", "quest": "noc_przed_bitwa"}
+  ]
+}

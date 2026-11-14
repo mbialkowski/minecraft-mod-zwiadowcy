@@ -47,10 +47,15 @@ public class WhistleItem extends TooltipItem {
                 sp.displayClientMessage(Component.literal("Wyrwij jest zbyt zmęczony, by przybiec.").withStyle(ChatFormatting.GRAY), true);
                 return;
             }
-            if (tug.distanceTo(sp) > 12) {
-                tug.teleportTo(sp.getX() + 2, sp.getY(), sp.getZ() + 2);
+            // w zasięgu gwizdu (100 bloków, 150 z „Przyjacielem koni”) Wyrwij przybiega galopem, dalej - pojawia się
+            // za plecami gracza, poza jego wzrokiem
+            double range = pl.zwiadowcy.skill.Skills.has(sp, pl.zwiadowcy.skill.Skills.PRZYJACIEL_KONI) ? 150 : 100;
+            tug.clearRestriction();
+            if (tug.distanceTo(sp) > range) {
+                net.minecraft.world.phys.Vec3 back = sp.position().subtract(sp.getLookAngle().multiply(6, 0, 6));
+                tug.teleportTo(back.x, sp.getY(), back.z);
             }
-            tug.getNavigation().moveTo(sp, 1.4);
+            tug.getNavigation().moveTo(sp, 1.6);
         } else {
             // koń jest w niezaładowanym miejscu lub innym wymiarze - przybiega "nowy" (stara kopia zniknie)
             prog.tugGeneration++;

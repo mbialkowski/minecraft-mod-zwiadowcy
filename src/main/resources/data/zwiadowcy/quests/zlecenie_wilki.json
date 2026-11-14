@@ -1,0 +1,33 @@
+{
+  "title": "Zlecenie: wilki na wrzosowisku",
+  "act": "Zlecenia zwiadowcy",
+  "tom": 2,
+  "order": 232,
+  "repeatable": true,
+  "description": "Wilki znów krążą wokół szałasu Morwenny. Pasterka prosi o pomoc - sama nie upilnuje stada przez całą noc.",
+  "stages": [
+    {
+      "objective": {"type": "defend", "seconds": 45, "waves": [{"t": 2, "event": "wilki_1"}, {"t": 22, "event": "wilki_2"}]},
+      "text": "Obroń stado Morwenny przed wilkami (45 s)",
+      "location": "szalas_pasterski:ognisko",
+      "triggers": {
+        "wilki_1": [
+          {"type": "spawn", "entity": "minecraft:wolf", "at": "szalas_pasterski:wilk_1", "count": 3, "angry": true}
+        ],
+        "wilki_2": [
+          {"type": "spawn", "entity": "minecraft:wolf", "at": "szalas_pasterski:wilk_2", "count": 3, "angry": true}
+        ]
+      }
+    },
+    {
+      "objective": {"type": "talk", "npc": "morwenna"},
+      "text": "Porozmawiaj z Morwenną",
+      "location": "szalas_pasterski:ognisko"
+    }
+  ],
+  "on_complete": [
+    {"type": "give_item", "item": "zwiadowcy:racje_podrozne", "count": 6},
+    {"type": "give_item", "item": "minecraft:white_wool", "count": 4},
+    {"type": "xp", "amount": 60}
+  ]
+}

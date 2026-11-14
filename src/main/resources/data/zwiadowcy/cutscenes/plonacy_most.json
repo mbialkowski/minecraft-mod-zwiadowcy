@@ -1,0 +1,19 @@
+{
+  "location": "most",
+  "frame": "most",
+  "keyframes": [
+    {"t": 0, "pos": [-30, 6, 20], "look": [0, -3, 14], "fov": 65},
+    {"t": 150, "pos": [-34, 3, 8], "look": [0, 0, 4], "fov": 65},
+    {"t": 300, "pos": [-42, 9, 0], "look": [0, -6, 0], "fov": 66},
+    {"t": 460, "pos": [-26, -12, -4], "look": [0, -42, 0], "fov": 70},
+    {"t": 600, "pos": [-18, 14, 30], "look": [0, -2, 0], "fov": 60},
+    {"t": 700, "pos": [-10, 18, 40], "look": [0, -4, 0], "fov": 58}
+  ],
+  "subtitles": [
+    {"t": 15, "d": 95, "text": "Smoła zajęła się od razu. Ogień pobiegł po zastrzałach w górę, na pomost."},
+    {"t": 170, "d": 90, "text": "Wargale na moście zrozumieli za późno."},
+    {"t": 330, "d": 100, "text": "Przęsło po przęśle most Morgaratha osuwał się w przepaść."},
+    {"t": 480, "d": 100, "text": "Z dna Rozpadliny podniósł się dym - widoczny z daleka, aż nad Uthal."},
+    {"t": 620, "d": 75, "text": "Armia Morgaratha nie przejdzie tędy."}
+  ]
+}

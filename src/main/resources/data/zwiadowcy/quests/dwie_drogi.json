@@ -1,0 +1,72 @@
+{
+  "title": "Dwie drogi",
+  "act": "Tom II · Akt II: Celtyka",
+  "tom": 2,
+  "order": 207,
+  "advancement": "tom2/dwie_drogi",
+  "description": "Ktoś musi ostrzec króla, że Celtowie trafili w niewolę, a ktoś musi sprawdzić, do czego Morgarathowi są potrzebni górnicy. Drużyna rozdziela się przy ognisku w Dolinie Mgieł.",
+  "stages": [
+    {
+      "objective": {"type": "talk", "npc": "gilan"},
+      "text": "Narada przy ognisku - porozmawiaj z Gilanem",
+      "location": "dolina_mgiel:gilan"
+    },
+    {
+      "objective": {"type": "reach", "location": "posterunek_dobosza:skraj", "radius": 8},
+      "text": "Jedź na południe - drogę zagradza wargalski posterunek",
+      "no_fast_travel": true,
+      "on_complete": [
+        {"type": "message", "speaker": "Evanlyn", "text": "Na wieży stoi dobosz. Jeśli uderzy w bęben, zleci się cały obóz. Zwiadowcy podobno potrafią przejść niezauważeni?"}
+      ]
+    },
+    {
+      "objective": {"type": "kill", "entity": "zwiadowcy:wargal_dobosz", "count": 1, "tagged": true},
+      "text": "Zdejmij dobosza z wieży po cichu (podejdź od tyłu w kucaniu i uderz)",
+      "location": "posterunek_dobosza:wieza_dobosza",
+      "no_fast_travel": true,
+      "on_start": [
+        {"type": "spawn", "entity": "zwiadowcy:wargal_dobosz", "at": "posterunek_dobosza:wieza_dobosza", "czujny": true, "sentry": true, "face": "posterunek_dobosza:skraj"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "posterunek_dobosza:trasa_A_1", "czujny": true, "patrol": "posterunek_dobosza:trasa_A"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "posterunek_dobosza:trasa_B_1", "czujny": true, "patrol": "posterunek_dobosza:trasa_B"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_kusznik", "at": "posterunek_dobosza:kusznik", "czujny": true, "sentry": true, "face": "posterunek_dobosza:skraj"},
+        {"type": "companion_order", "order": "UKRYJ"},
+        {"type": "actionbar", "text": "Kucaj, trzymaj się trawy i poza wzrokiem wartowników. „?” nad głową - coś usłyszał; „!” - alarm."}
+      ],
+      "triggers": {
+        "alarm": [
+          {"type": "set_flag", "flag": "alarm_dwie_drogi"},
+          {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "posterunek_dobosza:trasa_A_3", "count": 2, "angry": true},
+          {"type": "spawn", "entity": "zwiadowcy:wargal_oszczepnik", "at": "posterunek_dobosza:trasa_A_5", "count": 2, "angry": true},
+          {"type": "companion_order", "order": "ZA_MNA"},
+          {"type": "title", "title": "Alarm!", "subtitle": "Posiłki nadbiegają"}
+        ]
+      }
+    },
+    {
+      "objective": {"type": "use", "anchors": ["posterunek_dobosza:dzwignia"]},
+      "text": "Otwórz południową bramę (dźwignia przy wrotach, PPM)",
+      "location": "posterunek_dobosza:dzwignia",
+      "no_fast_travel": true,
+      "on_complete": [
+        {"type": "set_block", "at": "posterunek_dobosza:brama_1", "block": "minecraft:air", "height": 3},
+        {"type": "set_block", "at": "posterunek_dobosza:brama_2", "block": "minecraft:air", "height": 3},
+        {"type": "set_block", "at": "posterunek_dobosza:brama_3", "block": "minecraft:air", "height": 3},
+        {"type": "set_block", "at": "posterunek_dobosza:brama_4", "block": "minecraft:air", "height": 3},
+        {"type": "sound", "sound": "minecraft:block.wooden_door.open", "pitch": 0.6},
+        {"type": "companion_order", "order": "ZA_MNA"}
+      ]
+    },
+    {
+      "objective": {"type": "ride_with", "location": "posterunek_dobosza:brama_poludniowa", "radius": 10, "npcs": ["horace", "evanlyn"]},
+      "text": "Przeprowadź drużynę przez bramę"
+    }
+  ],
+  "on_complete": [
+    {"type": "skill", "id": "cichy_krok"},
+    {"type": "trust", "npc": "horace", "delta": 5, "when": [{"not_flag": "alarm_dwie_drogi"}]},
+    {"type": "message", "speaker": "Horace", "text": "Nawet nie zauważyli, że tam byłeś. Jak ty to robisz?", "when": [{"not_flag": "alarm_dwie_drogi"}]},
+    {"type": "xp", "amount": 100},
+    {"type": "note", "title": "Rozstanie z Gilanem", "text": "Gilan pojechał na wschód ostrzec króla. Zostawił mi swoją mapę i lunetę. Teraz to ja prowadzę Horace'a i Evanlyn - na południe, tam gdzie Wargale zaprowadzili górników."},
+    {"type": "start_quest", "quest": "czarny_jezdziec"}
+  ]
+}

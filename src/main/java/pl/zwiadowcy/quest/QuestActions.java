@@ -46,6 +46,10 @@ public final class QuestActions {
     /** "Dom" moba z misji: środek i promień, których się trzyma (np. Kalkarowie na arenie Gorlanu). */
     public static final String TAG_HOME = "zw_home", TAG_HOME_R = "zw_home_r";
     public static final String TAG_SCRIPT = "zw_script";
+    /** Trasa marszu (kotwice jako long[]) i indeks następnego punktu. */
+    public static final String TAG_MARCH = "zw_marsz", TAG_MARCH_I = "zw_marsz_i";
+    /** Limit żywych bytów w bitwie (plan 9.13). */
+    public static final int BATTLE_LIVE_LIMIT = 40;
 
     public static void run(ServerPlayer p, @Nullable JsonArray actions, Ctx ctx) {
         if (actions == null) return;
@@ -148,7 +152,9 @@ public final class QuestActions {
                 p.removeAllEffects();
                 p.addEffect(new net.minecraft.world.effect.MobEffectInstance(net.minecraft.world.effect.MobEffects.REGENERATION, 200, 0));
             }
-            default -> Zwiadowcy.LOGGER.warn("Nieznany typ akcji: {}", type);
+            default -> {
+                if (!QuestTom2.action(p, a, ctx, type)) Zwiadowcy.LOGGER.warn("Nieznany typ akcji: {}", type);
+            }
         }
     }
 
@@ -186,6 +192,13 @@ public final class QuestActions {
         if (type == null) return;
         int count = GsonHelper.getAsInt(a, "count", 1);
         String quest = a.has("quest") ? str(a, "quest") : ctx.quest();
+        // bitwa (plan 9.13): maks. 40 żywych NPC i wrogów w promieniu 64 bloków
+        QuestDefinition qd = quest != null ? QuestManager.INSTANCE.get(quest) : null;
+        if (qd != null && qd.tom() >= 2) {
+            int live = level.getEntitiesOfClass(Mob.class, new net.minecraft.world.phys.AABB(at).inflate(64),
+                    m -> !(m instanceof pl.zwiadowcy.entity.CrowdDummyEntity) && (m instanceof net.minecraft.world.entity.monster.Enemy || m instanceof StoryNpc)).size();
+            count = Math.max(0, Math.min(count, BATTLE_LIVE_LIMIT - live));
+        }
         BlockPos face = a.has("face") ? Locations.resolve(p.getServer(), str(a, "face")) : null;
         for (int i = 0; i < count; i++) {
             Entity e = type.create(level);
@@ -203,6 +216,24 @@ public final class QuestActions {
             if (i == 0 && a.has("name")) e.setCustomName(Component.literal(str(a, "name")));
             if (e instanceof BoarEntity boar && GsonHelper.getAsBoolean(a, "enraged", false)) boar.setEnraged(true);
             if (e instanceof WargalEntity w && GsonHelper.getAsBoolean(a, "sentry", false)) w.setSentry(true, yaw);
+            // tom II: czujność (skradanie 2.0), trasa patrolu i poziom trudności
+            if (GsonHelper.getAsBoolean(a, "czujny", false)) e.addTag(pl.zwiadowcy.stealth.Watchful.TAG);
+            if (GsonHelper.getAsBoolean(a, "angry", false) && e instanceof Mob am) {
+                am.setTarget(p);
+                if (e instanceof net.minecraft.world.entity.NeutralMob nm) {
+                    nm.setPersistentAngerTarget(p.getUUID());
+                    nm.startPersistentAngerTimer();
+                }
+            }
+            if (a.has("patrol") && e instanceof pl.zwiadowcy.stealth.Watchful w2) w2.alertBrain().setRoute(route(p.getServer(), str(a, "patrol")));
+            if (a.has("march")) setMarch(e, route(p.getServer(), str(a, "march")));
+            if (quest != null && e instanceof Mob mob2 && e instanceof net.minecraft.world.entity.monster.Enemy) scaleForDifficulty(p, quest, mob2);
+            if (e instanceof pl.zwiadowcy.entity.MorgarathEntity mg && a.has("boss_phase")) mg.startAtPhase(GsonHelper.getAsInt(a, "boss_phase"), p);
+            // tom II: Wargale noszą kolczugi (plan 10.1)
+            if (qd != null && qd.tom() >= 2 && e instanceof WargalEntity wk) {
+                wk.setItemSlot(net.minecraft.world.entity.EquipmentSlot.CHEST, new ItemStack(net.minecraft.world.item.Items.CHAINMAIL_CHESTPLATE));
+                wk.setDropChance(net.minecraft.world.entity.EquipmentSlot.CHEST, 0f);
+            }
             if (a.has("home")) {
                 BlockPos home = Locations.resolve(p.getServer(), str(a, "home"));
                 int r = GsonHelper.getAsInt(a, "home_radius", 12);
@@ -214,6 +245,39 @@ public final class QuestActions {
             }
             level.addFreshEntity(e);
         }
+    }
+
+    /** Marsz po kotwicach (kolumna Wargali na moście, szyki w bitwie) - obsługuje go cel MarchGoal bytu. */
+    public static void setMarch(Entity e, java.util.List<BlockPos> route) {
+        e.getPersistentData().putLongArray(TAG_MARCH, route.stream().mapToLong(BlockPos::asLong).toArray());
+        e.getPersistentData().putInt(TAG_MARCH_I, 0);
+    }
+
+    /** Trasa patrolu: kotwice "lokacja:trasa_X_1", "_2"… aż do pierwszej brakującej. */
+    public static java.util.List<BlockPos> route(MinecraftServer server, String ref) {
+        java.util.List<BlockPos> out = new java.util.ArrayList<>();
+        String[] parts = ref.split(":", 2);
+        pl.zwiadowcy.world.LocationData.Placed placed = pl.zwiadowcy.world.Locations.ensure(server, parts[0]);
+        if (placed == null || parts.length < 2) return out;
+        for (int i = 1; i <= 16; i++) {
+            BlockPos pos = placed.anchors.get(parts[1] + "_" + i);
+            if (pos == null) break;
+            out.add(pos);
+        }
+        return out;
+    }
+
+    /** Wrogowie z misji tomu II: zdrowie według poziomu trudności fabularnej gracza. */
+    private static void scaleForDifficulty(ServerPlayer p, String quest, Mob mob) {
+        QuestDefinition def = QuestManager.INSTANCE.get(quest);
+        if (def == null || def.tom() < 2) return;
+        double mult = pl.zwiadowcy.difficulty.StoryDifficulty.of(p).enemyHealth;
+        var attr = mob.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH);
+        if (attr == null || mult == 1.0) return;
+        attr.addPermanentModifier(new net.minecraft.world.entity.ai.attributes.AttributeModifier(
+                java.util.UUID.fromString("6c1b3f9a-2f1e-4c55-9a1e-7a5d2b3c4d01"), "zwiadowcy_trudnosc", mult - 1.0,
+                net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.MULTIPLY_TOTAL));
+        mob.setHealth(mob.getMaxHealth());
     }
 
     private static void spawnRandom(ServerPlayer p, JsonObject a, Ctx ctx) {

@@ -19,6 +19,7 @@ public final class TextureGen {
         Effects.all();
         SkinGen.all();
         MobGen.all();
+        Tom2Gen.all();
         System.out.println("Tekstury wygenerowane w: " + root.getAbsolutePath());
     }
 

@@ -1,0 +1,1 @@
+{"parent":"zwiadowcy:tom2/wyscig_z_czasem","display":{"icon":{"item":"minecraft:iron_axe"},"title":{"text":"Obcy na trakcie"},"description":{"text":"Rozpraw się ze skandyjskimi zwiadowcami"},"frame":"task","show_toast":true,"announce_to_chat":false,"hidden":false},"criteria":{"done":{"trigger":"minecraft:impossible"}}}

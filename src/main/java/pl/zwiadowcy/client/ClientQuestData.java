@@ -10,6 +10,8 @@ public final class ClientQuestData {
     public static int visibility = 100;
     public static int bezruchTicks;
     public static boolean cloak;
+    /** Oczy tropiciela włączone (przytrzymany klawisz). */
+    public static boolean trackerActive;
 
     @Nullable
     public static QuestSyncPacket.QuestView tracked() {

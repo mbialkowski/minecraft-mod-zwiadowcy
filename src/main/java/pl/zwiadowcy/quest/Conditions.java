@@ -53,6 +53,15 @@ public final class Conditions {
         }
         if (c.has("night") && GsonHelper.getAsBoolean(c, "night") != QuestEngine.isNight(p)) return false;
         if (c.has("in_araluen") && GsonHelper.getAsBoolean(c, "in_araluen") != Araluen.isAraluen(p.level())) return false;
+        // tom II: poziom trudności, zaufanie towarzysza, umiejętności
+        if (c.has("difficulty") && !GsonHelper.getAsString(c, "difficulty").equals(prog.difficulty)) return false;
+        if (c.has("trust_npc")) {
+            int t = prog.trust(GsonHelper.getAsString(c, "trust_npc"));
+            if (c.has("trust_min") && t < GsonHelper.getAsInt(c, "trust_min")) return false;
+            if (c.has("trust_max") && t > GsonHelper.getAsInt(c, "trust_max")) return false;
+        }
+        if (c.has("skill") && !prog.hasSkill(GsonHelper.getAsString(c, "skill"))) return false;
+        if (c.has("not_skill") && prog.hasSkill(GsonHelper.getAsString(c, "not_skill"))) return false;
         return true;
     }
 

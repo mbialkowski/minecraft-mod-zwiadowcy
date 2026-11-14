@@ -1,0 +1,1 @@
+{"parent":"zwiadowcy:tom2/ciche_wzgorza","display":{"icon":{"item":"minecraft:iron_pickaxe"},"title":{"text":"Kopalnia pod Kruczą Skałą"},"description":{"text":"Znajdź ocalałego w kopalni"},"frame":"task","show_toast":true,"announce_to_chat":false,"hidden":false},"criteria":{"done":{"trigger":"minecraft:impossible"}}}

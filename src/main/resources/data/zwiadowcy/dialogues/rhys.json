@@ -1,0 +1,90 @@
+{
+  "npc": "rhys",
+  "entries": [
+    {
+      "when": [
+        {
+          "quest_active": "plonacy_most"
+        },
+        {
+          "flag": "rhys_uratowany"
+        }
+      ],
+      "start": "t2_most"
+    },
+    {
+      "when": [
+        {
+          "quest_completed": "lancuchy"
+        },
+        {
+          "flag": "rhys_uratowany"
+        }
+      ],
+      "start": "t2_po_lancuchach"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "syn_gornika",
+          "stage": 1
+        }
+      ],
+      "start": "znaleziony"
+    },
+    {
+      "when": [],
+      "start": "domyslny"
+    }
+  ],
+  "nodes": {
+    "znaleziony": {
+      "text": "Kto… ktoś przyszedł? Myślałem, że już po mnie. Noga… chyba skręcona. Ojciec żyje? Zaprowadzisz mnie do niego?",
+      "options": [
+        {
+          "text": "Oprzyj się na mnie.",
+          "actions": [
+            {
+              "type": "npc_mode",
+              "npc": "rhys",
+              "mode": "idle"
+            },
+            {
+              "type": "companion_join",
+              "npc": "rhys"
+            },
+            {
+              "type": "advance",
+              "quest": "syn_gornika",
+              "stage": 1
+            }
+          ]
+        }
+      ]
+    },
+    "domyslny": {
+      "text": "Dzięki tobie żyję. Jeśli znajdziesz naszych w niewoli - powiedz im, że Rhys żyje. I że po nich przyjdzie.",
+      "options": [
+        {
+          "text": "Powiem."
+        }
+      ]
+    },
+    "t2_most": {
+      "text": "Podcięliśmy liny przy prawej kotwie - trzymają się już tylko na słowo honoru. Zostały ci trzy podpory.",
+      "options": [
+        {
+          "text": "Dzięki, Rhys. Tego mi było trzeba."
+        }
+      ]
+    },
+    "t2_po_lancuchach": {
+      "text": "Ojciec mówił, że zwiadowcy to czarownicy. Teraz wiem, że to po prostu ludzie, którzy nie boją się ciemności.",
+      "options": [
+        {
+          "text": "Boją się. Tylko o tym nie mówią."
+        }
+      ]
+    }
+  }
+}

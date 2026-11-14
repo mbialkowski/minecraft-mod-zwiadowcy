@@ -1,0 +1,160 @@
+{
+  "title": "Bitwa na Równinie Uthal",
+  "act": "Tom II · Akt III: Płonący most",
+  "tom": 2,
+  "order": 214,
+  "advancement": "tom2/bitwa_uthal",
+  "description": "Świt nad Uthal. Naprzeciw siebie stoją dwie armie: rycerze i łucznicy Araluenu oraz Wargale Morgaratha ze skandyjskimi najemnikami. Zwiadowcy nie walczą w szyku - mają zadania na skrzydłach.",
+  "stages": [
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "O świcie powiedz Haltowi, że jesteś gotowy",
+      "no_fast_travel": true,
+      "location": "oboz_krolewski:halt"
+    },
+    {
+      "objective": {"type": "reach", "location": "rownina_uthal:widok", "radius": 10},
+      "text": "Jedź z Haltem na Równinę Uthal",
+      "no_fast_travel": true,
+      "battle": true,
+      "on_start": [
+        {"type": "time", "pora": "swit"},
+        {"type": "companion_join", "npc": "halt"},
+        {"type": "crowd", "skin": "zolnierz", "count": 12, "at": "rownina_uthal:szyk_araluenu_1", "face": "rownina_uthal:wargale_A", "width": 6, "spacing": 1.4, "tag": "armia", "banner": "minecraft:green_banner", "item": "minecraft:iron_sword", "cheer": true, "lifetime": 24000},
+        {"type": "crowd", "skin": "lucznik", "count": 12, "at": "rownina_uthal:szyk_araluenu_2", "face": "rownina_uthal:wargale_B", "width": 6, "spacing": 1.4, "tag": "armia", "item": "minecraft:bow", "lifetime": 24000},
+        {"type": "crowd", "skin": "zolnierz", "count": 12, "at": "rownina_uthal:szyk_araluenu_3", "face": "rownina_uthal:wargale_C", "width": 6, "spacing": 1.4, "tag": "armia", "banner": "minecraft:green_banner", "item": "minecraft:iron_sword", "cheer": true, "lifetime": 24000},
+        {"type": "crowd", "skin": "lucznik", "count": 12, "at": "rownina_uthal:szyk_araluenu_4", "face": "rownina_uthal:wargale_D", "width": 6, "spacing": 1.4, "tag": "armia", "item": "minecraft:bow", "lifetime": 24000},
+        {"type": "crowd", "skin": "wargal", "count": 14, "at": "rownina_uthal:wargale_A", "face": "rownina_uthal:szyk_araluenu_1", "width": 7, "spacing": 1.5, "tag": "wrog", "banner": "minecraft:black_banner", "item": "minecraft:iron_axe", "lifetime": 24000},
+        {"type": "crowd", "skin": "wargal", "count": 14, "at": "rownina_uthal:wargale_B", "face": "rownina_uthal:szyk_araluenu_2", "width": 7, "spacing": 1.5, "tag": "wrog", "banner": "minecraft:black_banner", "item": "minecraft:stone_axe", "lifetime": 24000},
+        {"type": "crowd", "skin": "wargal_kusznik", "count": 10, "at": "rownina_uthal:wargale_C", "face": "rownina_uthal:szyk_araluenu_3", "width": 5, "spacing": 1.5, "tag": "wrog", "item": "minecraft:crossbow", "lifetime": 24000},
+        {"type": "crowd", "skin": "wargal", "count": 14, "at": "rownina_uthal:wargale_D", "face": "rownina_uthal:szyk_araluenu_4", "width": 7, "spacing": 1.5, "tag": "wrog", "banner": "minecraft:black_banner", "item": "minecraft:iron_axe", "lifetime": 24000}
+      ],
+      "on_complete": [
+        {"type": "cutscene", "id": "szyki"}
+      ]
+    },
+    {
+      "objective": {"type": "kill", "entity": "zwiadowcy:wargal_kusznik", "count": 5, "tagged": true},
+      "text": "Zadanie A: kusznicy na wzgórzu ostrzeliwują łuczników - zdejmij całą piątkę razem z Haltem",
+      "no_fast_travel": true,
+      "location": "rownina_uthal:wzgorze_kusznikow",
+      "battle": true,
+      "restart_on_death": true,
+      "on_start": [
+        {"type": "checkpoint", "at": "rownina_uthal:widok"},
+        {"type": "clear_mobs"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_kusznik", "at": "rownina_uthal:kusznik_1", "face": "rownina_uthal:podejscie_wzgorze"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_kusznik", "at": "rownina_uthal:kusznik_2", "face": "rownina_uthal:podejscie_wzgorze"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_kusznik", "at": "rownina_uthal:kusznik_3", "face": "rownina_uthal:podejscie_wzgorze"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_kusznik", "at": "rownina_uthal:kusznik_4", "face": "rownina_uthal:podejscie_wzgorze"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_kusznik", "at": "rownina_uthal:kusznik_5", "face": "rownina_uthal:podejscie_wzgorze"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "rownina_uthal:podejscie_wzgorze", "count": 2, "angry": true},
+        {"type": "message", "speaker": "Halt", "text": "Kusznicy na tamtym wzgórzu wybiją naszych łuczników, zanim ci zdążą napiąć cięciwy. Idziemy. Ty bierzesz lewych, ja prawych."}
+      ]
+    },
+    {
+      "objective": {"type": "defend", "seconds": 60, "npcs": ["zolnierz"], "min_alive": 4,
+        "waves": [{"t": 3, "event": "fala_1"}, {"t": 22, "event": "fala_2"}, {"t": 42, "event": "fala_3"}]},
+      "text": "Zadanie B: oddział piechoty jest otoczony - utrzymaj ich przy życiu przez minutę (co najmniej 4 z 6)",
+      "no_fast_travel": true,
+      "location": "rownina_uthal:oddzial",
+      "battle": true,
+      "restart_on_death": true,
+      "on_start": [
+        {"type": "clear_mobs"},
+        {"type": "spawn_npc", "npc": "zolnierz", "ally": true, "radius": 6, "face": "rownina_uthal:fala_2",
+          "at": ["rownina_uthal:zolnierz_1", "rownina_uthal:zolnierz_2", "rownina_uthal:zolnierz_3", "rownina_uthal:zolnierz_4", "rownina_uthal:zolnierz_5", "rownina_uthal:zolnierz_6"]},
+        {"type": "message", "speaker": "Halt", "text": "Tam - oddział sir Davida odcięty od reszty! Wargale ich dobiją. Ruszaj!"}
+      ],
+      "triggers": {
+        "fala_1": [
+          {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "rownina_uthal:fala_1", "count": 3},
+          {"type": "spawn", "entity": "zwiadowcy:wargal_oszczepnik", "at": "rownina_uthal:fala_1", "count": 1}
+        ],
+        "fala_2": [
+          {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "rownina_uthal:fala_2", "count": 3},
+          {"type": "spawn", "entity": "zwiadowcy:wargal_oszczepnik", "at": "rownina_uthal:fala_3", "count": 2}
+        ],
+        "fala_3": [
+          {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "rownina_uthal:fala_3", "count": 3},
+          {"type": "spawn", "entity": "zwiadowcy:wargal_herszt", "at": "rownina_uthal:fala_1", "count": 1},
+          {"type": "actionbar", "text": "Ostatnia fala - wytrzymaj!"}
+        ]
+      },
+      "on_complete": [
+        {"type": "message", "speaker": "Żołnierz Araluenu", "text": "Zwiadowcy… Dzięki wam jeszcze żyjemy. Będę o tym opowiadał wnukom!"}
+      ]
+    },
+    {
+      "objective": {"type": "mark", "entity": ["zwiadowcy:wargal_dobosz"], "count": 5},
+      "text": "Zadanie C: przez lunetę oznacz 5 doboszy w szykach wroga - łucznicy zdejmą ich salwą",
+      "no_fast_travel": true,
+      "location": "rownina_uthal:szyki_B",
+      "battle": true,
+      "on_start": [
+        {"type": "clear_mobs"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_dobosz", "at": "rownina_uthal:szyki_A", "sentry": true, "face": "rownina_uthal:widok"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_dobosz", "at": "rownina_uthal:szyki_B", "sentry": true, "face": "rownina_uthal:widok"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_dobosz", "at": "rownina_uthal:wargale_B", "sentry": true, "face": "rownina_uthal:widok"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_dobosz", "at": "rownina_uthal:szyki_C", "sentry": true, "face": "rownina_uthal:widok"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_dobosz", "at": "rownina_uthal:szyki_D", "sentry": true, "face": "rownina_uthal:widok"},
+        {"type": "message", "speaker": "Halt", "text": "Słyszysz bębny? Dobosze trzymają szyki Wargali w ryzach. Wskaż ich łucznikom - z tej odległości sami ich nie wypatrzą."}
+      ],
+      "triggers": {
+        "oznaczony": [
+          {"type": "delay", "ticks": 20, "actions": [
+            {"type": "message", "speaker": "Dowódca łuczników", "text": "Cel widzę! Łuki w górę… salwa!"},
+            {"type": "salwa", "radius": 200}
+          ]}
+        ]
+      }
+    },
+    {
+      "objective": {"type": "defend", "seconds": 60,
+        "waves": [{"t": 3, "event": "skandianie_1"}, {"t": 22, "event": "skandianie_2"}, {"t": 42, "event": "skandianie_3"}]},
+      "text": "Zadanie D: Skandianie przekraczają bród na prawym skrzydle - utrzymaj przeprawę przez minutę z Haltem i Gilanem",
+      "no_fast_travel": true,
+      "location": "rownina_uthal:brod",
+      "battle": true,
+      "restart_on_death": true,
+      "on_start": [
+        {"type": "clear_mobs"},
+        {"type": "move_npc", "npc": "gilan", "to": "rownina_uthal:gilan_brod", "mode": "companion", "face": "rownina_uthal:skandianie_2"},
+        {"type": "companion_join", "npc": "gilan"},
+        {"type": "message", "speaker": "Gilan", "text": "Skandianie! Morgarath kupił sobie najemników zza morza. Uważaj na tarcze - zachodź ich z boku!"}
+      ],
+      "triggers": {
+        "skandianie_1": [
+          {"type": "spawn", "entity": "zwiadowcy:skandyjski_wojownik", "at": "rownina_uthal:skandianie_1", "count": 2, "angry": true}
+        ],
+        "skandianie_2": [
+          {"type": "spawn", "entity": "zwiadowcy:skandyjski_wojownik", "at": "rownina_uthal:skandianie_2", "count": 1, "angry": true},
+          {"type": "spawn", "entity": "zwiadowcy:skandyjski_berserker", "at": "rownina_uthal:skandianie_2", "count": 1, "angry": true}
+        ],
+        "skandianie_3": [
+          {"type": "spawn", "entity": "zwiadowcy:skandyjski_wojownik", "at": "rownina_uthal:skandianie_3", "count": 2, "angry": true},
+          {"type": "spawn", "entity": "zwiadowcy:skandyjski_berserker", "at": "rownina_uthal:skandianie_1", "count": 1, "angry": true}
+        ]
+      }
+    },
+    {
+      "objective": {"type": "event", "id": "przerywnik_wylom"},
+      "text": "W szyku Araluenu otwiera się wyłom…",
+      "no_fast_travel": true,
+      "location": "rownina_uthal:arena_pojedynku",
+      "battle": true,
+      "on_start": [
+        {"type": "clear_mobs"},
+        {"type": "checkpoint", "at": "rownina_uthal:arena_will"},
+        {"type": "cutscene", "id": "wylom"}
+      ]
+    }
+  ],
+  "on_complete": [
+    {"type": "companion_leave", "npc": "halt"},
+    {"type": "companion_leave", "npc": "gilan"},
+    {"type": "xp", "amount": 250},
+    {"type": "note", "title": "Bitwa", "text": "Kusznicy na wzgórzu, otoczony oddział, dobosze, Skandianie przy brodzie. Każde z tych zadań mogło przechylić szalę. A potem szyk pękł i przez wyłom wjechał on - na czarnym rumaku."},
+    {"type": "start_quest", "quest": "wladca_deszczu_i_nocy"}
+  ]
+}

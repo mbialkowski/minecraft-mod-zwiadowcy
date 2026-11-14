@@ -1,0 +1,19 @@
+{
+  "npc": "lucznik_krolewski",
+  "entries": [
+    {
+      "when": [],
+      "start": "domyslny"
+    }
+  ],
+  "nodes": {
+    "domyslny": {
+      "text": "Łuk zwiadowcy… Słyszałem, że strzelacie dwa razy szybciej niż my. Nie wierzę - ale nie chcę tego sprawdzać na sobie.",
+      "options": [
+        {
+          "text": "Lepiej na tarczy."
+        }
+      ]
+    }
+  }
+}

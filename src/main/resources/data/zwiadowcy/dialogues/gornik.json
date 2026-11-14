@@ -1,0 +1,51 @@
+{
+  "npc": "gornik",
+  "entries": [
+    {
+      "when": [
+        {
+          "quest_completed": "lancuchy"
+        }
+      ],
+      "start": "wolny"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "lancuchy"
+        }
+      ],
+      "start": "jeniec"
+    },
+    {
+      "when": [],
+      "start": "domyslny"
+    }
+  ],
+  "nodes": {
+    "jeniec": {
+      "text": "Cicho, chłopcze… Nadzorca ma klucze przy pasie. Nie dla nas te kłódki - ale może dla ciebie.",
+      "options": [
+        {
+          "text": "Wytrzymajcie jeszcze chwilę."
+        }
+      ]
+    },
+    "wolny": {
+      "text": "Niech ci się szczęści, zwiadowco. Kopalnia pod Kruczą Skałą zawsze będzie dla ciebie otwarta.",
+      "options": [
+        {
+          "text": "Wracajcie bezpiecznie do domu."
+        }
+      ]
+    },
+    "domyslny": {
+      "text": "Kamień nie kłamie, chłopcze. Ludzie - owszem.",
+      "options": [
+        {
+          "text": "Bywaj."
+        }
+      ]
+    }
+  }
+}

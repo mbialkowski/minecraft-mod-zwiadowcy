@@ -1,0 +1,12 @@
+{
+  "location": "rownina_uthal:widok",
+  "keyframes": [
+    {"t": 0, "pos": [-30, 12, 4], "look": [0, 0, 40], "fov": 66},
+    {"t": 90, "pos": [0, 18, 10], "look": [0, 0, 80], "fov": 60},
+    {"t": 170, "pos": [30, 10, 30], "look": [-10, 0, 85], "fov": 58}
+  ],
+  "subtitles": [
+    {"t": 8, "d": 80, "text": "Rycerze i łucznicy Araluenu stanęli w szykach pod zielonymi sztandarami."},
+    {"t": 92, "d": 78, "text": "Naprzeciw - morze Wargali. Bębny biły jak serce wielkiego zwierzęcia."}
+  ]
+}

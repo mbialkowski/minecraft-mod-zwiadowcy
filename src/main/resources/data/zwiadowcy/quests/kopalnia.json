@@ -1,0 +1,62 @@
+{
+  "title": "Kopalnia pod Kruczą Skałą",
+  "act": "Tom II · Akt II: Celtyka",
+  "tom": 2,
+  "order": 205,
+  "advancement": "tom2/kopalnia",
+  "description": "Ślady Wargali prowadzą do kopalni pod Kruczą Skałą. Jeśli ktoś przeżył i się ukrył, to tylko tam - w ciemnych chodnikach, które Celtowie znają lepiej niż własne chaty.",
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "kopalnia:wejscie", "radius": 4},
+      "text": "Wejdź do budynku szybu kopalni",
+      "on_start": [
+        {"type": "companion_leave", "npc": "gilan"},
+        {"type": "move_npc", "npc": "gilan", "to": "kopalnia:wyjscie_zbocze", "face": "kopalnia:wejscie"},
+        {"type": "message", "speaker": "Gilan", "text": "Zejdźcie z Horace'em. Ja przeprowadzę konie na drugą stronę wzgórza - stare sztolnie zwykle mają drugie wyjście. Weźcie pochodnie."}
+      ]
+    },
+    {
+      "objective": {"type": "reach", "location": "kopalnia:poziom_2", "radius": 4},
+      "text": "Zejdź na drugi poziom (urwana drabina - zeskocz albo użyj kotwiczki)"
+    },
+    {
+      "objective": {"type": "kill", "entity": "zwiadowcy:wargal", "count": 4, "tagged": true},
+      "text": "Wargale w komorze wydobywczej!",
+      "location": "kopalnia:wargal_1",
+      "on_start": [
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "kopalnia:wargal_1"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "kopalnia:wargal_2"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "kopalnia:wargal_3"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "kopalnia:wargal_4"},
+        {"type": "message", "speaker": "Horace", "text": "Słyszysz? Coś węszy w ciemności… Za mną, Will!"}
+      ]
+    },
+    {
+      "objective": {"type": "reach", "location": "kopalnia:bezpieczna_komora", "radius": 3},
+      "text": "Zawał! Uciekaj korytarzem do bezpiecznej komory",
+      "on_start": [
+        {"type": "zawal", "at": "kopalnia:zawal", "radius": 4, "seconds": 20},
+        {"type": "title", "title": "Zawał!", "subtitle": "Uciekaj!"},
+        {"type": "message", "speaker": "Horace", "text": "Strop się sypie! Trzymam belkę - biegnij!"}
+      ]
+    },
+    {
+      "objective": {"type": "talk", "npc": "dafydd"},
+      "text": "Ktoś ukrywa się w bocznej komorze - porozmawiaj z nim",
+      "location": "kopalnia:dafydd"
+    },
+    {
+      "objective": {"type": "reach", "location": "kopalnia:wyjscie_zbocze", "radius": 5},
+      "text": "Wyjdź starą sztolnią na zbocze - Gilan czeka z końmi",
+      "on_complete": [
+        {"type": "companion_join", "npc": "gilan"}
+      ]
+    }
+  ],
+  "on_complete": [
+    {"type": "give_item", "item": "zwiadowcy:garnek_z_dymem", "count": 2},
+    {"type": "xp", "amount": 100},
+    {"type": "note", "title": "Opowieść Dafydda", "text": "Stary górnik Dafydd przeżył, bo schował się w bocznej komorze. Wargale zgonili wszystkich i kazali nieść liny i belki „do wielkiej szczeliny na południu”. Dafydd dał mi garnki z dymem - górnicy używają ich, by przegonić wiatr z chodników. Przepis jest prosty: glina, sucha trawa i flasza oleju."},
+    {"type": "start_quest", "quest": "evanlyn"}
+  ]
+}

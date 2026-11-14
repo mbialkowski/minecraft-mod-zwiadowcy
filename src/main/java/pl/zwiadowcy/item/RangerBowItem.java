@@ -31,7 +31,21 @@ public class RangerBowItem extends BowItem {
     }
 
     public static float drawTicks(@Nullable LivingEntity entity) {
-        return entity != null && entity.hasEffect(ModEffects.CZUJNOSC.get()) ? DRAW_TICKS_VIGILANT : DRAW_TICKS;
+        float t = entity != null && entity.hasEffect(ModEffects.CZUJNOSC.get()) ? DRAW_TICKS_VIGILANT : DRAW_TICKS;
+        // tom II, umiejętność „Pewna ręka”: o 15% szybciej (14 → 12 tików)
+        if (entity instanceof Player p && pl.zwiadowcy.skill.Skills.has(p, pl.zwiadowcy.skill.Skills.PEWNA_REKA)) t = Math.round(t * 0.85f);
+        return t;
+    }
+
+    /**
+     * Celność z siodła (tom II): rozrzut ×2 w galopie, ×1,3 w stępie, ×1 na stojąco; „Jeździec” zmniejsza karę o połowę.
+     */
+    public static float saddleSpread(Player p) {
+        if (p.getVehicle() == null) return 1f;
+        double speed = p.getVehicle().getDeltaMovement().horizontalDistance();
+        float f = speed > 0.18 ? 2f : speed > 0.02 ? 1.3f : 1f;
+        if (pl.zwiadowcy.skill.Skills.has(p, pl.zwiadowcy.skill.Skills.JEZDZIEC)) f = 1f + (f - 1f) / 2f;
+        return f;
     }
 
     public static float power(int charge, @Nullable LivingEntity entity) {
@@ -83,7 +97,8 @@ public class RangerBowItem extends BowItem {
         if (!level.isClientSide) {
             ArrowItem arrowItem = (ArrowItem) (arrowStack.getItem() instanceof ArrowItem ? arrowStack.getItem() : Items.ARROW);
             AbstractArrow arrow = customArrow(arrowItem.createArrow(level, arrowStack, player));
-            arrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0f, f * 3.6f, 0.6f);
+            arrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0f, f * 3.6f, 0.6f * saddleSpread(player));
+            if (player.getVehicle() != null) arrow.getPersistentData().putBoolean("zw_z_siodla", true);
             arrow.setBaseDamage(arrow.getBaseDamage() + 0.5);
             if (f == 1.0f) arrow.setCritArrow(true);
             int powerLvl = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, bow);

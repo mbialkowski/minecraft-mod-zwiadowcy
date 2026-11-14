@@ -1,0 +1,77 @@
+{
+  "npc": "kowal_obozowy",
+  "entries": [
+    {
+      "when": [
+        {
+          "quest_stage": "noc_przed_bitwa",
+          "stage": 1
+        }
+      ],
+      "start": "t2_noc"
+    },
+    {
+      "when": [],
+      "start": "domyslny"
+    }
+  ],
+  "nodes": {
+    "t2_noc": {
+      "text": "Zwiadowca, co? Dawaj, co tam masz - poprawię ostrze, zanim zjedzą cię Wargale.\nI weź strzały. Mam dwie skrzynie: płonące i z szerokim grotem. Wybieraj, bo na obie nie starczy.",
+      "options": [
+        {
+          "text": "Płonące (16).",
+          "actions": [
+            {
+              "type": "repair_held"
+            },
+            {
+              "type": "give_item",
+              "item": "zwiadowcy:strzala_plonaca",
+              "count": 16
+            },
+            {
+              "type": "advance",
+              "quest": "noc_przed_bitwa",
+              "stage": 1
+            }
+          ]
+        },
+        {
+          "text": "Z szerokim grotem (16).",
+          "actions": [
+            {
+              "type": "repair_held"
+            },
+            {
+              "type": "give_item",
+              "item": "zwiadowcy:strzala_szeroki_grot",
+              "count": 16
+            },
+            {
+              "type": "advance",
+              "quest": "noc_przed_bitwa",
+              "stage": 1
+            }
+          ]
+        }
+      ]
+    },
+    "domyslny": {
+      "text": "Klinga tępi się od patrzenia na Wargali. Przynieś, naostrzę.",
+      "options": [
+        {
+          "text": "Napraw to, co trzymam.",
+          "actions": [
+            {
+              "type": "repair_held"
+            }
+          ]
+        },
+        {
+          "text": "Innym razem."
+        }
+      ]
+    }
+  }
+}

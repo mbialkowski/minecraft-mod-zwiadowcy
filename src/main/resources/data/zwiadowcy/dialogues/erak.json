@@ -1,0 +1,52 @@
+{
+  "npc": "erak",
+  "entries": [
+    {
+      "when": [
+        {
+          "quest_stage": "wilcze_okrety",
+          "stage": 3
+        }
+      ],
+      "start": "okret"
+    },
+    {
+      "when": [],
+      "start": "domyslny"
+    }
+  ],
+  "nodes": {
+    "okret": {
+      "text": "Obudziłeś się, zwiadowco. Dobrze - nie lubię wozić trupów.\nTo ty spaliłeś most, prawda? Moi ludzie mówili o chłopaku w zielonym płaszczu, który strzela płonącymi strzałami. Morgarath zapłacił mi za tę wojnę złotem, a ty sprawiłeś, że to złoto przepadło.",
+      "options": [
+        {
+          "text": "Dokąd nas wieziesz?",
+          "next": "okret_2"
+        }
+      ]
+    },
+    "okret_2": {
+      "text": "Do Skandii. Za morze, na północ, gdzie zima trwa pół roku. Silni niewolnicy są tam w cenie - a ty i dziewczyna wyglądacie na silnych.\nNie patrz tak na mnie. Szanuję cię, chłopcze. Ale szacunek to jedno, a interes to drugie.",
+      "options": [
+        {
+          "text": "(Milcz)",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "wilcze_okrety",
+              "stage": 3
+            }
+          ]
+        }
+      ]
+    },
+    "domyslny": {
+      "text": "Wiatr z zachodu. Dobry na żagle, zły na niewolników - kołysze.",
+      "options": [
+        {
+          "text": "…"
+        }
+      ]
+    }
+  }
+}

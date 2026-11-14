@@ -1,0 +1,1 @@
+{"parent":"zwiadowcy:tom2/wladca_deszczu_i_nocy","display":{"icon":{"item":"minecraft:wither_skeleton_skull"},"title":{"text":"Bez litości"},"description":{"text":"Pokonaj Morgaratha na poziomie Weteran, nie zmieniając go przez cały pojedynek"},"frame":"challenge","show_toast":true,"announce_to_chat":true,"hidden":true},"criteria":{"done":{"trigger":"minecraft:impossible"}}}

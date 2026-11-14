@@ -1,0 +1,51 @@
+{
+  "npc": "zolnierz",
+  "entries": [
+    {
+      "when": [
+        {
+          "quest_completed": "wladca_deszczu_i_nocy"
+        }
+      ],
+      "start": "po_bitwie"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "bitwa_uthal"
+        }
+      ],
+      "start": "bitwa"
+    },
+    {
+      "when": [],
+      "start": "domyslny"
+    }
+  ],
+  "nodes": {
+    "domyslny": {
+      "text": "Jutro albo pojutrze stanie się, co ma się stać. A dziś? Dziś czyścimy kolczugi i udajemy, że się nie boimy.",
+      "options": [
+        {
+          "text": "Wszyscy udajemy."
+        }
+      ]
+    },
+    "bitwa": {
+      "text": "Trzymaj się blisko, zwiadowco! Za Araluen!",
+      "options": [
+        {
+          "text": "Za Araluen!"
+        }
+      ]
+    },
+    "po_bitwie": {
+      "text": "Widziałem cię w kręgu z Morgarathem. Opowiem o tym w karczmie i nikt mi nie uwierzy.",
+      "options": [
+        {
+          "text": "Opowiedz o Horace'ie. On zasłużył bardziej."
+        }
+      ]
+    }
+  }
+}

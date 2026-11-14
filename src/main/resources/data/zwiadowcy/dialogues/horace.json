@@ -1,82 +1,497 @@
 {
   "npc": "horace",
   "entries": [
-    {"when": [{"quest_active": "dzien_wyboru"}], "start": "dw"},
-    {"when": [{"quest_stage": "polowanie_na_dzika", "stage": 4}], "start": "pd_dzieki"},
-    {"when": [{"quest_active": "polowanie_na_dzika"}], "start": "pd_trwa"},
-    {"when": [{"quest_stage": "jarmark_w_wensley", "stage": 1}], "start": "jw_1"},
-    {"when": [{"quest_stage": "jarmark_w_wensley", "stage": 4}], "start": "jw_koniec"},
-    {"when": [{"quest_active": "jarmark_w_wensley"}], "start": "jw_trwa"},
-    {"when": [{"quest_completed": "polowanie_na_dzika"}, {"quest_not_started": "jarmark_w_wensley"}], "start": "jw_oferta"},
-    {"when": [{"quest_active": "ogien_w_ciemnosci"}, {"flag": "horace_przyjaciel"}], "start": "og"},
-    {"when": [{"flag": "kampania_ukonczona"}], "start": "bohater"},
-    {"when": [{"quest_completed": "polowanie_na_dzika"}], "start": "przyjaciel"},
-    {"when": [], "start": "domyslny"}
+    {
+      "when": [
+        {
+          "quest_stage": "na_krawedzi",
+          "stage": 2
+        }
+      ],
+      "start": "t2_krawedz"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "lancuchy"
+        }
+      ],
+      "start": "t2_lancuchy"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "plonacy_most"
+        }
+      ],
+      "start": "t2_most"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "czarny_jezdziec",
+          "stage": 5
+        }
+      ],
+      "start": "t2_rozkazy"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "miecz_zwiadowcy"
+        },
+        {
+          "not_flag": "horace_noz_zaczepka"
+        }
+      ],
+      "start": "t2_noz"
+    },
+    {
+      "when": [
+        {
+          "flag": "tom2_w_toku"
+        },
+        {
+          "trust_npc": "horace",
+          "trust_min": 70
+        }
+      ],
+      "start": "t2_ogolne_przyjaciel"
+    },
+    {
+      "when": [
+        {
+          "flag": "tom2_w_toku"
+        },
+        {
+          "flag": "wybor_rycerz"
+        }
+      ],
+      "start": "t2_ogolne_rycerz"
+    },
+    {
+      "when": [
+        {
+          "flag": "tom2_w_toku"
+        }
+      ],
+      "start": "t2_ogolne"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "dzien_wyboru"
+        }
+      ],
+      "start": "dw"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "polowanie_na_dzika",
+          "stage": 4
+        }
+      ],
+      "start": "pd_dzieki"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "polowanie_na_dzika"
+        }
+      ],
+      "start": "pd_trwa"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "jarmark_w_wensley",
+          "stage": 1
+        }
+      ],
+      "start": "jw_1"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "jarmark_w_wensley",
+          "stage": 4
+        }
+      ],
+      "start": "jw_koniec"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "jarmark_w_wensley"
+        }
+      ],
+      "start": "jw_trwa"
+    },
+    {
+      "when": [
+        {
+          "quest_completed": "polowanie_na_dzika"
+        },
+        {
+          "quest_not_started": "jarmark_w_wensley"
+        }
+      ],
+      "start": "jw_oferta"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "ogien_w_ciemnosci"
+        },
+        {
+          "flag": "horace_przyjaciel"
+        }
+      ],
+      "start": "og"
+    },
+    {
+      "when": [
+        {
+          "flag": "kampania_ukonczona"
+        }
+      ],
+      "start": "bohater"
+    },
+    {
+      "when": [
+        {
+          "quest_completed": "polowanie_na_dzika"
+        }
+      ],
+      "start": "przyjaciel"
+    },
+    {
+      "when": [],
+      "start": "domyslny"
+    }
   ],
   "nodes": {
     "dw": {
       "text": "Rodney mnie przyjął! Do Szkoły Rycerskiej! A ty co, kurduplu? Pewnie będziesz obierał ziemniaki u Chubba, ha!",
-      "options": [{"text": "Zobaczymy, Horace."}]
+      "options": [
+        {
+          "text": "Zobaczymy, Horace."
+        }
+      ]
     },
     "domyslny": {
       "text": "Czego? Nie mam czasu na pogaduszki z uczniem zwiadowcy. Mam trening.",
-      "options": [{"text": "Jak chcesz."}]
+      "options": [
+        {
+          "text": "Jak chcesz."
+        }
+      ]
     },
     "pd_trwa": {
       "text": "Ja się nie boję dzików! Po prostu… trzymaj się z boku, Will. Na wszelki wypadek.",
-      "options": [{"text": "Jasne."}]
+      "options": [
+        {
+          "text": "Jasne."
+        }
+      ]
     },
     "pd_dzieki": {
       "text": "Will… ten odyniec prawie mnie dopadł. Widziałem już jego kły tuż przed sobą. Gdyby nie twoja strzała…\nDziękuję. Chyba źle cię oceniałem. Byłem dla ciebie… paskudny.",
       "options": [
-        {"text": "Daj spokój. Zrobiłbyś to samo.", "next": "pd_dzieki_2"},
-        {"text": "Byłeś. Ale przeprosiny przyjęte.", "next": "pd_dzieki_2"}
+        {
+          "text": "Daj spokój. Zrobiłbyś to samo.",
+          "next": "pd_dzieki_2"
+        },
+        {
+          "text": "Byłeś. Ale przeprosiny przyjęte.",
+          "next": "pd_dzieki_2"
+        }
       ]
     },
     "pd_dzieki_2": {
       "text": "Weź kieł tego potwora. Należy ci się. I… gdybyś kiedyś potrzebował miecza po swojej stronie - jestem.",
-      "options": [{"text": "Zapamiętam.", "actions": [
-        {"type": "give_item", "item": "zwiadowcy:kiel_dzika"},
-        {"type": "advance", "quest": "polowanie_na_dzika", "stage": 4}
-      ]}]
+      "options": [
+        {
+          "text": "Zapamiętam.",
+          "actions": [
+            {
+              "type": "give_item",
+              "item": "zwiadowcy:kiel_dzika"
+            },
+            {
+              "type": "advance",
+              "quest": "polowanie_na_dzika",
+              "stage": 4
+            }
+          ]
+        }
+      ]
     },
     "jw_oferta": {
       "text": "Will… mogę cię o coś poprosić? Ale nikomu ani słowa.",
       "options": [
-        {"text": "Mów, co się dzieje.", "next": "jw_oferta_2"},
-        {"text": "Nie teraz, Horace."}
+        {
+          "text": "Mów, co się dzieje.",
+          "next": "jw_oferta_2"
+        },
+        {
+          "text": "Nie teraz, Horace."
+        }
       ]
     },
     "jw_oferta_2": {
       "text": "Trzech starszych uczniów - Alda, Bryn i Jerome. Od pierwszego dnia nie dają mi żyć. Biją, kiedy nikt nie patrzy, zabierają jedzenie, wrzucają moje rzeczy do fosy. Jeśli się poskarżę, wyjdę na mięczaka.\nDziś będą na jarmarku w Wensley. Pójdziesz ze mną?",
       "options": [
-        {"text": "Pewnie, że pójdę.", "actions": [{"type": "start_quest", "quest": "jarmark_w_wensley"}]},
-        {"text": "Muszę się zastanowić."}
+        {
+          "text": "Pewnie, że pójdę.",
+          "actions": [
+            {
+              "type": "start_quest",
+              "quest": "jarmark_w_wensley"
+            }
+          ]
+        },
+        {
+          "text": "Muszę się zastanowić."
+        }
       ]
     },
     "jw_1": {
       "text": "Przyszedłeś! Są tam, w zaułku za karczmą. Śmieją się ze mnie, słyszysz?\nNie chcę nikogo zabijać, Will. Chcę tylko, żeby przestali.",
-      "options": [{"text": "Załatwimy to po rycersku. Uczciwie.", "actions": [{"type": "advance", "quest": "jarmark_w_wensley", "stage": 1}]}]
+      "options": [
+        {
+          "text": "Załatwimy to po rycersku. Uczciwie.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "jarmark_w_wensley",
+              "stage": 1
+            }
+          ]
+        }
+      ]
     },
     "jw_trwa": {
       "text": "Uważaj na Aldę - jest najsilniejszy. Bryn kopie, kiedy się nie patrzysz.",
-      "options": [{"text": "Dzięki."}]
+      "options": [
+        {
+          "text": "Dzięki."
+        }
+      ]
     },
     "jw_koniec": {
       "text": "Widziałem to! Uciekali jak zmoczone koty! Will, nie wiem, jak ci dziękować.\nWeź moją tarczę. Ja dostanę nową w zbrojowni, a tobie się przyda. I wiesz co? Od dziś jesteśmy przyjaciółmi. Prawdziwymi.",
-      "options": [{"text": "Przyjaciółmi.", "actions": [{"type": "advance", "quest": "jarmark_w_wensley", "stage": 4}]}]
+      "options": [
+        {
+          "text": "Przyjaciółmi.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "jarmark_w_wensley",
+              "stage": 4
+            }
+          ]
+        }
+      ]
     },
     "og": {
       "text": "Gilan przyjechał do zamku i powiedział, gdzie jesteście. Myślałeś, że zostawię cię samego z tymi bestiami? Prowadź!",
-      "options": [{"text": "Dobrze cię widzieć, Horace."}]
+      "options": [
+        {
+          "text": "Dobrze cię widzieć, Horace."
+        }
+      ]
     },
     "przyjaciel": {
       "text": "Will! Rodney dziś mówił, że jestem najlepszym szermierzem w swoim roczniku. Ale nie mów nikomu, że to powiedziałem, bo pomyślą, że się przechwalam.",
-      "options": [{"text": "Twoja tajemnica jest bezpieczna."}]
+      "options": [
+        {
+          "text": "Twoja tajemnica jest bezpieczna."
+        }
+      ]
     },
     "bohater": {
       "text": "Pogromca Kalkarów i jego wierny przyjaciel! Kiedyś będą o nas śpiewać pieśni, zobaczysz.",
-      "options": [{"text": "Byle nie fałszowali."}]
+      "options": [
+        {
+          "text": "Byle nie fałszowali."
+        }
+      ]
+    },
+    "t2_noz": {
+      "text": "Miecz od Gilana, co? Myślałem, że zwiadowcy kroją chleb tymi swoimi nożami. Teraz będziesz kroił mieczem?",
+      "options": [
+        {
+          "text": "Spokojnie, Horace. Może pokażesz mi kiedyś, jak trzyma się tarczę.",
+          "actions": [
+            {
+              "type": "trust",
+              "npc": "horace",
+              "delta": 5
+            },
+            {
+              "type": "set_flag",
+              "flag": "horace_noz_zaczepka"
+            }
+          ],
+          "next": "t2_noz_dobrze"
+        },
+        {
+          "text": "Przynajmniej mój nóż do chleba trafia w to, w co celuję.",
+          "actions": [
+            {
+              "type": "trust",
+              "npc": "horace",
+              "delta": -5
+            },
+            {
+              "type": "trust",
+              "npc": "gilan",
+              "delta": 3
+            },
+            {
+              "type": "set_flag",
+              "flag": "horace_noz_zaczepka"
+            }
+          ],
+          "next": "t2_noz_zle"
+        }
+      ]
+    },
+    "t2_noz_dobrze": {
+      "text": "Ha! Umowa. Ty mnie łuku, ja ciebie tarczy. Choć z twoimi ramionami…",
+      "options": [
+        {
+          "text": "Dzięki, Horace."
+        }
+      ]
+    },
+    "t2_noz_zle": {
+      "text": "Hej! To był żart… Dobra, dobra. Zapamiętam.",
+      "options": [
+        {
+          "text": "…"
+        }
+      ]
+    },
+    "t2_rozkazy": {
+      "text": "Most. Trzy dni. Cała armia Wargali na tyłach króla…\nWill, we troje nie zatrzymamy armii. Ale most to drewno i liny. A drewno się pali.",
+      "options": [
+        {
+          "text": "Właśnie o tym myślę. Jedziemy do Rozpadliny.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "czarny_jezdziec",
+              "stage": 5
+            }
+          ]
+        }
+      ]
+    },
+    "t2_ogolne": {
+      "text": "Jedziemy dalej? Prowadź, ja trzymam tarczę.",
+      "options": [
+        {
+          "text": "Jedziemy."
+        }
+      ]
+    },
+    "t2_ogolne_przyjaciel": {
+      "text": "Wiesz… w Redmont bałem się, że zostaniesz zwiadowcą i po prostu odjedziesz. A teraz jedziemy razem. Dziwnie się to układa.",
+      "options": [
+        {
+          "text": "Dobrze się układa, Horace."
+        }
+      ]
+    },
+    "t2_krawedz": {
+      "text": "Widziałeś te zagrody? Ludzie śpią w błocie jak bydło, a nadzorcy chodzą z biczami…\nNie mogę patrzeć, jak most rośnie na ich plecach. Jaki jest plan, zwiadowco?",
+      "options": [
+        {
+          "text": "Nocą uwolnię jeńców. O świcie, kiedy Wargale wejdą na most - spalimy go.",
+          "next": "t2_krawedz_2"
+        }
+      ]
+    },
+    "t2_krawedz_2": {
+      "text": "A jeśli cię zauważą? Sam jeden w obozie pełnym Wargali…\nMogę stanąć pod bramą. Jak zrobię dość hałasu, wszyscy pobiegną do mnie, a nie do ciebie.",
+      "options": [
+        {
+          "text": "Dobrze. Jeśli podniosą alarm, dam ci znak - odciągniesz ich pod bramę.",
+          "next": "t2_krawedz_tak",
+          "actions": [
+            {
+              "type": "set_flag",
+              "flag": "odciagnij_brama"
+            },
+            {
+              "type": "trust",
+              "npc": "horace",
+              "delta": 3
+            }
+          ]
+        },
+        {
+          "text": "Nie, Horace. Zostań z Evanlyn. Jeśli coś pójdzie źle, ktoś musi ją stąd wyprowadzić.",
+          "next": "t2_krawedz_nie"
+        }
+      ]
+    },
+    "t2_krawedz_tak": {
+      "text": "Wreszcie coś dla mnie! Tylko nie każ mi długo czekać na ten znak.",
+      "options": [
+        {
+          "text": "(Rozkaz „Odciągnij uwagę” w kole rozkazów - G)",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "na_krawedzi",
+              "stage": 2
+            }
+          ]
+        }
+      ]
+    },
+    "t2_krawedz_nie": {
+      "text": "…Masz rację. Nie podoba mi się to, ale masz rację. Uważaj na siebie.",
+      "options": [
+        {
+          "text": "Zawsze uważam.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "na_krawedzi",
+              "stage": 2
+            }
+          ]
+        }
+      ]
+    },
+    "t2_lancuchy": {
+      "text": "Czekam tu. Jak tylko coś usłyszę… Nieważne. Idź, zanim zmienię zdanie i pójdę z tobą.",
+      "options": [
+        {
+          "text": "Zaraz wracam."
+        }
+      ]
+    },
+    "t2_most": {
+      "text": "Smoła, olej, płonące strzały… Rycerze w Redmont nigdy by na to nie wpadli. Może dlatego zwiadowców się boją.",
+      "options": [
+        {
+          "text": "Rycerz walczy z przodu. Zwiadowca - tam, gdzie wróg się nie spodziewa."
+        }
+      ]
+    },
+    "t2_ogolne_rycerz": {
+      "text": "Sir Rodney mówi, że Szkoła Rycerska nigdy nie miała ucznia, który by od niej odszedł i wrócił w zielonym płaszczu.\nDziwnie jest jechać obok ciebie. Kiedyś stawaliśmy razem na placu ćwiczeń, a teraz ty prowadzisz, a ja trzymam tarczę.",
+      "options": [
+        {
+          "text": "Bez twojej tarczy daleko bym nie zajechał, Horace."
+        }
+      ]
     }
   }
 }

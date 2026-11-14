@@ -1,0 +1,148 @@
+{
+  "npc": "morwenna",
+  "entries": [
+    {
+      "when": [
+        {
+          "flag": "wolna_gra"
+        },
+        {
+          "quest_completed": "pasterka"
+        }
+      ],
+      "start": "t2_zlecenia"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "pasterka",
+          "stage": 1
+        }
+      ],
+      "start": "spotkanie"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "pasterka",
+          "stage": 5
+        }
+      ],
+      "start": "po_wilkach"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "pasterka"
+        }
+      ],
+      "start": "czekaj"
+    },
+    {
+      "when": [
+        {
+          "quest_completed": "pasterka"
+        }
+      ],
+      "start": "przyjaciolka"
+    },
+    {
+      "when": [],
+      "start": "domyslny"
+    }
+  ],
+  "nodes": {
+    "spotkanie": {
+      "text": "Zwiadowcy? Myślałam, że to znowu Wargale… Jestem Morwenna. Kiedy przyszli do wsi, uciekłam z owcami na wrzosowisko. Ale nocą przychodzą wilki - wojna wygnała je z gór. Sama nie dam rady.",
+      "options": [
+        {
+          "text": "Zostaniemy do nocy.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "pasterka",
+              "stage": 1
+            }
+          ]
+        }
+      ]
+    },
+    "czekaj": {
+      "text": "Wilki przychodzą o zmroku. Ognisko trzyma je z daleka. Prawie.",
+      "options": [
+        {
+          "text": "Będziemy czuwać."
+        }
+      ]
+    },
+    "po_wilkach": {
+      "text": "Odeszły! Moje owce… wszystkie całe. Weźcie jedzenie na drogę i wracajcie, kiedy chcecie - u Celtów ogień w szałasie nie gaśnie dla przyjaciół.",
+      "options": [
+        {
+          "text": "Dziękujemy, Morwenno.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "pasterka",
+              "stage": 5
+            }
+          ]
+        }
+      ]
+    },
+    "przyjaciolka": {
+      "text": "Ogień się pali, owce całe. Usiądź, ogrzej się.",
+      "options": [
+        {
+          "text": "Dzięki."
+        }
+      ]
+    },
+    "domyslny": {
+      "text": "…",
+      "options": [
+        {
+          "text": "…"
+        }
+      ]
+    },
+    "t2_zlecenia": {
+      "text": "Zwiadowca z płonących opowieści! Pasterze z doliny śpiewają już o moście.\nWilki znów krążą. Zostaniesz na noc przy stadzie?",
+      "options": [
+        {
+          "text": "Wilki odpędzone.",
+          "when": [
+            {
+              "quest_stage": "zlecenie_wilki",
+              "stage": 1
+            }
+          ],
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "zlecenie_wilki",
+              "stage": 1
+            }
+          ]
+        },
+        {
+          "text": "Zostanę przy stadzie.",
+          "when": [
+            {
+              "quest_ready": "zlecenie_wilki"
+            }
+          ],
+          "actions": [
+            {
+              "type": "start_quest",
+              "quest": "zlecenie_wilki"
+            }
+          ]
+        },
+        {
+          "text": "Nie dziś."
+        }
+      ]
+    }
+  }
+}

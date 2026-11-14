@@ -1,0 +1,1 @@
+{"parent":"zwiadowcy:tom2/evanlyn","display":{"icon":{"item":"zwiadowcy:beben_wargali"},"title":{"text":"Dwie drogi"},"description":{"text":"Przeprowadź drużynę przez wargalski posterunek"},"frame":"task","show_toast":true,"announce_to_chat":false,"hidden":false},"criteria":{"done":{"trigger":"minecraft:impossible"}}}

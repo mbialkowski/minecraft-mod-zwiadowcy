@@ -1,0 +1,36 @@
+{
+  "title": "Na szlaku: dezerterzy",
+  "act": "Postoje na szlaku",
+  "tom": 2,
+  "order": 212,
+  "description": "Przy trakcie pod przełęczą stoi wóz kupca, a wokół niego kręcą się ludzie z mieczami. Nie wyglądają na żołnierzy króla - raczej na takich, którzy od wojska uciekli.",
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "szlak_spalona_straznica:miejsce", "radius": 14},
+      "text": "Sprawdź, co się dzieje przy wozie pod przełęczą (dobrowolnie)",
+      "on_complete": [
+        {"type": "track", "quest": "szlak_spalona_straznica"},
+        {"type": "spawn", "entity": "zwiadowcy:bandyta", "at": "szlak_spalona_straznica:wrog_1", "face": "szlak_spalona_straznica:miejsce"},
+        {"type": "spawn", "entity": "zwiadowcy:bandyta", "at": "szlak_spalona_straznica:wrog_2", "face": "szlak_spalona_straznica:miejsce"},
+        {"type": "spawn", "entity": "zwiadowcy:lucznik_bandytow", "at": "szlak_spalona_straznica:wrog_3", "face": "szlak_spalona_straznica:miejsce"},
+        {"type": "message", "speaker": "Wędrowny kupiec", "text": "To dezerterzy! Uciekli z wojska i teraz rabują każdego, kto jedzie traktem!"},
+        {"type": "title", "title": "Dezerterzy!", "subtitle": "Obroń kupca"}
+      ]
+    },
+    {
+      "objective": {"type": "kill", "entity": "*", "count": 3, "tagged": true},
+      "text": "Przegoń dezerterów",
+      "location": "szlak_spalona_straznica:miejsce"
+    },
+    {
+      "objective": {"type": "talk", "npc": "kupiec"},
+      "text": "Porozmawiaj z kupcem",
+      "location": "szlak_spalona_straznica:kupiec"
+    }
+  ],
+  "on_complete": [
+    {"type": "give_item", "item": "zwiadowcy:garnek_z_dymem"},
+    {"type": "xp", "amount": 40},
+    {"type": "note", "title": "Dezerterzy", "text": "Pod przełęczą dezerterzy napadli kupca. Horace był wściekły: „Rycerz, który ucieka od wojny, nie jest rycerzem”. Kupiec dał nam garnek z dymem - kupił go od celtyckich górników."}
+  ]
+}

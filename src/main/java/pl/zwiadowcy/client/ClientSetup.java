@@ -49,6 +49,9 @@ public final class ClientSetup {
         event.registerEntityRenderer(ModEntities.WARGAL_ZWIADOWCA.get(), ctx -> new MobRenderers.Wargal(ctx, "wargal_zwiadowca", 0.85f));
         event.registerEntityRenderer(ModEntities.WARGAL_OSZCZEPNIK.get(), ctx -> new MobRenderers.Wargal(ctx, "wargal_oszczepnik", 1.0f));
         event.registerEntityRenderer(ModEntities.WARGAL_HERSZT.get(), ctx -> new MobRenderers.Wargal(ctx, "wargal_herszt", 1.35f));
+        event.registerEntityRenderer(ModEntities.WARGAL_KUSZNIK.get(), ctx -> new MobRenderers.Wargal(ctx, "wargal_kusznik", 1.0f));
+        event.registerEntityRenderer(ModEntities.WARGAL_NADZORCA.get(), ctx -> new MobRenderers.Wargal(ctx, "wargal_nadzorca", 1.08f));
+        event.registerEntityRenderer(ModEntities.WARGAL_DOBOSZ.get(), ctx -> new MobRenderers.Wargal(ctx, "wargal_dobosz", 1.0f));
         event.registerEntityRenderer(ModEntities.BANDYTA.get(), MobRenderers.Bandit::new);
         event.registerEntityRenderer(ModEntities.LUCZNIK_BANDYTOW.get(), MobRenderers.Bandit::new);
         event.registerEntityRenderer(ModEntities.HERSZT_BANDYTOW.get(), MobRenderers.Bandit::new);
@@ -59,6 +62,16 @@ public final class ClientSetup {
         event.registerEntityRenderer(ModEntities.STRZALA.get(), ProjectileRenderers.RangerArrow::new);
         event.registerEntityRenderer(ModEntities.NOZ.get(), ProjectileRenderers.Knife::new);
         event.registerEntityRenderer(ModEntities.FLASZA.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(ModEntities.KAMYK.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(ModEntities.GARNEK_Z_DYMEM.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(ModEntities.KOTWICZKA.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(ModEntities.KON_TOWARZYSZA.get(), MobRenderers.CompanionHorse::new);
+        event.registerEntityRenderer(ModEntities.CZARNY_RUMAK.get(), MobRenderers.Steed::new);
+        event.registerEntityRenderer(ModEntities.JEZDZIEC_MORGARATHA.get(), ctx -> new MobRenderers.Knight<>(ctx, "wrogowie/jezdziec_morgaratha", 1.0f));
+        event.registerEntityRenderer(ModEntities.TLUM.get(), pl.zwiadowcy.client.render.CrowdRenderer::new);
+        event.registerEntityRenderer(ModEntities.SKANDYJSKI_WOJOWNIK.get(), ctx -> new MobRenderers.Knight<>(ctx, "wrogowie/skandyjski_wojownik", 1.0f));
+        event.registerEntityRenderer(ModEntities.SKANDYJSKI_BERSERKER.get(), ctx -> new MobRenderers.Knight<>(ctx, "wrogowie/skandyjski_berserker", 1.05f));
+        event.registerEntityRenderer(ModEntities.MORGARATH.get(), ctx -> new MobRenderers.Knight<>(ctx, "wrogowie/morgarath", 1.25f));
     }
 
     @SubscribeEvent
@@ -74,6 +87,8 @@ public final class ClientSetup {
         event.register(ModKeys.BEZRUCH);
         event.register(ModKeys.STRZALA);
         event.register(ModKeys.DZIENNIK);
+        event.register(ModKeys.TROPICIEL);
+        event.register(ModKeys.ROZKAZY);
     }
 
     @SubscribeEvent

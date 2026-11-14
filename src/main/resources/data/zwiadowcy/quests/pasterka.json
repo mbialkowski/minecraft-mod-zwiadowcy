@@ -1,0 +1,55 @@
+{
+  "title": "Pasterka z wrzosowisk",
+  "act": "Tom II · Misja poboczna",
+  "tom": 2,
+  "order": 252,
+  "advancement": "tom2/pasterka",
+  "description": "Nad wrzosowiskiem na wschód od Doliny Mgieł unosi się cienka smużka dymu. Ktoś pali ognisko - i to w kraju, z którego Wargale wygnali wszystkich ludzi.",
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "szalas_pasterski:ognisko", "radius": 8},
+      "text": "Sprawdź dym nad wrzosowiskiem (dobrowolnie)"
+    },
+    {
+      "objective": {"type": "talk", "npc": "morwenna"},
+      "text": "Porozmawiaj z pasterką",
+      "location": "szalas_pasterski:morwenna"
+    },
+    {
+      "objective": {"type": "night"},
+      "text": "Zaczekaj z Morwenną do zmroku - wtedy przychodzą wilki",
+      "location": "szalas_pasterski:stado"
+    },
+    {
+      "objective": {"type": "kill", "entity": "minecraft:wolf", "count": 3, "tagged": true},
+      "text": "Wilki! Obroń stado (pierwsza fala)",
+      "location": "szalas_pasterski:stado",
+      "on_start": [
+        {"type": "spawn", "entity": "minecraft:wolf", "at": "szalas_pasterski:wilk_1", "angry": true},
+        {"type": "spawn", "entity": "minecraft:wolf", "at": "szalas_pasterski:wilk_2", "angry": true},
+        {"type": "spawn", "entity": "minecraft:wolf", "at": "szalas_pasterski:wilk_3", "angry": true}
+      ]
+    },
+    {
+      "objective": {"type": "kill", "entity": "minecraft:wolf", "count": 3, "tagged": true},
+      "text": "Druga fala - nie pozwól im dobrać się do owiec",
+      "location": "szalas_pasterski:stado",
+      "on_start": [
+        {"type": "spawn", "entity": "minecraft:wolf", "at": "szalas_pasterski:wilk_2", "angry": true},
+        {"type": "spawn", "entity": "minecraft:wolf", "at": "szalas_pasterski:wilk_3", "angry": true},
+        {"type": "spawn", "entity": "minecraft:wolf", "at": "szalas_pasterski:wilk_1", "angry": true}
+      ]
+    },
+    {
+      "objective": {"type": "talk", "npc": "morwenna"},
+      "text": "Wróć do Morwenny",
+      "location": "szalas_pasterski:morwenna"
+    }
+  ],
+  "on_complete": [
+    {"type": "give_item", "item": "zwiadowcy:racje_podrozne", "count": 6},
+    {"type": "campfire", "id": "szalas_pasterski"},
+    {"type": "xp", "amount": 60},
+    {"type": "note", "title": "Celtyckie zwyczaje", "text": "Morwenna mówi, że Celtowie nie zostawiają ognia bez opieki - stąd ich ogniska palą się na wzgórzach całymi nocami, a pasterze znają każdą ścieżkę w promieniu dnia drogi. Jej szałas może być moim schronieniem - ognisko jest na Mapie Gilana."}
+  ]
+}

@@ -17,11 +17,25 @@ import java.util.function.Supplier;
 
 /** Serwer → klient: pełny stan dziennika (misje, notatki, cel śledzonej misji). */
 public record QuestSyncPacket(String tracked, List<QuestView> quests, List<QuestProgress.Note> notes,
-                              @Nullable BlockPos target, String targetName) {
+                              @Nullable BlockPos target, String targetName, Extra extra) {
+
+    /** Bity stanu tomów. */
+    public static final int TOM1_DONE = 1, TOM2_STARTED = 2, TOM2_DONE = 4, FREE_PLAY = 8, TOM1_FINISHED_STORY = 16, QUICK_START = 32;
+
+    /** Punkt na Mapie Gilana: 0 = nieodkryta lokacja („?”), 1 = odwiedzona lokacja, 2 = ognisko do szybkiej podróży. */
+    public record MapPoint(String id, String name, BlockPos pos, int kind) {}
+
+    /** Stan tomu II widoczny w dzienniku i na mapie: tomy, trudność, umiejętności, zaufanie, ogniska, blokada podróży. */
+    public record Extra(int volumes, String difficulty, List<String> skills, Map<String, Integer> trust,
+                        List<MapPoint> map, String travelLock, List<String> clues, float layoutAngle, List<String> deduction) {
+        public static final Extra EMPTY = new Extra(0, "zwiadowca", List.of(), Map.of(), List.of(), "", List.of(), 0f, List.of());
+
+        public boolean has(int bit) { return (volumes & bit) != 0; }
+    }
 
     public record QuestView(String id, String title, String act, String description, boolean completed,
                             boolean repeatable, int order, int stage, int stageCount, String currentText,
-                            int progress, int required, boolean awaitNight, List<String> doneStages) {}
+                            int progress, int required, boolean awaitNight, List<String> doneStages, int tom) {}
 
     public static QuestSyncPacket build(ServerPlayer p) {
         QuestProgress prog = QuestCapability.get(p);
@@ -39,8 +53,8 @@ public record QuestSyncPacket(String tracked, List<QuestView> quests, List<Quest
             for (int i = 0; i < doneCount && i < def.stages().size(); i++) done.add(def.stages().get(i).text());
             views.add(new QuestView(def.id(), def.title(), def.act(), def.description(), completed, def.repeatable(),
                     def.order(), st.stage, def.stages().size(), stage != null ? stage.text() : "",
-                    st.progress, stage != null ? stage.objective().count() : 0,
-                    stage != null && stage.objective().type().equals("night"), done));
+                    st.progress, stage != null ? stage.objective().count(prog) : 0,
+                    stage != null && stage.objective().type().equals("night"), done, def.tom()));
             if (!completed && def.id().equals(prog.tracked()) && stage != null && p.getServer() != null) {
                 BlockPos drop = stage.objective().type().equals("collect") ? questDrop(p, stage.objective().str("item")) : null;
                 if (st.targetPos != null) {
@@ -82,7 +96,21 @@ public record QuestSyncPacket(String tracked, List<QuestView> quests, List<Quest
             }
         }
         views.sort(Comparator.comparingInt(QuestView::order));
-        return new QuestSyncPacket(prog.tracked(), views, new ArrayList<>(prog.notes()), target, targetName);
+        return new QuestSyncPacket(prog.tracked(), views, new ArrayList<>(prog.notes()), target, targetName, extra(p, prog));
+    }
+
+    private static Extra extra(ServerPlayer p, QuestProgress prog) {
+        int v = 0;
+        if (pl.zwiadowcy.volume.Volumes.tom1Done(prog)) v |= TOM1_DONE;
+        if (pl.zwiadowcy.volume.Volumes.tom2Started(prog)) v |= TOM2_STARTED;
+        if (pl.zwiadowcy.volume.Volumes.tom2Done(prog)) v |= TOM2_DONE;
+        if (prog.hasFlag(pl.zwiadowcy.volume.Volumes.FLAG_FREE_PLAY)) v |= FREE_PLAY;
+        if (prog.isCompleted(pl.zwiadowcy.volume.Volumes.TOM1_LAST)) v |= TOM1_FINISHED_STORY;
+        if (prog.hasFlag(pl.zwiadowcy.volume.Volumes.FLAG_QUICK)) v |= QUICK_START;
+        return new Extra(v, prog.difficulty, new ArrayList<>(prog.skills()), pl.zwiadowcy.companion.Trust.visible(prog),
+                pl.zwiadowcy.travel.Campfires.mapPoints(p), java.util.Objects.requireNonNullElse(pl.zwiadowcy.travel.FastTravel.locked(p), ""),
+                pl.zwiadowcy.tracking.Clues.foundList(prog), (float) pl.zwiadowcy.world.VolumeTwoLayout.angleDegrees(),
+                pl.zwiadowcy.tracking.Clues.activeDeduction(prog));
     }
 
     /** Najbliższy leżący przedmiot z misji (oznaczony przy upuszczeniu) pasujący do celu "zbierz". */
@@ -117,6 +145,7 @@ public record QuestSyncPacket(String tracked, List<QuestView> quests, List<Quest
             buf.writeBoolean(q.awaitNight);
             buf.writeVarInt(q.doneStages.size());
             for (String s : q.doneStages) buf.writeUtf(s, 1024);
+            buf.writeVarInt(q.tom);
         }
         buf.writeVarInt(msg.notes.size());
         for (QuestProgress.Note n : msg.notes) {
@@ -126,6 +155,29 @@ public record QuestSyncPacket(String tracked, List<QuestView> quests, List<Quest
         buf.writeBoolean(msg.target != null);
         if (msg.target != null) buf.writeBlockPos(msg.target);
         buf.writeUtf(msg.targetName);
+        Extra e = msg.extra;
+        buf.writeVarInt(e.volumes());
+        buf.writeUtf(e.difficulty());
+        buf.writeVarInt(e.skills().size());
+        for (String s : e.skills()) buf.writeUtf(s);
+        buf.writeVarInt(e.trust().size());
+        e.trust().forEach((k, val) -> {
+            buf.writeUtf(k);
+            buf.writeVarInt(val);
+        });
+        buf.writeVarInt(e.map().size());
+        for (MapPoint c : e.map()) {
+            buf.writeUtf(c.id());
+            buf.writeUtf(c.name());
+            buf.writeBlockPos(c.pos());
+            buf.writeByte(c.kind());
+        }
+        buf.writeUtf(e.travelLock());
+        buf.writeVarInt(e.clues().size());
+        for (String s : e.clues()) buf.writeUtf(s);
+        buf.writeFloat(e.layoutAngle());
+        buf.writeVarInt(e.deduction().size());
+        for (String s : e.deduction()) buf.writeUtf(s, 1024);
     }
 
     public static QuestSyncPacket decode(FriendlyByteBuf buf) {
@@ -149,14 +201,35 @@ public record QuestSyncPacket(String tracked, List<QuestView> quests, List<Quest
             int dn = buf.readVarInt();
             List<String> done = new ArrayList<>(dn);
             for (int j = 0; j < dn; j++) done.add(buf.readUtf(1024));
-            quests.add(new QuestView(id, title, act, desc, completed, repeatable, order, stage, stageCount, current, progress, required, awaitNight, done));
+            int tom = buf.readVarInt();
+            quests.add(new QuestView(id, title, act, desc, completed, repeatable, order, stage, stageCount, current, progress, required, awaitNight, done, tom));
         }
         int nn = buf.readVarInt();
         List<QuestProgress.Note> notes = new ArrayList<>(nn);
         for (int i = 0; i < nn; i++) notes.add(new QuestProgress.Note(buf.readUtf(), buf.readUtf(4096)));
         BlockPos target = buf.readBoolean() ? buf.readBlockPos() : null;
         String targetName = buf.readUtf();
-        return new QuestSyncPacket(tracked, quests, notes, target, targetName);
+        int volumes = buf.readVarInt();
+        String difficulty = buf.readUtf();
+        int sn = buf.readVarInt();
+        List<String> skills = new ArrayList<>(sn);
+        for (int i = 0; i < sn; i++) skills.add(buf.readUtf());
+        int tn = buf.readVarInt();
+        Map<String, Integer> trust = new HashMap<>();
+        for (int i = 0; i < tn; i++) trust.put(buf.readUtf(), buf.readVarInt());
+        int cn = buf.readVarInt();
+        List<MapPoint> camps = new ArrayList<>(cn);
+        for (int i = 0; i < cn; i++) camps.add(new MapPoint(buf.readUtf(), buf.readUtf(), buf.readBlockPos(), buf.readByte()));
+        String locked = buf.readUtf();
+        int kn = buf.readVarInt();
+        List<String> clues = new ArrayList<>(kn);
+        for (int i = 0; i < kn; i++) clues.add(buf.readUtf());
+        float angle = buf.readFloat();
+        int dn = buf.readVarInt();
+        List<String> deduction = new ArrayList<>(dn);
+        for (int i = 0; i < dn; i++) deduction.add(buf.readUtf(1024));
+        return new QuestSyncPacket(tracked, quests, notes, target, targetName,
+                new Extra(volumes, difficulty, skills, trust, camps, locked, clues, angle, deduction));
     }
 
     public static void handle(QuestSyncPacket msg, Supplier<NetworkEvent.Context> ctx) {

@@ -61,7 +61,17 @@ public final class BiomeGen {
                                 s("zwiadowcy:wargal_zwiadowca", 8, 1, 3), s("zwiadowcy:wargal_herszt", 1, 1, 1)), false),
                 new BiomeSpec("rownina_samotnosci", "plains", 1.0f, 0.2f, 0x9a9468, 0x8a8458, 0x8a9aa8, 0xa8a8a0, 0x4a6070, false,
                         List.of(s("minecraft:rabbit", 4, 2, 3)),
-                        List.of(s("zwiadowcy:wargal", 8, 1, 3), s("zwiadowcy:wargal_zwiadowca", 6, 1, 2), s("zwiadowcy:wargal_oszczepnik", 4, 1, 2)), true)
+                        List.of(s("zwiadowcy:wargal", 8, 1, 3), s("zwiadowcy:wargal_zwiadowca", 6, 1, 2), s("zwiadowcy:wargal_oszczepnik", 4, 1, 2)), true),
+                // tom II: Celtyka (wrzosowiska, mgliste doliny, łupkowe wzgórza) i Równina Uthal (pole bitwy)
+                new BiomeSpec("wrzosowiska_celtyki", "plains", 0.6f, 0.7f, 0x9a8a6e, 0x7d7a52, 0x8c9aa6, 0x9ea6ac, 0x3a5a6a, false,
+                        List.of(s("minecraft:wolf", 2, 2, 3)),
+                        List.of(s("zwiadowcy:wargal_zwiadowca", 4, 1, 2)), true),
+                new BiomeSpec("mgliste_doliny", "forest", 0.5f, 0.9f, 0x5f8a4e, 0x4a7a3c, 0x8a98a4, 0x8e979c, 0x2f4f5f, false,
+                        List.of(), List.of(s("zwiadowcy:wargal_zwiadowca", 4, 1, 2)), true),
+                new BiomeSpec("lupkowe_wzgorza", "taiga", 0.4f, 0.7f, 0x748262, 0x5f7050, 0x8c9aa6, 0x9aa2a8, 0x3a5060, false,
+                        List.of(), List.of(s("zwiadowcy:wargal_zwiadowca", 4, 1, 2)), true),
+                new BiomeSpec("rownina_uthal", "plains", 0.8f, 0.4f, 0x86bb5c, 0x6ea836, 0x78a7ff, 0xc0d8ff, 0x3f76e4, true,
+                        List.of(), List.of(), false)
         );
 
         Set<String> sparseWritten = new HashSet<>();
@@ -122,15 +132,17 @@ public final class BiomeGen {
             // Araluen bez mórz: własne kopie funkcji gęstości terenu. Parametr generatora, który decyduje o oceanach
             // ("continents"), jest przesunięty w stronę lądu, więc nigdzie nie powstaje ocean ani plaża, a cały teren
             // jest podniesiony o kilka bloków - doliny rzek wysychają. Zostają tylko małe jeziorka z wód gruntowych.
-            String[] chain = {"continents", "erosion", "offset", "factor", "jaggedness", "depth", "sloped_cheese"};
+            String[] chain = {"continents", "erosion", "ridges_folded", "offset", "factor", "jaggedness", "depth", "sloped_cheese"};
             File dfDir = new File(dataRoot, "zwiadowcy/worldgen/density_function/araluen");
             dfDir.mkdirs();
             for (String name : chain) {
                 JsonObject df = JsonParser.parseString(relink(readText(zip, "data/minecraft/worldgen/density_function/overworld/" + name + ".json"), chain))
                         .getAsJsonObject();
-                if (name.equals("continents")) df = calmNearHome(towardsLand(df), CALM_CONTINENTS, false);
-                if (name.equals("erosion")) df = calmNearHome(df, CALM_EROSION_FLOOR, true);
-                if (name.equals("offset")) df = raised(df);
+                if (name.equals("continents")) df = inRegions(calmNearHome(towardsLand(df), CALM_CONTINENTS, false), REGION_CONTINENTS);
+                if (name.equals("erosion")) df = inRegions(calmNearHome(df, CALM_EROSION_FLOOR, true), REGION_EROSION);
+                if (name.equals("offset")) df = regionLift(raised(df));
+                if (name.equals("factor")) df = regionFactor(df);
+                if (name.equals("ridges_folded")) df = flattenRidges(df);
                 write(new File(dfDir, name + ".json"), df);
             }
             noise = relink(noise, chain);
@@ -138,7 +150,9 @@ public final class BiomeGen {
             noise = noise.replace("\"sea_level\": 63", "\"sea_level\": " + SEA_LEVEL);
             File noiseFile = new File(dataRoot, "zwiadowcy/worldgen/noise_settings/araluen.json");
             noiseFile.getParentFile().mkdirs();
-            Files.writeString(noiseFile.toPath(), noise, StandardCharsets.UTF_8);
+            JsonObject settings = JsonParser.parseString(noise).getAsJsonObject();
+            volumeTwo(settings);
+            write(noiseFile, settings);
         }
         System.out.println("Biomy Araluenu wygenerowane: " + specs.size());
     }
@@ -245,6 +259,176 @@ public final class BiomeGen {
         out.addProperty("type", "minecraft:flat_cache");
         out.add("argument", add);
         return out;
+    }
+
+    // =========================================================================== tom II
+    // Krainy tomu II (współrzędne układu - muszą się zgadzać z pl.zwiadowcy.world.VolumeTwoLayout w modzie):
+    // Celtyka (dwie elipsy), Przełęcz Wiatrów i trakt wschodni (kapsuły), Równina Uthal (elipsa).
+    static final double[][] CELTICA = {{-1900, 400, 600, 450}, {-1400, 1010, 520, 300}};
+    static final double[] PASS = {-950, 110, -1500, 230, 100};
+    static final double[] ROAD = {-1150, 1060, 320, 1170, 120};
+    static final double[] UTHAL = {450, 1330, 320, 230};
+    /** Szerokość płynnego przejścia na krawędzi krainy: rdzeń Celtyki, pogranicze, przełęcz, trakt, Uthal. */
+    static final double[] REGION_EDGE = {200, 150, 120, 100, 150};
+    /**
+     * Docelowa kontynentalność i erozja w krainach: wrzosowiska Celtyki (pagórki), pogranicze nad Rozpadliną
+     * (wysoki płaskowyż - kanion jest głęboki), przełęcz (siodło), trakt (wzgórza) i Uthal (równina).
+     */
+    static final double[] REGION_CONTINENTS = {0.2, 0.2, 0.18, 0.15, 0.05};
+    static final double[] REGION_EROSION = {0.05, 0.05, 0.0, 0.1, 0.75};
+    /** Podniesienie terenu w krainie (1.0 w "offset" to ok. 128 bloków): pogranicze nad Rozpadliną +0.3 ≈ 38 bloków. */
+    static final double[] REGION_LIFT = {0, 0.3, 0, 0, 0};
+    /** "factor" (im większy, tym płaściej): trakt i Uthal spłaszczone; 0 = bez zmian. */
+    static final double[] REGION_FACTOR = {0, 0, 0, 6.0, 14.0};
+    /** Wygładzenie grzbietów i dolin (PV → 0) na trakcie i w Uthal. */
+    static final double[] REGION_FLAT_RIDGES = {0, 0, 0.5, 1, 1};
+    /** Temperatura-znacznik biomów: Celtyka [1.4, 2] i Uthal [-2, -1.4] - poza krainami nie występuje. */
+    static final double CELTIC_TEMPERATURE = 1.75, UTHAL_TEMPERATURE = -1.75;
+    /** Rozpadlina: półszerokość dna (min-max), dno nad poziomem wody, poszerzenie ścian ku górze. */
+    static final double FISSURE_HALF_MIN = 15, FISSURE_HALF_MAX = 25, FISSURE_FLOOR = 53, FISSURE_SLOPE = 0.12;
+
+    static JsonObject region(String shape, double[] a, double edge) {
+        JsonObject o = new JsonObject();
+        o.addProperty("type", "zwiadowcy:region");
+        o.addProperty("shape", shape);
+        JsonArray arr = new JsonArray();
+        for (double v : a) arr.add(v);
+        o.add("a", arr);
+        o.addProperty("edge", edge);
+        return o;
+    }
+
+    static JsonObject celticaMask() {
+        JsonObject max = new JsonObject();
+        max.addProperty("type", "minecraft:max");
+        max.add("argument1", region("elipsa", CELTICA[0], REGION_EDGE[0]));
+        max.add("argument2", region("elipsa", CELTICA[1], REGION_EDGE[1]));
+        return max;
+    }
+
+    static JsonObject[] regionMasks() {
+        return new JsonObject[]{region("elipsa", CELTICA[0], REGION_EDGE[0]), region("elipsa", CELTICA[1], REGION_EDGE[1]),
+                region("kapsula", PASS, REGION_EDGE[2]), region("kapsula", ROAD, REGION_EDGE[3]), region("elipsa", UTHAL, REGION_EDGE[4])};
+    }
+
+    /** x·(1 - m) + c·m - płynne przejście do stałej c w masce m (x występuje raz, więc zagnieżdżenia nie puchną). */
+    static JsonElement lerpTo(JsonElement x, JsonElement m, double c) {
+        JsonObject oneMinus = num("minecraft:add", 1.0, num("minecraft:mul", -1.0, m.deepCopy()));
+        return num("minecraft:add", num("minecraft:mul", x, oneMinus), num("minecraft:mul", m, c));
+    }
+
+    /** flat_cache(x) → flat_cache(x przeprowadzone kolejno przez krainy tomu II do wartości docelowych). */
+    static JsonObject inRegions(JsonObject flatCache, double[] targets) {
+        JsonElement x = flatCache.get("argument");
+        JsonObject[] masks = regionMasks();
+        for (int i = 0; i < masks.length; i++) x = lerpTo(x, masks[i], targets[i]);
+        JsonObject out = new JsonObject();
+        out.addProperty("type", "minecraft:flat_cache");
+        out.add("argument", x);
+        return out;
+    }
+
+    /** flat_cache(x) → flat_cache(x + Σ podniesienie·maska) - wysoki płaskowyż nad Rozpadliną (głęboki kanion). */
+    static JsonObject regionLift(JsonObject flatCache) {
+        JsonElement x = flatCache.get("argument");
+        JsonObject[] masks = regionMasks();
+        for (int i = 0; i < masks.length; i++) {
+            if (REGION_LIFT[i] != 0) x = num("minecraft:add", x, num("minecraft:mul", masks[i], REGION_LIFT[i]));
+        }
+        JsonObject out = new JsonObject();
+        out.addProperty("type", "minecraft:flat_cache");
+        out.add("argument", x);
+        return out;
+    }
+
+    /** flat_cache(x) → flat_cache(x przeprowadzone do stałego "factor" na trakcie i w Uthal). */
+    static JsonObject regionFactor(JsonObject flatCache) {
+        JsonElement x = flatCache.get("argument");
+        JsonObject[] masks = regionMasks();
+        for (int i = 0; i < masks.length; i++) {
+            if (REGION_FACTOR[i] > 0) x = lerpTo(x, masks[i], REGION_FACTOR[i]);
+        }
+        JsonObject out = new JsonObject();
+        out.addProperty("type", "minecraft:flat_cache");
+        out.add("argument", x);
+        return out;
+    }
+
+    /** ridges_folded (PV) → w krainach z REGION_FLAT_RIDGES > 0 płynnie do 0 („środek” - bez grzbietów i dolin). */
+    static JsonObject flattenRidges(JsonObject df) {
+        JsonElement x = df;
+        JsonObject[] masks = regionMasks();
+        for (int i = 0; i < masks.length; i++) {
+            if (REGION_FLAT_RIDGES[i] <= 0) continue;
+            x = lerpTo(x, num("minecraft:mul", masks[i], REGION_FLAT_RIDGES[i]), 0.0);
+        }
+        JsonObject out = new JsonObject();
+        out.addProperty("type", "minecraft:flat_cache");
+        out.add("argument", x);
+        return out;
+    }
+
+    static JsonObject fissure(String mode) {
+        JsonObject o = new JsonObject();
+        o.addProperty("type", "zwiadowcy:rozpadlina");
+        o.addProperty("mode", mode);
+        o.addProperty("half_min", FISSURE_HALF_MIN);
+        o.addProperty("half_max", FISSURE_HALF_MAX);
+        o.addProperty("floor", FISSURE_FLOOR);
+        o.addProperty("slope", FISSURE_SLOPE);
+        return o;
+    }
+
+    static JsonObject minWith(JsonElement a, JsonObject b) {
+        JsonObject o = new JsonObject();
+        o.addProperty("type", "minecraft:min");
+        o.add("argument1", a);
+        o.add("argument2", b);
+        return o;
+    }
+
+    /**
+     * Ustawienia szumu dla tomu II: biomy Celtyki i Uthal przez znacznik temperatury, Rozpadlina wycięta w gęstości
+     * terenu (także w gęstości wstępnej - od niej zależy poziom „powierzchni” dla wód gruntowych i darni) i bez zalewania.
+     */
+    static void volumeTwo(JsonObject settings) {
+        JsonObject router = settings.getAsJsonObject("noise_router");
+        JsonElement temp = lerpTo(router.get("temperature"), celticaMask(), CELTIC_TEMPERATURE);
+        temp = lerpTo(temp, region("elipsa", UTHAL, REGION_EDGE[4]), UTHAL_TEMPERATURE);
+        router.add("temperature", temp);
+        // zatyczka dna: kilka bloków pod dnem kanionu zawsze litych, żeby jaskinie nie otwierały dziur w dnie
+        JsonObject carved = minWith(router.get("final_density"), fissure("teren"));
+        JsonObject plugged = new JsonObject();
+        plugged.addProperty("type", "minecraft:max");
+        plugged.add("argument1", carved);
+        plugged.add("argument2", fissure("dno"));
+        // zatyczka Uthal: pod równiną bitwy pas y≈45-74 zawsze lity (bez wejść do jaskiń i stawów w polu bitwy);
+        // poza Uthal wartość -1, więc maksimum nic nie zmienia
+        JsonObject band = num("minecraft:min",
+                JsonParser.parseString("{\"type\":\"minecraft:y_clamped_gradient\",\"from_y\":70,\"to_y\":78,\"from_value\":1.0,\"to_value\":-1.0}"),
+                JsonParser.parseString("{\"type\":\"minecraft:y_clamped_gradient\",\"from_y\":40,\"to_y\":50,\"from_value\":-1.0,\"to_value\":1.0}"));
+        JsonObject uthalPlug = num("minecraft:add", num("minecraft:mul", region("elipsa", UTHAL, REGION_EDGE[4]), num("minecraft:add", band, 1.0)), -1.0);
+        router.add("final_density", num("minecraft:max", plugged, uthalPlug));
+        router.add("initial_density_without_jaggedness", minWith(router.get("initial_density_without_jaggedness"), fissure("teren")));
+        router.add("fluid_level_floodedness", minWith(router.get("fluid_level_floodedness"), fissure("woda")));
+        // łupkowe wzgórza: na powierzchni plamy tufu i łupku (głębokiego łupku)
+        JsonArray seq = settings.getAsJsonObject("surface_rule").getAsJsonArray("sequence");
+        JsonArray rebuilt = new JsonArray();
+        rebuilt.add(JsonParser.parseString("""
+                {"type": "minecraft:condition",
+                 "if_true": {"type": "minecraft:biome", "biome_is": ["zwiadowcy:lupkowe_wzgorza"]},
+                 "then_run": {"type": "minecraft:condition",
+                   "if_true": {"type": "minecraft:above_preliminary_surface"},
+                   "then_run": {"type": "minecraft:condition",
+                     "if_true": {"type": "minecraft:stone_depth", "offset": 0, "surface_type": "floor", "add_surface_depth": false, "secondary_depth_range": 0},
+                     "then_run": {"type": "minecraft:sequence", "sequence": [
+                       {"type": "minecraft:condition", "if_true": {"type": "minecraft:noise_threshold", "noise": "minecraft:surface", "min_threshold": 0.35, "max_threshold": 10.0},
+                        "then_run": {"type": "minecraft:block", "result_state": {"Name": "minecraft:deepslate", "Properties": {"axis": "y"}}}},
+                       {"type": "minecraft:condition", "if_true": {"type": "minecraft:noise_threshold", "noise": "minecraft:surface", "min_threshold": 0.12, "max_threshold": 10.0},
+                        "then_run": {"type": "minecraft:block", "result_state": {"Name": "minecraft:tuff"}}}
+                     ]}}}}"""));
+        for (JsonElement e : seq) rebuilt.add(e);
+        settings.getAsJsonObject("surface_rule").add("sequence", rebuilt);
     }
 
     static String readText(ZipFile zip, String path) throws Exception {

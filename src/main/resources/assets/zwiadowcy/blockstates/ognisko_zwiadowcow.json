@@ -1,0 +1,1 @@
+{"variants":{"facing=north":{"model":"zwiadowcy:block/palenisko","y":180},"facing=east":{"model":"zwiadowcy:block/palenisko","y":270},"facing=south":{"model":"zwiadowcy:block/palenisko"},"facing=west":{"model":"zwiadowcy:block/palenisko","y":90}}}

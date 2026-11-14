@@ -1,0 +1,35 @@
+{
+  "title": "Syn górnika",
+  "act": "Tom II · Misja poboczna",
+  "tom": 2,
+  "order": 251,
+  "advancement": "tom2/syn_gornika",
+  "description": "Rhys, syn starego Dafydda, zszedł do bocznego szybu na najniższym poziomie kopalni, kiedy przyszli Wargale. Nie wrócił. Dafydd nie ma już sił, żeby przekopać się przez gruz.",
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "kopalnia:gruz", "radius": 3},
+      "text": "Zejdź na najniższy poziom kopalni, do bocznego szybu"
+    },
+    {
+      "objective": {"type": "talk", "npc": "rhys"},
+      "text": "Przekop się przez gruz (kilof) i znajdź Rhysa",
+      "location": "kopalnia:rhys"
+    },
+    {
+      "objective": {"type": "ride_with", "location": "kopalnia:dafydd", "radius": 6, "npcs": ["rhys"]},
+      "text": "Wyprowadź Rhysa do ojca (idzie wolno - ma skręconą nogę)"
+    },
+    {
+      "objective": {"type": "talk", "npc": "dafydd"},
+      "text": "Porozmawiaj z Dafyddem",
+      "location": "kopalnia:dafydd"
+    }
+  ],
+  "on_complete": [
+    {"type": "companion_leave", "npc": "rhys"},
+    {"type": "set_flag", "flag": "rhys_uratowany"},
+    {"type": "skill", "id": "gornicza_zrecznosc"},
+    {"type": "xp", "amount": 80},
+    {"type": "note", "title": "Syn górnika", "text": "Wyciągnąłem Rhysa z bocznego szybu. Dafydd płakał i śmiał się na zmianę. Rhys powiedział, że jeśli znajdę resztę górników, on będzie wiedział, jak ich poprowadzić i co przeciąć, żeby Wargalom się odechciało."}
+  ]
+}

@@ -67,6 +67,7 @@ public final class Stealth {
     public static double visibility(Player p) {
         Track t = track(p);
         if (t.bezruchUntil > p.level().getGameTime()) return 0.0;
+        if (p.level() instanceof net.minecraft.server.level.ServerLevel sl && SmokeClouds.inSmoke(sl, p.position())) return 0.0;
         boolean cloak = wearsCloak(p);
         double v = cloak ? 0.55 : 1.0;
         if (p.isCrouching()) v *= cloak ? 0.6 : 0.7;
@@ -95,6 +96,13 @@ public final class Stealth {
         if (dist < 1.8 && cos > -0.2) return true;
         if (cos < Math.cos(Math.toRadians(65))) return false;
         return observer.hasLineOfSight(p);
+    }
+
+    /** Głośne podłoże (żwir, kamień, deski) - kroki słychać, chyba że gracz ma umiejętność „Cichy krok”. */
+    public static boolean noisyGround(Player p) {
+        BlockState s = p.level().getBlockState(p.getOnPos());
+        return s.is(BlockTags.BASE_STONE_OVERWORLD) || s.is(BlockTags.PLANKS) || s.is(Blocks.GRAVEL) || s.is(Blocks.COBBLESTONE)
+                || s.is(BlockTags.STONE_BRICKS) || s.is(Blocks.MOSSY_COBBLESTONE);
     }
 
     public static boolean inFoliage(Player p) {

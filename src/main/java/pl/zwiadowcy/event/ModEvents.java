@@ -44,6 +44,7 @@ public final class ModEvents {
     public static void onReload(AddReloadListenerEvent event) {
         event.addListener(QuestManager.INSTANCE);
         event.addListener(DialogueManager.INSTANCE);
+        event.addListener(pl.zwiadowcy.cutscene.Cutscenes.INSTANCE);
     }
 
     @SubscribeEvent
@@ -56,6 +57,9 @@ public final class ModEvents {
         if (event.phase != TickEvent.Phase.END || !(event.player instanceof ServerPlayer p)) return;
         Stealth.tick(p);
         Tracking.tick(p);
+        pl.zwiadowcy.tracking.TrackerSense.tick(p);
+        pl.zwiadowcy.cutscene.Cutscenes.tick(p);
+        pl.zwiadowcy.world.CelticWeather.tick(p);
         pl.zwiadowcy.story.StoryService.tick(p);
         if (p.tickCount % 4 == 0) QuestEngine.fastTick(p);
         if (p.tickCount % 10 == 0) QuestEngine.tick(p);
@@ -74,6 +78,7 @@ public final class ModEvents {
         } else {
             pl.zwiadowcy.story.StoryService.remindOnLogin(p);
         }
+        pl.zwiadowcy.volume.Volumes.onLogin(p);
         QuestEngine.sync(p);
     }
 
@@ -84,12 +89,16 @@ public final class ModEvents {
             DialogueService.forget(p);
             Stealth.forget(p);
             Tracking.forget(p);
+            pl.zwiadowcy.tracking.TrackerSense.forget(p);
         }
     }
 
     @SubscribeEvent
     public static void onRespawn(PlayerEvent.PlayerRespawnEvent event) {
-        if (event.getEntity() instanceof ServerPlayer p) QuestEngine.sync(p);
+        if (event.getEntity() instanceof ServerPlayer p) {
+            QuestEngine.sync(p);
+            if (!event.isEndConquered()) pl.zwiadowcy.quest.QuestTom2.onRespawn(p);
+        }
     }
 
     @SubscribeEvent
@@ -115,6 +124,19 @@ public final class ModEvents {
                 }
             }
         }
+        // tom II: uratowanie rannego towarzysza (wróg atakował go przy < 30% zdrowia) - zaufanie +2, do 3 razy na misję
+        if (victim instanceof net.minecraft.world.entity.Mob mob && mob.getTarget() instanceof pl.zwiadowcy.entity.StoryNpc npc
+                && npc.getMode() == pl.zwiadowcy.entity.StoryNpc.Mode.COMPANION && npc.getHealth() < npc.getMaxHealth() * 0.3f
+                && event.getSource().getEntity() instanceof ServerPlayer saver && npc.ownerPlayer() == saver) {
+            QuestProgress prog = QuestCapability.get(saver);
+            String key = "ratunek:" + prog.tracked() + ":" + npc.npcId();
+            int n = (int) prog.cooldown(key);
+            if (n < 0 || n > 3) n = 0;
+            if (n < 3) {
+                pl.zwiadowcy.companion.Trust.change(saver, npc.npcId(), 2);
+                prog.setCooldown(key, n + 1);
+            }
+        }
         if (data.contains(QuestActions.TAG_QUEST) && data.hasUUID(QuestActions.TAG_OWNER)) {
             ServerPlayer owner = victim.getServer().getPlayerList().getPlayer(data.getUUID(QuestActions.TAG_OWNER));
             if (owner != null) {
@@ -131,8 +153,23 @@ public final class ModEvents {
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {
         LivingEntity e = event.getEntity();
+        // tom II: obrażenia od wrogów według poziomu trudności fabularnej
+        if (e instanceof ServerPlayer sp && event.getSource().getEntity() instanceof net.minecraft.world.entity.Mob attacker
+                && attacker instanceof net.minecraft.world.entity.monster.Enemy && Araluen.isAraluen(sp.level())
+                && QuestCapability.get(sp).hasFlag(pl.zwiadowcy.volume.Volumes.FLAG_TOM2_RUNNING)) {
+            event.setAmount((float) (event.getAmount() * pl.zwiadowcy.difficulty.StoryDifficulty.of(sp).enemyDamage));
+        }
         if (event.getSource().is(DamageTypeTags.IS_FIRE) && e.hasEffect(ModEffects.OBLANY_OLEJEM.get())) {
             event.setAmount(event.getAmount() * 2f);
+        }
+    }
+
+    /** Fabularne powalenie (etap „survive” bez śmierci): gracz nie spada poniżej pół serca. */
+    @SubscribeEvent
+    public static void onDamage(net.minecraftforge.event.entity.living.LivingDamageEvent event) {
+        if (event.getEntity() instanceof ServerPlayer p && event.getAmount() >= p.getHealth()
+                && pl.zwiadowcy.quest.QuestTom2.protectsFromDeath(p)) {
+            event.setAmount(Math.max(0f, p.getHealth() - 1f));
         }
     }
 
@@ -208,10 +245,33 @@ public final class ModEvents {
         }
     }
 
+    /** PPM na bloku: wskazówka śledztwa (Oczy tropiciela) albo ognisko zwiadowców. */
+    @SubscribeEvent
+    public static void onRightClickBlock(net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock event) {
+        if (!(event.getEntity() instanceof ServerPlayer p) || event.getHand() != net.minecraft.world.InteractionHand.MAIN_HAND) return;
+        if (pl.zwiadowcy.quest.QuestTom2.onUseBlock(p, event.getPos())) {
+            event.setCanceled(true);
+            return;
+        }
+        if (pl.zwiadowcy.bridge.BridgeBurn.onUseBlock(p, event.getPos(), p.getMainHandItem())) {
+            event.setCanceled(true);
+            return;
+        }
+        var clue = pl.zwiadowcy.tracking.TrackerSense.clueAt(p, event.getPos());
+        if (clue != null && !pl.zwiadowcy.tracking.Clues.found(QuestCapability.get(p), clue.id())) {
+            pl.zwiadowcy.tracking.TrackerSense.onClueFound(p, clue);
+            event.setCanceled(true);
+        }
+    }
+
     /** Ciosy saksą w manekin treningowy (misja "Dwa noże"). */
     @SubscribeEvent
     public static void onAttack(AttackEntityEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer p)) return;
+        if (event.getTarget() instanceof net.minecraft.world.entity.Mob mob && pl.zwiadowcy.stealth.Alertness.tryTakedown(p, mob)) {
+            event.setCanceled(true);
+            return;
+        }
         if (event.getTarget() instanceof ArmorStand stand && stand.getTags().contains("zwiadowcy_manekin")) {
             if (p.getMainHandItem().getItem() instanceof SaxeKnifeItem) {
                 QuestEngine.fireEvent(p, "manekin_saksa", 1);

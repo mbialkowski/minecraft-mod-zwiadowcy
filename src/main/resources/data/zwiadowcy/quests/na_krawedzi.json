@@ -1,0 +1,68 @@
+{
+  "title": "Na krawędzi",
+  "act": "Tom II · Akt III: Płonący most",
+  "tom": 2,
+  "order": 209,
+  "advancement": "tom2/na_krawedzi",
+  "description": "Rozpadlina przecina południe Celtyki jak cięcie mieczem. Gdzieś na jej krawędzi Wargale kończą most - jedyną, poza Przełęczą Trzech Stopni, drogę z płaskowyżu Morgaratha na tyły królewskiej armii.",
+  "on_start": [
+    {"type": "bridge"},
+    {"type": "give_item", "item": "minecraft:spyglass", "when": [{"not_has_item": "minecraft:spyglass"}]}
+  ],
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "krawedz:punkt_obserwacyjny", "radius": 5},
+      "text": "Jedź na skraj Rozpadliny - na wysuniętą skałę nad obozem budowy",
+      "no_fast_travel": true,
+      "on_complete": [
+        {"type": "cutscene", "id": "most_nad_rozpadlina"}
+      ]
+    },
+    {
+      "objective": {"type": "mark", "entity": ["zwiadowcy:wargal_nadzorca", "zwiadowcy:wargal_dobosz", "zwiadowcy:wargal_kusznik"], "count": 6},
+      "text": "Przez lunetę oznacz strażników obozu: 2 nadzorców, 2 doboszy i 2 kuszników (patrz na cel chwilę)",
+      "location": "budowa_mostu",
+      "no_fast_travel": true,
+      "on_start": [
+        {"type": "spawn", "entity": "zwiadowcy:wargal_nadzorca", "at": "budowa_mostu:nadzorca_1", "quest": "lancuchy", "czujny": true, "home": "budowa_mostu:zagroda", "home_radius": 10, "drop": "zwiadowcy:klucze_nadzorcy", "face": "budowa_mostu:zagroda"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_nadzorca", "at": "budowa_mostu:nadzorca_2", "quest": "lancuchy", "czujny": true, "home": "budowa_mostu:zagroda", "home_radius": 10, "drop": "zwiadowcy:klucze_nadzorcy", "face": "budowa_mostu:zagroda"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_dobosz", "at": "budowa_mostu:wieza_1", "quest": "lancuchy", "czujny": true, "sentry": true, "face": "budowa_mostu:zagroda"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_dobosz", "at": "budowa_mostu:wieza_2", "quest": "lancuchy", "czujny": true, "sentry": true, "face": "budowa_mostu:zagroda"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_kusznik", "at": "budowa_mostu:kusznik_1", "quest": "lancuchy", "czujny": true, "patrol": "budowa_mostu:trasa_A"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_kusznik", "at": "budowa_mostu:kusznik_2", "quest": "lancuchy", "czujny": true, "patrol": "budowa_mostu:trasa_B"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "budowa_mostu:trasa_A_4", "quest": "lancuchy", "czujny": true, "patrol": "budowa_mostu:trasa_A"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "budowa_mostu:trasa_B_3", "quest": "lancuchy", "czujny": true, "patrol": "budowa_mostu:trasa_B"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "budowa_mostu:sklad_smoly", "quest": "lancuchy", "czujny": true, "sentry": true, "face": "budowa_mostu:brama"},
+        {"type": "message", "speaker": "Evanlyn", "text": "Patrz, ilu ich jest… A ci w zagrodach - to Celtowie. Górnicy z Tre-Gwyn."},
+        {"type": "actionbar", "text": "Luneta: PPM i patrz na strażnika, aż zostanie oznaczony. Oznaczeni świecą do końca akcji przy moście."}
+      ]
+    },
+    {
+      "objective": {"type": "talk", "npc": "horace"},
+      "text": "Narada przy ognisku - porozmawiaj z Horace'em",
+      "location": "krawedz:ognisko",
+      "no_fast_travel": true,
+      "on_start": [
+        {"type": "move_npc", "npc": "horace", "to": "krawedz:horace", "mode": "companion", "face": "krawedz:ognisko"},
+        {"type": "move_npc", "npc": "evanlyn", "to": "krawedz:evanlyn", "mode": "companion", "face": "krawedz:ognisko"}
+      ]
+    },
+    {
+      "objective": {"type": "talk", "npc": "evanlyn"},
+      "text": "Porozmawiaj z Evanlyn",
+      "location": "krawedz:ognisko",
+      "no_fast_travel": true
+    },
+    {
+      "objective": {"type": "night"},
+      "text": "Odpocznij przy ognisku do zmroku (posłanie pod skałą)",
+      "location": "krawedz:ognisko",
+      "no_fast_travel": true
+    }
+  ],
+  "on_complete": [
+    {"type": "xp", "amount": 80},
+    {"type": "note", "title": "Most nad Rozpadliną", "text": "Most jest prawie skończony: pomost z belek, dwa zastrzały pod spodem przy naszej ścianie kanionu i wieża linowa na brzegu. Celtowie śpią w trzech zagrodach, klucze mają nadzorcy. Plan: nocą uwolnić ludzi, o świcie spalić most."},
+    {"type": "start_quest", "quest": "lancuchy"}
+  ]
+}

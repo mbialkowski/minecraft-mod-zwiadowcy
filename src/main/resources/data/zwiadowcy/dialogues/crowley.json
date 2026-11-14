@@ -1,36 +1,201 @@
 {
   "npc": "crowley",
   "entries": [
-    {"when": [{"quest_stage": "zlot_zwiadowcow", "stage": 2}], "start": "zl_1"},
-    {"when": [{"quest_stage": "zlot_zwiadowcow", "stage": 6}], "start": "zl_wiesci"},
-    {"when": [{"quest_active": "zlot_zwiadowcow"}], "start": "zl_trwa"},
-    {"when": [{"quest_active": "tropem_bestii"}], "start": "tb"},
-    {"when": [], "start": "domyslny"}
+    {
+      "when": [
+        {
+          "quest_stage": "wyscig_z_czasem",
+          "stage": 2
+        }
+      ],
+      "start": "t2_raport"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "wezwanie",
+          "stage": 2
+        }
+      ],
+      "start": "t2_narada"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "wezwanie"
+        }
+      ],
+      "start": "t2_po"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "zlot_zwiadowcow",
+          "stage": 2
+        }
+      ],
+      "start": "zl_1"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "zlot_zwiadowcow",
+          "stage": 6
+        }
+      ],
+      "start": "zl_wiesci"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "zlot_zwiadowcow"
+        }
+      ],
+      "start": "zl_trwa"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "tropem_bestii"
+        }
+      ],
+      "start": "tb"
+    },
+    {
+      "when": [],
+      "start": "domyslny"
+    }
   ],
   "nodes": {
     "domyslny": {
       "text": "Crowley, dowódca Korpusu Zwiadowców. Brzmi groźnie, ale głównie zajmuję się pilnowaniem, żeby pięćdziesięciu samotników nie pozabijało się nawzajem przy jednym ognisku.",
-      "options": [{"text": "To musi być trudne."}]
+      "options": [
+        {
+          "text": "To musi być trudne."
+        }
+      ]
     },
     "zl_1": {
       "text": "No proszę! Halt przywiózł ucznia! Wiesz, chłopcze, że przez piętnaście lat odmawiał każdemu kandydatowi, jakiego mu podsunąłem? Musisz być kimś wyjątkowym. Albo bardzo upartym.\nWitaj na Zlocie. Mamy tu tradycję: konkurs łuczniczy dla uczniów. Gilan go poprowadzi - znajdziesz go przy strzelnicy.",
-      "options": [{"text": "Dziękuję, panie dowódco.", "actions": [{"type": "advance", "quest": "zlot_zwiadowcow", "stage": 2}]}]
+      "options": [
+        {
+          "text": "Dziękuję, panie dowódco.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "zlot_zwiadowcow",
+              "stage": 2
+            }
+          ]
+        }
+      ]
     },
     "zl_trwa": {
       "text": "Konkurs, chłopcze, konkurs! Gilan czeka.",
-      "options": [{"text": "Już idę."}]
+      "options": [
+        {
+          "text": "Już idę."
+        }
+      ]
     },
     "zl_wiesci": {
       "text": "Gratuluję wyniku, Willu. Szkoda, że muszę zepsuć ci ten dzień.\nZ północy przyszły złe wieści. Lord Northolt, dowódca armii królewskiej, nie żyje. Zginął w swoim zamku. Straże rozszarpane jak szmaciane lalki… Świadkowie mówią o bestiach wysokich jak dwóch ludzi.",
-      "options": [{"text": "Bestiach?", "next": "zl_wiesci_2"}]
+      "options": [
+        {
+          "text": "Bestiach?",
+          "next": "zl_wiesci_2"
+        }
+      ]
     },
     "zl_wiesci_2": {
       "text": "Halt podejrzewa Kalkarów. Jeśli ma rację - a Halt zwykle ma rację, co jest bardzo irytujące - to Morgarath wysłał je, żeby zabijać tych, którzy pokonali go piętnaście lat temu.\nHalt jedzie ich tropem. A ty jedziesz z nim. Powodzenia, chłopcze.",
-      "options": [{"text": "Nie zawiodę.", "actions": [{"type": "advance", "quest": "zlot_zwiadowcow", "stage": 6}]}]
+      "options": [
+        {
+          "text": "Nie zawiodę.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "zlot_zwiadowcow",
+              "stage": 6
+            }
+          ]
+        }
+      ]
     },
     "tb": {
       "text": "Halt już się pakuje. Ruszajcie, zanim ślady ostygną.",
-      "options": [{"text": "Tak jest."}]
+      "options": [
+        {
+          "text": "Tak jest."
+        }
+      ]
+    },
+    "t2_narada": {
+      "text": "Will! Dobrze cię widzieć. Halt mówił, że jesteś gotowy - u niego to prawie mowa pochwalna.\nKról Duncan potrzebuje celtyckich wojowników i górników. Gilan zawiezie list do króla Celtów, a ty pojedziesz z nim. Sir Rodney da wam eskortę.\nDroga prowadzi na zachód, przez Przełęcz Wiatrów. Ludzie uciekają przed wojną - kupcy, woźnice, ranni. Zatrzymacie się, jeśli ktoś będzie potrzebował pomocy?",
+      "options": [
+        {
+          "text": "Tak - zwiadowca nie przejeżdża obojętnie.",
+          "actions": [
+            {
+              "type": "start_quest",
+              "quest": "szlak_woz_prowiantu",
+              "quiet": true
+            },
+            {
+              "type": "start_quest",
+              "quest": "szlak_spalona_straznica",
+              "quiet": true
+            },
+            {
+              "type": "advance",
+              "quest": "wezwanie",
+              "stage": 2
+            }
+          ]
+        },
+        {
+          "text": "Nie, pojedziemy prosto do Celtyki.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "wezwanie",
+              "stage": 2
+            }
+          ]
+        }
+      ]
+    },
+    "t2_po": {
+      "text": "Sir Rodney jest przy koszarach, a kowal ma dla was zapasy. Ruszajcie, gdy będziecie gotowi.",
+      "options": [
+        {
+          "text": "Ruszamy."
+        }
+      ]
+    },
+    "t2_raport": {
+      "text": "Will! Halt mówił, że jesteś cały - ale wolałem zobaczyć na własne oczy.\nSiadaj. Celtyccy jeńcy? Most nad Rozpadliną? Opowiadaj od początku, król zaraz tu będzie.",
+      "options": [
+        {
+          "text": "(Opowiedz o Tre-Gwyn, kopalni, moście i kolumnie Wargali)",
+          "next": "t2_raport_2"
+        }
+      ]
+    },
+    "t2_raport_2": {
+      "text": "…Gdyby ta kolumna przeszła, uderzyłaby nam w plecy w środku bitwy. Nie mielibyśmy szans.\nKrólu - posłuchaj tego chłopca.",
+      "options": [
+        {
+          "text": "(Zwróć się do króla)",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "wyscig_z_czasem",
+              "stage": 2
+            }
+          ]
+        }
+      ]
     }
   }
 }

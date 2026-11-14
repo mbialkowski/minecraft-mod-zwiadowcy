@@ -1,0 +1,1 @@
+{"parent":"zwiadowcy:tom2/przelecz","display":{"icon":{"item":"zwiadowcy:zestaw_tropiciela"},"title":{"text":"Ciche wzgórza"},"description":{"text":"Odczytaj ślady w pustej osadzie Tre-Gwyn"},"frame":"task","show_toast":true,"announce_to_chat":false,"hidden":false},"criteria":{"done":{"trigger":"minecraft:impossible"}}}

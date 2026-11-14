@@ -46,13 +46,34 @@ public class StoryScreen extends Screen {
             addRenderableWidget(Button.builder(Component.literal("◀ Wstecz"), b -> turn(-1))
                     .bounds(left + 12, top + H - 28, 70, 18).build());
         }
+        if (last && notifyServer && storyId.equals(pl.zwiadowcy.story.StoryTexts.KRONIKA) && freshWorld()) {
+            // nowy świat: można zacząć od razu od tomu II (szybki start z zestawem ucznia zwiadowcy)
+            addRenderableWidget(Button.builder(Component.literal("Zacznij od tomu I (zalecane)"), b -> finish())
+                    .bounds(left + 90, top + H - 28, 150, 18).build());
+            // start od tomu II wymaga potwierdzenia na osobnym ekranie (co się pomija, czego nie da się cofnąć)
+            addRenderableWidget(Button.builder(Component.literal("Zacznij od tomu II…"), b -> {
+                if (minecraft != null) minecraft.setScreen(new VolumeChoiceScreen(this));
+            }).bounds(left + 90, top + H - 50, 150, 18).build());
+            return;
+        }
         addRenderableWidget(Button.builder(Component.literal(last ? (notifyServer ? "Zaczynamy!" : "Zamknij") : "Dalej ▶"),
                 b -> { if (last) finish(); else turn(1); }).bounds(left + W - 92, top + H - 28, 80, 18).build());
+    }
+
+    /** Świat bez żadnej misji - wybór tomu ma sens tylko na samym początku. */
+    private static boolean freshWorld() {
+        var sync = pl.zwiadowcy.client.ClientQuestData.sync;
+        return sync == null || sync.quests().isEmpty() && !sync.extra().has(pl.zwiadowcy.network.QuestSyncPacket.QUICK_START);
     }
 
     private void turn(int dir) {
         page = Math.max(0, Math.min(pages.size() - 1, page + dir));
         rebuildWidgets();
+    }
+
+    /** Zamyka Kronikę i powiadamia serwer (wywoływane też z ekranu wyboru tomu). */
+    void finishChronicle() {
+        finish();
     }
 
     private void finish() {

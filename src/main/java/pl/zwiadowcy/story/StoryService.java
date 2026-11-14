@@ -33,7 +33,11 @@ public final class StoryService {
         Pending pending = PENDING.get(p.getUUID());
         if (pending != null && p.tickCount >= pending.sendAt()) {
             PENDING.remove(p.getUUID());
-            ModNetwork.sendTo(p, new OpenStoryPacket(pending.story()));
+            if (pending.story().startsWith(END_PREFIX)) {
+                pl.zwiadowcy.volume.Volumes.showEndScreen(p, Integer.parseInt(pending.story().substring(END_PREFIX.length())));
+            } else {
+                ModNetwork.sendTo(p, new OpenStoryPacket(pending.story()));
+            }
         }
     }
 
@@ -43,7 +47,19 @@ public final class StoryService {
         queue(p, knight ? StoryTexts.EPILOG_RYCERZ : StoryTexts.EPILOG_ZWIADOWCA, delay);
     }
 
+    private static final String END_PREFIX = "koniec_tomu:";
+
+    /** Ekran końca tomu za {@code delay} ticków (np. po wejściu do świata). */
+    public static void queueEndScreen(ServerPlayer p, int volume, int delay) {
+        queue(p, END_PREFIX + volume, delay);
+    }
+
     public static void onFinished(ServerPlayer p, String story) {
+        pl.zwiadowcy.volume.Volumes.onStoryFinished(p, story);
+        if (StoryTexts.KRONIKA.equals(story)) {
+            pl.zwiadowcy.volume.Volumes.guideToVolumeOne(p);
+            return;
+        }
         if (!StoryTexts.PROLOG.equals(story)) return;
         QuestProgress prog = QuestCapability.get(p);
         if (prog.hasFlag("prolog_przeczytany")) return;

@@ -1,0 +1,68 @@
+{
+  "title": "Ciche wzgórza",
+  "act": "Tom II · Akt II: Celtyka",
+  "tom": 2,
+  "order": 204,
+  "advancement": "tom2/ciche_wzgorza",
+  "description": "Tre-Gwyn, pierwsza osada górnicza za przełęczą, powinna tętnić życiem: dym z kominów, stukot kilofów, szczekanie psów. Jest cicho. Okiennice skrzypią na wietrze, a w zagrodach nie ma ani jednej owcy.",
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "tre_gwyn:brama", "radius": 10},
+      "text": "Wjedź do celtyckiej osady Tre-Gwyn",
+      "on_complete": [
+        {"type": "title", "title": "Tre-Gwyn", "subtitle": "Celtycka osada górnicza"},
+        {"type": "message", "speaker": "Gilan", "text": "Za cicho. Nawet psy nie szczekają. Will, masz zestaw tropiciela - spójrz na to oczami zwiadowcy."}
+      ]
+    },
+    {
+      "objective": {"type": "event", "id": "tropiciel_aktywny"},
+      "text": "Przytrzymaj Z - Oczy tropiciela (zestaw tropiciela musi być w plecaku)",
+      "location": "tre_gwyn:gilan",
+      "on_start": [
+        {"type": "give_item", "item": "zwiadowcy:zestaw_tropiciela", "when": [{"not_has_item": "zwiadowcy:zestaw_tropiciela"}]}
+      ]
+    },
+    {
+      "objective": {
+        "type": "clues", "count": 4,
+        "clues": [
+          {"at": "tre_gwyn:wskazowka_1", "title": "Puste wózki", "text": "Wózki z rudą wywleczono spod szybu i porzucono w pół drogi. Ruda została - ktoś zabrał ludzi, nie urobek."},
+          {"at": "tre_gwyn:wskazowka_2", "title": "Wyłamane drzwi", "text": "Drzwi domu wójta wyrwano z zawiasami. Drzazgi leżą do środka - ktoś wszedł siłą, a ślady butów są ogromne i trzypalczaste."},
+          {"at": "tre_gwyn:wskazowka_3", "title": "Ślady Wargali", "text": "Ciężkie, pazurzaste ślady wielu stóp. Prowadzą od domów w stronę kopalni, a potem na południe."},
+          {"at": "tre_gwyn:wskazowka_4", "title": "Kilofy i hełmy", "text": "Górnicze kilofy i hełmy rzucone na kupę pod ścianą. Nikt nie zostawia narzędzi, jeśli może je zabrać."},
+          {"at": "tre_gwyn:wskazowka_5", "title": "Niedojedzona strawa", "text": "W karczmie na stole stoją miski z zastygłą strawą, a palenisko wystygło. Ludzie wstali od jedzenia nagle - i nie wrócili."},
+          {"at": "tre_gwyn:wskazowka_6", "title": "Znak na kamieniu", "text": "Na kamieniu przy drodze ktoś w pośpiechu wyrył: „Uciekajcie w góry!”. Ostrzeżenie dla tych, którzy przyjdą później."}
+        ]
+      },
+      "text": "Znajdź wskazówki (Oczy tropiciela) i kliknij je PPM - co najmniej 4 z 6",
+      "location": "tre_gwyn:gilan"
+    },
+    {
+      "objective": {
+        "type": "deduce",
+        "question": "Co stało się z mieszkańcami Tre-Gwyn?",
+        "options": [
+          "Uciekli w góry przed zarazą i zabrali dobytek.",
+          "Wargale wyprowadzili ich w kolumnie na południe.",
+          "Zginęli w zawale kopalni."
+        ],
+        "correct": 1,
+        "hint": "Gilan kręci głową: „Uciekający zabraliby narzędzia. A tu wszystko leży, gdzie upadło - i są ślady Wargali”.",
+        "on_first_try": [{"type": "trust", "npc": "gilan", "delta": 3}, {"type": "message", "speaker": "Gilan", "text": "Dokładnie tak bym to odczytał. Halt dobrze cię uczy."}]
+      },
+      "text": "Zastanów się nad wskazówkami - wybierz wniosek w dzienniku (J, zakładka „Wnioski”)",
+      "location": "tre_gwyn:gilan"
+    },
+    {
+      "objective": {"type": "talk", "npc": "gilan"},
+      "text": "Powiedz Gilanowi, co odkryłeś",
+      "location": "tre_gwyn:gilan"
+    }
+  ],
+  "on_complete": [
+    {"type": "skill", "id": "oko_tropiciela"},
+    {"type": "xp", "amount": 80},
+    {"type": "note", "title": "Tre-Gwyn", "text": "Mieszkańców Tre-Gwyn wyprowadzili Wargale - w kolumnie, na południe. Zostawili rudę, narzędzia i strawę na stołach. Morgarath nie potrzebuje rudy. Potrzebuje rąk do pracy. Tylko do jakiej?"},
+    {"type": "start_quest", "quest": "kopalnia"}
+  ]
+}

@@ -1,0 +1,1 @@
+{"parent":"zwiadowcy:tom2/na_krawedzi","display":{"icon":{"item":"zwiadowcy:klucze_nadzorcy"},"title":{"text":"Łańcuchy"},"description":{"text":"Uwolnij celtyckich jeńców z obozu budowy"},"frame":"task","show_toast":true,"announce_to_chat":false,"hidden":false},"criteria":{"done":{"trigger":"minecraft:impossible"}}}

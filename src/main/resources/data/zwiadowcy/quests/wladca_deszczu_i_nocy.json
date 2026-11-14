@@ -1,0 +1,89 @@
+{
+  "title": "Władca Deszczu i Nocy",
+  "act": "Tom II · Akt III: Płonący most",
+  "tom": 2,
+  "order": 215,
+  "advancement": "tom2/wladca_deszczu_i_nocy",
+  "description": "Morgarath przebił się przez szyk i szuka w tłumie tego, kto spalił jego most. Żołnierze rozstępują się w krąg. Will ma przy sobie tylko łuk, saksę - i Horace'a.",
+  "on_start": [
+    {"type": "set_flag", "flag": "weteran_caly_pojedynek", "when": [{"difficulty": "weteran"}]},
+    {"type": "companion_join", "npc": "horace"},
+    {"type": "move_npc", "npc": "horace", "to": "rownina_uthal:arena_horace", "mode": "companion", "face": "rownina_uthal:arena_morgarath"},
+    {"type": "crowd_clear", "tag": "armia"},
+    {"type": "crowd_clear", "tag": "wrog"},
+    {"type": "crowd", "skin": "zolnierz", "count": 8, "at": "rownina_uthal:krag_1", "face": "rownina_uthal:arena_pojedynku", "width": 4, "spacing": 1.3, "tag": "krag", "item": "minecraft:iron_sword", "cheer": true, "lifetime": 24000},
+    {"type": "crowd", "skin": "zolnierz", "count": 8, "at": "rownina_uthal:krag_2", "face": "rownina_uthal:arena_pojedynku", "width": 4, "spacing": 1.3, "tag": "krag", "item": "minecraft:shield", "cheer": true, "lifetime": 24000},
+    {"type": "crowd", "skin": "lucznik", "count": 8, "at": "rownina_uthal:krag_3", "face": "rownina_uthal:arena_pojedynku", "width": 4, "spacing": 1.3, "tag": "krag", "item": "minecraft:bow", "cheer": true, "lifetime": 24000},
+    {"type": "crowd", "skin": "zolnierz", "count": 8, "at": "rownina_uthal:krag_4", "face": "rownina_uthal:arena_pojedynku", "width": 4, "spacing": 1.3, "tag": "krag", "item": "minecraft:shield", "cheer": true, "lifetime": 24000},
+    {"type": "crowd", "skin": "zolnierz", "count": 8, "at": "rownina_uthal:krag_5", "face": "rownina_uthal:arena_pojedynku", "width": 4, "spacing": 1.3, "tag": "krag", "item": "minecraft:iron_sword", "cheer": true, "lifetime": 24000},
+    {"type": "crowd", "skin": "lucznik", "count": 8, "at": "rownina_uthal:krag_6", "face": "rownina_uthal:arena_pojedynku", "width": 4, "spacing": 1.3, "tag": "krag", "item": "minecraft:bow", "cheer": true, "lifetime": 24000},
+    {"type": "crowd", "skin": "zolnierz", "count": 8, "at": "rownina_uthal:krag_7", "face": "rownina_uthal:arena_pojedynku", "width": 4, "spacing": 1.3, "tag": "krag", "item": "minecraft:iron_sword", "cheer": true, "lifetime": 24000},
+    {"type": "crowd", "skin": "zolnierz", "count": 8, "at": "rownina_uthal:krag_8", "face": "rownina_uthal:arena_pojedynku", "width": 4, "spacing": 1.3, "tag": "krag", "item": "minecraft:shield", "cheer": true, "lifetime": 24000}
+  ],
+  "stages": [
+    {
+      "objective": {"type": "event", "id": "morgarath_faza_2", "arena": "rownina_uthal:arena_pojedynku", "arena_radius": 25},
+      "text": "Faza 1: Morgarath szarżuje konno. Gdy rumak staje dęba - zjedź z linii szarży; strzelaj w jeźdźca",
+      "no_fast_travel": true,
+      "location": "rownina_uthal:arena_pojedynku",
+      "restart_on_death": true,
+      "on_start": [
+        {"type": "clear_mobs"},
+        {"type": "teleport", "to": "rownina_uthal:arena_will"},
+        {"type": "spawn", "entity": "zwiadowcy:morgarath", "at": "rownina_uthal:arena_morgarath", "boss_phase": 1, "face": "rownina_uthal:arena_will"},
+        {"type": "title", "title": "Morgarath", "subtitle": "Władca Deszczu i Nocy"},
+        {"type": "message", "speaker": "Horace", "text": "Póki siedzi w siodle, nie dosięgnę go mieczem. Ty strzelaj - ja będę obok!", "when": [{"not_flag": "popreg_poluzowany"}]},
+        {"type": "message", "speaker": "Horace", "text": "Pamiętasz, czego uczył nas sir Rodney? Rycerz nie wychodzi z kręgu. Zostaję przy tobie do końca.", "when": [{"flag": "wybor_rycerz"}]},
+        {"type": "message", "speaker": "Horace", "text": "Patrz, jak mu siodło lata! Twoja nocna wycieczka - jeszcze kilka zwrotów i spadnie!", "when": [{"flag": "popreg_poluzowany"}]}
+      ]
+    },
+    {
+      "objective": {"type": "event", "id": "morgarath_faza_3", "arena": "rownina_uthal:arena_pojedynku", "arena_radius": 25},
+      "text": "Faza 2: Morgarath walczy pieszo. Horace blokuje tarczą - po każdym chybionym ciosie uderzaj w odsłonięty słaby punkt",
+      "no_fast_travel": true,
+      "location": "rownina_uthal:arena_pojedynku",
+      "restart_on_death": true,
+      "on_restart": [
+        {"type": "clear_mobs"},
+        {"type": "teleport", "to": "rownina_uthal:arena_will"},
+        {"type": "npc_mode", "npc": "horace", "mode": "companion"},
+        {"type": "spawn", "entity": "zwiadowcy:morgarath", "at": "rownina_uthal:arena_morgarath", "boss_phase": 2, "face": "rownina_uthal:arena_will"}
+      ],
+      "on_start": [
+        {"type": "actionbar", "text": "Zapowiedź ciosu: błysk na mieczu. Cięcie z góry - w bok; poziome - w tył; pchnięcie - sparuj (PPM z mieczem)."}
+      ]
+    },
+    {
+      "objective": {"type": "kill", "entity": "zwiadowcy:morgarath", "count": 1, "tagged": true, "arena": "rownina_uthal:arena_pojedynku", "arena_radius": 25},
+      "text": "Faza 3: szał Morgaratha! Horace leży ogłuszony. Uważaj na garść ziemi i udawany upadek",
+      "no_fast_travel": true,
+      "location": "rownina_uthal:arena_pojedynku",
+      "restart_on_death": true,
+      "on_restart": [
+        {"type": "clear_mobs"},
+        {"type": "teleport", "to": "rownina_uthal:arena_will"},
+        {"type": "spawn", "entity": "zwiadowcy:morgarath", "at": "rownina_uthal:arena_morgarath", "boss_phase": 3, "face": "rownina_uthal:arena_will"}
+      ]
+    },
+    {
+      "objective": {"type": "event", "id": "przerywnik_upadek"},
+      "text": "Morgarath pada…",
+      "no_fast_travel": true,
+      "location": "rownina_uthal:arena_pojedynku",
+      "on_start": [
+        {"type": "cutscene", "id": "upadek_morgaratha"}
+      ]
+    }
+  ],
+  "on_complete": [
+    {"type": "crowd_clear", "tag": "krag"},
+    {"type": "crowd_clear", "tag": "wrog"},
+    {"type": "xp", "amount": 300},
+    {"type": "advancement", "id": "tom2/weteran_morgarath", "when": [{"flag": "weteran_caly_pojedynek"}, {"difficulty": "weteran"}]},
+    {"type": "trust", "npc": "horace", "delta": 10},
+    {"type": "move_npc", "npc": "halt", "to": "oboz_krolewski:halt", "mode": "idle", "face": "oboz_krolewski:ognisko"},
+    {"type": "message", "speaker": "Halt", "text": "Dobra robota."},
+    {"type": "note", "title": "Upadek Morgaratha", "text": "Morgarath nie żyje. Wargale bez jego woli rozbiegli się po równinie jak owce bez pasterza. Horace mówi, że to ja zadałem ostatni cios - ale bez jego tarczy nie dożyłbym tej chwili."},
+    {"type": "start_quest", "quest": "wilcze_okrety"}
+  ]
+}

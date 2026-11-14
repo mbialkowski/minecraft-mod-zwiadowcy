@@ -1,0 +1,13 @@
+{
+  "location": "przelecz_wiatrow:szczyt",
+  "frame": "uklad",
+  "keyframes": [
+    {"t": 0, "pos": [0, 3, 0], "look": [0, 2, 40], "fov": 70},
+    {"t": 80, "pos": [0, 28, 20], "look": [0, -10, 320], "fov": 60},
+    {"t": 170, "pos": [10, 40, 70], "look": [-40, -25, 620], "fov": 50}
+  ],
+  "subtitles": [
+    {"t": 10, "d": 70, "text": "Z grani widać daleko na południe."},
+    {"t": 85, "d": 85, "text": "Ciemna szrama przecina ziemię aż po góry: Rozpadlina. A nad nią - cienki słup dymu."}
+  ]
+}

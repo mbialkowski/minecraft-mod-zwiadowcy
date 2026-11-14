@@ -1,0 +1,344 @@
+{
+  "npc": "evanlyn",
+  "entries": [
+    {
+      "when": [
+        {
+          "quest_stage": "noc_przed_bitwa",
+          "stage": 3
+        },
+        {
+          "trust_npc": "evanlyn",
+          "trust_min": 70
+        }
+      ],
+      "start": "t2_noc_prawda"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "noc_przed_bitwa",
+          "stage": 3
+        }
+      ],
+      "start": "t2_noc"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "wilcze_okrety",
+          "stage": 4
+        }
+      ],
+      "start": "t2_okret"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "wyscig_z_czasem"
+        }
+      ],
+      "start": "t2_konie"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "na_krawedzi",
+          "stage": 3
+        }
+      ],
+      "start": "t2_krawedz"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "plonacy_most"
+        }
+      ],
+      "start": "t2_most"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "evanlyn",
+          "stage": 4
+        }
+      ],
+      "start": "poznanie"
+    },
+    {
+      "when": [
+        {
+          "flag": "tom2_w_toku"
+        },
+        {
+          "trust_npc": "evanlyn",
+          "trust_min": 70
+        }
+      ],
+      "start": "ogolne_ufa"
+    },
+    {
+      "when": [
+        {
+          "flag": "tom2_w_toku"
+        }
+      ],
+      "start": "ogolne"
+    },
+    {
+      "when": [],
+      "start": "domyslny"
+    }
+  ],
+  "nodes": {
+    "poznanie": {
+      "text": "Odłóż ten łuk, zanim kogoś zranisz… Dziękuję. Jeszcze chwila i byłoby po mnie.\nNazywam się Evanlyn. Jestem… byłam damą dworu. Mój orszak jechał przez Celtykę, kiedy napadli nas Wargale. Uciekłam. Inni nie.",
+      "options": [
+        {
+          "text": "Skąd jesteś? Kim są twoi bliscy?",
+          "actions": [
+            {
+              "type": "trust",
+              "npc": "evanlyn",
+              "delta": -3
+            }
+          ],
+          "next": "pytanie_rodzina"
+        },
+        {
+          "text": "Nie musisz nic mówić. Jesteś bezpieczna.",
+          "actions": [
+            {
+              "type": "trust",
+              "npc": "evanlyn",
+              "delta": 5
+            }
+          ],
+          "next": "spokojnie"
+        }
+      ]
+    },
+    "pytanie_rodzina": {
+      "text": "Z… z Araluenu. To nieważne. Ważne jest to, co widziałam.",
+      "options": [
+        {
+          "text": "Co widziałaś?",
+          "next": "widziala"
+        }
+      ]
+    },
+    "spokojnie": {
+      "text": "Dziękuję. Mało kto potrafi nie pytać.",
+      "options": [
+        {
+          "text": "Co widziałaś?",
+          "next": "widziala"
+        }
+      ]
+    },
+    "widziala": {
+      "text": "Kolumnę jeńców. Setki Celtów związanych linami, a przy nich Wargale z biczami. Szli na południe, do rozpadliny - ogromnej szczeliny w ziemi. Słyszałam, jak nadzorcy krzyczeli o belkach i linach.\nEvanlyn odruchowo obraca na palcu ciężki złoty pierścień.",
+      "options": [
+        {
+          "text": "Ładny pierścień. Lew i korona?",
+          "next": "pierscien"
+        },
+        {
+          "text": "Jedź z nami. We troje będzie bezpieczniej.",
+          "actions": [
+            {
+              "type": "companion_join",
+              "npc": "evanlyn"
+            },
+            {
+              "type": "advance",
+              "quest": "evanlyn",
+              "stage": 4
+            }
+          ]
+        }
+      ]
+    },
+    "pierscien": {
+      "text": "Pamiątka po… po matce. Nic takiego.\nPierścień znika w jej rękawie szybciej, niż zdążysz mu się przyjrzeć. Możemy już jechać?",
+      "options": [
+        {
+          "text": "Jedź z nami.",
+          "actions": [
+            {
+              "type": "companion_join",
+              "npc": "evanlyn"
+            },
+            {
+              "type": "advance",
+              "quest": "evanlyn",
+              "stage": 4
+            }
+          ]
+        }
+      ]
+    },
+    "ogolne": {
+      "text": "Ten twój koń patrzy na mnie, jakby wiedział więcej niż ty.",
+      "options": [
+        {
+          "text": "Weź moje racje - pewnie jesteś głodna.",
+          "when": [
+            {
+              "has_item": "zwiadowcy:racje_podrozne"
+            },
+            {
+              "not_flag": "evanlyn_racje"
+            }
+          ],
+          "actions": [
+            {
+              "type": "take_item",
+              "item": "zwiadowcy:racje_podrozne",
+              "count": 1
+            },
+            {
+              "type": "trust",
+              "npc": "evanlyn",
+              "delta": 3
+            },
+            {
+              "type": "set_flag",
+              "flag": "evanlyn_racje"
+            }
+          ],
+          "next": "racje"
+        },
+        {
+          "text": "Jedziemy dalej."
+        }
+      ]
+    },
+    "racje": {
+      "text": "Dziękuję, Will. Naprawdę.",
+      "options": [
+        {
+          "text": "Nie ma za co."
+        }
+      ]
+    },
+    "ogolne_ufa": {
+      "text": "Will… gdy to wszystko się skończy, chciałabym ci kiedyś powiedzieć coś ważnego. Ale jeszcze nie teraz.",
+      "options": [
+        {
+          "text": "Poczekam."
+        }
+      ]
+    },
+    "domyslny": {
+      "text": "…",
+      "options": [
+        {
+          "text": "…"
+        }
+      ]
+    },
+    "t2_krawedz": {
+      "text": "Kiedy uciekałam, myślałam tylko o tym, żeby nie wrócić do takiej zagrody. A ty chcesz tam wejść z własnej woli.",
+      "options": [
+        {
+          "text": "Ktoś musi. Ci ludzie nie mają nikogo innego.",
+          "next": "t2_krawedz_2",
+          "actions": [
+            {
+              "type": "trust",
+              "npc": "evanlyn",
+              "delta": 3
+            }
+          ]
+        },
+        {
+          "text": "Nie wejdę tam, żeby walczyć. Wejdę i wyjdę, zanim ktoś zauważy.",
+          "next": "t2_krawedz_2"
+        }
+      ]
+    },
+    "t2_krawedz_2": {
+      "text": "Zaczekajmy do zmroku. Przy ognisku pod skałą nikt nas nie wypatrzy - ogień zwiadowców prawie nie dymi.\nI, Will… wróć, dobrze?",
+      "options": [
+        {
+          "text": "Wrócę. Obiecuję.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "na_krawedzi",
+              "stage": 3
+            }
+          ]
+        }
+      ]
+    },
+    "t2_most": {
+      "text": "Widzę stąd wieżę linową. Jeśli kotwy puszczą, cały most przechyli się jak pijany rycerz. Spiesz się - świta.",
+      "options": [
+        {
+          "text": "Już idę."
+        }
+      ]
+    },
+    "t2_konie": {
+      "text": "Ktoś musi pilnować koni, prawda? Idź do króla, Will. Ja… nie lubię tłumu dworzan.",
+      "options": [
+        {
+          "text": "Jak chcesz."
+        }
+      ]
+    },
+    "t2_noc": {
+      "text": "Nie mogę zasnąć. W obozie jest tylu ludzi, a ja czuję się bardziej sama niż na wrzosowisku.\nObiecaj, że jutro będziesz uważał.",
+      "options": [
+        {
+          "text": "Obiecuję. Ty też.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "noc_przed_bitwa",
+              "stage": 3
+            }
+          ]
+        }
+      ]
+    },
+    "t2_noc_prawda": {
+      "text": "Will… nie jestem tym, za kogo mnie bierzesz. Nie jestem służącą. Mój ojciec… jest kimś, kogo ten obóz zna bardzo dobrze.\nNie pytaj o więcej. Nie dziś. Kiedyś ci powiem - obiecuję.",
+      "options": [
+        {
+          "text": "Poczekam. Ile trzeba.",
+          "actions": [
+            {
+              "type": "trust",
+              "npc": "evanlyn",
+              "delta": 3
+            },
+            {
+              "type": "advance",
+              "quest": "noc_przed_bitwa",
+              "stage": 3
+            }
+          ]
+        }
+      ]
+    },
+    "t2_okret": {
+      "text": "Will… Płyniemy do Skandii. Erak nie wie, kim jestem - i nie może się dowiedzieć. Gdyby wiedział, zażądałby za mnie okupu, jakiego Araluen nie zdoła zapłacić.\nObiecaj mi jedno: cokolwiek się stanie, nie mów nikomu, jak mam na imię.",
+      "options": [
+        {
+          "text": "Masz moje słowo, Evanlyn.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "wilcze_okrety",
+              "stage": 4
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

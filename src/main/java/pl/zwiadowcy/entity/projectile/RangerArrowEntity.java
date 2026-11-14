@@ -91,6 +91,11 @@ public class RangerArrowEntity extends AbstractArrow {
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
         if (!level().isClientSide && arrowType() == RangerArrowType.GWIZDZACA) whistleBurst(result.getLocation());
+        // tom II: trafienie z siodła (samouczek i konkurs Gilana)
+        if (!level().isClientSide && getPersistentData().getBoolean("zw_z_siodla") && getOwner() instanceof ServerPlayer sp
+                && result.getEntity() instanceof LivingEntity) {
+            QuestEngine.fireEvent(sp, "trafienie_z_siodla", 1);
+        }
     }
 
     @Override

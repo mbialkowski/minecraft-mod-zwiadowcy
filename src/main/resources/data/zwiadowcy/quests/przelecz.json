@@ -1,0 +1,63 @@
+{
+  "title": "Przełęcz Wiatrów",
+  "act": "Tom II · Akt I: Poselstwo",
+  "tom": 2,
+  "order": 203,
+  "advancement": "tom2/przelecz",
+  "description": "Do Celtyki prowadzi jedna droga przez góry - Przełęcz Wiatrów. Wąski wąwóz, skalne półki i wiatr, który gwiżdże w szczelinach. Gilan mówi, że w czasie pokoju przejeżdżają tędy kupcy. Teraz nikt nie przejeżdża.",
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "przelecz_wiatrow:podnoze", "radius": 10},
+      "text": "Jedź na zachód, do Przełęczy Wiatrów"
+    },
+    {
+      "objective": {"type": "kill", "entity": "zwiadowcy:wargal_kusznik", "count": 3, "tagged": true},
+      "text": "Kusznicy na skałach! Kryj się i zdejmij ich",
+      "location": "przelecz_wiatrow:zawal",
+      "on_start": [
+        {"type": "spawn", "entity": "zwiadowcy:wargal_kusznik", "at": "przelecz_wiatrow:kusznik_1", "face": "przelecz_wiatrow:podnoze"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_kusznik", "at": "przelecz_wiatrow:kusznik_2", "face": "przelecz_wiatrow:podnoze"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_kusznik", "at": "przelecz_wiatrow:kusznik_3", "face": "przelecz_wiatrow:podnoze"},
+        {"type": "title", "title": "Zasadzka!", "subtitle": "Kusze Wargali"},
+        {"type": "message", "speaker": "Gilan", "text": "Kusze! Za skały! Słyszysz ten zgrzyt korby? Zanim wystrzelą, mają chwilę błysku na grocie - wtedy schowaj się albo zejdź z linii strzału."}
+      ]
+    },
+    {
+      "objective": {"type": "talk", "npc": "gilan"},
+      "text": "Ścieżkę zasypał zawał - porozmawiaj z Gilanem",
+      "location": "przelecz_wiatrow:zawal"
+    },
+    {
+      "objective": {"type": "event", "id": "kotwiczka", "count": 2},
+      "text": "Wespnij się po półkach skalnych linką z kotwiczką (PPM w krawędź półki)",
+      "location": "przelecz_wiatrow:polka_1",
+      "on_start": [
+        {"type": "move_npc", "npc": "gilan", "to": "przelecz_wiatrow:zejscie", "mode": "companion"},
+        {"type": "move_npc", "npc": "horace", "to": "przelecz_wiatrow:zejscie", "mode": "companion"},
+        {"type": "companion_order", "order": "CZEKAJ"},
+        {"type": "message", "speaker": "Gilan", "text": "Konie nie przejdą po skałach. Poprowadzimy je z Horace'em dłuższą ścieżką wzdłuż południowej ściany. Spotkamy się przy zejściu na zachodzie."}
+      ]
+    },
+    {
+      "objective": {"type": "reach", "location": "przelecz_wiatrow:szczyt", "radius": 4},
+      "text": "Wejdź na grań nad wąwozem",
+      "on_complete": [
+        {"type": "cutscene", "id": "rozpadlina_z_przeleczy"}
+      ]
+    },
+    {
+      "objective": {"type": "ride_with", "location": "przelecz_wiatrow:zejscie", "radius": 8, "npcs": ["gilan", "horace"]},
+      "text": "Zejdź na zachód do drużyny",
+      "on_start": [
+        {"type": "tug_to", "at": "przelecz_wiatrow:zejscie"},
+        {"type": "companion_order", "order": "ZA_MNA"}
+      ]
+    }
+  ],
+  "on_complete": [
+    {"type": "story", "story": "tom2_akt1", "delay": 20},
+    {"type": "xp", "amount": 80},
+    {"type": "note", "title": "Kusze Wargali", "text": "Wargale mają teraz kusze. Naciągają je dwa razy dłużej niż ja łuk, ale bełt bije dwa razy mocniej. Przed strzałem słychać zgrzyt korby i błyska grot - wtedy trzeba zniknąć za skałą. Z grani nad przełęczą widziałem na południu ciemną szramę w ziemi i dym nad nią."},
+    {"type": "start_quest", "quest": "ciche_wzgorza"}
+  ]
+}

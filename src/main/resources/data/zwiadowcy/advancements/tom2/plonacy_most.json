@@ -1,0 +1,1 @@
+{"parent":"zwiadowcy:tom2/lancuchy","display":{"icon":{"item":"zwiadowcy:strzala_plonaca"},"title":{"text":"Płonący most"},"description":{"text":"Spal most nad Rozpadliną razem z kolumną Wargali"},"frame":"goal","show_toast":true,"announce_to_chat":true,"hidden":false},"criteria":{"done":{"trigger":"minecraft:impossible"}}}

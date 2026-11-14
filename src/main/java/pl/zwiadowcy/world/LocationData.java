@@ -36,6 +36,9 @@ public class LocationData extends SavedData {
     private boolean tugSpawned;
     /** Wersja jednorazowych poprawek postawionych już lokacji (np. ogniska → paleniska). */
     private int upgrade;
+    /** Obrót układu krain tomu II (stopnie); null = jeszcze nie wybrany. */
+    @Nullable private Float layoutAngle;
+    private final CompoundTag extra = new CompoundTag();
 
     public static LocationData get(MinecraftServer server) {
         return server.overworld().getDataStorage().computeIfAbsent(LocationData::load, LocationData::new, NAME);
@@ -65,6 +68,17 @@ public class LocationData extends SavedData {
     public int upgrade() { return upgrade; }
     public void setUpgrade(int v) { upgrade = v; setDirty(); }
 
+    /** Dodatkowy stan świata pod kluczem (np. most nad Rozpadliną). Po zmianie trzeba wywołać setDirty(). */
+    public CompoundTag extra(String key) {
+        if (!extra.contains(key)) extra.put(key, new CompoundTag());
+        return extra.getCompound(key);
+    }
+
+    public boolean hasExtra(String key) { return extra.contains(key); }
+
+    @Nullable public Float layoutAngle() { return layoutAngle; }
+    public void setLayoutAngle(float deg) { layoutAngle = deg; setDirty(); }
+
     @Override
     public CompoundTag save(CompoundTag tag) {
         CompoundTag pl = new CompoundTag();
@@ -86,6 +100,8 @@ public class LocationData extends SavedData {
         tag.put("spawned", sp);
         tag.putBoolean("tugSpawned", tugSpawned);
         tag.putInt("upgrade", upgrade);
+        if (layoutAngle != null) tag.putFloat("layoutAngle", layoutAngle);
+        tag.put("extra", extra.copy());
         return tag;
     }
 
@@ -105,6 +121,8 @@ public class LocationData extends SavedData {
         for (int i = 0; i < sp.size(); i++) d.spawnedNpcs.add(sp.getString(i));
         d.tugSpawned = tag.getBoolean("tugSpawned");
         d.upgrade = tag.getInt("upgrade");
+        d.layoutAngle = tag.contains("layoutAngle") ? tag.getFloat("layoutAngle") : null;
+        d.extra.merge(tag.getCompound("extra"));
         return d;
     }
 }

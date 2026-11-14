@@ -1,0 +1,91 @@
+{
+  "npc": "skandyjski_zwiadowca",
+  "entries": [
+    {
+      "when": [
+        {
+          "quest_stage": "obcy_na_trakcie",
+          "stage": 1
+        }
+      ],
+      "start": "obcy"
+    },
+    {
+      "when": [],
+      "start": "domyslny"
+    }
+  ],
+  "nodes": {
+    "obcy": {
+      "text": "Hę? Mały Araluenczyk z łukiem. Odejdź, chłopcze, to nie twój wóz.",
+      "options": [
+        {
+          "text": "Zostawcie kupca. (Dobądź broni)",
+          "actions": [
+            {
+              "type": "npc_flee",
+              "npc": "skandyjski_zwiadowca",
+              "near": "szlak_obcy_na_trakcie:miejsce",
+              "radius": 10,
+              "to": "szlak_obcy_na_trakcie:miejsce",
+              "ticks": 1
+            },
+            {
+              "type": "spawn",
+              "entity": "zwiadowcy:skandyjski_wojownik",
+              "at": "szlak_obcy_na_trakcie:miejsce",
+              "count": 3,
+              "angry": true,
+              "quest": "obcy_na_trakcie"
+            },
+            {
+              "type": "advance",
+              "quest": "obcy_na_trakcie",
+              "stage": 1
+            }
+          ]
+        },
+        {
+          "text": "Skandianie tak daleko od morza? Kto wam za to płaci?",
+          "next": "obcy_rozmowa"
+        }
+      ]
+    },
+    "obcy_rozmowa": {
+      "text": "Ha! Bystry. Płaci Morgarath - złotem, i to dobrym. Nasz jarl, Erak, wziął jego złoto i przypłynął z całą drużyną.\nAle ten kupiec ma tylko sukno i cebulę. Weź sobie to sukno, chłopcze. Nie warto o nie ginąć - ani tobie, ani nam.",
+      "options": [
+        {
+          "text": "Odejdźcie, a nikt nie zginie.",
+          "actions": [
+            {
+              "type": "npc_flee",
+              "npc": "skandyjski_zwiadowca",
+              "near": "szlak_obcy_na_trakcie:miejsce",
+              "radius": 10,
+              "to": "krawedz",
+              "ticks": 400
+            },
+            {
+              "type": "advance",
+              "quest": "obcy_na_trakcie",
+              "stage": 1
+            },
+            {
+              "type": "advance",
+              "quest": "obcy_na_trakcie",
+              "stage": 2
+            }
+          ]
+        }
+      ]
+    },
+    "domyslny": {
+      "text": "Morze jest daleko. Za daleko.",
+      "options": [
+        {
+          "text": "…"
+        }
+      ]
+    }
+  }
+}

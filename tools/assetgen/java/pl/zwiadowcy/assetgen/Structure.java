@@ -299,7 +299,7 @@ final class Structure {
     void chest(int x, int y, int z, String facing, String lootTable) {
         Map<String, Object> nbt = new LinkedHashMap<>();
         nbt.put("id", "minecraft:chest");
-        nbt.put("LootTable", lootTable);
+        if (lootTable != null) nbt.put("LootTable", lootTable);
         setNbt(x, y, z, "minecraft:chest[facing=" + facing + ",type=single]", nbt);
     }
 
@@ -321,6 +321,11 @@ final class Structure {
 
     void anchor(int x, int y, int z, String name) {
         marker(x, y, z, "anchor:" + name);
+    }
+
+    /** Kotwica w środku bloku (np. bal we wrotach): przy stawianiu w jej miejscu wraca podany blok. */
+    void anchorBlock(int x, int y, int z, String name, String state) {
+        marker(x, y, z, "anchor:" + name + ";block=" + state);
     }
 
     void npc(int x, int y, int z, String id, float yaw) {

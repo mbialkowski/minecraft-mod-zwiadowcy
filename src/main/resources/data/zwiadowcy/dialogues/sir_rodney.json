@@ -1,44 +1,238 @@
 {
   "npc": "sir_rodney",
   "entries": [
-    {"when": [{"quest_stage": "dzien_wyboru", "stage": 1}], "start": "dw_1"},
-    {"when": [{"quest_active": "dzien_wyboru"}], "start": "dw_po"},
-    {"when": [{"quest_active": "jarmark_w_wensley"}], "start": "jarmark"},
-    {"when": [{"quest_active": "przed_obliczem_krola"}], "start": "po"},
-    {"when": [{"flag": "kampania_ukonczona"}], "start": "bohater"},
-    {"when": [], "start": "domyslny"}
+    {
+      "when": [
+        {
+          "quest_stage": "noc_przed_bitwa",
+          "stage": 0
+        },
+        {
+          "flag": "wybor_rycerz"
+        }
+      ],
+      "start": "t2_noc_rycerz"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "noc_przed_bitwa",
+          "stage": 0
+        }
+      ],
+      "start": "t2_noc"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "wezwanie",
+          "stage": 3
+        },
+        {
+          "flag": "wybor_rycerz"
+        }
+      ],
+      "start": "t2_eskorta_rycerz"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "wezwanie",
+          "stage": 3
+        }
+      ],
+      "start": "t2_eskorta"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "wezwanie"
+        }
+      ],
+      "start": "t2_po"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "dzien_wyboru",
+          "stage": 1
+        }
+      ],
+      "start": "dw_1"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "dzien_wyboru"
+        }
+      ],
+      "start": "dw_po"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "jarmark_w_wensley"
+        }
+      ],
+      "start": "jarmark"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "przed_obliczem_krola"
+        }
+      ],
+      "start": "po"
+    },
+    {
+      "when": [
+        {
+          "flag": "kampania_ukonczona"
+        }
+      ],
+      "start": "bohater"
+    },
+    {
+      "when": [],
+      "start": "domyslny"
+    }
   ],
   "nodes": {
     "dw_1": {
       "text": "Ty? Do Szkoły Rycerskiej?\nJesteś szybki i zręczny, przyznaję. Widziałem, jak wspinasz się po murach. Ale jesteś drobny, chłopcze. Rycerz musi przez cały dzień bitwy dźwigać zbroję, miecz i tarczę.",
       "options": [
-        {"text": "Ale ja jeszcze urosnę!", "next": "dw_2"},
-        {"text": "Proszę mi dać szansę, panie!", "next": "dw_2"}
+        {
+          "text": "Ale ja jeszcze urosnę!",
+          "next": "dw_2"
+        },
+        {
+          "text": "Proszę mi dać szansę, panie!",
+          "next": "dw_2"
+        }
       ]
     },
     "dw_2": {
       "text": "Może urośniesz. A może nie. Nie mogę ryzykować życia ucznia na „może”. Przykro mi, Willu. Odpowiedź brzmi: nie.\n…Ale nie zwieszaj głowy. Tamten człowiek w szarozielonym płaszczu przyglądał ci się przez całą ceremonię. Zwiadowca Halt. Lepiej, żebyś wiedział.",
-      "options": [{"text": "…Rozumiem, panie.", "actions": [{"type": "advance", "quest": "dzien_wyboru", "stage": 1}]}]
+      "options": [
+        {
+          "text": "…Rozumiem, panie.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "dzien_wyboru",
+              "stage": 1
+            }
+          ]
+        }
+      ]
     },
     "dw_po": {
       "text": "Moja decyzja jest ostateczna, chłopcze. Ale jak mówiłem - ktoś inny ma na ciebie oko.",
-      "options": [{"text": "Wiem."}]
+      "options": [
+        {
+          "text": "Wiem."
+        }
+      ]
     },
     "jarmark": {
       "text": "Alda, Bryn i Jerome? Hm. Słyszałem plotki, ale żaden uczeń się nie skarżył. Jeśli Horace w końcu przestanie milczeć… cóż, w Szkole Rycerskiej nie ma miejsca dla tchórzy, którzy biją słabszych.",
-      "options": [{"text": "Dobrze to słyszeć, panie."}]
+      "options": [
+        {
+          "text": "Dobrze to słyszeć, panie."
+        }
+      ]
     },
     "po": {
       "text": "Król chce cię widzieć. A ja… cóż. Chyba się co do ciebie pomyliłem, Willu. Rycerz, który to przyznaje, jest wart więcej niż ten, który nigdy się nie myli.",
-      "options": [{"text": "Dziękuję, panie."}]
+      "options": [
+        {
+          "text": "Dziękuję, panie."
+        }
+      ]
     },
     "bohater": {
       "text": "Ha! Nasz pogromca Kalkarów. Gdybyś kiedyś chciał nauczyć się władać mieczem - wiesz, gdzie mnie szukać.",
-      "options": [{"text": "Zapamiętam, panie."}]
+      "options": [
+        {
+          "text": "Zapamiętam, panie."
+        }
+      ]
     },
     "domyslny": {
       "text": "Trening, trening i jeszcze raz trening. Tylko tak powstaje rycerz.",
-      "options": [{"text": "Rozumiem, panie."}]
+      "options": [
+        {
+          "text": "Rozumiem, panie."
+        }
+      ]
+    },
+    "t2_eskorta": {
+      "text": "Ach, uczeń Halta. Crowley prosił o eskortę dla posłów, więc dostaniecie najlepszego z moich uczniów. Horace!\nTylko przywieź go z powrotem w jednym kawałku, zwiadowco. Mam co do niego plany.",
+      "options": [
+        {
+          "text": "Przypilnuję go, sir.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "wezwanie",
+              "stage": 3
+            }
+          ]
+        }
+      ]
+    },
+    "t2_eskorta_rycerz": {
+      "text": "Will. Szkoda, że nie zostałeś w szkole - miałeś do tego głowę, nawet jeśli nie barki.\nDam wam za eskortę Horace'a. Pamiętasz jeszcze, jak trzyma się tarczę? To dobrze, bo on wciąż czasem zapomina.",
+      "options": [
+        {
+          "text": "Pamiętam, sir. Dziękuję.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "wezwanie",
+              "stage": 3
+            }
+          ]
+        }
+      ]
+    },
+    "t2_po": {
+      "text": "Na co czekasz? Kowal ma dla was zapasy.",
+      "options": [
+        {
+          "text": "Już idę."
+        }
+      ]
+    },
+    "t2_noc": {
+      "text": "Horace stanie jutro w pierwszym szeregu, z rycerzami Redmontu. Wiem, że chciałby iść z tobą, ale rycerz ma swoje miejsce.\nPilnuj się na skrzydle, zwiadowco. Będzie mu ciebie brakowało.",
+      "options": [
+        {
+          "text": "Będę go wypatrywał, sir Rodney.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "noc_przed_bitwa",
+              "stage": 0
+            }
+          ]
+        }
+      ]
+    },
+    "t2_noc_rycerz": {
+      "text": "Kiedyś w Szkole Rycerskiej uczyłem cię trzymać miecz. Dziś Halt uczy cię chodzić tak, żeby nikt cię nie słyszał. Dwie szkoły, jeden chłopak.\nHorace stanie w szyku. Ty - tam, gdzie Halt cię pośle. Obaj zrobicie Redmont dumnym.",
+      "options": [
+        {
+          "text": "Dziękuję, sir Rodney. Za obie szkoły.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "noc_przed_bitwa",
+              "stage": 0
+            }
+          ]
+        }
+      ]
     }
   }
 }

@@ -14,6 +14,11 @@ public final class ModKeys {
             InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_R, CATEGORY);
     public static final KeyMapping DZIENNIK = new KeyMapping("key.zwiadowcy.dziennik", KeyConflictContext.IN_GAME,
             InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_J, CATEGORY);
+    // tom II
+    public static final KeyMapping TROPICIEL = new KeyMapping("key.zwiadowcy.tropiciel", KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_Z, CATEGORY);
+    public static final KeyMapping ROZKAZY = new KeyMapping("key.zwiadowcy.rozkazy", KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_G, CATEGORY);
 
     private ModKeys() {}
 }

@@ -1,0 +1,173 @@
+{
+  "npc": "dafydd",
+  "entries": [
+    {
+      "when": [
+        {
+          "quest_stage": "kopalnia",
+          "stage": 4
+        }
+      ],
+      "start": "kryjowka"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "syn_gornika",
+          "stage": 3
+        }
+      ],
+      "start": "syn_wrocil"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "syn_gornika"
+        }
+      ],
+      "start": "syn_czeka"
+    },
+    {
+      "when": [
+        {
+          "quest_completed": "syn_gornika"
+        }
+      ],
+      "start": "wdzieczny"
+    },
+    {
+      "when": [
+        {
+          "quest_completed": "kopalnia"
+        },
+        {
+          "quest_not_started": "syn_gornika"
+        }
+      ],
+      "start": "syn_prosba"
+    },
+    {
+      "when": [],
+      "start": "domyslny"
+    }
+  ],
+  "nodes": {
+    "kryjowka": {
+      "text": "Stój! Nie… nie jesteś Wargalem. Zwiadowca? W Celtyce?\nJestem Dafydd. Kopałem tu czterdzieści lat. Przyszli w nocy - wszystkich zgonili, kazali brać liny i belki i iść na południe, „do wielkiej szczeliny”. Ja się schowałem. Stary tchórz ze mnie.",
+      "options": [
+        {
+          "text": "Żyjesz, a to się liczy. Co z innymi?",
+          "next": "kryjowka_2"
+        }
+      ]
+    },
+    "kryjowka_2": {
+      "text": "Poprowadzili ich na południe. Ale mój syn, Rhys… zszedł do bocznego szybu na samym dole, kiedy przyszli. Zasypało wejście. Nie mam już sił przekopać się przez gruz.\nWeź te garnki. Dym przegania wiatr z chodników - a wrogowie w nim nic nie widzą.",
+      "options": [
+        {
+          "text": "Poszukam Rhysa.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "kopalnia",
+              "stage": 4
+            },
+            {
+              "type": "start_quest",
+              "quest": "syn_gornika"
+            },
+            {
+              "type": "track",
+              "quest": "kopalnia"
+            }
+          ]
+        },
+        {
+          "text": "Muszę jechać dalej. Przykro mi.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "kopalnia",
+              "stage": 4
+            }
+          ]
+        }
+      ]
+    },
+    "syn_prosba": {
+      "text": "Mój syn wciąż jest w bocznym szybie na samym dole… Pomożesz?",
+      "options": [
+        {
+          "text": "Pomogę.",
+          "actions": [
+            {
+              "type": "start_quest",
+              "quest": "syn_gornika"
+            }
+          ]
+        },
+        {
+          "text": "Nie teraz."
+        }
+      ]
+    },
+    "syn_czeka": {
+      "text": "Rhys jest na samym dole, za gruzem w bocznym szybie. Weź kilof, jeśli nie masz.",
+      "options": [
+        {
+          "text": "Idę.",
+          "when": [
+            {
+              "has_item": "minecraft:iron_pickaxe"
+            }
+          ]
+        },
+        {
+          "text": "Pożycz mi kilof.",
+          "when": [
+            {
+              "not_has_item": "minecraft:iron_pickaxe"
+            }
+          ],
+          "actions": [
+            {
+              "type": "give_item",
+              "item": "minecraft:iron_pickaxe"
+            }
+          ]
+        }
+      ]
+    },
+    "syn_wrocil": {
+      "text": "Rhys! Synu!… Zwiadowco, nie wiem, jak ci dziękować. Celtowie nie zapominają długów.",
+      "options": [
+        {
+          "text": "Pilnujcie się. Wargale mogą wrócić.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "syn_gornika",
+              "stage": 3
+            }
+          ]
+        }
+      ]
+    },
+    "wdzieczny": {
+      "text": "Rhys już chodzi o własnych siłach. Niech cię niebiosa prowadzą, zwiadowco.",
+      "options": [
+        {
+          "text": "Wam też."
+        }
+      ]
+    },
+    "domyslny": {
+      "text": "Uważaj na stropy, zwiadowco.",
+      "options": [
+        {
+          "text": "Uważam."
+        }
+      ]
+    }
+  }
+}

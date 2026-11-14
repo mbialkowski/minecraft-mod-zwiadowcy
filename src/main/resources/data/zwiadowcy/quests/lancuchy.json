@@ -1,0 +1,96 @@
+{
+  "title": "Łańcuchy",
+  "act": "Tom II · Akt III: Płonący most",
+  "tom": 2,
+  "order": 210,
+  "advancement": "tom2/lancuchy",
+  "description": "Noc nad Rozpadliną. Celtyccy jeńcy śpią w zagrodach przy moście, a nadzorcy z biczami chodzą między nimi. Najpierw ludzie - potem most.",
+  "on_start": [
+    {"type": "companion_order", "order": "CZEKAJ"},
+    {"type": "message", "speaker": "Horace", "text": "Idź sam, ciszej ci wyjdzie. Gdyby się zaczęło - daj znak, a zrobię pod bramą tyle hałasu, że zapomną o zagrodach.", "when": [{"flag": "odciagnij_brama"}]},
+    {"type": "message", "speaker": "Horace", "text": "Idź sam, ciszej ci wyjdzie. Będziemy tu czekać - i bądź ostrożny, dobrze?", "when": [{"not_flag": "odciagnij_brama"}]},
+    {"type": "message", "speaker": "Rhys", "text": "Ja też idę. Znam tych ludzi, posłuchają mnie. Uwolnij ich, a wyprowadzę ich ścieżką - i po drodze podetniemy liny kotwiczne mostu.", "when": [{"flag": "rhys_uratowany"}]}
+  ],
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "budowa_mostu:zagroda", "radius": 4},
+      "text": "Zakradnij się nocą do zagrody jeńców (kucaj, omijaj patrole i wzrok doboszy)",
+      "no_fast_travel": true,
+      "on_start": [
+        {"type": "actionbar", "text": "Noc to sprzymierzeniec zwiadowcy: wrogowie widzą bliżej, ale ogniska oświetlają teren wokół siebie."}
+      ],
+      "triggers": {
+        "alarm": [
+          {"type": "set_flag", "flag": "alarm_lancuchy"},
+          {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "budowa_mostu:trasa_B_2", "count": 2, "angry": true},
+          {"type": "spawn", "entity": "zwiadowcy:wargal_oszczepnik", "at": "budowa_mostu:trasa_B_3", "count": 1, "angry": true},
+          {"type": "title", "title": "Alarm!", "subtitle": "Rozkaz „Odciągnij uwagę” (G) wyśle Horace'a pod bramę"}
+        ]
+      }
+    },
+    {
+      "objective": {"type": "kill", "entity": "zwiadowcy:wargal_nadzorca", "count": 2, "tagged": true},
+      "text": "Unieszkodliw obu nadzorców - po cichu od tyłu albo w walce. Mają klucze do kłódek",
+      "location": "budowa_mostu:zagroda",
+      "no_fast_travel": true,
+      "triggers": {
+        "alarm": [
+          {"type": "set_flag", "flag": "alarm_lancuchy"},
+          {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "budowa_mostu:trasa_B_2", "count": 2, "angry": true},
+          {"type": "title", "title": "Alarm!", "subtitle": "Rozkaz „Odciągnij uwagę” (G) wyśle Horace'a pod bramę"}
+        ]
+      }
+    },
+    {
+      "objective": {"type": "collect", "item": "zwiadowcy:klucze_nadzorcy"},
+      "text": "Podnieś klucze nadzorcy",
+      "location": "budowa_mostu:zagroda",
+      "no_fast_travel": true
+    },
+    {
+      "objective": {"type": "free", "anchors": ["budowa_mostu:klodka_1", "budowa_mostu:klodka_2", "budowa_mostu:klodka_3"], "item": "zwiadowcy:klucze_nadzorcy", "count": 3},
+      "text": "Otwórz kłódki trzech zagród (PPM przy furtce)",
+      "location": "budowa_mostu:klodka_2",
+      "no_fast_travel": true,
+      "triggers": {
+        "uwolniony:budowa_mostu:klodka_1": [
+          {"type": "set_block", "at": "budowa_mostu:blok_furtka_1", "block": "minecraft:spruce_fence_gate[facing=south,open=true]"},
+          {"type": "npc_flee", "npc": "gornik", "near": "budowa_mostu:zagroda_1", "radius": 3.5, "to": "krawedz:punkt_zbiorczy", "ticks": 1400},
+          {"type": "message", "speaker": "Celtycki górnik", "text": "Niech cię bogowie strzegą, chłopcze… Cicho, bracia, za mną!"}
+        ],
+        "uwolniony:budowa_mostu:klodka_2": [
+          {"type": "set_block", "at": "budowa_mostu:blok_furtka_2", "block": "minecraft:spruce_fence_gate[facing=south,open=true]"},
+          {"type": "npc_flee", "npc": "gornik", "near": "budowa_mostu:zagroda_2", "radius": 3.5, "to": "krawedz:punkt_zbiorczy", "ticks": 1400}
+        ],
+        "uwolniony:budowa_mostu:klodka_3": [
+          {"type": "set_block", "at": "budowa_mostu:blok_furtka_3", "block": "minecraft:spruce_fence_gate[facing=south,open=true]"},
+          {"type": "npc_flee", "npc": "gornik", "near": "budowa_mostu:zagroda_3", "radius": 3.5, "to": "krawedz:punkt_zbiorczy", "ticks": 1400}
+        ],
+        "alarm": [
+          {"type": "set_flag", "flag": "alarm_lancuchy"},
+          {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "budowa_mostu:trasa_B_2", "count": 2, "angry": true},
+          {"type": "title", "title": "Alarm!", "subtitle": "Rozkaz „Odciągnij uwagę” (G) wyśle Horace'a pod bramę"}
+        ]
+      },
+      "on_complete": [
+        {"type": "move_npc", "npc": "rhys", "to": "krawedz:punkt_zbiorczy", "mode": "idle", "face": "krawedz:ognisko", "when": [{"flag": "rhys_uratowany"}]},
+        {"type": "message", "speaker": "Rhys", "text": "Mam ich! Prowadzę ścieżką na krawędź. Liny przy wieży podetniemy po drodze - jednej podpory już nie będziesz musiał polewać.", "when": [{"flag": "rhys_uratowany"}]}
+      ]
+    },
+    {
+      "objective": {"type": "reach", "location": "krawedz:punkt_zbiorczy", "radius": 6},
+      "text": "Wycofaj się do punktu zbiórki na krawędzi",
+      "no_fast_travel": true
+    }
+  ],
+  "on_complete": [
+    {"type": "companion_order", "order": "ZA_MNA"},
+    {"type": "skill", "id": "zimna_krew"},
+    {"type": "trust", "npc": "evanlyn", "delta": 5, "when": [{"not_flag": "alarm_lancuchy"}]},
+    {"type": "message", "speaker": "Evanlyn", "text": "Osiem osób… i nikt w obozie nawet nie drgnął. Will, to było niesamowite.", "when": [{"not_flag": "alarm_lancuchy"}]},
+    {"type": "message", "speaker": "Evanlyn", "text": "Wszyscy wyszli cało. Hałasu było sporo, ale to się liczy najbardziej.", "when": [{"flag": "alarm_lancuchy"}]},
+    {"type": "xp", "amount": 150},
+    {"type": "note", "title": "Uwolnieni", "text": "Ośmiu celtyckich górników jest wolnych i idzie do domu. Nadzorcy już nikogo nie uderzą. Został most - i nadchodzi świt."},
+    {"type": "start_quest", "quest": "plonacy_most"}
+  ]
+}

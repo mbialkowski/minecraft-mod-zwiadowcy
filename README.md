@@ -11,11 +11,12 @@
 > Mod jest darmowy i niekomercyjny.
 > NIE JEST OFICJALNYM PRODUKTEM MINECRAFT. NIE JEST ZATWIERDZONY PRZEZ MOJANG ANI MICROSOFT ANI Z NIMI ZWIĄZANY.
 
-Fabularny mod do Minecraft Java **1.20.1 (Forge 47.x)**. Kampania to wolna interpretacja wydarzeń z pierwszego tomu
-„Zwiadowców” Johna Flanagana, „Ruiny Gorlanu”.
-Grasz jako Will, podopieczny barona Aralda, który zostaje uczniem zwiadowcy Halta i staje do walki z Kalkarami Morgaratha.
-Czeka na ciebie 14 misji fabularnych, nowy wymiar Araluen, skradanie się w płaszczu zwiadowcy, łuk, noże, koń Wyrwij,
-bossowie i otwarty świat po zakończeniu kampanii. Cała fabuła, dialogi i opisy są po polsku.
+Fabularny mod do Minecraft Java **1.20.1 (Forge 47.x)**. Kampania to wolna interpretacja wydarzeń z dwóch pierwszych
+tomów „Zwiadowców” Johna Flanagana: „Ruin Gorlanu” i (od wersji 2.0) „Płonącego mostu”.
+Grasz jako Will, podopieczny barona Aralda, który zostaje uczniem zwiadowcy Halta i staje do walki z Kalkarami Morgaratha,
+a w tomie II jedzie z Gilanem i Horace'em do Celtyki, pali most nad Rozpadliną i staje do pojedynku z Morgarathem.
+Czeka na ciebie 14 misji tomu I i 16 misji tomu II, nowy wymiar Araluen, skradanie się w płaszczu zwiadowcy, łuk, noże,
+koń Wyrwij, towarzysze, bossowie i otwarty świat po zakończeniu kampanii. Cała fabuła, dialogi i opisy są po polsku.
 *English summary at the end.*
 
 ## Spis treści
@@ -30,7 +31,7 @@ bossowie i otwarty świat po zakończeniu kampanii. Cała fabuła, dialogi i opi
 - [Uruchomienie ze źródeł (dla twórców)](#uruchomienie-ze-źródeł-dla-twórców)
 - [Jak zacząć grę](#jak-zacząć-grę)
 - [Świat Araluenu](#świat-araluenu) · [Sterowanie](#sterowanie)
-- [Kampania](#kampania) · [Lokacje](#lokacje)
+- [Kampania](#kampania) · [Tom II: Płonący most](#tom-ii-płonący-most) · [Lokacje](#lokacje)
 - [Zawartość](#zawartość)
 - [Struktura projektu](#struktura-projektu) · [Edycja fabuły bez kompilacji](#edycja-fabuły-bez-kompilacji) ·
   [Tekstury i struktury](#tekstury-i-struktury)
@@ -44,12 +45,22 @@ bossowie i otwarty świat po zakończeniu kampanii. Cała fabuła, dialogi i opi
 **[Otwórz galerię](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/)**. Kliknij miniaturę, żeby obejrzeć zdjęcie
 w powiększeniu. W galerii przechodzisz między zdjęciami strzałkami albo przesuwając palcem.
 
+**Tom I: Ruiny Gorlanu**
+
 | | | |
 |:---:|:---:|:---:|
 | [![Dziedziniec zamku Redmont](docs/zrzuty/male/01_redmont.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#01_redmont)<br>Dziedziniec zamku Redmont | [![Wielka sala zamku](docs/zrzuty/male/02_wielka_sala.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#02_wielka_sala)<br>Wielka sala zamku | [![Baron Arald](docs/zrzuty/male/03_baron.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#03_baron)<br>Baron Arald |
 | [![Halt przed chatą w lesie](docs/zrzuty/male/04_halt.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#04_halt)<br>Halt przed chatą w lesie | [![Rozmowa z Haltem](docs/zrzuty/male/05_rozmowa.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#05_rozmowa)<br>Rozmowa z Haltem | [![Strzelnica przy chacie Halta](docs/zrzuty/male/06_strzelnica.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#06_strzelnica)<br>Strzelnica przy chacie Halta |
 | [![Farma Starego Boba](docs/zrzuty/male/07_farma_boba.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#07_farma_boba)<br>Farma Starego Boba | [![Obóz Zlotu Zwiadowców](docs/zrzuty/male/08_oboz_zlotu.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#08_oboz_zlotu)<br>Obóz Zlotu Zwiadowców | [![Jarmark w Wensley](docs/zrzuty/male/09_wensley.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#09_wensley)<br>Jarmark w Wensley |
 | [![Zasadzka Wargalów w spalonej osadzie](docs/zrzuty/male/10_zasadzka.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#10_zasadzka)<br>Zasadzka Wargalów | [![Kalkar w Ruinach Gorlanu](docs/zrzuty/male/11_kalkar.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#11_kalkar)<br>Kalkar w Ruinach Gorlanu | [![Dziennik zwiadowcy](docs/zrzuty/male/12_dziennik.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#12_dziennik)<br>Dziennik zwiadowcy |
+
+**Tom II: Płonący most**
+
+| | | |
+|:---:|:---:|:---:|
+| [![Płonący most](docs/zrzuty/male/18_plonacy_most.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#18_plonacy_most)<br>Płonący most | [![Bitwa na Równinie Uthal](docs/zrzuty/male/19_bitwa.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#19_bitwa)<br>Bitwa na Równinie Uthal | [![Morgarath na czarnym rumaku](docs/zrzuty/male/16_morgarath.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#16_morgarath)<br>Morgarath na czarnym rumaku |
+| [![Tre-Gwyn w Celtyce](docs/zrzuty/male/13_tre_gwyn.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#13_tre_gwyn)<br>Tre-Gwyn w Celtyce | [![Dolina Mgieł](docs/zrzuty/male/14_dolina_mgiel.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#14_dolina_mgiel)<br>Dolina Mgieł | [![Obóz królewski nad Uthal](docs/zrzuty/male/15_oboz_krolewski.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#15_oboz_krolewski)<br>Obóz królewski nad Uthal |
+| [![Wilczy okręt Skandian](docs/zrzuty/male/17_okret.jpg)](https://mbialkowski.github.io/minecraft-mod-zwiadowcy/#17_okret)<br>Wilczy okręt Skandian | | |
 
 ## ⬇ Pobierz
 
@@ -166,6 +177,12 @@ w `run/screenshots/zwiadowcy_*.png` i zamyka grę. Nie dotykaj w tym czasie mysz
 ## Jak zacząć grę
 
 1. Przy pierwszym wejściu do świata dostajesz **Kronikę Araluenu**, a ekran-kronika wyjaśnia, czym ona jest.
+   Na ostatniej stronie wybierasz, od którego tomu zaczynasz:
+   - **„Zacznij od tomu I (zalecane)”** - Kronika trafia do ręki, a czat i napis na ekranie mówią krok po kroku,
+     jak zacząć.
+   - **„Zacznij od tomu II…”** otwiera osobny ekran z potwierdzeniem. Mówi, co pomijasz (14 misji tomu I), co dostajesz
+     (zestaw ucznia zwiadowcy, Wyrwija i streszczenie tomu I) i że w tym świecie tego nie da się cofnąć. Stamtąd też
+     można wrócić do tomu I.
 2. Użyj Kroniki (PPM), aby przenieść się na dziedziniec zamku Redmont w wymiarze **Araluen**. Tam też ustawia się punkt odrodzenia.
 3. Po przybyciu zobaczysz **prolog** (5 stron): czym jest Araluen, kim jest Morgarath, kim jesteś ty (Will)
    i czym jest Dzień Wyboru. Potem **baron Arald sam do ciebie podejdzie** i zacznie rozmowę.
@@ -246,6 +263,11 @@ losowe dostały kominki, kotły ze strawą, legowiska ze skór i ołtarze, każd
 | **V** | Bezruch (z płaszczem zwiadowcy): niewidzialność, dopóki się nie ruszysz, odnowienie 60 s |
 | **R** | następny rodzaj strzały w kołczanie |
 | Shift + PPM na Wyrwiju | rozmowa z koniem (przed oswojeniem wystarczy samo PPM) |
+| **G** | koło rozkazów dla towarzyszy (tom II): Za mną / Czekaj tu / Ukryj się / Odciągnij uwagę |
+| **Z** | Oczy tropiciela (tom II): wskazówki, ślady i trop w pobliżu |
+| PPM z mieczem lub saksą | garda i parowanie zapowiadanych ciosów (tom II) |
+| Sprint w siodle | zryw Wyrwija (tom II) |
+| PPM z mapą Gilana | mapa krain i szybka podróż między ogniskami zwiadowców (tom II) |
 
 W lewym górnym rogu HUD pokazuje śledzoną misję, cel i strzałkę z odległością. Przy hotbarze widać poziom
 ukrycia (gdy nosisz płaszcz) i wybraną strzałę (gdy trzymasz łuk zwiadowcy).
@@ -288,6 +310,59 @@ miejsce. Każdy postój kończy się nagrodą przydatną w drodze i notatką w d
 
 Postoje są stawiane w połowie (lub w 1/3 i 2/3) odcinka między lokacjami, na lądzie (`RouteStop.java`,
 szablony w `structures/postoje/`, misje `quests/szlak_*.json`).
+
+## Tom II: Płonący most
+
+Druga część kampanii (od wersji 2.0) to wolna interpretacja tomu drugiego, „Płonącego mostu”. Po epilogu tomu I
+pojawia się ekran **„Koniec tomu I”** z przyciskiem **„Kontynuuj do części drugiej”**: ekwipunek, Wyrwij i notatki
+zostają. Ten sam przycisk jest w dzienniku, a w nowym świecie można wybrać **„Zacznij od tomu II”**, który daje
+zestaw startowy zwiadowcy. Wybór z tomu I (rycerz albo zwiadowca) zmienia prolog, kwestie Horace'a i sir Rodneya.
+
+| # | Misja | Akt |
+|---|---|---|
+| 1 | Wezwanie (Crowley wysyła Gilana z poselstwem do Celtyki) | I: Poselstwo |
+| 2 | Miecz zwiadowcy (lekcje Gilana, parowanie) | I |
+| 3 | Przełęcz Wiatrów (wargalscy kusznicy, linka z kotwiczką) | I |
+| 4 | Ciche wzgórza (puste osady, Oczy tropiciela) | II: Celtyka |
+| 5 | Kopalnia pod Kruczą Skałą (3 poziomy, śledztwo, zawał) | II |
+| 6 | Dziewczyna z Doliny Mgieł (Evanlyn) | II |
+| 7 | Dwie drogi (Gilan wraca do króla, skradanie 2.0 przy posterunku) | II |
+| 8 | Czarny jeździec (pościg i strzelanie z siodła, rozkazy Morgaratha) | II |
+| 9 | Na krawędzi (luneta, plan przy ognisku) | III: Płonący most |
+| 10 | Łańcuchy (nocne uwolnienie celtyckich jeńców) | III |
+| 11 | Płonący most (olej na podporach, płonące strzały, zawalenie przęseł) | III |
+| 12 | Wyścig z czasem (raport u Halta, Crowleya i króla) | III |
+| 13 | Noc przed bitwą | III |
+| 14 | Bitwa na Równinie Uthal (4 zadania na skrzydłach) | III |
+| 15 | Władca Deszczu i Nocy (pojedynek z Morgarathem w 3 fazach, z pomocą Horace'a) | III |
+| 16 | Wilcze okręty (Skandianie Eraka, niewola) | III |
+
+**Misje poboczne:** Syn górnika, Pasterka z wrzosowisk, Strzał Gilana, Obcy na trakcie, Czarny rumak. Każda daje
+umiejętność albo coś zmienia w dalszej fabule, np. po „Synu górnika” w „Płonącym moście” wystarczą 3 punkty oleju
+zamiast 4, a po „Czarnym rumaku” Morgarath szybciej spada z konia. Postoje na szlaku tomu II: wóz z prowiantem,
+dezerterzy, celtyccy uciekinierzy, wargalski zwiad.
+
+**Najważniejsze mechaniki tomu II:**
+- **Towarzysze** (Gilan, Horace, Evanlyn, w bitwie Halt) jeżdżą konno, walczą i słuchają koła rozkazów (**G**).
+  Ranni nie giną, tylko padają i wstają po walce.
+- **Ukryte zaufanie** każdego towarzysza zmienia kwestie, nagrody i pomoc w trudnych chwilach.
+  Zakładka „Drużyna” w dzienniku opisuje je słowami, bez liczb.
+- **Skradanie 2.0:** patrole po trasach, stożki widzenia (węższe nocą), znaki „?” i „!” nad głowami, ogłuszanie od tyłu,
+  dobosze wzywający posiłki.
+- **Oczy tropiciela (Z)** pokazują wskazówki i tropy. Z wskazówek składa się wniosek w zakładce „Wnioski”.
+- **Szybka podróż** między odkrytymi ogniskami zwiadowców (Mapa Gilana) kosztuje rację. W niektórych etapach jest
+  zablokowana (walka, alarm, wyścig do Uthal, bitwa).
+- **Trudność:** Opowieść / Zwiadowca / Weteran, do zmiany w dzienniku.
+- **10 umiejętności-odznak** za misje, widocznych w zakładce „Umiejętności”.
+
+Po epilogu tomu II pojawia się ekran **„Koniec tomu II - kontynuuj do części trzeciej”**. Przycisk „Wróć do Araluenu”
+oddaje ekwipunek i zaczyna wolną grę poza kanonem. Gilan na Krawędzi i Morwenna przy szałasie dają wtedy codzienne
+zlecenia, a zlecenia Halta z tomu I działają dalej.
+
+**Nowe krainy** leżą na zachodzie i południu Araluenu (od ok. 1500 bloków od Redmontu): Celtyka (wrzosowiska,
+mgliste doliny, łupkowe wzgórza, deszcz i mgła), Rozpadlina (kanion o długości ok. 750 bloków z mostem Morgaratha)
+i Równina Uthal. W starszym świecie krainy obracają się wokół Redmontu na jeszcze nieodkryty teren, ale
+**najlepiej zagrać tom II w nowym świecie**.
 
 
 ### Lokacje

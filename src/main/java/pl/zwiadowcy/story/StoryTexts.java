@@ -13,6 +13,12 @@ public final class StoryTexts {
     /** Epilog po ostatniej misji - dwie wersje zależnie od wyboru przed królem. */
     public static final String EPILOG_ZWIADOWCA = "epilog_zwiadowca";
     public static final String EPILOG_RYCERZ = "epilog_rycerz";
+    /** Tom II: prolog (trzy warianty pierwszej strony), epilog, wolna gra. */
+    public static final String PROLOG_TOM2 = "prolog_tom2";
+    public static final String EPILOG_TOM2 = "epilog_tom2";
+    public static final String WOLNA_GRA = "wolna_gra";
+    public static final String TOM1_SUMMARY_TITLE = StoryTextsTom2.TOM1_SUMMARY_TITLE;
+    public static final String TOM1_SUMMARY = StoryTextsTom2.TOM1_SUMMARY;
 
     private static final Map<String, List<Page>> STORIES = Map.of(
             KRONIKA, List.of(
@@ -112,7 +118,8 @@ public final class StoryTexts {
             + "Ktoś w szarozielonym płaszczu zwiadowcy obserwuje mnie od rana. Najpierw muszę porozmawiać z baronem na dziedzińcu.";
 
     public static List<Page> get(String id) {
-        return STORIES.getOrDefault(id, List.of());
+        List<Page> base = STORIES.get(id);
+        return base != null ? base : StoryTextsTom2.get(id);
     }
 
     private StoryTexts() {}

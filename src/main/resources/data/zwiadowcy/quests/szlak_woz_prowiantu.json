@@ -1,0 +1,32 @@
+{
+  "title": "Na szlaku: wóz z prowiantem",
+  "act": "Postoje na szlaku",
+  "tom": 2,
+  "order": 211,
+  "description": "Na zachodnim trakcie przewrócił się wóz wiozący prowiant dla armii króla. Woźnica sam nie da rady pozbierać ładunku, a wojsko pod Uthal czeka na każdy worek.",
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "szlak_woz_prowiantu:miejsce", "radius": 10},
+      "text": "Zajrzyj do przewróconego wozu z prowiantem (dobrowolnie)",
+      "on_complete": [
+        {"type": "track", "quest": "szlak_woz_prowiantu"},
+        {"type": "message", "speaker": "Wędrowny kupiec", "text": "Zwiadowcy, chwała niebiosom! Wiozę płótno i worki dla armii pod Uthal, a oś trzasnęła na pierwszym kamieniu. Pomożecie pozbierać?"}
+      ]
+    },
+    {
+      "objective": {"type": "collect", "item": "zwiadowcy:bela_sukna", "count": 6},
+      "text": "Pozbieraj rozsypane bele i worki",
+      "location": "szlak_woz_prowiantu:miejsce"
+    },
+    {
+      "objective": {"type": "talk", "npc": "kupiec"},
+      "text": "Oddaj ładunek woźnicy",
+      "location": "szlak_woz_prowiantu:kupiec"
+    }
+  ],
+  "on_complete": [
+    {"type": "give_item", "item": "zwiadowcy:racje_podrozne", "count": 8},
+    {"type": "xp", "amount": 30},
+    {"type": "note", "title": "Wóz z prowiantem", "text": "Pomogliśmy pozbierać ładunek z wozu jadącego do armii. Woźnica dał nam racje na drogę - „i tak połowę zjedzą rycerze, zanim dotrze do łuczników”."}
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "title": "Płonący most",
+  "act": "Tom II · Akt III: Płonący most",
+  "tom": 2,
+  "order": 211,
+  "advancement": "tom2/plonacy_most",
+  "description": "Most to drewno i liny. Drewno nasączone smołą płonie jak pochodnia. O świcie kolumna Wargali wejdzie na pomost - i wtedy most musi zniknąć.",
+  "stages": [
+    {
+      "objective": {"type": "collect", "item": "zwiadowcy:flasza_oleju", "count": 4},
+      "text": "Zdobądź 4 flasze oleju - beczki ze smołą w składzie obozu napełniają flasze (PPM na beczce)",
+      "location": "budowa_mostu:sklad_smoly",
+      "no_fast_travel": true,
+      "on_start": [
+        {"type": "message", "speaker": "Horace", "text": "Smoła, którą mieli smarować liny… Przyda się nam bardziej niż im."}
+      ]
+    },
+    {
+      "objective": {"type": "oil_points", "anchors": ["most:podpora_1", "most:podpora_2", "most:podpora_3", "most:podpora_4"], "count": 4, "count_if_flag": {"flag": "rhys_uratowany", "count": 3}},
+      "text": "Polej olejem podpory mostu: 2 zastrzały pod pomostem (zejdź po linie) i kotwy wieży linowej (PPM z flaszą)",
+      "location": "most:podpora_1",
+      "no_fast_travel": true,
+      "on_start": [
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "most:patrol_1", "czujny": true, "patrol": "most:patrol"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_oszczepnik", "at": "most:polnoc", "czujny": true, "sentry": true, "face": "most:srodek"},
+        {"type": "actionbar", "text": "Zastrzały wiszą pod pomostem przy naszej ścianie kanionu - zejdź po linie albo kotwiczką. Kotwy stoją za wieżą."},
+        {"type": "message", "speaker": "Rhys", "text": "Liny przy prawej kotwie już podcięte. Wystarczą trzy podpory, zwiadowco.", "when": [{"flag": "rhys_uratowany"}]}
+      ]
+    },
+    {
+      "objective": {"type": "event", "id": "kolumna_na_moscie"},
+      "text": "Ukryj się na brzegu i czekaj na świt - kolumna Wargali wejdzie na most",
+      "location": "most:brzeg_polnocny",
+      "no_fast_travel": true,
+      "on_start": [
+        {"type": "companion_order", "order": "UKRYJ"},
+        {"type": "time", "pora": "swit"},
+        {"type": "actionbar", "text": "Świta. Gdzieś za Rozpadliną odzywają się rogi."},
+        {"type": "delay", "ticks": 60, "actions": [
+          {"type": "sound", "sound": "minecraft:event.raid.horn", "volume": 6, "pitch": 0.8},
+          {"type": "crowd", "skin": "wargal", "count": 10, "at": "most:kolumna_1", "march": "most:kolumna", "stop": 4, "width": 3, "spacing": 1.3, "tag": "kolumna_most", "item": "minecraft:iron_axe", "lifetime": 9000},
+          {"type": "delay", "ticks": 90, "actions": [
+            {"type": "crowd", "skin": "wargal", "count": 10, "at": "most:kolumna_1", "march": "most:kolumna", "stop": 4, "width": 3, "spacing": 1.3, "row_offset": 4, "tag": "kolumna_most", "item": "minecraft:stone_axe", "lifetime": 9000}
+          ]},
+          {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "most:kolumna_1", "count": 4, "march": "most:kolumna"},
+          {"type": "spawn", "entity": "zwiadowcy:wargal_oszczepnik", "at": "most:kolumna_1", "count": 2, "march": "most:kolumna"}
+        ]},
+        {"type": "delay", "ticks": 300, "actions": [
+          {"type": "message", "speaker": "Evanlyn", "text": "Są na moście! Will - teraz!"},
+          {"type": "fire_event", "id": "kolumna_na_moscie"}
+        ]}
+      ]
+    },
+    {
+      "objective": {"type": "ignite_points", "anchors": ["most:podpora_1", "most:podpora_2", "most:podpora_3", "most:podpora_4"], "count": 4, "count_if_flag": {"flag": "rhys_uratowany", "count": 3}},
+      "text": "Podpal polane podpory płonącymi strzałami (albo krzesiwem z bliska)!",
+      "location": "most:podpora_3",
+      "no_fast_travel": true,
+      "on_start": [
+        {"type": "title", "title": "Podpal most!", "subtitle": "Płonąca strzała w każdą polaną podporę"}
+      ],
+      "on_complete": [
+        {"type": "bridge", "op": "burn"},
+        {"type": "cutscene", "id": "plonacy_most"}
+      ]
+    },
+    {
+      "objective": {"type": "bridge_burnt"},
+      "text": "Most płonie…",
+      "location": "most:srodek",
+      "no_fast_travel": true,
+      "on_complete": [
+        {"type": "crowd_clear", "tag": "kolumna_most"}
+      ]
+    },
+    {
+      "objective": {"type": "reach", "location": "krawedz:konie", "radius": 6},
+      "text": "Uciekaj do koni! Wargale, którzy przeszli, ruszyli w pościg",
+      "no_fast_travel": true,
+      "on_start": [
+        {"type": "companion_order", "order": "ZA_MNA"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_kusznik", "at": "most:brzeg_poludniowy", "count": 2, "angry": true},
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "most:polnoc", "count": 2, "angry": true},
+        {"type": "title", "title": "Uciekaj!", "subtitle": "Kusznicy strzelają z drugiego brzegu"},
+        {"type": "actionbar", "text": "W siodle klawisz sprintu daje Wyrwijowi zryw."}
+      ]
+    }
+  ],
+  "on_complete": [
+    {"type": "skill", "id": "rozpalacz"},
+    {"type": "trust", "npc": "horace", "delta": 10},
+    {"type": "message", "speaker": "Horace", "text": "Widziałeś to? Cały most! Will… Morgarath nie przejdzie. Nie tędy."},
+    {"type": "xp", "amount": 250},
+    {"type": "story", "story": "tom2_dym", "delay": 40},
+    {"type": "note", "title": "Dym nad Rozpadliną", "text": "Most spłonął razem z wargalską kolumną. Z kanionu jeszcze długo szedł dym. Teraz trzeba jak najszybciej dotrzeć do królewskiego obozu nad Uthal i powiedzieć Haltowi, co się stało."},
+    {"type": "start_quest", "quest": "wyscig_z_czasem"}
+  ]
+}

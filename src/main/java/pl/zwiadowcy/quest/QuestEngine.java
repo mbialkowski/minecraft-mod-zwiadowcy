@@ -143,6 +143,15 @@ public final class QuestEngine {
         sync(p);
     }
 
+    /** Etap od nowa (np. obrona nieudana - za mało żywych żołnierzy). */
+    public static void restartStage(ServerPlayer p, String id) {
+        QuestDefinition def = QuestManager.INSTANCE.get(id);
+        QuestProgress.State st = QuestCapability.get(p).get(id);
+        if (def == null || st == null || st.status != QuestProgress.Status.ACTIVE) return;
+        enterStage(p, def, st);
+        sync(p);
+    }
+
     public static void complete(ServerPlayer p, String id) {
         QuestDefinition def = QuestManager.INSTANCE.get(id);
         QuestProgress.State st = QuestCapability.get(p).get(id);
@@ -201,7 +210,7 @@ public final class QuestEngine {
         if (def == null || st == null || st.status != QuestProgress.Status.ACTIVE) return;
         QuestDefinition.Stage stage = def.stage(st.stage);
         if (stage == null) return;
-        int required = stage.objective().count();
+        int required = stage.objective().count(QuestCapability.get(p));
         st.progress = Math.min(required, st.progress + amount);
         if (st.progress >= required) {
             advance(p, id);
@@ -247,7 +256,7 @@ public final class QuestEngine {
                 }
                 case "collect" -> {
                     int have = countItems(p, o.str("item"));
-                    int required = o.count();
+                    int required = o.count(prog);
                     int shown = Math.min(have, required);
                     if (shown != st.progress) {
                         st.progress = shown;
@@ -261,9 +270,12 @@ public final class QuestEngine {
                 case "night" -> {
                     if (Araluen.isAraluen(p.level()) && isNight(p)) advance(p, def.id());
                 }
-                default -> {}
+                default -> {
+                    if (QuestTom2.tick(p, def, st, stage)) dirty = true;
+                }
             }
         }
+        if (pl.zwiadowcy.travel.Campfires.tick(p)) dirty = true;
         // przyjęte postoje na szlaku: strzałka zależy od położenia gracza (postój przed nim czy już minięty)
         if (!dirty && p.tickCount % 40 == 0) {
             for (Map.Entry<String, QuestProgress.State> e : prog.states().entrySet()) {
@@ -278,6 +290,7 @@ public final class QuestEngine {
 
     /** Sprawdzane co 4 ticki: czy obserwatorzy widzą skradającego się gracza. */
     public static void fastTick(ServerPlayer p) {
+        QuestTom2.fastTick(p);
         QuestProgress prog = QuestCapability.get(p);
         for (Map.Entry<String, QuestProgress.State> e : prog.states().entrySet()) {
             QuestProgress.State st = e.getValue();
@@ -356,6 +369,7 @@ public final class QuestEngine {
             QuestDefinition.Objective o = stage.objective();
             String projectile = o.str("projectile").isEmpty() ? "arrow" : o.str("projectile");
             if (!projectile.equals(kind)) continue;
+            if (o.bool("z_siodla") && p.getVehicle() == null) continue;
             double min = o.dbl("min_distance", 0);
             if (distance + 0.5 < min) {
                 p.displayClientMessage(Component.literal(String.format("Za blisko! Odsuń się na co najmniej %.0f kratek (teraz %.0f).", min, distance))

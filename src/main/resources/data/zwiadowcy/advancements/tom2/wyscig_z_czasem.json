@@ -1,0 +1,1 @@
+{"parent":"zwiadowcy:tom2/plonacy_most","display":{"icon":{"item":"minecraft:saddle"},"title":{"text":"Wyścig z czasem"},"description":{"text":"Dotrzyj z raportem do obozu królewskiego"},"frame":"task","show_toast":true,"announce_to_chat":false,"hidden":false},"criteria":{"done":{"trigger":"minecraft:impossible"}}}

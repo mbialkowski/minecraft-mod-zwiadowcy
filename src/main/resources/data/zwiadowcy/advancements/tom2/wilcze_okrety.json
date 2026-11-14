@@ -1,0 +1,1 @@
+{"parent":"zwiadowcy:tom2/wladca_deszczu_i_nocy","display":{"icon":{"item":"minecraft:oak_boat"},"title":{"text":"Wilcze okręty"},"description":{"text":"Ukończ tom II"},"frame":"goal","show_toast":true,"announce_to_chat":true,"hidden":false},"criteria":{"done":{"trigger":"minecraft:impossible"}}}

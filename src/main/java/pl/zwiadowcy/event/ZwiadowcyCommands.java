@@ -27,6 +27,18 @@ import java.util.Arrays;
 public final class ZwiadowcyCommands {
 
     public static void register(CommandDispatcher<CommandSourceStack> d) {
+        // dla każdego gracza: klikalny komunikat „Kontynuuj” z czatu (tom II) i ekran końca tomu
+        d.register(Commands.literal("zwiadowcy_tom")
+                .then(Commands.literal("kontynuuj").executes(c -> {
+                    pl.zwiadowcy.volume.Volumes.continueToVolume2(c.getSource().getPlayerOrException());
+                    return 1;
+                }))
+                .then(Commands.literal("koniec").then(Commands.argument("tom", com.mojang.brigadier.arguments.IntegerArgumentType.integer(1, 2))
+                        .executes(c -> {
+                            pl.zwiadowcy.volume.Volumes.showEndScreen(c.getSource().getPlayerOrException(),
+                                    com.mojang.brigadier.arguments.IntegerArgumentType.getInteger(c, "tom"));
+                            return 1;
+                        }))));
         d.register(Commands.literal("zwiadowcy").requires(s -> s.hasPermission(2))
                 .then(Commands.literal("misja")
                         .then(Commands.literal("start").then(questArg().executes(c -> {
@@ -78,6 +90,8 @@ public final class ZwiadowcyCommands {
                                     + ". Postacie i koń przejdą tam w ciągu kilkunastu sekund. Dojazd: /zwiadowcy tp " + id), true);
                             return 1;
                         })))
+                .then(Commands.literal("skok").then(questArg().executes(c -> skok(c.getSource().getPlayerOrException(),
+                        StringArgumentType.getString(c, "id")))))
                 .then(Commands.literal("podroz").executes(c -> {
                     Araluen.travel(c.getSource().getPlayerOrException());
                     return 1;
@@ -89,6 +103,52 @@ public final class ZwiadowcyCommands {
                     c.getSource().sendSuccess(() -> Component.literal("Flaga " + f + " = " + QuestCapability.get(p).hasFlag(f)), false);
                     return 1;
                 }))));
+    }
+
+    /**
+     * Test tomu II: przeskok do wybranej misji. Zestaw zwiadowcy (gdy go brak), drużyna odpowiednia dla tego miejsca
+     * fabuły (Gilan do M7, Horace zawsze, Evanlyn od M7), inne misje tomu II przerwane, start misji i przeniesienie
+     * w bezpieczny punkt jej pierwszego etapu.
+     */
+    private static int skok(ServerPlayer p, String id) {
+        QuestDefinition def = QuestManager.INSTANCE.get(id);
+        if (def == null || def.tom() < 2) {
+            p.sendSystemMessage(Component.literal("Skok działa dla misji tomu II.").withStyle(net.minecraft.ChatFormatting.RED));
+            return 0;
+        }
+        if (!Araluen.isAraluen(p.level())) Araluen.travel(p);
+        QuestProgress prog = QuestCapability.get(p);
+        prog.setFlag(pl.zwiadowcy.volume.Volumes.FLAG_TOM2_RUNNING, true);
+        prog.setFlag("kampania_ukonczona", true);
+        if (QuestEngine.countItems(p, "zwiadowcy:luk_zwiadowcy") < 1) pl.zwiadowcy.volume.Volumes.giveStarterKit(p);
+        if (QuestEngine.countItems(p, "zwiadowcy:gwizdek") < 1) p.getInventory().add(new net.minecraft.world.item.ItemStack(pl.zwiadowcy.registry.ModItems.GWIZDEK.get()));
+        for (var e : new java.util.ArrayList<>(prog.states().entrySet())) {
+            QuestDefinition other = QuestManager.INSTANCE.get(e.getKey());
+            if (other != null && other.tom() >= 2 && !other.id().equals(id)) QuestEngine.cancel(p, other.id(), 99);
+        }
+        prog.states().remove(id);
+        int order = def.order();
+        boolean main = order <= 216;
+        for (String n : new String[]{"gilan", "horace", "evanlyn"}) pl.zwiadowcy.companion.Companions.leave(p, n);
+        if (main && order <= 207) pl.zwiadowcy.companion.Companions.join(p, "gilan");
+        pl.zwiadowcy.companion.Companions.join(p, "horace");
+        if (!main || order >= 207) pl.zwiadowcy.companion.Companions.join(p, "evanlyn");
+        QuestEngine.start(p, id);
+        String loc = def.stages().isEmpty() ? null : QuestEngine.locationOf(def.stages().get(0));
+        if (loc != null) {
+            String base = loc.contains(":") ? loc.substring(0, loc.indexOf(':')) : loc;
+            BlockPos to = Locations.safeSpot(p.getServer(), base);
+            if (to == null) to = Locations.resolve(p.getServer(), loc);
+            ServerLevel level = Araluen.level(p.getServer());
+            if (to != null && level != null) p.teleportTo(level, to.getX() + 0.5, to.getY(), to.getZ() + 0.5, p.getYRot(), p.getXRot());
+        }
+        // bez oswojonego Wyrwija gwizdek nie miałby kogo przywołać - koń przypisany do gracza staje obok
+        if (prog.tugUuid == null && Araluen.level(p.getServer()) != null) {
+            pl.zwiadowcy.entity.TugEntity.summonBonded(Araluen.level(p.getServer()), p, p.blockPosition().offset(3, 0, 2));
+        }
+        QuestEngine.sync(p);
+        p.sendSystemMessage(Component.literal("✦ Skok do misji: " + def.title()).withStyle(net.minecraft.ChatFormatting.GOLD));
+        return 1;
     }
 
     private static com.mojang.brigadier.builder.RequiredArgumentBuilder<CommandSourceStack, String> questArg() {

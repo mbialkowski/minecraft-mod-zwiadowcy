@@ -1,0 +1,59 @@
+{
+  "title": "Czarny jeździec",
+  "act": "Tom II · Akt II: Celtyka",
+  "tom": 2,
+  "order": 208,
+  "advancement": "tom2/czarny_jezdziec",
+  "description": "Za posterunkiem zaczynają się otwarte wrzosowiska - dobre miejsce do jazdy i jeszcze lepsze do pościgu. Ktoś jedzie ich tropem od samej doliny.",
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "wrzosowisko:kurhan", "radius": 8},
+      "text": "Jedź przez wrzosowiska do starego kurhanu",
+      "on_complete": [
+        {"type": "message", "speaker": "Evanlyn", "text": "Will… ktoś jedzie za nami. Od samej doliny."}
+      ]
+    },
+    {
+      "objective": {"type": "event", "id": "trafienie_z_siodla", "count": 3},
+      "text": "Wargale-zwiadowcy! Strzelaj do nich z siodła (3 trafienia)",
+      "location": "wrzosowisko:kurhan",
+      "on_start": [
+        {"type": "spawn", "entity": "zwiadowcy:wargal_zwiadowca", "at": "wrzosowisko:wargal_1", "angry": true},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_zwiadowca", "at": "wrzosowisko:wargal_2", "angry": true},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_zwiadowca", "at": "wrzosowisko:wargal_3", "angry": true},
+        {"type": "actionbar", "text": "W galopie strzały lecą szerzej - zwolnij albo stań, żeby trafić pewniej."}
+      ]
+    },
+    {
+      "objective": {"type": "kill", "entity": "zwiadowcy:jezdziec_morgaratha", "count": 1, "tagged": true},
+      "text": "Pokonaj Jeźdźca Morgaratha - unikaj szarży, strzelaj w jeźdźca",
+      "location": "wrzosowisko:kurhan",
+      "no_fast_travel": true,
+      "on_start": [
+        {"type": "spawn", "entity": "zwiadowcy:jezdziec_morgaratha", "at": "wrzosowisko:jezdziec", "drop": "zwiadowcy:rozkazy_morgaratha", "face": "wrzosowisko:kurhan"},
+        {"type": "title", "title": "Czarny jeździec", "subtitle": "Gdy koń staje dęba - zjedź z linii szarży!"}
+      ]
+    },
+    {
+      "objective": {"type": "collect", "item": "zwiadowcy:rozkazy_morgaratha"},
+      "text": "Podnieś pismo, które wypadło jeźdźcowi",
+      "location": "wrzosowisko:jezdziec"
+    },
+    {
+      "objective": {"type": "event", "id": "czytaj:rozkazy"},
+      "text": "Przeczytaj Rozkazy Morgaratha (PPM)"
+    },
+    {
+      "objective": {"type": "talk", "npc": "horace"},
+      "text": "Porozmawiaj z Horace'em o rozkazach",
+      "location": "wrzosowisko:kurhan"
+    }
+  ],
+  "on_complete": [
+    {"type": "skill", "id": "pewna_reka"},
+    {"type": "xp", "amount": 150},
+    {"type": "story", "story": "tom2_akt2", "delay": 30},
+    {"type": "note", "title": "Rozkazy Morgaratha", "text": "Most nad Rozpadliną będzie gotowy za trzy dni. Budują go celtyccy jeńcy. Kiedy stanie, armia Wargali przejdzie na naszą stronę i uderzy na tyły wojsk króla pod Uthal. Gilan nie zdąży wrócić z pomocą. Zostajemy my."},
+    {"type": "start_quest", "quest": "na_krawedzi"}
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "location": "brzeg_rzeki:okret",
+  "keyframes": [
+    {"t": 0, "pos": [-10, 12, -12], "look": [0, 0, 10], "fov": 64},
+    {"t": 110, "pos": [6, 5, 4], "look": [0, 1, 10], "fov": 56},
+    {"t": 210, "pos": [16, 9, 10], "look": [-10, 2, 10], "fov": 60}
+  ],
+  "subtitles": [
+    {"t": 10, "d": 90, "text": "Skandianie zanieśli nieprzytomnego Willa i Evanlyn na wilczy okręt."},
+    {"t": 105, "d": 100, "text": "Wiosła uderzyły w wodę. Gdzieś w obozie wciąż trwało świętowanie - nikt nie usłyszał."}
+  ]
+}

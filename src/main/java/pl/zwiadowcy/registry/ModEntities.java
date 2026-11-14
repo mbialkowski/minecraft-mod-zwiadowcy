@@ -46,6 +46,19 @@ public final class ModEntities {
             () -> EntityType.Builder.<WargalEntity>of((t, l) -> new WargalEntity(t, l, WargalEntity.Variant.HERSZT), MobCategory.MONSTER)
                     .sized(1.1f, 2.3f).clientTrackingRange(10).build("wargal_herszt"));
 
+    // tom II
+    public static final RegistryObject<EntityType<WargalEntity>> WARGAL_KUSZNIK = ENTITIES.register("wargal_kusznik",
+            () -> EntityType.Builder.<WargalEntity>of((t, l) -> new WargalEntity(t, l, WargalEntity.Variant.KUSZNIK), MobCategory.MONSTER)
+                    .sized(0.8f, 1.7f).clientTrackingRange(10).build("wargal_kusznik"));
+
+    public static final RegistryObject<EntityType<WargalEntity>> WARGAL_NADZORCA = ENTITIES.register("wargal_nadzorca",
+            () -> EntityType.Builder.<WargalEntity>of((t, l) -> new WargalEntity(t, l, WargalEntity.Variant.NADZORCA), MobCategory.MONSTER)
+                    .sized(0.85f, 1.8f).clientTrackingRange(10).build("wargal_nadzorca"));
+
+    public static final RegistryObject<EntityType<WargalEntity>> WARGAL_DOBOSZ = ENTITIES.register("wargal_dobosz",
+            () -> EntityType.Builder.<WargalEntity>of((t, l) -> new WargalEntity(t, l, WargalEntity.Variant.DOBOSZ), MobCategory.MONSTER)
+                    .sized(0.8f, 1.7f).clientTrackingRange(10).build("wargal_dobosz"));
+
     public static final RegistryObject<EntityType<BanditEntity>> BANDYTA = ENTITIES.register("bandyta",
             () -> EntityType.Builder.<BanditEntity>of((t, l) -> new BanditEntity(t, l, BanditEntity.Variant.BANDYTA), MobCategory.MONSTER)
                     .sized(0.6f, 1.95f).clientTrackingRange(8).build("bandyta"));
@@ -86,6 +99,46 @@ public final class ModEntities {
             () -> EntityType.Builder.<OilFlaskEntity>of(OilFlaskEntity::new, MobCategory.MISC)
                     .sized(0.25f, 0.25f).clientTrackingRange(4).updateInterval(10).build("flasza"));
 
+    public static final RegistryObject<EntityType<pl.zwiadowcy.entity.CompanionHorseEntity>> KON_TOWARZYSZA = ENTITIES.register("kon_towarzysza",
+            () -> EntityType.Builder.of(pl.zwiadowcy.entity.CompanionHorseEntity::new, MobCategory.CREATURE)
+                    .sized(1.3965f, 1.6f).clientTrackingRange(10).build("kon_towarzysza"));
+
+    public static final RegistryObject<EntityType<pl.zwiadowcy.entity.projectile.StoneEntity>> KAMYK = ENTITIES.register("kamyk",
+            () -> EntityType.Builder.<pl.zwiadowcy.entity.projectile.StoneEntity>of(pl.zwiadowcy.entity.projectile.StoneEntity::new, MobCategory.MISC)
+                    .sized(0.25f, 0.25f).clientTrackingRange(4).updateInterval(10).build("kamyk"));
+
+    public static final RegistryObject<EntityType<pl.zwiadowcy.entity.projectile.SmokePotEntity>> GARNEK_Z_DYMEM = ENTITIES.register("garnek_z_dymem",
+            () -> EntityType.Builder.<pl.zwiadowcy.entity.projectile.SmokePotEntity>of(pl.zwiadowcy.entity.projectile.SmokePotEntity::new, MobCategory.MISC)
+                    .sized(0.3f, 0.3f).clientTrackingRange(4).updateInterval(10).build("garnek_z_dymem"));
+
+    public static final RegistryObject<EntityType<pl.zwiadowcy.entity.projectile.GrappleHookEntity>> KOTWICZKA = ENTITIES.register("kotwiczka",
+            () -> EntityType.Builder.<pl.zwiadowcy.entity.projectile.GrappleHookEntity>of(pl.zwiadowcy.entity.projectile.GrappleHookEntity::new, MobCategory.MISC)
+                    .sized(0.3f, 0.3f).clientTrackingRange(6).updateInterval(2).build("kotwiczka"));
+
+    public static final RegistryObject<EntityType<pl.zwiadowcy.entity.BlackSteedEntity>> CZARNY_RUMAK = ENTITIES.register("czarny_rumak",
+            () -> EntityType.Builder.of(pl.zwiadowcy.entity.BlackSteedEntity::new, MobCategory.MONSTER)
+                    .sized(1.3965f, 1.6f).clientTrackingRange(10).build("czarny_rumak"));
+
+    public static final RegistryObject<EntityType<pl.zwiadowcy.entity.MorgarathRiderEntity>> JEZDZIEC_MORGARATHA = ENTITIES.register("jezdziec_morgaratha",
+            () -> EntityType.Builder.of(pl.zwiadowcy.entity.MorgarathRiderEntity::new, MobCategory.MONSTER)
+                    .sized(0.6f, 1.95f).clientTrackingRange(10).build("jezdziec_morgaratha"));
+
+    /** Skandianie (bród, rozlewisko) i Morgarath (pojedynek M15). */
+    public static final RegistryObject<EntityType<pl.zwiadowcy.entity.SkandianEntity>> SKANDYJSKI_WOJOWNIK = ENTITIES.register("skandyjski_wojownik",
+            () -> EntityType.Builder.<pl.zwiadowcy.entity.SkandianEntity>of((t, l) -> new pl.zwiadowcy.entity.SkandianEntity(t, l, pl.zwiadowcy.entity.SkandianEntity.Variant.WOJOWNIK), MobCategory.MONSTER)
+                    .sized(0.65f, 1.9f).clientTrackingRange(10).build("skandyjski_wojownik"));
+    public static final RegistryObject<EntityType<pl.zwiadowcy.entity.SkandianEntity>> SKANDYJSKI_BERSERKER = ENTITIES.register("skandyjski_berserker",
+            () -> EntityType.Builder.<pl.zwiadowcy.entity.SkandianEntity>of((t, l) -> new pl.zwiadowcy.entity.SkandianEntity(t, l, pl.zwiadowcy.entity.SkandianEntity.Variant.BERSERKER), MobCategory.MONSTER)
+                    .sized(0.65f, 1.9f).clientTrackingRange(10).build("skandyjski_berserker"));
+    public static final RegistryObject<EntityType<pl.zwiadowcy.entity.MorgarathEntity>> MORGARATH = ENTITIES.register("morgarath",
+            () -> EntityType.Builder.of(pl.zwiadowcy.entity.MorgarathEntity::new, MobCategory.MONSTER)
+                    .sized(0.8f, 2.3f).clientTrackingRange(12).build("morgarath"));
+
+    /** Manekiny tłumu (kolumna na moście, szyki w bitwie). */
+    public static final RegistryObject<EntityType<pl.zwiadowcy.entity.CrowdDummyEntity>> TLUM = ENTITIES.register("tlum",
+            () -> EntityType.Builder.of(pl.zwiadowcy.entity.CrowdDummyEntity::new, MobCategory.MISC)
+                    .sized(0.6f, 1.8f).clientTrackingRange(10).updateInterval(3).build("tlum"));
+
     @SubscribeEvent
     public static void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(NPC.get(), StoryNpc.createAttributes().build());
@@ -96,10 +149,20 @@ public final class ModEntities {
         event.put(WARGAL_ZWIADOWCA.get(), WargalEntity.attributes(WargalEntity.Variant.ZWIADOWCA).build());
         event.put(WARGAL_OSZCZEPNIK.get(), WargalEntity.attributes(WargalEntity.Variant.OSZCZEPNIK).build());
         event.put(WARGAL_HERSZT.get(), WargalEntity.attributes(WargalEntity.Variant.HERSZT).build());
+        event.put(WARGAL_KUSZNIK.get(), WargalEntity.attributes(WargalEntity.Variant.KUSZNIK).build());
+        event.put(WARGAL_NADZORCA.get(), WargalEntity.attributes(WargalEntity.Variant.NADZORCA).build());
+        event.put(WARGAL_DOBOSZ.get(), WargalEntity.attributes(WargalEntity.Variant.DOBOSZ).build());
         event.put(BANDYTA.get(), BanditEntity.attributes(BanditEntity.Variant.BANDYTA).build());
         event.put(LUCZNIK_BANDYTOW.get(), BanditEntity.attributes(BanditEntity.Variant.LUCZNIK).build());
         event.put(HERSZT_BANDYTOW.get(), BanditEntity.attributes(BanditEntity.Variant.HERSZT).build());
         event.put(NIEDZWIEDZ.get(), BearEntity.createAttributes().build());
+        event.put(KON_TOWARZYSZA.get(), pl.zwiadowcy.entity.CompanionHorseEntity.createAttributes().build());
+        event.put(CZARNY_RUMAK.get(), pl.zwiadowcy.entity.BlackSteedEntity.createAttributes().build());
+        event.put(JEZDZIEC_MORGARATHA.get(), pl.zwiadowcy.entity.MorgarathRiderEntity.createAttributes().build());
+        event.put(TLUM.get(), pl.zwiadowcy.entity.CrowdDummyEntity.createAttributes().build());
+        event.put(SKANDYJSKI_WOJOWNIK.get(), pl.zwiadowcy.entity.SkandianEntity.attributes(pl.zwiadowcy.entity.SkandianEntity.Variant.WOJOWNIK).build());
+        event.put(SKANDYJSKI_BERSERKER.get(), pl.zwiadowcy.entity.SkandianEntity.attributes(pl.zwiadowcy.entity.SkandianEntity.Variant.BERSERKER).build());
+        event.put(MORGARATH.get(), pl.zwiadowcy.entity.MorgarathEntity.createAttributes().build());
     }
 
     @SubscribeEvent
@@ -109,7 +172,8 @@ public final class ModEntities {
         event.register(NIEDZWIEDZ.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Animal::checkAnimalSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
         for (RegistryObject<? extends EntityType<? extends net.minecraft.world.entity.monster.Monster>> type
-                : java.util.List.of(WARGAL, WARGAL_ZWIADOWCA, WARGAL_OSZCZEPNIK, WARGAL_HERSZT, BANDYTA, LUCZNIK_BANDYTOW, HERSZT_BANDYTOW)) {
+                : java.util.List.of(WARGAL, WARGAL_ZWIADOWCA, WARGAL_OSZCZEPNIK, WARGAL_HERSZT, WARGAL_KUSZNIK, WARGAL_NADZORCA, WARGAL_DOBOSZ,
+                BANDYTA, LUCZNIK_BANDYTOW, HERSZT_BANDYTOW)) {
             registerFarMonster(event, type.get());
         }
     }

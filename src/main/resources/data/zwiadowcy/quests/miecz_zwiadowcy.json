@@ -1,0 +1,70 @@
+{
+  "title": "Miecz zwiadowcy",
+  "act": "Tom II · Akt I: Poselstwo",
+  "tom": 2,
+  "order": 202,
+  "advancement": "tom2/miecz_zwiadowcy",
+  "description": "Pierwszy wieczór na zachodnim trakcie. Gilan - jedyny zwiadowca w Korpusie, który nosi miecz - uważa, że uczeń Halta powinien umieć się nim bronić. Zwłaszcza gdy łuk zostaje przy siodle.",
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "oboz_na_trakcie:ognisko", "radius": 6},
+      "text": "Dojedź do obozowiska na zachodnim trakcie",
+      "on_complete": [
+        {"type": "message", "text": "Ognisko zwiadowców: odkryte ogniska są na Mapie Gilana i pozwalają wracać tu szybko (kosztem racji podróżnej)."}
+      ]
+    },
+    {
+      "objective": {"type": "talk", "npc": "gilan"},
+      "text": "Porozmawiaj z Gilanem przy ognisku",
+      "location": "oboz_na_trakcie:gilan"
+    },
+    {
+      "objective": {"type": "event", "id": "parowanie", "count": 5},
+      "text": "Sparing z Gilanem: sparuj 5 ciosów (przytrzymaj PPM z mieczem tuż przed uderzeniem)",
+      "location": "oboz_na_trakcie:sparing",
+      "on_start": [
+        {"type": "npc_item", "npc": "gilan", "item": "zwiadowcy:miecz_cwiczebny"},
+        {"type": "npc_mode", "npc": "gilan", "mode": "duel"},
+        {"type": "title", "title": "Sparing", "subtitle": "Patrz na zamach - błysk to znak"},
+        {"type": "actionbar", "text": "Gilan zapowiada każdy cios zamachem. Podnieś gardę (PPM) tuż przed uderzeniem."}
+      ]
+    },
+    {
+      "objective": {"type": "event", "id": "kontra", "count": 3},
+      "text": "Po udanym parowaniu kontruj - 3 kontry",
+      "location": "oboz_na_trakcie:sparing",
+      "on_complete": [
+        {"type": "npc_mode", "npc": "gilan", "mode": "companion"},
+        {"type": "npc_item", "npc": "gilan", "item": "zwiadowcy:luk_zwiadowcy"}
+      ]
+    },
+    {
+      "objective": {"type": "talk", "npc": "gilan"},
+      "text": "Porozmawiaj z Gilanem",
+      "location": "oboz_na_trakcie:gilan"
+    },
+    {
+      "objective": {"type": "event", "id": "rozkaz_czekaj"},
+      "text": "Wydaj drużynie rozkaz „Czekaj tu” (przytrzymaj G, wskaż i puść)",
+      "location": "oboz_na_trakcie:ognisko"
+    },
+    {
+      "objective": {"type": "event", "id": "rozkaz_za_mna"},
+      "text": "Teraz rozkaz „Za mną”",
+      "location": "oboz_na_trakcie:ognisko",
+      "on_complete": [
+        {"type": "message", "speaker": "Horace", "text": "Rozkazy wydaje… uczeń zwiadowcy. Sir Rodney by się uśmiał. No dobrze, prowadź."}
+      ]
+    },
+    {
+      "objective": {"type": "night"},
+      "text": "Prześpij się przy ognisku - wyruszacie o świcie (połóż się na posłaniu)",
+      "location": "oboz_na_trakcie:poslania"
+    }
+  ],
+  "on_complete": [
+    {"type": "xp", "amount": 60},
+    {"type": "note", "title": "Lekcja Gilana", "text": "Gilan nauczył mnie gardy: patrzeć na zamach przeciwnika i podnieść miecz w ostatniej chwili. Sparowany cios zostawia przeciwnika odsłoniętego - wtedy kontra trafia podwójnie. Halt by powiedział, że to samo dotyczy rozmów z baronem."},
+    {"type": "start_quest", "quest": "przelecz"}
+  ]
+}

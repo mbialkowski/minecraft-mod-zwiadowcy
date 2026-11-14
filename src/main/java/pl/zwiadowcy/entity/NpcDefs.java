@@ -52,6 +52,19 @@ public final class NpcDefs {
         add("kupiec", "Wędrowny kupiec", false, false, null, Combat.NONE, none, StoryNpc.Mode.IDLE);
         add("drwal", "Ranny drwal", false, false, null, Combat.NONE, none, StoryNpc.Mode.WOUNDED);
         add("uciekinierka", "Uciekinierka", true, false, null, Combat.NONE, none, StoryNpc.Mode.IDLE);
+        // tom II: Płonący most
+        add("evanlyn", "Evanlyn", true, true, "dolina_mgiel", Combat.NONE, none, StoryNpc.Mode.IDLE);
+        add("erak", "Erak", false, true, null, Combat.MELEE, () -> new ItemStack(Items.IRON_AXE), StoryNpc.Mode.IDLE);
+        add("dafydd", "Dafydd", false, true, "kopalnia", Combat.NONE, () -> new ItemStack(Items.IRON_PICKAXE), StoryNpc.Mode.IDLE);
+        add("rhys", "Rhys", false, true, "kopalnia", Combat.NONE, none, StoryNpc.Mode.WOUNDED);
+        add("morwenna", "Morwenna", true, true, "szalas_pasterski", Combat.NONE, () -> new ItemStack(Items.SHEARS), StoryNpc.Mode.IDLE);
+        add("gornik", "Celtycki górnik", false, false, null, Combat.NONE, () -> new ItemStack(Items.IRON_PICKAXE), StoryNpc.Mode.IDLE);
+        add("uciekinier", "Celtycki uciekinier", false, false, null, Combat.NONE, none, StoryNpc.Mode.IDLE);
+        add("zolnierz", "Żołnierz Araluenu", false, false, null, Combat.MELEE, () -> new ItemStack(Items.IRON_SWORD), StoryNpc.Mode.IDLE);
+        add("lucznik_krolewski", "Łucznik królewski", false, false, null, Combat.ARCHER, () -> new ItemStack(Items.BOW), StoryNpc.Mode.IDLE);
+        add("ranny_zolnierz", "Ranny żołnierz", false, false, null, Combat.NONE, none, StoryNpc.Mode.WOUNDED);
+        add("kowal_obozowy", "Kowal obozowy", false, false, null, Combat.MELEE, () -> new ItemStack(Items.IRON_AXE), StoryNpc.Mode.IDLE);
+        add("skandyjski_zwiadowca", "Skandyjski zwiadowca", false, false, null, Combat.MELEE, () -> new ItemStack(Items.IRON_AXE), StoryNpc.Mode.IDLE);
     }
 
     @Nullable

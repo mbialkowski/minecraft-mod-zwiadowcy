@@ -1,0 +1,40 @@
+{
+  "title": "Obcy na trakcie",
+  "act": "Tom II · Misje poboczne",
+  "tom": 2,
+  "order": 222,
+  "advancement": "tom2/obcy_na_trakcie",
+  "description": "W połowie drogi do Uthal ktoś okrada wóz kupca. To nie Wargale ani dezerterzy - wysocy, jasnowłosi, w futrach i rogatych hełmach. Skandianie, tu, w głębi Araluenu?",
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "szlak_obcy_na_trakcie:miejsce", "radius": 14},
+      "text": "Sprawdź, kto kręci się przy wozie kupca na trakcie (dobrowolnie)",
+      "on_complete": [
+        {"type": "track", "quest": "obcy_na_trakcie"},
+        {"type": "spawn_npc", "npc": "skandyjski_zwiadowca", "radius": 6, "face": "szlak_obcy_na_trakcie:kupiec",
+          "at": ["szlak_obcy_na_trakcie:miejsce", "szlak_obcy_na_trakcie:miejsce", "szlak_obcy_na_trakcie:miejsce"]},
+        {"type": "message", "speaker": "Wędrowny kupiec", "text": "Ratunku! Ci… ci północni zabierają mi wszystko!"}
+      ]
+    },
+    {
+      "objective": {"type": "talk", "npc": "skandyjski_zwiadowca"},
+      "text": "Rozmówca czy wojownik? Podejdź do Skandian",
+      "location": "szlak_obcy_na_trakcie:miejsce"
+    },
+    {
+      "objective": {"type": "kill", "entity": "zwiadowcy:skandyjski_wojownik", "count": 3, "tagged": true},
+      "text": "Pokonaj skandyjskich zwiadowców",
+      "location": "szlak_obcy_na_trakcie:miejsce"
+    },
+    {
+      "objective": {"type": "talk", "npc": "kupiec"},
+      "text": "Sprawdź, co z kupcem",
+      "location": "szlak_obcy_na_trakcie:kupiec"
+    }
+  ],
+  "on_complete": [
+    {"type": "skill", "id": "czujne_ucho"},
+    {"type": "xp", "amount": 60},
+    {"type": "note", "title": "Skandianie", "text": "Skandianie to wilki morskie z północy. Morgarath płaci im złotem, a ich jarl - Erak - przypłynął po łupy, nie po chwałę. Ci przy wozie byli zwiadowcami jego drużyny. Jeśli Skandianie są w Araluenie, to nie przyszli tu sami."}
+  ]
+}

@@ -46,6 +46,7 @@ minecraft {
             // gradlew runClient -Pzdjecia=true  → sesja zdjęciowa do README (zrzuty w run/screenshots)
             if (project.hasProperty('zdjecia')) {
                 property 'zwiadowcy.zdjecia', 'true'
+                property 'zwiadowcy.zdjecia.od', project.findProperty('od') ?: '0'
                 args '--width', '1600', '--height', '900'
             }
         }
@@ -54,6 +55,7 @@ minecraft {
             property 'forge.enabledGameTestNamespaces', mod_id
             // gradlew runServer -Pselftest=true  → autotest danych fabularnych (raport w run/selftest.txt)
             property 'zwiadowcy.selftest', project.findProperty('selftest') ?: 'false'
+            property 'zwiadowcy.selftest.swiat', project.findProperty('swiat') ?: 'false'
             args '--nogui'
         }
     }

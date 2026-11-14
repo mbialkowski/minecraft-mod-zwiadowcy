@@ -19,7 +19,7 @@ final class MobGen {
         cloak();
     }
 
-    enum Extra { NONE, BELT, HARNESS, WARPAINT }
+    enum Extra { NONE, BELT, HARNESS, WARPAINT, QUIVER, COLLAR, DRUMSTRAP }
 
     // ------------------------------------------------------------------ Niedźwiedź (PolarBearModel) 128×64
     static void bear() throws Exception {
@@ -112,6 +112,9 @@ final class MobGen {
                         p.rect(x, y + 8, w, 2, Px.rgb(0x3a2a1a));
                         p.set(x + w / 2, y + 8, iron);
                     }
+                    case QUIVER -> { p.line(x, y, x + w - 1, y + h - 1, leather); p.rect(x, y + 8, w, 1, Px.rgb(0x3a2a1a)); }
+                    case COLLAR -> { p.rect(x, y, w, 2, iron); p.set(x + w / 2, y + 2, iron); p.rect(x, y + 8, w, 2, Px.rgb(0x1a1410)); }
+                    case DRUMSTRAP -> { p.line(x + w - 1, y, x, y + h - 1, leather); p.rect(x + 2, y + 4, 2, 2, paint); }
                     default -> {}
                 }
             }
@@ -119,6 +122,9 @@ final class MobGen {
                 p.rect(x + 3, y, 3, h, dark);
                 if (extra == Extra.HARNESS) { p.line(x, y, x + w - 1, y + h - 1, leather); p.line(x + w - 1, y, x, y + h - 1, leather); }
                 if (extra == Extra.WARPAINT) p.rect(x + 2, y + 2, 5, 1, paint);
+                if (extra == Extra.QUIVER) { p.rect(x + 2, y, 4, h - 2, leather); for (int i = 0; i < 3; i++) p.set(x + 3 + i, y, bone); }
+                if (extra == Extra.COLLAR) p.rect(x, y, w, 2, iron);
+                if (extra == Extra.DRUMSTRAP) p.line(x, y, x + w - 1, y + h - 1, leather);
             }
             if (extra == Extra.WARPAINT && f.equals("top")) p.noisy(x, y, w, h, iron, 0.1);
         });

@@ -1,0 +1,1 @@
+{"parent":"zwiadowcy:tom2/wyscig_z_czasem","display":{"icon":{"item":"minecraft:campfire"},"title":{"text":"Noc przed bitwą"},"description":{"text":"Porozmawiaj z przyjaciółmi przed bitwą"},"frame":"task","show_toast":true,"announce_to_chat":false,"hidden":false},"criteria":{"done":{"trigger":"minecraft:impossible"}}}

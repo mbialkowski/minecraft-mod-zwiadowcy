@@ -1,0 +1,60 @@
+{
+  "title": "Wezwanie",
+  "act": "Tom II · Akt I: Poselstwo",
+  "tom": 2,
+  "order": 201,
+  "advancement": "tom2/wezwanie",
+  "description": "Morgarath zbiera armię w Górach Deszczu i Nocy, a król Duncan ściąga wojska na Równinę Uthal. Do chaty Halta przyszedł list od Crowleya, komendanta Korpusu Zwiadowców. Coś się szykuje - i tym razem uczeń jedzie razem z innymi.",
+  "on_start": [
+    {"type": "move_npc", "npc": "halt", "to": "chata_halta:halt", "face": "chata_halta:chata"}
+  ],
+  "stages": [
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Porozmawiaj z Haltem w jego chacie",
+      "location": "chata_halta:halt"
+    },
+    {
+      "objective": {"type": "reach", "location": "redmont:dziedziniec", "radius": 10},
+      "text": "Jedź do zamku Redmont - Crowley czeka na dziedzińcu",
+      "on_start": [
+        {"type": "move_npc", "npc": "crowley", "to": "redmont:krol", "face": "redmont:dziedziniec"},
+        {"type": "move_npc", "npc": "sir_rodney", "to": "redmont:sir_rodney", "face": "redmont:dziedziniec"},
+        {"type": "move_npc", "npc": "horace", "to": "redmont:koszary", "face": "redmont:dziedziniec"},
+        {"type": "move_npc", "npc": "gilan", "to": "redmont:gilan_ceremonia", "face": "redmont:krol"}
+      ]
+    },
+    {
+      "objective": {"type": "talk", "npc": "crowley"},
+      "text": "Wysłuchaj Crowleya",
+      "location": "redmont:krol"
+    },
+    {
+      "objective": {"type": "talk", "npc": "sir_rodney"},
+      "text": "Porozmawiaj z sir Rodneyem przed koszarami",
+      "location": "redmont:sir_rodney"
+    },
+    {
+      "objective": {"type": "talk", "npc": "kowal"},
+      "text": "Odbierz zapasy na drogę u kowala",
+      "location": "redmont:kowal"
+    },
+    {
+      "objective": {"type": "ride_with", "location": "redmont:przybycie", "radius": 8, "npcs": ["gilan", "horace"]},
+      "text": "Wyjedź z Gilanem i Horace'em przez bramę zamku",
+      "on_start": [
+        {"type": "companion_join", "npc": "gilan"},
+        {"type": "companion_join", "npc": "horace"},
+        {"type": "message", "text": "Gilan i Horace dołączają do drużyny. Przytrzymaj G, by wydawać im rozkazy. Gdy jedziesz na Wyrwiju, oni też jadą konno."}
+      ],
+      "on_complete": [
+        {"type": "cutscene", "id": "wyjazd_z_redmontu"}
+      ]
+    }
+  ],
+  "on_complete": [
+    {"type": "xp", "amount": 60},
+    {"type": "note", "title": "Rozkazy Crowleya", "text": "Jadę z Gilanem jako poseł do Celtyki. Mamy prosić króla Celtów o pomoc przeciw Morgarathowi. Sir Rodney dał nam za eskortę Horace'a - po raz pierwszy jedziemy gdzieś razem, a nie na siebie. Droga prowadzi na zachód, przez Przełęcz Wiatrów."},
+    {"type": "start_quest", "quest": "miecz_zwiadowcy"}
+  ]
+}

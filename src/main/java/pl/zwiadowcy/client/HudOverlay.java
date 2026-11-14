@@ -30,6 +30,8 @@ public final class HudOverlay implements IGuiOverlay {
     public void render(ForgeGui gui, GuiGraphics g, float partialTick, int width, int height) {
         Minecraft mc = Minecraft.getInstance();
         if (mc.options.hideGui || mc.player == null || mc.screen instanceof DialogueScreen) return;
+        // Oczy tropiciela: przygaszony, szarobrązowy obraz
+        if (ClientQuestData.trackerActive) g.fill(0, 0, width, height, 0x38403020);
         Font font = mc.font;
         renderTracker(mc, g, font);
         renderStealth(mc, g, font, width, height);

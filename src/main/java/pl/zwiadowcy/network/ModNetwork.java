@@ -8,7 +8,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
 import pl.zwiadowcy.Zwiadowcy;
 
 public final class ModNetwork {
-    private static final String PROTOCOL = "1";
+    private static final String PROTOCOL = "2";
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             Zwiadowcy.id("main"), () -> PROTOCOL, PROTOCOL::equals, PROTOCOL::equals);
 
@@ -32,6 +32,15 @@ public final class ModNetwork {
         CHANNEL.messageBuilder(ActionPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
                 .encoder(ActionPacket::encode).decoder(ActionPacket::decode)
                 .consumerMainThread(ActionPacket::handle).add();
+        CHANNEL.messageBuilder(OpenEndScreenPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(OpenEndScreenPacket::encode).decoder(OpenEndScreenPacket::decode)
+                .consumerMainThread(OpenEndScreenPacket::handle).add();
+        CHANNEL.messageBuilder(OpenScreenPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(OpenScreenPacket::encode).decoder(OpenScreenPacket::decode)
+                .consumerMainThread(OpenScreenPacket::handle).add();
+        CHANNEL.messageBuilder(PlayCutscenePacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(PlayCutscenePacket::encode).decoder(PlayCutscenePacket::decode)
+                .consumerMainThread(PlayCutscenePacket::handle).add();
     }
 
     public static void sendTo(ServerPlayer player, Object packet) {

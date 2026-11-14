@@ -1,0 +1,15 @@
+{
+  "location": "dolina_mgiel:wieza",
+  "keyframes": [
+    {"t": 0, "pos": [0, 2, 6], "look": [0, 1.6, -8], "fov": 70},
+    {"t": 60, "pos": [3, 2.4, 1], "look": [0, 1.6, -7], "fov": 60},
+    {"t": 110, "pos": [0, 2, -3], "look": [0, 1.6, -8], "fov": 50}
+  ],
+  "subtitles": [
+    {"t": 5, "d": 55, "text": "W ruinach wieży, z nożem w dłoni, stoi dziewczyna."},
+    {"t": 60, "d": 50, "text": "Patrzy na ciebie tak, jakby wciąż nie była pewna, po czyjej jesteś stronie."}
+  ],
+  "events": [
+    {"t": 110, "action": {"type": "fire_event", "id": "przerywnik_evanlyn"}}
+  ]
+}

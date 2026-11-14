@@ -72,6 +72,41 @@ public class QuestProgress {
     public int tugGeneration;
     @Nullable public BlockPos overworldReturnPos;
 
+    // ---- tom II
+    /** Wersja danych gracza: 1 = tom I (1.0.x), 2 = tom II (2.0). */
+    public static final int DATA_VERSION = 2;
+    public int dataVersion = DATA_VERSION;
+    /** Ukryte zaufanie towarzyszy (0-100). */
+    private final Map<String, Integer> trust = new HashMap<>();
+    /** Zdobyte umiejętności-odznaki. */
+    private final Set<String> skills = new LinkedHashSet<>();
+    /** Odkryte ogniska zwiadowców (szybka podróż). */
+    private final Set<String> campfires = new LinkedHashSet<>();
+    /** Poziom trudności fabularnej tomu II: opowiesc, zwiadowca, weteran. */
+    public String difficulty = "zwiadowca";
+    /** Ekwipunek przechowany na czas niewoli (tom II, misja wilcze_okrety). */
+    @Nullable public ListTag storedInventory;
+
+    public int trust(String npc) { return trust.getOrDefault(npc, defaultTrust(npc)); }
+    public void setTrust(String npc, int value) { trust.put(npc, Math.max(0, Math.min(100, value))); }
+    public Map<String, Integer> trustMap() { return trust; }
+
+    private static int defaultTrust(String npc) {
+        return switch (npc) {
+            case "gilan" -> 60;
+            case "evanlyn" -> 40;
+            default -> 50;
+        };
+    }
+
+    public boolean hasSkill(String skill) { return skills.contains(skill); }
+    public boolean addSkill(String skill) { return skills.add(skill); }
+    public Set<String> skills() { return skills; }
+
+    public boolean knowsCampfire(String id) { return campfires.contains(id); }
+    public boolean addCampfire(String id) { return campfires.add(id); }
+    public Set<String> campfires() { return campfires; }
+
     public Map<String, State> states() { return states; }
     @Nullable public State get(String quest) { return states.get(quest); }
 
@@ -106,6 +141,10 @@ public class QuestProgress {
         states.clear();
         flags.clear();
         notes.clear();
+        trust.clear();
+        skills.clear();
+        campfires.clear();
+        storedInventory = null;
         tracked = "";
     }
 
@@ -134,6 +173,14 @@ public class QuestProgress {
         if (tugUuid != null) tag.putUUID("tug", tugUuid);
         tag.putInt("tugGen", tugGeneration);
         if (overworldReturnPos != null) tag.put("owReturn", NbtUtils.writeBlockPos(overworldReturnPos));
+        tag.putInt("dataVersion", dataVersion);
+        CompoundTag tr = new CompoundTag();
+        trust.forEach(tr::putInt);
+        tag.put("trust", tr);
+        tag.put("skills", stringList(skills));
+        tag.put("campfires", stringList(campfires));
+        tag.putString("difficulty", difficulty);
+        if (storedInventory != null) tag.put("storedInventory", storedInventory);
         return tag;
     }
 
@@ -159,5 +206,26 @@ public class QuestProgress {
         tugUuid = tag.hasUUID("tug") ? tag.getUUID("tug") : null;
         tugGeneration = tag.getInt("tugGen");
         overworldReturnPos = tag.contains("owReturn") ? NbtUtils.readBlockPos(tag.getCompound("owReturn")) : null;
+        // zapisy z 1.0.x nie mają wersji danych - migracja do tomu II nie wymaga zmian w stanie misji
+        dataVersion = DATA_VERSION;
+        trust.clear();
+        CompoundTag tr = tag.getCompound("trust");
+        for (String k : tr.getAllKeys()) trust.put(k, tr.getInt(k));
+        skills.clear();
+        readStrings(tag.getList("skills", Tag.TAG_STRING), skills);
+        campfires.clear();
+        readStrings(tag.getList("campfires", Tag.TAG_STRING), campfires);
+        difficulty = tag.contains("difficulty") ? tag.getString("difficulty") : "zwiadowca";
+        storedInventory = tag.contains("storedInventory") ? tag.getList("storedInventory", Tag.TAG_COMPOUND) : null;
+    }
+
+    private static ListTag stringList(Collection<String> values) {
+        ListTag l = new ListTag();
+        values.forEach(v -> l.add(StringTag.valueOf(v)));
+        return l;
+    }
+
+    private static void readStrings(ListTag list, Collection<String> into) {
+        for (int i = 0; i < list.size(); i++) into.add(list.getString(i));
     }
 }

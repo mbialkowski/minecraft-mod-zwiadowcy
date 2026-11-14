@@ -13,11 +13,20 @@ import java.util.*;
  */
 public record QuestDefinition(String id, String title, String act, String description, int order,
                               boolean repeatable, @Nullable String advancement, List<Stage> stages,
-                              JsonArray onStart, JsonArray onComplete) {
+                              JsonArray onStart, JsonArray onComplete, int tom) {
 
     public record Objective(String type, JsonObject params) {
         public int count() {
             return GsonHelper.getAsInt(params, "count", 1);
+        }
+
+        /** Liczba z warunkiem: {"count": 4, "count_if_flag": {"flag": "rhys_uratowany", "count": 3}}. */
+        public int count(@Nullable QuestProgress prog) {
+            if (prog != null && params.has("count_if_flag")) {
+                JsonObject c = GsonHelper.getAsJsonObject(params, "count_if_flag");
+                if (prog.hasFlag(GsonHelper.getAsString(c, "flag", ""))) return GsonHelper.getAsInt(c, "count", count());
+            }
+            return count();
         }
 
         public String str(String key) {
@@ -44,7 +53,8 @@ public record QuestDefinition(String id, String title, String act, String descri
     }
 
     public record Stage(Objective objective, String text, @Nullable String location,
-                        JsonArray onStart, JsonArray onComplete, Map<String, JsonArray> triggers) {}
+                        JsonArray onStart, JsonArray onComplete, Map<String, JsonArray> triggers,
+                        boolean noFastTravel, boolean restartOnDeath, boolean battle, JsonArray onRestart) {}
 
     public static QuestDefinition parse(String id, JsonObject json) {
         List<Stage> stages = new ArrayList<>();
@@ -62,7 +72,11 @@ public record QuestDefinition(String id, String title, String act, String descri
                     so.has("location") ? GsonHelper.getAsString(so, "location") : null,
                     GsonHelper.getAsJsonArray(so, "on_start", new JsonArray()),
                     GsonHelper.getAsJsonArray(so, "on_complete", new JsonArray()),
-                    triggers));
+                    triggers,
+                    GsonHelper.getAsBoolean(so, "no_fast_travel", false),
+                    GsonHelper.getAsBoolean(so, "restart_on_death", false),
+                    GsonHelper.getAsBoolean(so, "battle", false),
+                    GsonHelper.getAsJsonArray(so, "on_restart", new JsonArray())));
         }
         return new QuestDefinition(id,
                 GsonHelper.getAsString(json, "title", id),
@@ -73,7 +87,8 @@ public record QuestDefinition(String id, String title, String act, String descri
                 json.has("advancement") ? GsonHelper.getAsString(json, "advancement") : null,
                 Collections.unmodifiableList(stages),
                 GsonHelper.getAsJsonArray(json, "on_start", new JsonArray()),
-                GsonHelper.getAsJsonArray(json, "on_complete", new JsonArray()));
+                GsonHelper.getAsJsonArray(json, "on_complete", new JsonArray()),
+                GsonHelper.getAsInt(json, "tom", 1));
     }
 
     @Nullable

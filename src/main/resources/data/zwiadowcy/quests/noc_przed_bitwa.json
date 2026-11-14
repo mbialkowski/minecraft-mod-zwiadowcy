@@ -1,0 +1,48 @@
+{
+  "title": "Noc przed bitwą",
+  "act": "Tom II · Akt III: Płonący most",
+  "tom": 2,
+  "order": 213,
+  "advancement": "tom2/noc_przed_bitwa",
+  "description": "Jutro o świcie armia Araluenu stanie na Równinie Uthal. Obóz nie śpi: kowale klepią kolczugi, rycerze modlą się albo udają, że się nie boją. Zanim zaśniesz, warto z kimś porozmawiać.",
+  "on_start": [
+    {"type": "move_npc", "npc": "gilan", "to": "oboz_krolewski:gilan", "mode": "idle", "face": "oboz_krolewski:ognisko"},
+    {"type": "move_npc", "npc": "evanlyn", "to": "oboz_krolewski:evanlyn", "mode": "idle", "face": "oboz_krolewski:ognisko"},
+    {"type": "companion_leave", "npc": "horace"},
+    {"type": "move_npc", "npc": "horace", "to": "oboz_krolewski:horace", "mode": "idle", "face": "oboz_krolewski:ognisko"},
+    {"type": "checkpoint", "at": "oboz_krolewski:namiot_willa"}
+  ],
+  "stages": [
+    {
+      "objective": {"type": "talk", "npc": "sir_rodney"},
+      "text": "Porozmawiaj z sir Rodneyem - Horace ma stanąć w szyku rycerzy",
+      "location": "oboz_krolewski:rodney"
+    },
+    {
+      "objective": {"type": "talk", "npc": "kowal_obozowy"},
+      "text": "Zajdź do kowala obozowego - naprawi broń i da zapas strzał",
+      "location": "oboz_krolewski:kowal"
+    },
+    {
+      "objective": {"type": "talk", "npc": "gilan"},
+      "text": "Gilan wrócił! Porozmawiaj z nim przy ognisku zwiadowców",
+      "location": "oboz_krolewski:gilan"
+    },
+    {
+      "objective": {"type": "talk", "npc": "evanlyn"},
+      "text": "Porozmawiaj z Evanlyn przy ognisku",
+      "location": "oboz_krolewski:evanlyn"
+    },
+    {
+      "objective": {"type": "night"},
+      "text": "Prześpij się w namiocie zwiadowców przed bitwą",
+      "location": "oboz_krolewski:namiot_willa"
+    }
+  ],
+  "on_complete": [
+    {"type": "xp", "amount": 80},
+    {"type": "note", "title": "Noc przed bitwą", "text": "Gilan wrócił z wieściami: Morgarath przejdzie Przełęczą Trzech Stopni i stanie przed nami na równinie. Bez mostu nie zajdzie nas od tyłu. Za koniowiązami Wargali stoi podobno jego czarny rumak - gdyby ktoś poluzował mu popręg…"},
+    {"type": "start_quest", "quest": "czarny_rumak"},
+    {"type": "start_quest", "quest": "bitwa_uthal"}
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "title": "Wilcze okręty",
+  "act": "Tom II · Akt III: Płonący most",
+  "tom": 2,
+  "order": 216,
+  "advancement": "tom2/wilcze_okrety",
+  "description": "Po bitwie obóz świętuje, ale nad rzeką wciąż leżą ranni. Evanlyn chce im pomóc, zanim zapadnie zmrok - a rozlewisko jest daleko od straży.",
+  "on_start": [
+    {"type": "companion_leave", "npc": "horace"},
+    {"type": "move_npc", "npc": "horace", "to": "oboz_krolewski:horace", "mode": "idle", "face": "oboz_krolewski:ognisko"},
+    {"type": "move_npc", "npc": "evanlyn", "to": "oboz_krolewski:evanlyn", "mode": "idle", "face": "oboz_krolewski:halt"}
+  ],
+  "stages": [
+    {
+      "objective": {"type": "talk", "npc": "halt"},
+      "text": "Wróć do obozu i porozmawiaj z Haltem",
+      "no_fast_travel": true,
+      "location": "oboz_krolewski:halt"
+    },
+    {
+      "objective": {"type": "heal", "npcs": ["ranny_zolnierz"], "count": 3},
+      "text": "Opatrz trzech rannych nad rzeką (PPM z racją podróżną)",
+      "no_fast_travel": true,
+      "location": "brzeg_rzeki:ranni_2",
+      "on_start": [
+        {"type": "move_npc", "npc": "evanlyn", "to": "brzeg_rzeki:evanlyn", "mode": "idle", "face": "brzeg_rzeki:ranni_2"},
+        {"type": "spawn_npc", "npc": "ranny_zolnierz", "mode": "wounded", "radius": 2, "at": ["brzeg_rzeki:ranni_1", "brzeg_rzeki:ranni_2", "brzeg_rzeki:ranni_3"]},
+        {"type": "give_item", "item": "zwiadowcy:racje_podrozne", "count": 3},
+        {"type": "message", "speaker": "Evanlyn", "text": "Weź te racje i bandaże. Ja zajmę się tym przy szałasie, ty tamtymi trzema."}
+      ]
+    },
+    {
+      "objective": {"type": "survive", "seconds": 40, "until_health": 0.3, "no_death": true},
+      "text": "Skandianie! Broń Evanlyn!",
+      "no_fast_travel": true,
+      "location": "brzeg_rzeki:skandianie",
+      "on_start": [
+        {"type": "move_npc", "npc": "erak", "to": "brzeg_rzeki:skandianie", "mode": "idle", "face": "brzeg_rzeki:evanlyn"},
+        {"type": "spawn", "entity": "zwiadowcy:skandyjski_wojownik", "at": "brzeg_rzeki:skandianie", "count": 3, "angry": true},
+        {"type": "spawn", "entity": "zwiadowcy:skandyjski_wojownik", "at": "brzeg_rzeki:skandianie_2", "count": 3, "angry": true},
+        {"type": "spawn", "entity": "zwiadowcy:skandyjski_berserker", "at": "brzeg_rzeki:skandianie_2", "count": 2, "angry": true},
+        {"type": "message", "speaker": "Erak", "text": "Patrzcie no! Chłopak w zielonym płaszczu - i dziewczyna, która wygląda na kogoś ważnego. Brać ich, ale żywych!"},
+        {"type": "title", "title": "Skandianie Eraka", "subtitle": "Jest ich zbyt wielu…"}
+      ],
+      "on_complete": [
+        {"type": "clear_mobs"},
+        {"type": "capture", "to": "brzeg_rzeki:okret_will"},
+        {"type": "move_npc", "npc": "evanlyn", "to": "brzeg_rzeki:okret_evanlyn", "mode": "idle", "face": "brzeg_rzeki:okret_will"},
+        {"type": "move_npc", "npc": "erak", "to": "brzeg_rzeki:okret_erak", "mode": "idle", "face": "brzeg_rzeki:okret_will"},
+        {"type": "story", "story": "tom2_niewola", "delay": 230},
+        {"type": "cutscene", "id": "niewola"}
+      ]
+    },
+    {
+      "objective": {"type": "talk", "npc": "erak"},
+      "text": "Budzisz się na pokładzie wilczego okrętu. Porozmawiaj z Erakiem",
+      "no_fast_travel": true,
+      "location": "brzeg_rzeki:okret_erak"
+    },
+    {
+      "objective": {"type": "talk", "npc": "evanlyn"},
+      "text": "Porozmawiaj z Evanlyn",
+      "no_fast_travel": true,
+      "location": "brzeg_rzeki:okret_evanlyn"
+    }
+  ],
+  "on_complete": [
+    {"type": "xp", "amount": 200},
+    {"type": "move_npc", "npc": "gilan", "to": "krawedz:ognisko", "mode": "idle", "face": "krawedz:punkt_obserwacyjny"},
+    {"type": "note", "title": "Wilczy okręt", "text": "Jesteśmy w niewoli Skandian. Erak, ich jarl, mówi, że płyniemy do Skandii, za morze. Ma szacunek dla „chłopaka, który spalił most” - ale to nie znaczy, że nas wypuści. Evanlyn milczy. Myślę, że ona wie, ile jest warta dla kogoś po drugiej stronie."},
+    {"type": "story", "story": "epilog_tom2", "delay": 60}
+  ]
+}

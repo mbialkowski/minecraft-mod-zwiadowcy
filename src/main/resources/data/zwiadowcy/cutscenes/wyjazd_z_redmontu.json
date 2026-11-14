@@ -1,0 +1,13 @@
+{
+  "location": "redmont:przybycie",
+  "keyframes": [
+    {"t": 0, "pos": [0, 12, -22], "look": [0, 2, 0], "fov": 70},
+    {"t": 60, "pos": [9, 9, -4], "look": [0, 2, 8], "fov": 70},
+    {"t": 120, "pos": [0, 6, 28], "look": [0, 6, -10], "fov": 65},
+    {"t": 170, "pos": [0, 11, 42], "look": [0, 9, -22], "fov": 60}
+  ],
+  "subtitles": [
+    {"t": 10, "d": 75, "text": "Trzech jeźdźców wyjeżdża z Redmontu: poseł, rycerz i uczeń zwiadowcy."},
+    {"t": 95, "d": 75, "text": "Brama zamyka się za nimi. Przed nimi zachodni trakt - i góry."}
+  ]
+}

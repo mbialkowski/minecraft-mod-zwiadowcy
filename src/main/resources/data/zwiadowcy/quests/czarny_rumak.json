@@ -1,0 +1,45 @@
+{
+  "title": "Czarny rumak",
+  "act": "Tom II · Misje poboczne",
+  "tom": 2,
+  "order": 223,
+  "advancement": "tom2/czarny_rumak",
+  "description": "Morgarath jeździ na czarnym rumaku, którego boją się nawet Wargale. Koń stoi nocą przy koniowiązach za szykami wroga. Popręg poluzowany przed bitwą może zdecydować o wszystkim - a koniowi nic się nie stanie.",
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "rownina_uthal:podejscie_koniowiaz", "radius": 8},
+      "text": "Nocą podkradnij się za szyki wroga, do koniowiązów (dobrowolnie, przed rozmową z Haltem o świcie)",
+      "on_complete": [
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "rownina_uthal:straz_koni_1", "czujny": true, "sentry": true, "face": "rownina_uthal:rumak"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "rownina_uthal:straz_koni_3", "czujny": true, "sentry": true, "face": "rownina_uthal:podejscie_koniowiaz"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_oszczepnik", "at": "rownina_uthal:straz_koni_2", "czujny": true, "home": "rownina_uthal:rumak", "home_radius": 10},
+        {"type": "spawn", "entity": "minecraft:horse", "at": "rownina_uthal:rumak", "home": "rownina_uthal:rumak", "home_radius": 2, "name": "Czarny rumak"},
+        {"type": "actionbar", "text": "Strażnicy przy koniowiązach. Kucaj i trzymaj się krzaków."}
+      ]
+    },
+    {
+      "objective": {"type": "use", "anchors": ["rownina_uthal:rumak"]},
+      "text": "Poluzuj popręg czarnego rumaka (PPM przy koniowiązie)",
+      "location": "rownina_uthal:rumak",
+      "on_complete": [
+        {"type": "set_flag", "flag": "popreg_poluzowany"},
+        {"type": "sound", "sound": "minecraft:entity.horse.saddle", "pitch": 0.7},
+        {"type": "actionbar", "text": "Klamra puszcza o jedną dziurkę. Przy pierwszym ostrym zwrocie siodło się przesunie."}
+      ],
+      "triggers": {
+        "alarm": [
+          {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "rownina_uthal:straz_koni_4", "count": 2, "angry": true}
+        ]
+      }
+    },
+    {
+      "objective": {"type": "reach", "location": "oboz_krolewski:ognisko", "radius": 8},
+      "text": "Wróć niezauważony do obozu"
+    }
+  ],
+  "on_complete": [
+    {"type": "skill", "id": "przyjaciel_koni"},
+    {"type": "xp", "amount": 80},
+    {"type": "note", "title": "Popręg", "text": "Rumak Morgaratha jest piękny i zły jak jego pan. Pogłaskałem go po szyi i poluzowałem popręg. Jutro, przy pierwszym ostrym zwrocie, Morgarath może się zdziwić."}
+  ]
+}

@@ -58,6 +58,13 @@ public class QuiverItem extends Item {
         ContainerHelper.saveAllItems(tag, items, true);
     }
 
+    /** Wypełnia kołczan podanymi strzałami (po jednej przegródce na stos). */
+    public static void fill(ItemStack quiver, ItemStack... arrows) {
+        NonNullList<ItemStack> items = NonNullList.withSize(SLOTS, ItemStack.EMPTY);
+        for (int i = 0; i < arrows.length && i < SLOTS; i++) items.set(i, arrows[i].copy());
+        save(quiver, items);
+    }
+
     public static void saveFrom(ItemStack quiver, Container container) {
         NonNullList<ItemStack> items = NonNullList.withSize(SLOTS, ItemStack.EMPTY);
         for (int i = 0; i < SLOTS; i++) items.set(i, container.getItem(i));

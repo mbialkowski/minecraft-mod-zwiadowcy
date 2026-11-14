@@ -1,0 +1,33 @@
+{
+  "title": "Zlecenie: droga do domu",
+  "act": "Zlecenia zwiadowcy",
+  "tom": 2,
+  "order": 231,
+  "repeatable": true,
+  "description": "Na Krawędzi czekają celtyccy uciekinierzy, którzy boją się wracać sami przez wrzosowiska. Gilan prosi, żeby odprowadzić ich do Tre-Gwyn.",
+  "stages": [
+    {
+      "objective": {"type": "ride_with", "location": "tre_gwyn:ognisko", "radius": 10, "npcs": ["uciekinier"], "companion_radius": 24},
+      "text": "Odprowadź trzech uciekinierów do Tre-Gwyn (idą za tobą - nie oddalaj się)",
+      "location": "tre_gwyn:ognisko",
+      "no_fast_travel": true,
+      "on_start": [
+        {"type": "spawn_npc", "npc": "uciekinier", "follow": true, "at": ["krawedz:punkt_zbiorczy", "krawedz:punkt_zbiorczy", "krawedz:punkt_zbiorczy"]}
+      ],
+      "on_complete": [
+        {"type": "npc_flee", "npc": "uciekinier", "near": "tre_gwyn:ognisko", "radius": 30, "to": "tre_gwyn:ognisko", "ticks": 200},
+        {"type": "message", "speaker": "Celtycki uciekinier", "text": "Dom… Nawet spalony, to wciąż dom. Dziękujemy, zwiadowco."}
+      ]
+    },
+    {
+      "objective": {"type": "talk", "npc": "gilan"},
+      "text": "Wróć do Gilana na Krawędź",
+      "location": "krawedz:ognisko"
+    }
+  ],
+  "on_complete": [
+    {"type": "give_item", "item": "zwiadowcy:kawa_zwiadowcy", "count": 2},
+    {"type": "give_item", "item": "zwiadowcy:racje_podrozne", "count": 4},
+    {"type": "xp", "amount": 70}
+  ]
+}

@@ -10,7 +10,7 @@ import pl.zwiadowcy.Zwiadowcy;
 import pl.zwiadowcy.entity.WargalEntity;
 
 /** Wargal: zgarbiony, psi łeb na ludzkim tułowiu. Tekstura 64×64 (TextureGen.wargal). */
-public class WargalModel extends HierarchicalModel<WargalEntity> implements net.minecraft.client.model.ArmedModel {
+public class WargalModel<T extends net.minecraft.world.entity.LivingEntity> extends HierarchicalModel<T> implements net.minecraft.client.model.ArmedModel {
 
     @Override
     public void translateToHand(net.minecraft.world.entity.HumanoidArm arm, com.mojang.blaze3d.vertex.PoseStack pose) {
@@ -67,13 +67,18 @@ public class WargalModel extends HierarchicalModel<WargalEntity> implements net.
         return LayerDefinition.create(mesh, 64, 64);
     }
 
+    /** Uniesiona broń (manekiny tłumu w bitwie). */
+    public void raiseRightArm(float xRot) {
+        rightArm.xRot = xRot;
+    }
+
     @Override
     public ModelPart root() {
         return root;
     }
 
     @Override
-    public void setupAnim(WargalEntity e, float limbSwing, float limbAmount, float age, float yaw, float pitch) {
+    public void setupAnim(T e, float limbSwing, float limbAmount, float age, float yaw, float pitch) {
         float walk = Mth.cos(limbSwing * 0.6662f) * 1.3f * limbAmount;
         rightLeg.xRot = walk;
         leftLeg.xRot = -walk;
@@ -86,7 +91,7 @@ public class WargalModel extends HierarchicalModel<WargalEntity> implements net.
             rightArm.xRot = -2.0f * s;
             leftArm.xRot = -1.6f * s;
         }
-        if (e.isSentry()) {
+        if (e instanceof WargalEntity w && w.isSentry()) {
             rightArm.xRot = -0.1f;
             leftArm.xRot = -0.1f;
         }

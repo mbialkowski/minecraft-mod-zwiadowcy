@@ -76,11 +76,18 @@ public final class Araluen {
                 player.getInventory().add(new ItemStack(ModItems.DZIENNIK_ZWIADOWCY.get()));
             }
             QuestEngine.awardAdvancement(player, "misje/araluen");
+            if (progress.hasFlag(pl.zwiadowcy.volume.Volumes.FLAG_QUICK)) {
+                // szybki start od tomu II: bez prologu tomu I i bez Dnia Wyboru
+                pl.zwiadowcy.volume.Volumes.onQuickStartArrival(player);
+                QuestEngine.sync(player);
+                return;
+            }
             progress.addNote(pl.zwiadowcy.story.StoryTexts.PROLOG_NOTE_TITLE, pl.zwiadowcy.story.StoryTexts.PROLOG_NOTE);
             // prolog na ekranie-kronice, gdy zniknie ekran ładowania wymiaru; potem baron podchodzi do gracza
             pl.zwiadowcy.story.StoryService.queue(player, pl.zwiadowcy.story.StoryTexts.PROLOG, 50);
         }
-        if (!progress.isActive(FIRST_QUEST) && !progress.isCompleted(FIRST_QUEST)) {
+        if (!progress.isActive(FIRST_QUEST) && !progress.isCompleted(FIRST_QUEST)
+                && !progress.hasFlag(pl.zwiadowcy.volume.Volumes.FLAG_TOM1_SKIPPED)) {
             QuestEngine.start(player, FIRST_QUEST);
         }
         QuestEngine.sync(player);

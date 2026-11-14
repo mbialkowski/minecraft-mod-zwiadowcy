@@ -59,7 +59,7 @@ public final class StructurePlacer {
         }
         Vec3i size = template.getSize();
         long t0 = System.nanoTime();
-        BlockPos center = findSite(level, id, preferred, size, nominal, takenAreas(level, data, id));
+        BlockPos center = findSite(level, id, preferred, size, nominal, takenAreas(level, data, id), loc != null ? loc.maxRadius : 768);
         int baseY = center.getY();
         BlockPos origin = new BlockPos(center.getX() - size.getX() / 2, baseY - 1 - groundOffset, center.getZ() - size.getZ() / 2);
 
@@ -94,6 +94,7 @@ public final class StructurePlacer {
                                      LocationData.Placed placed, BlockPos pos, String metadata) {
         float yaw = 0f;
         String main = metadata;
+        String restore = null;
         int semi = metadata.indexOf(';');
         if (semi >= 0) {
             main = metadata.substring(0, semi);
@@ -101,13 +102,24 @@ public final class StructurePlacer {
                 if (opt.startsWith("yaw=")) {
                     try { yaw = Float.parseFloat(opt.substring(4)); } catch (NumberFormatException ignored) {}
                 }
+                if (opt.startsWith("block=")) restore = opt.substring(6);
             }
         }
         String[] kv = main.split(":", 2);
         String kind = kv[0];
         String value = kv.length > 1 ? kv[1] : "";
-        // znacznik nie jest stawiany (procesor go pomija) - pod ziemią zostałaby w tym miejscu skała
-        level.setBlock(pos, Blocks.AIR.defaultBlockState(), FLAGS);
+        // znacznik nie jest stawiany (procesor go pomija) - pod ziemią zostałaby w tym miejscu skała;
+        // opcja ";block=stan" przywraca blok, w którym leży kotwica (np. bal we wrotach otwieranych przez misję)
+        net.minecraft.world.level.block.state.BlockState under = Blocks.AIR.defaultBlockState();
+        if (restore != null) {
+            try {
+                under = net.minecraft.commands.arguments.blocks.BlockStateParser.parseForBlock(
+                        level.holderLookup(net.minecraft.core.registries.Registries.BLOCK), restore, false).blockState();
+            } catch (Exception e) {
+                Zwiadowcy.LOGGER.warn("Zły blok w znaczniku {}: {}", metadata, e.getMessage());
+            }
+        }
+        level.setBlock(pos, under, FLAGS);
         switch (kind) {
             case "anchor" -> placed.anchors.put(value, pos);
             case "npc" -> {
@@ -187,7 +199,12 @@ public final class StructurePlacer {
             case CHATA_HALTA, LEGOWISKO_DZIKA, OBOZ_ZLOTU -> forest;
             case WENSLEY, STAJNIA_BOBA -> Set.of("laki_araluenu", "lasy_redmont", "brzozowy_gaj");
             case SPALONA_OSADA, RUINY_GORLANU -> Set.of("rownina_samotnosci", "laki_araluenu", "pogorze_deszczu_i_nocy");
-            case REDMONT -> Set.of();
+            case REDMONT, KRAWEDZ, BUDOWA_MOSTU, PRZELECZ_WIATROW -> Set.of();
+            case OBOZ_NA_TRAKCIE -> Set.of("laki_araluenu", "lasy_redmont", "brzozowy_gaj");
+            case TRE_GWYN, KOPALNIA -> Set.of("lupkowe_wzgorza", "wrzosowiska_celtyki");
+            case DOLINA_MGIEL -> Set.of("mgliste_doliny");
+            case SZALAS_PASTERSKI, POSTERUNEK_DOBOSZA, WRZOSOWISKO -> Set.of("wrzosowiska_celtyki", "lupkowe_wzgorza");
+            case OBOZ_KROLEWSKI, ROWNINA_UTHAL, BRZEG_RZEKI -> Set.of("rownina_uthal", "laki_araluenu");
         };
     }
 
@@ -196,6 +213,7 @@ public final class StructurePlacer {
      * faktycznego położenia Redmontu (zamek mógł odsunąć się od morza).
      */
     public static BlockPos nominal(LocationData data, StoryLocation loc) {
+        if (loc.volumeTwo) return VolumeTwoLayout.worldPos(loc.x, loc.z);
         LocationData.Placed redmont = loc == StoryLocation.REDMONT ? null : data.placed(StoryLocation.REDMONT.id);
         return redmont == null ? new BlockPos(loc.x, 0, loc.z)
                 : new BlockPos(redmont.center.getX() + loc.x, 0, redmont.center.getZ() + loc.z);
@@ -243,7 +261,8 @@ public final class StructurePlacer {
      * plaży, a miejsce nie może nachodzić na inną lokację. Dopiero wtedy mierzymy teren: bez liści (las nie jest
      * „górą”), z wodą rozpoznawaną po bloku na powierzchni. Preferowany biom daje przewagę, odległość lekko odejmuje.
      */
-    private static BlockPos findSite(ServerLevel level, String id, Set<String> preferred, Vec3i size, BlockPos nominal, List<int[]> taken) {
+    private static BlockPos findSite(ServerLevel level, String id, Set<String> preferred, Vec3i size, BlockPos nominal, List<int[]> taken,
+                                     int maxRadius) {
         int hx = size.getX() / 2, hz = size.getZ() / 2;
         int[][] pts = {{0, 0}, {-hx, -hz}, {hx, -hz}, {-hx, hz}, {hx, hz}, {0, -hz}, {0, hz}, {-hx, 0}, {hx, 0}};
         int sea = level.getSeaLevel();
@@ -252,7 +271,7 @@ public final class StructurePlacer {
         BlockPos best = null;
         int bestScore = Integer.MAX_VALUE, measured = 0;
         BlockPos.MutableBlockPos m = new BlockPos.MutableBlockPos();
-        for (int r = 0; r <= 768; r += 16) {
+        for (int r = 0; r <= maxRadius; r += 16) {
             // dalej niż 112 bloków szukamy tylko wtedy, gdy w pobliżu nie ma nic sensownego; liczba pomiarów
             // terenu (każdy generuje chunki) jest ograniczona
             if (best != null && r > 112 && (bestScore <= 40 || measured >= 48)) break;

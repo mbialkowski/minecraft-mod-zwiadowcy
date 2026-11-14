@@ -1,68 +1,704 @@
 {
   "npc": "gilan",
   "entries": [
-    {"when": [{"quest_stage": "zlot_zwiadowcow", "stage": 3}], "start": "zl_1"},
-    {"when": [{"quest_stage": "zlot_zwiadowcow", "stage": 4}], "start": "zl_trwa"},
-    {"when": [{"quest_stage": "zlot_zwiadowcow", "stage": 5}], "start": "zl_wygrana"},
-    {"when": [{"quest_active": "zlot_zwiadowcow"}], "start": "zl_ogolne"},
-    {"when": [{"quest_active": "tropem_bestii"}], "start": "tb"},
-    {"when": [{"quest_stage": "rownina_samotnosci", "stage": 4}], "start": "rs_krol"},
-    {"when": [{"quest_active": "rownina_samotnosci"}], "start": "rs_trwa"},
-    {"when": [{"quest_active": "przed_obliczem_krola"}], "start": "po"},
-    {"when": [{"flag": "kampania_ukonczona"}], "start": "bohater"},
-    {"when": [], "start": "domyslny"}
+    {
+      "when": [
+        {
+          "flag": "wolna_gra"
+        }
+      ],
+      "start": "t2_zlecenia"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "noc_przed_bitwa",
+          "stage": 2
+        },
+        {
+          "trust_npc": "gilan",
+          "trust_min": 70
+        }
+      ],
+      "start": "t2_noc_pas"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "noc_przed_bitwa",
+          "stage": 2
+        }
+      ],
+      "start": "t2_noc"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "miecz_zwiadowcy",
+          "stage": 1
+        }
+      ],
+      "start": "t2_miecz_1"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "miecz_zwiadowcy",
+          "stage": 4
+        }
+      ],
+      "start": "t2_miecz_koniec"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "miecz_zwiadowcy"
+        }
+      ],
+      "start": "t2_miecz_trwa"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "przelecz",
+          "stage": 2
+        }
+      ],
+      "start": "t2_zawal"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "przelecz"
+        }
+      ],
+      "start": "t2_przelecz"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "ciche_wzgorza",
+          "stage": 4
+        }
+      ],
+      "start": "t2_wnioski"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "ciche_wzgorza"
+        }
+      ],
+      "start": "t2_osada"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "kopalnia"
+        }
+      ],
+      "start": "t2_kopalnia"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "strzal_gilana",
+          "stage": 0
+        }
+      ],
+      "start": "t2_konkurs_zasady"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "strzal_gilana",
+          "stage": 2
+        }
+      ],
+      "start": "t2_konkurs_koniec"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "strzal_gilana"
+        }
+      ],
+      "start": "t2_konkurs_trwa"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "dwie_drogi",
+          "stage": 0
+        }
+      ],
+      "start": "t2_rozstanie"
+    },
+    {
+      "when": [
+        {
+          "flag": "tom2_w_toku"
+        }
+      ],
+      "start": "t2_ogolne"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "zlot_zwiadowcow",
+          "stage": 3
+        }
+      ],
+      "start": "zl_1"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "zlot_zwiadowcow",
+          "stage": 4
+        }
+      ],
+      "start": "zl_trwa"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "zlot_zwiadowcow",
+          "stage": 5
+        }
+      ],
+      "start": "zl_wygrana"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "zlot_zwiadowcow"
+        }
+      ],
+      "start": "zl_ogolne"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "tropem_bestii"
+        }
+      ],
+      "start": "tb"
+    },
+    {
+      "when": [
+        {
+          "quest_stage": "rownina_samotnosci",
+          "stage": 4
+        }
+      ],
+      "start": "rs_krol"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "rownina_samotnosci"
+        }
+      ],
+      "start": "rs_trwa"
+    },
+    {
+      "when": [
+        {
+          "quest_active": "przed_obliczem_krola"
+        }
+      ],
+      "start": "po"
+    },
+    {
+      "when": [
+        {
+          "flag": "kampania_ukonczona"
+        }
+      ],
+      "start": "bohater"
+    },
+    {
+      "when": [],
+      "start": "domyslny"
+    }
   ],
   "nodes": {
     "domyslny": {
       "text": "Gilan, zwiadowca. A ty pewnie jesteś tym nowym uczniem Halta? Współczuję. I zazdroszczę.",
-      "options": [{"text": "Dzięki… chyba."}]
+      "options": [
+        {
+          "text": "Dzięki… chyba."
+        }
+      ]
     },
     "zl_ogolne": {
       "text": "Crowley jest w namiocie dowództwa. On tu wszystkim rządzi - choć udaje, że nie.",
-      "options": [{"text": "Dzięki."}]
+      "options": [
+        {
+          "text": "Dzięki."
+        }
+      ]
     },
     "zl_1": {
       "text": "Więc to ty jesteś uczniem Halta! Byłem nim przed tobą. Czy on nadal mówi „Hm” na każde pytanie?",
-      "options": [{"text": "Ciągle.", "next": "zl_2"}]
+      "options": [
+        {
+          "text": "Ciągle.",
+          "next": "zl_2"
+        }
+      ]
     },
     "zl_2": {
       "text": "Wiedziałem! No dobrze, pora na konkurs. Zasady są proste: sześć trafień w tarczę z co najmniej czterdziestu kroków. Linia strzału jest przy tamtym słupku.\nJa już oddałem swoje. Dziewięć na dziewięć. Bez presji.",
-      "options": [{"text": "Bez presji. Jasne.", "actions": [{"type": "advance", "quest": "zlot_zwiadowcow", "stage": 3}]}]
+      "options": [
+        {
+          "text": "Bez presji. Jasne.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "zlot_zwiadowcow",
+              "stage": 3
+            }
+          ]
+        }
+      ]
     },
     "zl_trwa": {
       "text": "Pamiętaj o wietrze. I nie słuchaj tych starych zrzęd przy ognisku - zawsze komentują.",
-      "options": [{"text": "Dzięki."}]
+      "options": [
+        {
+          "text": "Dzięki."
+        }
+      ]
     },
     "zl_wygrana": {
       "text": "Nieźle! Naprawdę nieźle. Nie pokonałeś mnie, ale pokonałeś wszystkich innych uczniów, a niektórzy szkolą się dwa lata dłużej.\nStrzała Zlotu jest twoja. Tylko nie mów Haltowi, że byłem pod wrażeniem. Będzie nieznośny.",
-      "options": [{"text": "Dziękuję, Gilan!", "actions": [
-        {"type": "give_item", "item": "zwiadowcy:strzala_zlotu"},
-        {"type": "advance", "quest": "zlot_zwiadowcow", "stage": 5}
-      ]}]
+      "options": [
+        {
+          "text": "Dziękuję, Gilan!",
+          "actions": [
+            {
+              "type": "give_item",
+              "item": "zwiadowcy:strzala_zlotu"
+            },
+            {
+              "type": "advance",
+              "quest": "zlot_zwiadowcow",
+              "stage": 5
+            }
+          ]
+        }
+      ]
     },
     "tb": {
       "text": "Kalkarowie… Mój mistrz szermierki mówił, że to tylko bajki dla dzieci. Teraz już wiem, czemu Halt nigdy się z nich nie śmiał.",
-      "options": [{"text": "Bądź ostrożny, Gilan."}]
+      "options": [
+        {
+          "text": "Bądź ostrożny, Gilan."
+        }
+      ]
     },
     "rs_trwa": {
       "text": "Uważaj na wartowników. Wargalowie mają słaby wzrok, ale świetny węch. Trzymaj się pod wiatr.",
-      "options": [{"text": "Dobrze."}]
+      "options": [
+        {
+          "text": "Dobrze."
+        }
+      ]
     },
     "rs_krol": {
       "text": "Znalazłeś coś? Fragment z herbem Gorlanu… Halt miał rację.\nPosłuchaj, Will. Halt wysyła mnie do króla Duncana. Jeśli Kalkarowie zabili Northolta, król musi wiedzieć, i to szybko. Wy zostajecie. Uważaj na siebie - i na niego. Halt będzie udawał, że się nie boi.",
-      "options": [{"text": "Jedź bezpiecznie, Gilan.", "actions": [
-        {"type": "advance", "quest": "rownina_samotnosci", "stage": 4},
-        {"type": "despawn_npc", "npc": "gilan"},
-        {"type": "message", "text": "Gilan dosiada konia i znika w zmierzchu, pędząc na zachód."}
-      ]}]
+      "options": [
+        {
+          "text": "Jedź bezpiecznie, Gilan.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "rownina_samotnosci",
+              "stage": 4
+            },
+            {
+              "type": "despawn_npc",
+              "npc": "gilan"
+            },
+            {
+              "type": "message",
+              "text": "Gilan dosiada konia i znika w zmierzchu, pędząc na zachód."
+            }
+          ]
+        }
+      ]
     },
     "po": {
       "text": "Dojechałem do króla w półtora dnia. Nigdy w życiu nie jechałem tak szybko. A ty w tym czasie zabiłeś Kalkara. Coś mi mówi, że Halt wybrał dobrze.",
-      "options": [{"text": "Miałem szczęście."}]
+      "options": [
+        {
+          "text": "Miałem szczęście."
+        }
+      ]
     },
     "bohater": {
       "text": "Mówią o tobie na każdym zamku w królestwie. Przyzwyczajaj się - i nie daj sobie zawrócić w głowie.",
-      "options": [{"text": "Postaram się."}]
+      "options": [
+        {
+          "text": "Postaram się."
+        }
+      ]
+    },
+    "t2_miecz_1": {
+      "text": "Wiesz, czego Halt cię nie nauczy? Miecza. Mówi, że zwiadowca nie powinien dać się złapać w zasięgu ostrza.\nMa rację. Ale czasem łuk zostaje przy siodle, a przeciwnik jest bliżej, niż byś chciał. Masz - drewniany, do ćwiczeń. Pokażę ci gardę.",
+      "options": [
+        {
+          "text": "Pokaż.",
+          "actions": [
+            {
+              "type": "give_item",
+              "item": "zwiadowcy:miecz_cwiczebny"
+            },
+            {
+              "type": "advance",
+              "quest": "miecz_zwiadowcy",
+              "stage": 1
+            }
+          ]
+        }
+      ]
+    },
+    "t2_miecz_trwa": {
+      "text": "Patrz na mój zamach, nie na ostrze. Błysk to znak - wtedy garda.",
+      "options": [
+        {
+          "text": "Dobrze."
+        }
+      ]
+    },
+    "t2_miecz_koniec": {
+      "text": "Nieźle! Masz refleks łucznika - a to połowa sukcesu.\nTen miecz jest twój. Lekki i szybki - rycerza w zbroi nim nie zatrzymasz, ale Wargala owszem. I jeszcze jedno: od teraz to ty prowadzisz. Ja jestem posłem, Horace eskortą, a ty… oczami tej wyprawy.",
+      "options": [
+        {
+          "text": "Dziękuję, Gilan.",
+          "actions": [
+            {
+              "type": "give_item",
+              "item": "zwiadowcy:miecz_zwiadowcy"
+            },
+            {
+              "type": "skill",
+              "id": "lekcja_gilana"
+            },
+            {
+              "type": "advance",
+              "quest": "miecz_zwiadowcy",
+              "stage": 4
+            }
+          ]
+        }
+      ]
+    },
+    "t2_zawal": {
+      "text": "Zawał. Albo naturalny, albo ktoś bardzo nie chce, żebyśmy przejechali.\nMasz - linka z kotwiczką. Halt nie lubi tych zabawek, ale ja wolę się wspiąć, niż szukać objazdu. Rzuć hak w krawędź półki, a pociągnie cię w górę.",
+      "options": [
+        {
+          "text": "Spróbuję.",
+          "actions": [
+            {
+              "type": "give_item",
+              "item": "zwiadowcy:linka_z_kotwiczka"
+            },
+            {
+              "type": "advance",
+              "quest": "przelecz",
+              "stage": 2
+            }
+          ]
+        }
+      ]
+    },
+    "t2_przelecz": {
+      "text": "Trzymaj się blisko skały. Kusze lubią otwarte ścieżki.",
+      "options": [
+        {
+          "text": "Jasne."
+        }
+      ]
+    },
+    "t2_osada": {
+      "text": "Patrz uważnie. Każdy ślad coś mówi: wózki, drzwi, miski na stołach…",
+      "options": [
+        {
+          "text": "Patrzę."
+        }
+      ]
+    },
+    "t2_wnioski": {
+      "text": "Ludzie, nie ruda. Morgarath potrzebuje rąk do pracy… Pytanie, do jakiej.\nŚlady prowadzą do kopalni pod Kruczą Skałą. Jeśli ktoś przeżył, to tam.",
+      "options": [
+        {
+          "text": "Sprawdźmy kopalnię.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "ciche_wzgorza",
+              "stage": 4
+            }
+          ]
+        }
+      ]
+    },
+    "t2_kopalnia": {
+      "text": "Ja pilnuję koni. Uważajcie na stropy - te chodniki pamiętają dziadków Dafydda.",
+      "options": [
+        {
+          "text": "Dobrze."
+        }
+      ]
+    },
+    "t2_rozstanie": {
+      "text": "Musimy się rozdzielić. Ktoś musi zawieźć królowi wieść, że Celtowie trafili w niewolę - armia nic o tym nie wie. Pojadę ja, mam najszybszego konia.\nTy zabierzesz Horace'a i Evanlyn na południe i dowiesz się, do czego Morgarathowi górnicy. Nie walcz, jeśli nie musisz. Patrz, licz, zapamiętuj.",
+      "options": [
+        {
+          "text": "Zanim pojedziesz - może jeszcze konkurs strzelecki?",
+          "when": [
+            {
+              "quest_not_started": "strzal_gilana"
+            }
+          ],
+          "actions": [
+            {
+              "type": "start_quest",
+              "quest": "strzal_gilana"
+            }
+          ]
+        },
+        {
+          "text": "Dam radę, Gilan.",
+          "actions": [
+            {
+              "type": "trust",
+              "npc": "gilan",
+              "delta": 5
+            },
+            {
+              "type": "give_item",
+              "item": "zwiadowcy:mapa_gilana"
+            },
+            {
+              "type": "give_item",
+              "item": "minecraft:spyglass",
+              "name": "Luneta Gilana"
+            },
+            {
+              "type": "message",
+              "speaker": "Gilan",
+              "text": "Wiem. Halt nie bierze na uczniów byle kogo. Masz moją mapę i lunetę - przydadzą ci się bardziej niż mnie."
+            },
+            {
+              "type": "companion_leave",
+              "npc": "gilan"
+            },
+            {
+              "type": "despawn_npc",
+              "npc": "gilan"
+            },
+            {
+              "type": "advance",
+              "quest": "dwie_drogi",
+              "stage": 0
+            }
+          ]
+        },
+        {
+          "text": "Wolałbym, żebyś został.",
+          "actions": [
+            {
+              "type": "trust",
+              "npc": "horace",
+              "delta": 3
+            },
+            {
+              "type": "give_item",
+              "item": "zwiadowcy:mapa_gilana"
+            },
+            {
+              "type": "give_item",
+              "item": "minecraft:spyglass",
+              "name": "Luneta Gilana"
+            },
+            {
+              "type": "message",
+              "speaker": "Gilan",
+              "text": "Ja też. Ale król musi wiedzieć. Weź moją mapę i lunetę - i pilnuj tych dwojga."
+            },
+            {
+              "type": "companion_leave",
+              "npc": "gilan"
+            },
+            {
+              "type": "despawn_npc",
+              "npc": "gilan"
+            },
+            {
+              "type": "advance",
+              "quest": "dwie_drogi",
+              "stage": 0
+            }
+          ]
+        }
+      ]
+    },
+    "t2_konkurs_zasady": {
+      "text": "Konkurs! Zasady są proste: tarcze stoją na łące. Strzelasz z siodła - w galopie albo w stępie, jak wolisz. Ja mam sześć trafień. Pobij to.",
+      "options": [
+        {
+          "text": "Siedem to siedem.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "strzal_gilana",
+              "stage": 0
+            }
+          ]
+        }
+      ]
+    },
+    "t2_konkurs_trwa": {
+      "text": "Z siodła, Will! Ze stania każdy trafi.",
+      "options": [
+        {
+          "text": "Wiem, wiem…"
+        }
+      ]
+    },
+    "t2_konkurs_koniec": {
+      "text": "Siedem?! Wiatr mi przeszkadzał. I słońce. I koń kichnął.\nNo dobrze, jesteś lepszy. Tylko nie mów Haltowi - będzie nieznośny przez miesiąc.",
+      "options": [
+        {
+          "text": "Obiecuję.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "strzal_gilana",
+              "stage": 2
+            }
+          ]
+        }
+      ]
+    },
+    "t2_ogolne": {
+      "text": "Wojna, Will. Najgorsze w niej jest czekanie. I spanie na kamieniach.",
+      "options": [
+        {
+          "text": "Wiem."
+        }
+      ]
+    },
+    "t2_noc": {
+      "text": "Will! Żyjesz! A ja przez całą drogę od Celtyki zastanawiałem się, jak wytłumaczę Haltowi, że zostawiłem cię samego.\nPodobno spaliłeś most. Następnym razem zostaw coś dla mnie.",
+      "options": [
+        {
+          "text": "Następnym razem pojedziesz ze mną.",
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "noc_przed_bitwa",
+              "stage": 2
+            }
+          ]
+        }
+      ]
+    },
+    "t2_noc_pas": {
+      "text": "Will! Żyjesz! Przez całą drogę od Celtyki myślałem, co powiem Haltowi…\nMam coś dla ciebie. Mój stary pas na noże - na Uthal przydadzą ci się bardziej niż mnie. Cztery noże, wyważone tak, że lecą jak strzały.",
+      "options": [
+        {
+          "text": "Gilan… dziękuję.",
+          "actions": [
+            {
+              "type": "give_item",
+              "item": "zwiadowcy:pas_gilana"
+            },
+            {
+              "type": "give_item",
+              "item": "zwiadowcy:noz_do_rzucania",
+              "count": 4
+            },
+            {
+              "type": "advance",
+              "quest": "noc_przed_bitwa",
+              "stage": 2
+            }
+          ]
+        }
+      ]
+    },
+    "t2_zlecenia": {
+      "text": "Will! Halt mówi, że już nie jesteś uczniem, tylko „prawie zwiadowcą”. U niego to jak order.\nNad Rozpadliną zawsze jest coś do zrobienia. Pomożesz?",
+      "options": [
+        {
+          "text": "Złożę raport z patrolu.",
+          "when": [
+            {
+              "quest_stage": "zlecenie_patrol_rozpadlina",
+              "stage": 1
+            }
+          ],
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "zlecenie_patrol_rozpadlina",
+              "stage": 1
+            }
+          ]
+        },
+        {
+          "text": "Uciekinierzy są już w Tre-Gwyn.",
+          "when": [
+            {
+              "quest_stage": "zlecenie_droga_do_domu",
+              "stage": 1
+            }
+          ],
+          "actions": [
+            {
+              "type": "advance",
+              "quest": "zlecenie_droga_do_domu",
+              "stage": 1
+            }
+          ]
+        },
+        {
+          "text": "Przegonię Wargali spod mostu.",
+          "when": [
+            {
+              "quest_ready": "zlecenie_patrol_rozpadlina"
+            }
+          ],
+          "actions": [
+            {
+              "type": "start_quest",
+              "quest": "zlecenie_patrol_rozpadlina"
+            }
+          ]
+        },
+        {
+          "text": "Odprowadzę uciekinierów do Tre-Gwyn.",
+          "when": [
+            {
+              "quest_ready": "zlecenie_droga_do_domu"
+            }
+          ],
+          "actions": [
+            {
+              "type": "start_quest",
+              "quest": "zlecenie_droga_do_domu"
+            }
+          ]
+        },
+        {
+          "text": "Nic, dziękuję."
+        }
+      ]
     }
   }
 }

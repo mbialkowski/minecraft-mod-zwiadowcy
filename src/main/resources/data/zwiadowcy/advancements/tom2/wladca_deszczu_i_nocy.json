@@ -1,0 +1,1 @@
+{"parent":"zwiadowcy:tom2/bitwa_uthal","display":{"icon":{"item":"minecraft:netherite_sword"},"title":{"text":"Władca Deszczu i Nocy"},"description":{"text":"Pokonaj Morgaratha w pojedynku"},"frame":"challenge","show_toast":true,"announce_to_chat":true,"hidden":false},"criteria":{"done":{"trigger":"minecraft:impossible"}}}

@@ -15,7 +15,11 @@
         {"biome": "zwiadowcy:brzozowy_gaj", "parameters": {"temperature": [-0.15, 0.55], "humidity": [0.1, 0.3], "continentalness": [-0.11, 1.0], "erosion": [-0.375, 1.0], "weirdness": [-1.0, 1.0], "depth": 0.0, "offset": 0.0}},
         {"biome": "zwiadowcy:mroczna_puszcza", "parameters": {"temperature": [-0.15, 0.55], "humidity": [0.3, 1.0], "continentalness": [-0.11, 1.0], "erosion": [-0.375, 1.0], "weirdness": [-1.0, 1.0], "depth": 0.0, "offset": 0.0}},
         {"biome": "zwiadowcy:rownina_samotnosci", "parameters": {"temperature": [0.55, 1.0], "humidity": [-1.0, -0.1], "continentalness": [-0.11, 1.0], "erosion": [-0.375, 1.0], "weirdness": [-1.0, 1.0], "depth": 0.0, "offset": 0.0}},
-        {"biome": "zwiadowcy:laki_araluenu", "parameters": {"temperature": [0.55, 1.0], "humidity": [-0.1, 1.0], "continentalness": [-0.11, 1.0], "erosion": [-0.375, 1.0], "weirdness": [-1.0, 1.0], "depth": 0.0, "offset": 0.0}}
+        {"biome": "zwiadowcy:laki_araluenu", "parameters": {"temperature": [0.55, 1.0], "humidity": [-0.1, 1.0], "continentalness": [-0.11, 1.0], "erosion": [-0.375, 1.0], "weirdness": [-1.0, 1.0], "depth": 0.0, "offset": 0.0}},
+        {"biome": "zwiadowcy:wrzosowiska_celtyki", "parameters": {"temperature": [1.4, 2.0], "humidity": [-2.0, -0.1], "continentalness": [-2.0, 2.0], "erosion": [-2.0, 2.0], "weirdness": [-2.0, 2.0], "depth": 0.0, "offset": 0.0}},
+        {"biome": "zwiadowcy:lupkowe_wzgorza", "parameters": {"temperature": [1.4, 2.0], "humidity": [-0.1, 0.25], "continentalness": [-2.0, 2.0], "erosion": [-2.0, 2.0], "weirdness": [-2.0, 2.0], "depth": 0.0, "offset": 0.0}},
+        {"biome": "zwiadowcy:mgliste_doliny", "parameters": {"temperature": [1.4, 2.0], "humidity": [0.25, 2.0], "continentalness": [-2.0, 2.0], "erosion": [-2.0, 2.0], "weirdness": [-2.0, 2.0], "depth": 0.0, "offset": 0.0}},
+        {"biome": "zwiadowcy:rownina_uthal", "parameters": {"temperature": [-2.0, -1.4], "humidity": [-2.0, 2.0], "continentalness": [-2.0, 2.0], "erosion": [-2.0, 2.0], "weirdness": [-2.0, 2.0], "depth": 0.0, "offset": 0.0}}
       ]
     }
   }

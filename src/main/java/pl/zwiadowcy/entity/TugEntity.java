@@ -82,6 +82,77 @@ public class TugEntity extends AbstractHorse {
         playSound(SoundEvents.HORSE_AMBIENT, 1f, 1.1f);
     }
 
+    /**
+     * Nowy, od razu oswojony Wyrwij przy podanym miejscu (szybki start od tomu II). Poprzedni koń gracza znika
+     * przy najbliższym sprawdzeniu pokolenia.
+     */
+    public static void summonBonded(ServerLevel level, ServerPlayer player, BlockPos pos) {
+        TugEntity tug = pl.zwiadowcy.registry.ModEntities.WYRWIJ.get().create(level);
+        if (tug == null) return;
+        QuestProgress prog = QuestCapability.get(player);
+        prog.tugGeneration++;
+        tug.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, player.getYRot(), 0f);
+        tug.setHomePos(pos);
+        level.addFreshEntity(tug);
+        tug.bondTo(player);
+    }
+
+    // ------------------------------------------------------------------ tom II: zryw, komendy, czuwanie
+
+    private long burstReadyAt;
+    /** Czuwanie (parskanie na wrogów) - można wyłączyć komendą. */
+    private boolean watching = true;
+
+    /** Zryw: 3 s z prędkością +60% (klawisz sprintu w siodle), odnowienie 30 s (20 s z „Przyjacielem koni”). */
+    public static void burst(ServerPlayer p) {
+        if (!(p.getVehicle() instanceof TugEntity tug)) return;
+        long now = tug.level().getGameTime();
+        if (now < tug.burstReadyAt) {
+            p.displayClientMessage(Component.literal("Wyrwij jeszcze łapie oddech (" + ((tug.burstReadyAt - now) / 20 + 1) + " s).")
+                    .withStyle(ChatFormatting.GRAY), true);
+            return;
+        }
+        boolean friend = pl.zwiadowcy.skill.Skills.has(p, pl.zwiadowcy.skill.Skills.PRZYJACIEL_KONI);
+        tug.burstReadyAt = now + (friend ? 400 : 600);
+        tug.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 60, 3, false, false));
+        tug.playSound(SoundEvents.HORSE_GALLOP, 1.5f, 1.2f);
+        tug.playSound(SoundEvents.HORSE_BREATHE, 1.2f, 1.0f);
+        p.displayClientMessage(Component.literal("Zryw!").withStyle(ChatFormatting.GOLD), true);
+        QuestEngine.fireEvent(p, "zryw", 1);
+    }
+
+    /** Komenda z rozmowy z koniem: "zostan", "dom" (do ostatniego ogniska albo chaty Halta), "czuwaj". */
+    public void command(ServerPlayer p, String cmd) {
+        switch (cmd) {
+            case "zostan" -> {
+                setHomePos(blockPosition());
+                restrictTo(blockPosition(), 4);
+                getNavigation().stop();
+                p.displayClientMessage(Component.literal("Wyrwij zostaje na miejscu.").withStyle(ChatFormatting.GREEN), true);
+            }
+            case "dom" -> {
+                clearRestriction();
+                BlockPos home = getServer() != null ? Locations.peek(getServer(), "chata_halta:wyrwij") : null;
+                if (home != null) {
+                    if (home.distSqr(blockPosition()) > 96 * 96) teleportTo(home.getX() + 0.5, home.getY(), home.getZ() + 0.5);
+                    else getNavigation().moveTo(home.getX() + 0.5, home.getY(), home.getZ() + 0.5, 1.2);
+                    setHomePos(home);
+                }
+                p.displayClientMessage(Component.literal("Wyrwij rusza truchtem do domu.").withStyle(ChatFormatting.GREEN), true);
+            }
+            case "czuwaj" -> {
+                watching = !watching;
+                p.displayClientMessage(Component.literal(watching ? "Wyrwij czuwa - parsknie, gdy wyczuje wroga."
+                        : "Wyrwij przestaje czuwać.").withStyle(ChatFormatting.GREEN), true);
+            }
+            case "za_mna" -> {
+                clearRestriction();
+                p.displayClientMessage(Component.literal("Wyrwij idzie za tobą.").withStyle(ChatFormatting.GREEN), true);
+            }
+            default -> {}
+        }
+    }
+
     @Override
     public boolean isSaddled() {
         return isTamed();
@@ -156,7 +227,7 @@ public class TugEntity extends AbstractHorse {
             discard();
             return;
         }
-        if (owner.level() == level() && owner.distanceTo(this) < 24 && level().getGameTime() - lastWarning > 600) {
+        if (watching && owner.level() == level() && owner.distanceTo(this) < 24 && level().getGameTime() - lastWarning > 600) {
             var foes = level().getEntitiesOfClass(Mob.class, getBoundingBox().inflate(20),
                     m -> m instanceof Enemy && m.isAlive() && !m.hasEffect(MobEffects.GLOWING));
             if (!foes.isEmpty()) {
@@ -190,6 +261,7 @@ public class TugEntity extends AbstractHorse {
         if (homePos != null) tag.put("Home", NbtUtils.writeBlockPos(homePos));
         tag.putInt("Generation", generation);
         tag.putLong("TiredUntil", tiredUntil);
+        tag.putBoolean("Watching", watching);
     }
 
     @Override
@@ -201,5 +273,6 @@ public class TugEntity extends AbstractHorse {
         }
         generation = tag.getInt("Generation");
         tiredUntil = tag.getLong("TiredUntil");
+        watching = !tag.contains("Watching") || tag.getBoolean("Watching");
     }
 }

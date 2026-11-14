@@ -1,0 +1,35 @@
+{
+  "title": "Na szlaku: celtyccy uciekinierzy",
+  "act": "Postoje na szlaku",
+  "tom": 2,
+  "order": 213,
+  "description": "Przy trakcie na wschód odpoczywa grupka celtyckich uciekinierów - kobiety z dziećmi, które uszły przed Wargalami. Od dwóch dni nie jedli niczego ciepłego.",
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "szlak_celtyccy_uciekinierzy:miejsce", "radius": 12},
+      "text": "Zatrzymaj się przy uciekinierach na trakcie (dobrowolnie)",
+      "on_complete": [
+        {"type": "track", "quest": "szlak_celtyccy_uciekinierzy"},
+        {"type": "message", "speaker": "Uciekinierka", "text": "Dzieci są głodne… Przy drodze rosną krzaki z jagodami, ale nie mam siły ich szukać."}
+      ]
+    },
+    {
+      "objective": {"type": "collect", "item": "minecraft:sweet_berries", "count": 5, "consume": true},
+      "text": "Nazbieraj 5 słodkich jagód dla dzieci",
+      "location": "szlak_celtyccy_uciekinierzy:miejsce",
+      "on_start": [
+        {"type": "actionbar", "text": "Słodkie jagody rosną na krzakach w lasach i na łąkach przy trakcie."}
+      ]
+    },
+    {
+      "objective": {"type": "talk", "npc": "uciekinierka"},
+      "text": "Oddaj jagody uciekinierce",
+      "location": "szlak_celtyccy_uciekinierzy:miejsce"
+    }
+  ],
+  "on_complete": [
+    {"type": "give_item", "item": "zwiadowcy:kawa_zwiadowcy", "count": 2},
+    {"type": "xp", "amount": 30},
+    {"type": "note", "title": "Uciekinierzy", "text": "Celtyckie dzieci zjadły jagody szybciej, niż zdążyłem je oddać. Ich matka dała nam za to dwa woreczki kawy - podobno od kupca z południa. Mówiła, że mąż został w kopalniach. Może był wśród tych, których uwolniłem?"}
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "location": "rownina_uthal:arena_pojedynku",
+  "keyframes": [
+    {"t": 0, "pos": [-20, 6, -18], "look": [0, 1, 14], "fov": 64},
+    {"t": 80, "pos": [-8, 3, 0], "look": [0, 1, 14], "fov": 58},
+    {"t": 160, "pos": [0, 4, -12], "look": [0, 2, 12], "fov": 52}
+  ],
+  "subtitles": [
+    {"t": 10, "d": 70, "text": "Szyk Araluenu pękł. Przez wyłom wjechał jeździec w czarnej zbroi."},
+    {"t": 85, "d": 75, "text": "Morgarath, Władca Deszczu i Nocy. Szukał tego, kto spalił jego most."}
+  ],
+  "events": [
+    {"t": 165, "action": {"type": "fire_event", "id": "przerywnik_wylom"}}
+  ]
+}

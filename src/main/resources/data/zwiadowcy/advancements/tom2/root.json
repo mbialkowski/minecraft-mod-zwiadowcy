@@ -1,0 +1,1 @@
+{"display":{"icon":{"item":"zwiadowcy:mapa_gilana"},"title":{"text":"Tom II: Płonący most"},"description":{"text":"Druga część opowieści o uczniu zwiadowcy"},"frame":"task","show_toast":true,"announce_to_chat":false,"hidden":false,"background":"minecraft:textures/block/podzol_top.png"},"criteria":{"done":{"trigger":"minecraft:impossible"}}}

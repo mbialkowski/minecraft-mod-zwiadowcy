@@ -62,6 +62,9 @@ public final class SelfTest {
 
     private static void run(MinecraftServer server, List<String> problems, List<String> info) throws Exception {
         info.add("Misje: " + QuestManager.INSTANCE.all().size());
+        SelfTestTom2.world(server, problems, info);
+        // gradlew runServer -Pselftest=true -Pswiat=true  → tylko szybki test terenu tomu II
+        if (Boolean.getBoolean("zwiadowcy.selftest.swiat")) return;
 
         // 1. lokacje - postaw wszystkie i zbierz kotwice
         for (StoryLocation loc : StoryLocation.values()) {
@@ -74,6 +77,8 @@ public final class SelfTest {
             info.add(String.format("Lokacja %-16s @ %s, kotwic: %d (%d ms)", loc.id, p.center.toShortString(),
                     p.anchors.size(), System.currentTimeMillis() - t));
         }
+        SelfTestTom2.locations(server, problems, info);
+        SelfTestTom2.data(server, problems, info);
         // 1. punkt odrodzenia na czas misji: każda lokacja ma bezpieczny punkt
         for (StoryLocation loc : StoryLocation.values()) {
             if (Locations.safeSpot(server, loc.id) == null) problems.add("Lokacja " + loc.id + " nie ma bezpiecznego punktu odrodzenia");
@@ -122,6 +127,8 @@ public final class SelfTest {
                 LocationData.Placed p = data.placed(loc.id);
                 if (p == null) continue;
                 for (Map.Entry<String, net.minecraft.core.BlockPos> a : p.anchors.entrySet()) {
+                    // kotwice-bloki (wrota otwierane akcją set_block) leżą celowo w środku bloku
+                    if (a.getKey().matches("brama_[0-9]+") || a.getKey().startsWith("blok_")) continue;
                     net.minecraft.core.BlockPos pos = a.getValue();
                     boolean blockedFeet = !level.getBlockState(pos).getCollisionShape(level, pos).isEmpty();
                     boolean blockedHead = !level.getBlockState(pos.above()).getCollisionShape(level, pos.above()).isEmpty();
@@ -363,6 +370,10 @@ public final class SelfTest {
                 String s = v.getAsString();
                 if (QUEST_KEYS.contains(k) && !quests.contains(s)) problems.add(where + ": nieznana misja '" + s + "' (" + k + ")");
                 if (k.equals("type") && s.equals("start_quest")) { /* sprawdzane przez klucz quest */ }
+                if (k.equals("type") && s.equals("cutscene") && o.has("id")
+                        && !pl.zwiadowcy.cutscene.Cutscenes.INSTANCE.ids().contains(o.get("id").getAsString())) {
+                    problems.add(where + ": nieznany przerywnik '" + o.get("id").getAsString() + "'");
+                }
                 if (ITEM_KEYS.contains(k) && !s.startsWith("#")) {
                     ResourceLocation rl = ResourceLocation.tryParse(s);
                     if (rl == null || !ForgeRegistries.ITEMS.containsKey(rl)) problems.add(where + ": nieznany przedmiot '" + s + "'");
@@ -381,6 +392,13 @@ public final class SelfTest {
                 }
                 if (LOCATION_KEYS.contains(k)) checkLocation(where, s, data, problems);
             } else {
+                // listy kotwic: "at" (spawn_npc), "anchors" (free, oil_points, ignite_points, follow_trail)
+                if (v.isJsonArray() && (LOCATION_KEYS.contains(k) || k.equals("anchors"))) {
+                    for (JsonElement a : v.getAsJsonArray()) {
+                        if (a.isJsonPrimitive()) checkLocation(where, a.getAsString(), data, problems);
+                    }
+                    continue;
+                }
                 walk(where, v, server, data, quests, problems);
             }
         }
@@ -388,7 +406,8 @@ public final class SelfTest {
 
     private static void checkLocation(String where, String ref, LocationData data, List<String> problems) {
         String[] parts = ref.split(":", 2);
-        if (StoryLocation.byId(parts[0]) == null && pl.zwiadowcy.world.RouteStop.byId(parts[0]) == null) {
+        if (StoryLocation.byId(parts[0]) == null && pl.zwiadowcy.world.RouteStop.byId(parts[0]) == null
+                && !parts[0].equals(pl.zwiadowcy.bridge.BridgeBuilder.ID)) {
             problems.add(where + ": nieznana lokacja '" + ref + "'");
             return;
         }

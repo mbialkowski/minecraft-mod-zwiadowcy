@@ -21,6 +21,7 @@ public final class ClientHandlers {
 
     public static void questSync(QuestSyncPacket msg) {
         ClientQuestData.sync = msg;
+        pl.zwiadowcy.skill.Skills.clientSkills = java.util.Set.copyOf(msg.extra().skills());
         if (Minecraft.getInstance().screen instanceof JournalScreen js) js.refresh();
     }
 
@@ -28,6 +29,22 @@ public final class ClientHandlers {
         ClientQuestData.visibility = msg.visibility();
         ClientQuestData.bezruchTicks = msg.bezruchTicks();
         ClientQuestData.cloak = msg.cloak();
+    }
+
+    public static void openEndScreen(pl.zwiadowcy.network.OpenEndScreenPacket msg) {
+        Minecraft.getInstance().setScreen(new pl.zwiadowcy.client.screen.EndOfVolumeScreen(msg));
+    }
+
+    public static void playCutscene(pl.zwiadowcy.network.PlayCutscenePacket msg) {
+        pl.zwiadowcy.client.CutscenePlayer.start(msg);
+    }
+
+    public static void openMap() {
+        Minecraft.getInstance().setScreen(new pl.zwiadowcy.client.screen.MapScreen());
+    }
+
+    public static void openScreen(String screen) {
+        if (screen.equals("mapa")) openMap();
     }
 
     public static void openJournal() {

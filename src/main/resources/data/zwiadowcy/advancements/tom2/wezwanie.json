@@ -1,0 +1,1 @@
+{"parent":"zwiadowcy:tom2/root","display":{"icon":{"item":"zwiadowcy:list_krolewski"},"title":{"text":"Wezwanie"},"description":{"text":"Wyjedź z Redmontu z Gilanem i Horace'em"},"frame":"task","show_toast":true,"announce_to_chat":false,"hidden":false},"criteria":{"done":{"trigger":"minecraft:impossible"}}}

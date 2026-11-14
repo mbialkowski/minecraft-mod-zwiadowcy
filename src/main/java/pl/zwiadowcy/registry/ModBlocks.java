@@ -48,5 +48,22 @@ public final class ModBlocks {
                     .mapColor(MapColor.PODZOL).strength(2.0f).sound(SoundType.WOOD).lightLevel(s -> 10)
                     .noOcclusion(), true));
 
+    // --- tom II
+    /** Ognisko zwiadowców: punkt szybkiej podróży (PPM - Mapa Gilana). */
+    public static final RegistryObject<Block> OGNISKO_ZWIADOWCOW = BLOCKS.register("ognisko_zwiadowcow",
+            () -> new pl.zwiadowcy.block.ScoutCampfireBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PODZOL).strength(2.0f).sound(SoundType.WOOD).lightLevel(s -> 15).noOcclusion()));
+
+    /** Belki mostu nad Rozpadliną: płonąca, zwęglona i drewno oblane olejem (skrypt spalenia mostu). */
+    public static final RegistryObject<Block> PLONACA_BELKA = BLOCKS.register("plonaca_belka",
+            () -> new pl.zwiadowcy.block.BurningBeamBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.FIRE).strength(1.0f).sound(SoundType.WOOD).lightLevel(s -> 13)));
+    public static final RegistryObject<Block> ZWEGLONA_BELKA = BLOCKS.register("zweglona_belka",
+            () -> new net.minecraft.world.level.block.RotatedPillarBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLACK).strength(1.0f).sound(SoundType.WOOD)));
+    public static final RegistryObject<Block> OBLANE_DREWNO = BLOCKS.register("oblane_drewno",
+            () -> new net.minecraft.world.level.block.RotatedPillarBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BROWN).strength(2.0f).sound(SoundType.WOOD).ignitedByLava()));
+
     private ModBlocks() {}
 }

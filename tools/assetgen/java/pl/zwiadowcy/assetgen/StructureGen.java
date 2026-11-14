@@ -29,6 +29,9 @@ public final class StructureGen {
         ruinyGorlanu();
         RandomStructures.all(out);
         RouteStopGen.all(out);
+        Tom2Structures.all();
+        Tom2StructuresBridge.all();
+        Tom2StructuresUthal.all();
     }
 
     static void save(Structure s, String name) throws Exception {

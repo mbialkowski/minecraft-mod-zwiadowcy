@@ -1,0 +1,1 @@
+{"parent":"zwiadowcy:tom2/noc_przed_bitwa","display":{"icon":{"item":"minecraft:leather_horse_armor"},"title":{"text":"Czarny rumak"},"description":{"text":"Poluzuj popręg rumaka Morgaratha"},"frame":"task","show_toast":true,"announce_to_chat":false,"hidden":false},"criteria":{"done":{"trigger":"minecraft:impossible"}}}

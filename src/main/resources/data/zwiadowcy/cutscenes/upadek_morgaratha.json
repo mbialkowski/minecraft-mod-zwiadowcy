@@ -1,0 +1,16 @@
+{
+  "location": "rownina_uthal:arena_pojedynku",
+  "keyframes": [
+    {"t": 0, "pos": [-6, 3, -6], "look": [0, 1, 0], "fov": 60},
+    {"t": 90, "pos": [6, 2, -4], "look": [0, 0.5, 0], "fov": 50},
+    {"t": 200, "pos": [0, 22, -30], "look": [0, 0, 10], "fov": 62}
+  ],
+  "subtitles": [
+    {"t": 10, "d": 80, "text": "Władca Deszczu i Nocy osunął się na kolana, a potem w błoto Uthal."},
+    {"t": 95, "d": 80, "text": "Przez chwilę na równinie panowała cisza. Potem Wargale rzucili broń i uciekli."},
+    {"t": 180, "d": 40, "text": "Araluen zwyciężył."}
+  ],
+  "events": [
+    {"t": 205, "action": {"type": "fire_event", "id": "przerywnik_upadek"}}
+  ]
+}

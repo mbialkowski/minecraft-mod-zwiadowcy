@@ -1,0 +1,53 @@
+{
+  "title": "Dziewczyna z Doliny Mgieł",
+  "act": "Tom II · Akt II: Celtyka",
+  "tom": 2,
+  "order": 206,
+  "advancement": "tom2/evanlyn",
+  "description": "Na południe od kopalni ciągnie się Dolina Mgieł. Gilan wypatrzył w błocie ślady podkutego konia - nie celtyckiego kuca, tylko dobrego wierzchowca z Araluenu - a obok nich ślady Wargali.",
+  "stages": [
+    {
+      "objective": {"type": "reach", "location": "dolina_mgiel:skraj", "radius": 8},
+      "text": "Jedź do Doliny Mgieł",
+      "on_complete": [
+        {"type": "message", "speaker": "Gilan", "text": "Podkuty koń i Wargale tuż za nim. Ktoś uciekał. Pójdź tropem - Oczy tropiciela pokażą ci drogę w tej mgle."}
+      ]
+    },
+    {
+      "objective": {"type": "follow_trail", "anchors": ["dolina_mgiel:slad_1", "dolina_mgiel:slad_2", "dolina_mgiel:slad_3", "dolina_mgiel:slad_4", "dolina_mgiel:slad_5"], "radius": 4},
+      "text": "Idź tropem przez mgłę (Oczy tropiciela - Z)",
+      "location": "dolina_mgiel:slad_1"
+    },
+    {
+      "objective": {"type": "kill", "entity": "*", "count": 4, "tagged": true},
+      "text": "Ktoś broni się w ruinach wieży - odpędź Wargali!",
+      "location": "dolina_mgiel:wieza",
+      "on_start": [
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "dolina_mgiel:wargal_1", "face": "dolina_mgiel:wieza"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "dolina_mgiel:wargal_3", "face": "dolina_mgiel:wieza"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_kusznik", "at": "dolina_mgiel:wargal_2", "face": "dolina_mgiel:wieza"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_kusznik", "at": "dolina_mgiel:wargal_4", "face": "dolina_mgiel:wieza"},
+        {"type": "title", "title": "Wieża w mgle", "subtitle": "Ktoś się tam broni!"}
+      ]
+    },
+    {
+      "objective": {"type": "event", "id": "przerywnik_evanlyn"},
+      "text": "…",
+      "location": "dolina_mgiel:wieza",
+      "on_start": [
+        {"type": "cutscene", "id": "evanlyn"}
+      ]
+    },
+    {
+      "objective": {"type": "talk", "npc": "evanlyn"},
+      "text": "Porozmawiaj z dziewczyną z wieży",
+      "location": "dolina_mgiel:evanlyn"
+    }
+  ],
+  "on_complete": [
+    {"type": "xp", "amount": 100},
+    {"type": "note", "title": "Evanlyn", "text": "W ruinach wieży broniła się dziewczyna - Evanlyn. Mówi, że była damą dworu w orszaku, który napadli Wargale. Widziała kolumnę jeńców prowadzonych na południe. Ma pierścień z herbem: lew i korona. Zaskakująco cenny jak na damę dworu."},
+    {"type": "start_quest", "quest": "pasterka"},
+    {"type": "start_quest", "quest": "dwie_drogi"}
+  ]
+}

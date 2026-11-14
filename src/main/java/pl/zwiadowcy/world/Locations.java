@@ -18,6 +18,17 @@ public final class Locations {
         LocationData data = LocationData.get(server);
         LocationData.Placed placed = data.placed(id);
         if (placed != null) return placed;
+        if (id.equals(pl.zwiadowcy.bridge.BridgeBuilder.ID)) {
+            // most nad Rozpadliną: budowany w poprzek kanionu, po obozie budowy (droga z mostu prowadzi do obozu)
+            ServerLevel lvl = Araluen.level(server);
+            if (lvl == null) return null;
+            ensure(server, "budowa_mostu");
+            placed = data.placed(id);
+            if (placed != null) return placed;
+            placed = pl.zwiadowcy.bridge.BridgeBuilder.build(lvl, data);
+            if (placed != null) data.putPlaced(id, placed);
+            return placed;
+        }
         StoryLocation loc = StoryLocation.byId(id);
         RouteStop stop = loc == null ? RouteStop.byId(id) : null;
         ServerLevel level = Araluen.level(server);
@@ -40,6 +51,7 @@ public final class Locations {
         data.putPlaced(id, placed);
         Zwiadowcy.LOGGER.info("Postawiono lokację {} w {} ({} ms, {} kotwic)", id, placed.center,
                 System.currentTimeMillis() - start, placed.anchors.size());
+        if (id.equals("budowa_mostu")) ensure(server, pl.zwiadowcy.bridge.BridgeBuilder.ID);
         return placed;
     }
 
@@ -70,17 +82,32 @@ public final class Locations {
     }
 
     /** Bezpieczne punkty lokacji (z dala od miejsc walki) - tam ustawiamy punkt odrodzenia na czas misji. */
-    private static final java.util.Map<String, String> SAFE_SPOTS = java.util.Map.of(
-            "redmont", "przybycie", "wensley", "jarmark", "chata_halta", "chata", "stajnia_boba", "stajnia",
-            "legowisko_dzika", "baron", "oboz_zlotu", "oboz", "spalona_osada", "halt", "ruiny_gorlanu", "podejscie");
+    private static final java.util.Map<String, String> SAFE_SPOTS = java.util.Map.ofEntries(
+            java.util.Map.entry("redmont", "przybycie"), java.util.Map.entry("wensley", "jarmark"),
+            java.util.Map.entry("chata_halta", "chata"), java.util.Map.entry("stajnia_boba", "stajnia"),
+            java.util.Map.entry("legowisko_dzika", "baron"), java.util.Map.entry("oboz_zlotu", "oboz"),
+            java.util.Map.entry("spalona_osada", "halt"), java.util.Map.entry("ruiny_gorlanu", "podejscie"),
+            // tom II (wpis "lokacja:kotwica" = bezpieczny punkt w sąsiedniej lokacji, np. obóz zamiast pola bitwy)
+            java.util.Map.entry("oboz_na_trakcie", "ognisko"), java.util.Map.entry("przelecz_wiatrow", "zejscie"),
+            java.util.Map.entry("tre_gwyn", "ognisko"), java.util.Map.entry("kopalnia", "tre_gwyn:ognisko"),
+            java.util.Map.entry("dolina_mgiel", "ognisko"), java.util.Map.entry("szalas_pasterski", "ognisko"),
+            java.util.Map.entry("posterunek_dobosza", "skraj"), java.util.Map.entry("wrzosowisko", "kurhan"),
+            java.util.Map.entry("krawedz", "ognisko"), java.util.Map.entry("budowa_mostu", "krawedz:ognisko"),
+            java.util.Map.entry("oboz_krolewski", "ognisko"), java.util.Map.entry("rownina_uthal", "oboz_krolewski:ognisko"),
+            java.util.Map.entry("brzeg_rzeki", "oboz_krolewski:ognisko"));
 
     /** Bezpieczny punkt postawionej lokacji fabularnej albo null (np. postój na szlaku, lokacja jeszcze niepostawiona). */
     @Nullable
     public static BlockPos safeSpot(MinecraftServer server, String locationId) {
         String anchor = SAFE_SPOTS.get(locationId);
-        LocationData.Placed placed = LocationData.get(server).placed(locationId);
-        if (anchor == null || placed == null) return null;
-        return placed.anchors.get(anchor);
+        if (anchor == null) return null;
+        String loc = locationId;
+        if (anchor.contains(":")) {
+            loc = anchor.substring(0, anchor.indexOf(':'));
+            anchor = anchor.substring(anchor.indexOf(':') + 1);
+        }
+        LocationData.Placed placed = LocationData.get(server).placed(loc);
+        return placed == null ? null : placed.anchors.get(anchor);
     }
 
     /** Rozwiązuje odwołanie "lokacja[:kotwica]" na pozycję w Araluenie (stawiając strukturę w razie potrzeby). */

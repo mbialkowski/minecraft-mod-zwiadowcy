@@ -1,0 +1,19 @@
+{
+  "npc": "ranny_zolnierz",
+  "entries": [
+    {
+      "when": [],
+      "start": "domyslny"
+    }
+  ],
+  "nodes": {
+    "domyslny": {
+      "text": "Woda… Tylko trochę wody… Dziękuję, chłopcze.",
+      "options": [
+        {
+          "text": "Trzymaj się. Pomoc już idzie."
+        }
+      ]
+    }
+  }
+}
