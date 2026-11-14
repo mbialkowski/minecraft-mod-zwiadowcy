@@ -12,7 +12,9 @@
       "on_start": [
         {"type": "companion_leave", "npc": "gilan"},
         {"type": "move_npc", "npc": "gilan", "to": "kopalnia:wyjscie_zbocze", "face": "kopalnia:wejscie"},
-        {"type": "message", "speaker": "Gilan", "text": "Zejdźcie z Horace'em. Ja przeprowadzę konie na drugą stronę wzgórza - stare sztolnie zwykle mają drugie wyjście. Weźcie pochodnie."}
+        {"type": "message", "speaker": "Gilan", "text": "Zejdźcie z Horace'em. Ja przeprowadzę konie na drugą stronę wzgórza - stare sztolnie zwykle mają drugie wyjście. Weźcie pochodnie."},
+        {"type": "give_item", "item": "minecraft:torch", "count": 16},
+        {"type": "actionbar", "text": "Pochodnia w dłoni (albo w drugiej ręce) oświetla drogę. Możesz też ją wbić w ścianę."}
       ]
     },
     {
@@ -35,7 +37,7 @@
       "objective": {"type": "reach", "location": "kopalnia:bezpieczna_komora", "radius": 3},
       "text": "Zawał! Uciekaj korytarzem do bezpiecznej komory",
       "on_start": [
-        {"type": "zawal", "at": "kopalnia:zawal", "radius": 4, "seconds": 20},
+        {"type": "zawal", "at": "kopalnia:zawal", "radius": 2, "seconds": 8},
         {"type": "title", "title": "Zawał!", "subtitle": "Uciekaj!"},
         {"type": "message", "speaker": "Horace", "text": "Strop się sypie! Trzymam belkę - biegnij!"}
       ]
@@ -43,7 +45,10 @@
     {
       "objective": {"type": "talk", "npc": "dafydd"},
       "text": "Ktoś ukrywa się w bocznej komorze - porozmawiaj z nim",
-      "location": "kopalnia:dafydd"
+      "location": "kopalnia:dafydd",
+      "on_start": [
+        {"type": "odkop", "at": "kopalnia:dafydd", "radius": 3}
+      ]
     },
     {
       "objective": {"type": "reach", "location": "kopalnia:wyjscie_zbocze", "radius": 5},

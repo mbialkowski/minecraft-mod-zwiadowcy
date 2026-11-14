@@ -37,7 +37,7 @@ koń Wyrwij, towarzysze, bossowie i otwarty świat po zakończeniu kampanii. Ca�
   [Tekstury i struktury](#tekstury-i-struktury)
 - [Komendy testowe (op)](#komendy-testowe-op) · [Autotest](#autotest)
 - [Wydajność](#wydajność) · [Ograniczenia](#ograniczenia)
-- [Publikacja](#publikacja) · [Autorzy](#autorzy) · [Licencja](#licencja)
+- [Historia zmian](#historia-zmian) · [Publikacja](#publikacja) · [Autorzy](#autorzy) · [Licencja](#licencja)
 - [English](#english)
 
 ## Zrzuty ekranu
@@ -265,7 +265,7 @@ losowe dostały kominki, kotły ze strawą, legowiska ze skór i ołtarze, każd
 | Shift + PPM na Wyrwiju | rozmowa z koniem (przed oswojeniem wystarczy samo PPM) |
 | **G** | koło rozkazów dla towarzyszy (tom II): Za mną / Czekaj tu / Ukryj się / Odciągnij uwagę |
 | **Z** | Oczy tropiciela (tom II): wskazówki, ślady i trop w pobliżu |
-| PPM z mieczem lub saksą | garda i parowanie zapowiadanych ciosów (tom II) |
+| Pochodnia albo latarnia w dłoni | oświetla okolicę w Araluenie (kopalnie, noc) |
 | Sprint w siodle | zryw Wyrwija (tom II) |
 | PPM z mapą Gilana | mapa krain i szybka podróż między ogniskami zwiadowców (tom II) |
 
@@ -321,7 +321,7 @@ zestaw startowy zwiadowcy. Wybór z tomu I (rycerz albo zwiadowca) zmienia prolo
 | # | Misja | Akt |
 |---|---|---|
 | 1 | Wezwanie (Crowley wysyła Gilana z poselstwem do Celtyki) | I: Poselstwo |
-| 2 | Miecz zwiadowcy (lekcje Gilana, parowanie) | I |
+| 2 | Miecz zwiadowcy (sparing z Gilanem) | I |
 | 3 | Przełęcz Wiatrów (wargalscy kusznicy, linka z kotwiczką) | I |
 | 4 | Ciche wzgórza (puste osady, Oczy tropiciela) | II: Celtyka |
 | 5 | Kopalnia pod Kruczą Skałą (3 poziomy, śledztwo, zawał) | II |
@@ -354,6 +354,10 @@ dezerterzy, celtyccy uciekinierzy, wargalski zwiad.
   zablokowana (walka, alarm, wyścig do Uthal, bitwa).
 - **Trudność:** Opowieść / Zwiadowca / Weteran, do zmiany w dzienniku.
 - **10 umiejętności-odznak** za misje, widocznych w zakładce „Umiejętności”.
+- **Pochodnia w dłoni świeci:** pochodnia albo latarnia w dowolnej ręce oświetla okolicę (kopalnie, noc).
+- **Bez nocnych podróży:** misja rozpoczęta w nocy zaczyna się o poranku, chyba że dzieje się nocą celowo.
+- **Drużyna nie gubi się:** towarzysze, którzy utkną w drodze, po chwili doganiają gracza. Gdy w misji zostaje dwóch
+  ostatnich wrogów, świecą przez ściany.
 
 Po epilogu tomu II pojawia się ekran **„Koniec tomu II - kontynuuj do części trzeciej”**. Przycisk „Wróć do Araluenu”
 oddaje ekwipunek i zaczyna wolną grę poza kanonem. Gilan na Krawędzi i Morwenna przy szałasie dają wtedy codzienne
@@ -496,6 +500,16 @@ gradlew runServer -Pselftest=true
 
 - Dźwięki pochodzą z Minecrafta vanilla (konie, ravager, wilk, flet).
 - Mod jest zaprojektowany dla jednego gracza. Działa w sieci klient-serwer Forge, ale fabuła zakłada jednego Willa.
+
+## Historia zmian
+
+| Wersja | Najważniejsze |
+|---|---|
+| [2.0.1](publikacja/zmiany-2.0.1.md) | bez parowania (sparing z Gilanem na uniki), pochodnia w dłoni świeci, jaśniejsza kopalnia, poranek na start misji, drużyna i uciekający wrogowie nie blokują misji, węższe konie |
+| [2.0.0](publikacja/zmiany-2.0.0.md) | tom II „Płonący most”: 16 misji, Celtyka, Rozpadlina, palenie mostu, bitwa, Morgarath, niewola |
+| [1.0.2](publikacja/zmiany-1.0.2.md) | łagodny teren w okolicy pierwszych aktów |
+| [1.0.1](publikacja/zmiany-1.0.1.md) | spokojna okolica Redmont, lokacje obok struktur losowych |
+| [1.0.0](publikacja/zmiany-1.0.0.md) | pierwsze wydanie: tom I „Ruiny Gorlanu” |
 
 ## Publikacja
 

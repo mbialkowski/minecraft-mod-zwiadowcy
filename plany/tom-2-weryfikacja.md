@@ -222,3 +222,19 @@ strumień na dnie kanionu pominięty, kolczugi Wargali niewidoczne na modelu, mo
 **Do zrobienia przed wydaniem:** scenariusze ręczne 16.2 w kliencie (wymaga zgody na uruchomienie gry),
 test migracji zapisu z 1.0.2, potem wersje testowe i 2.0 na GitHubie (za zgodą), commit i push
 (na prośbę).
+
+## Poprawki po testach gracza (2.0.1)
+
+| Zgłoszenie | Zmiana | Status |
+|---|---|---|
+| Parowanie i kontra zbyt trudne | Mechanika usunięta (`Parry`, garda mieczem i saksą). Sparing w „Mieczu zwiadowcy”: uniki przed zapowiedzianym ciosem i trafienia, aż Gilan się podda. „Lekcja Gilana” +2 obrażenia mieczem, szkolny fechtunek +1 | ✅ kompiluje się, autotest |
+| Kusznik uciekł z zasadzki na przełęczy | Kusznicy ze smyczą (12 bloków od stanowiska). W każdej misji „pokonaj oznaczonych”: ≤ 2 wrogów świecą, a gdy przy miejscu etapu nie ma żadnego przez 15 s, etap kończy się sam | ✅ |
+| Brak zakładki „Wnioski” | Zakładka widoczna przez cały tom II, z podpowiedzią przed pierwszą wskazówką | ✅ |
+| Kopalnia za ciemna | 35 nowych latarni w chodnikach, 16 pochodni na wejściu, pochodnia/latarnia w dłoni świeci (blok światła przy głowie, tylko Araluen) | ✅ |
+| Dafydd zasypany | Zawał przeniesiony za plecy uciekającego, krótszy (8 s, promień 2), żwir nie spada przy postaciach, etap rozmowy odkopuje kryjówkę | ✅ |
+| Noc uciążliwa | Nowa misja w nocy zaczyna się o poranku; wyjątki: pierwszy etap „noc” i pole `keep_time` (Łańcuchy, Płonący most, Czarny rumak, Bitwa, pojedynek) | ✅ |
+| Drużyna nie przechodzi przez bramę (Dwie drogi) | Akcja `companion_tp` po dźwigni + we wszystkich etapach `ride_with` drużyna dogania gracza po 10 s | ✅ |
+| Wyrwij za szeroki | Wyrwij i konie towarzyszy 0,9 bloku szerokości (przejścia 1-blokowe) | ✅ |
+
+Plan zmieniony względem założeń: 9.5 (parowanie) usunięte na prośbę gracza; decyzja 28 („miecz zwiadowcy - lekcje
+Gilana”) zostaje w formie sparingu bez parowania.

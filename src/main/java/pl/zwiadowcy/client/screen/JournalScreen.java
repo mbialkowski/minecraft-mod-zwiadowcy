@@ -220,7 +220,7 @@ public class JournalScreen extends Screen {
         return switch (t) {
             case MISJE, NOTATKI -> true;
             case UMIEJETNOSCI, DRUZYNA -> tom2;
-            case WNIOSKI -> tom2 && (!extra().clues().isEmpty() || !extra().deduction().isEmpty());
+            case WNIOSKI -> tom2;
         };
     }
 
@@ -283,6 +283,11 @@ public class JournalScreen extends Screen {
         if (ded.size() > 1) {
             g.drawString(font, "Wniosek", x, y, ACCENT, false);
             y = lines(g, ded.get(1), x, y + 11, w, INK) + 6;
+        }
+        if (ded.size() <= 1 && extra().clues().isEmpty()) {
+            lines(g, "Brak śledztwa. Gdy misja każe szukać śladów, przytrzymaj Z (Oczy tropiciela) i kliknij PPM świecącą "
+                    + "wskazówkę - trafi tutaj. Gdy zbierzesz dość wskazówek, w tej zakładce wybierzesz wniosek.", x, y, w, INK_LIGHT);
+            return;
         }
         g.drawString(font, "Zebrane wskazówki: " + extra().clues().size(), x, y, INK_LIGHT, false);
         renderNotesFrom(g, x, y + 12, w);

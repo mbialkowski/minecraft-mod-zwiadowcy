@@ -32,7 +32,7 @@ import java.util.EnumSet;
 /**
  * Jeździec Morgaratha (tom II, mini-boss aktu II): człowiek w czarnej zbroi na czarnym rumaku. Faza konna: szarże
  * z kopią (zapowiedź: koń staje dęba), trzeba zrobić unik i strzelać w jeźdźca. Przy połowie zdrowia spada z konia
- * i walczy pieszo mieczem - zapowiadanymi ciosami, które da się sparować.
+ * i walczy pieszo mieczem - zapowiadanymi ciosami, przed którymi trzeba uskoczyć.
  */
 public class MorgarathRiderEntity extends StoryFoe {
     private final ServerBossEvent bossEvent = new ServerBossEvent(Component.literal("Jeździec Morgaratha").withStyle(ChatFormatting.DARK_RED),

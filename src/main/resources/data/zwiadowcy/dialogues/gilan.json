@@ -44,7 +44,7 @@
       "when": [
         {
           "quest_stage": "miecz_zwiadowcy",
-          "stage": 4
+          "stage": 3
         }
       ],
       "start": "t2_miecz_koniec"
@@ -347,7 +347,7 @@
       ]
     },
     "t2_miecz_1": {
-      "text": "Wiesz, czego Halt cię nie nauczy? Miecza. Mówi, że zwiadowca nie powinien dać się złapać w zasięgu ostrza.\nMa rację. Ale czasem łuk zostaje przy siodle, a przeciwnik jest bliżej, niż byś chciał. Masz - drewniany, do ćwiczeń. Pokażę ci gardę.",
+      "text": "Wiesz, czego Halt cię nie nauczy? Miecza. Mówi, że zwiadowca nie powinien dać się złapać w zasięgu ostrza.\nMa rację. Ale czasem łuk zostaje przy siodle, a przeciwnik jest bliżej, niż byś chciał. Masz - drewniany, do ćwiczeń. Pokażę ci, jak się nim nie dać trafić.",
       "options": [
         {
           "text": "Pokaż.",
@@ -366,7 +366,7 @@
       ]
     },
     "t2_miecz_trwa": {
-      "text": "Patrz na mój zamach, nie na ostrze. Błysk to znak - wtedy garda.",
+      "text": "Patrz na mój zamach, nie na ostrze. Błysk to znak - wtedy zejdź z linii ciosu, a potem uderz.",
       "options": [
         {
           "text": "Dobrze."
@@ -390,7 +390,7 @@
             {
               "type": "advance",
               "quest": "miecz_zwiadowcy",
-              "stage": 4
+              "stage": 3
             }
           ]
         }

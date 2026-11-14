@@ -83,9 +83,10 @@ public final class ModEntities {
             () -> EntityType.Builder.of(BoarEntity::new, MobCategory.CREATURE)
                     .sized(1.1f, 1.0f).clientTrackingRange(8).build("dzik"));
 
+    /** Wyrwij i konie towarzyszy: wąskie (0,9 bloku), żeby przeciskały się przez przejścia szerokości jednego bloku. */
     public static final RegistryObject<EntityType<TugEntity>> WYRWIJ = ENTITIES.register("wyrwij",
             () -> EntityType.Builder.of(TugEntity::new, MobCategory.CREATURE)
-                    .sized(1.2f, 1.5f).clientTrackingRange(10).build("wyrwij"));
+                    .sized(0.9f, 1.5f).clientTrackingRange(10).build("wyrwij"));
 
     public static final RegistryObject<EntityType<RangerArrowEntity>> STRZALA = ENTITIES.register("strzala",
             () -> EntityType.Builder.<RangerArrowEntity>of(RangerArrowEntity::new, MobCategory.MISC)
@@ -101,7 +102,7 @@ public final class ModEntities {
 
     public static final RegistryObject<EntityType<pl.zwiadowcy.entity.CompanionHorseEntity>> KON_TOWARZYSZA = ENTITIES.register("kon_towarzysza",
             () -> EntityType.Builder.of(pl.zwiadowcy.entity.CompanionHorseEntity::new, MobCategory.CREATURE)
-                    .sized(1.3965f, 1.6f).clientTrackingRange(10).build("kon_towarzysza"));
+                    .sized(0.9f, 1.6f).clientTrackingRange(10).build("kon_towarzysza"));
 
     public static final RegistryObject<EntityType<pl.zwiadowcy.entity.projectile.StoneEntity>> KAMYK = ENTITIES.register("kamyk",
             () -> EntityType.Builder.<pl.zwiadowcy.entity.projectile.StoneEntity>of(pl.zwiadowcy.entity.projectile.StoneEntity::new, MobCategory.MISC)

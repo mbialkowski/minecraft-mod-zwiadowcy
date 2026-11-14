@@ -9,7 +9,7 @@ ale części są niezależne - można zrobić tylko wybrane.
    **Survival** (bitwy i pojedynek mają sens tylko z prawdziwym zdrowiem). W razie potrzeby `/gamemode creative`
    i z powrotem.
 2. **Przydatne klawisze:** **F3** - współrzędne, **F2** - zrzut ekranu (`run/screenshots`), **J** - dziennik,
-   **G** - koło rozkazów, **Z** - Oczy tropiciela, **R** - rodzaj strzały, PPM z mieczem/saksą - garda.
+   **G** - koło rozkazów, **Z** - Oczy tropiciela, **R** - rodzaj strzały; pochodnia w dłoni świeci.
 3. **Zgłaszanie błędów:** zapisz, w której misji i etapie (dziennik, J), co się stało, co powinno się stać,
    i zrób zrzut F2. Log gry: `run/logs/latest.log`.
 
@@ -48,8 +48,8 @@ Nowy świat. Po wejściu otwiera się Kronika.
 Świat z szybkim startem (punkt A, drugi świat). Przechodzimy normalnie albo skaczemy:
 
 - [ ] **Wezwanie:** przerywnik wyjazdu z Redmontu (kamera, pasy kinowe, napisy, Esc pomija), jazda z drużyną konno.
-- [ ] **Miecz zwiadowcy** (`/zwiadowcy skok miecz_zwiadowcy`): lekcje parowania - PPM z mieczem tuż przed ciosem
-  (błysk na broni) daje „Sparowano!” i kontrę.
+- [ ] **Miecz zwiadowcy** (`/zwiadowcy skok miecz_zwiadowcy`): sparing - gdy miecz Gilana błyśnie, uskocz i uderz,
+  aż Gilan się podda.
 - [ ] **Przełęcz** (`skok przelecz`): kusznicy - zgrzyt korby i błysk przed strzałem, bełt mocno boli;
   linka z kotwiczką (PPM w krawędź bloku do 20 bloków).
 - [ ] **Ciche wzgórza / Kopalnia:** Oczy tropiciela (**Z**) - świecące wskazówki, PPM na wskazówce → notatka;

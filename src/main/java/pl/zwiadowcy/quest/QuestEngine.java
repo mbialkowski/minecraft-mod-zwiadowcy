@@ -47,6 +47,19 @@ public final class QuestEngine {
      * @param quiet misja dodatkowa (np. postój na szlaku): bez tytułu na ekranie i bez przejmowania śledzenia -
      *              strzałka HUD i tak poprowadzi przez postój, gdy leży on na drodze do celu śledzonej misji
      */
+    /**
+     * Nowa misja w nocy: robi się poranek (podróże po ciemku są męczące). Bez zmian, gdy misja zaczyna się od czekania
+     * na noc albo celowo dzieje się nocą (pole "keep_time" w pliku misji).
+     */
+    private static void morningIfNight(ServerPlayer p, QuestDefinition def) {
+        if (def.keepTime() || !isNight(p) || def.stages().isEmpty() || def.stages().get(0).objective().type().equals("night")) return;
+        net.minecraft.server.level.ServerLevel ow = p.getServer() != null ? p.getServer().overworld() : null;
+        if (ow == null) return;
+        long now = ow.getDayTime(), morning = now - Math.floorMod(now, 24000L) + 24000L + 1000L;
+        ow.setDayTime(morning);
+        p.displayClientMessage(Component.literal("Świta. Ruszasz w drogę o poranku.").withStyle(ChatFormatting.GRAY), true);
+    }
+
     public static void start(ServerPlayer p, String id, boolean quiet) {
         QuestDefinition def = QuestManager.INSTANCE.get(id);
         if (def == null) {
@@ -63,6 +76,7 @@ public final class QuestEngine {
             st.completedAt = old.completedAt;
         }
         prog.states().put(id, st);
+        if (!quiet) morningIfNight(p, def);
         if (quiet) {
             p.sendSystemMessage(Component.literal("✦ Postój na szlaku: ").withStyle(ChatFormatting.DARK_AQUA)
                     .append(Component.literal(def.title()).withStyle(ChatFormatting.AQUA))

@@ -91,6 +91,25 @@ public final class Companions {
                 n -> n.ownerPlayer() == p && (n.getMode() == StoryNpc.Mode.COMPANION || n.isDowned()));
     }
 
+    /** Przenosi całą drużynę (z końmi) w pobliże punktu, np. za otwartą bramę albo do gracza, gdy utknęła. */
+    public static void teleportParty(ServerPlayer p, BlockPos to) {
+        int i = 0;
+        for (StoryNpc n : of(p)) {
+            double ox = (i % 2 == 0 ? 1.5 : -1.5) * (1 + i / 2), oz = 1.5;
+            i++;
+            CompanionHorseEntity horse = horseOf(n);
+            boolean rode = n.isPassenger();
+            if (rode) n.stopRiding();
+            n.teleportTo(to.getX() + 0.5 + ox, to.getY(), to.getZ() + 0.5 + oz);
+            n.getNavigation().stop();
+            n.setOrder(StoryNpc.Order.ZA_MNA, null);
+            if (horse != null) {
+                horse.teleportTo(to.getX() + 0.5 + ox, to.getY(), to.getZ() + 0.5 + oz);
+                if (rode) n.startRiding(horse, true);
+            }
+        }
+    }
+
     // ------------------------------------------------------------------ tick (co 10 ticków na towarzysza)
 
     public static void tickNpc(StoryNpc npc) {

@@ -79,10 +79,21 @@ public final class QuestTom2 {
                 for (String npc : o.list("npcs")) {
                     StoryNpc n = NpcService.findNearest(p, npc);
                     if (n == null || n.distanceTo(p) > cr) {
+                        // drużyna utknęła (ścieżka, brama, teren) - po 10 s dogania gracza sama
+                        String key = "zw_czekam:" + def.id();
+                        long now = p.level().getGameTime();
+                        if (!p.getPersistentData().contains(key)) p.getPersistentData().putLong(key, now);
+                        if (now - p.getPersistentData().getLong(key) > 200) {
+                            p.getPersistentData().remove(key);
+                            Companions.teleportParty(p, p.blockPosition());
+                            p.displayClientMessage(Component.literal("Drużyna dogania cię.").withStyle(ChatFormatting.GREEN), true);
+                            return false;
+                        }
                         p.displayClientMessage(Component.literal("Zaczekaj na drużynę.").withStyle(ChatFormatting.YELLOW), true);
                         return false;
                     }
                 }
+                p.getPersistentData().remove("zw_czekam:" + def.id());
                 QuestEngine.advance(p, def.id());
             }
             case "survive" -> {
@@ -98,6 +109,9 @@ public final class QuestTom2 {
             case "defend" -> {
                 return tickDefend(p, def, st, o);
             }
+            case "kill" -> {
+                if (o.bool("tagged")) return tickHunt(p, def, st, stage);
+            }
             case "bridge_burnt" -> {
                 if (pl.zwiadowcy.bridge.BridgeBurn.state(server) == pl.zwiadowcy.bridge.BridgeBurn.BURNT) {
                     QuestEngine.advance(p, def.id());
@@ -107,6 +121,48 @@ public final class QuestTom2 {
             default -> {}
         }
         return false;
+    }
+
+    /**
+     * Pokonaj oznaczonych wrogów: gdy zostało ich najwyżej 2, świecą (widać ich przez ściany). Gdy w pobliżu miejsca
+     * etapu nie ma już żadnego (uciekł, spadł w przepaść, zniknął w niewczytanym terenie), po 15 s etap kończy się sam.
+     */
+    private static boolean tickHunt(ServerPlayer p, QuestDefinition def, QuestProgress.State st, QuestDefinition.Stage stage) {
+        int remaining = stage.objective().count(QuestCapability.get(p)) - st.progress;
+        if (remaining <= 0) return false;
+        List<Mob> rest = p.level().getEntitiesOfClass(Mob.class, p.getBoundingBox().inflate(192),
+                m -> m.isAlive() && !(m instanceof StoryNpc) && def.id().equals(m.getPersistentData().getString(QuestActions.TAG_QUEST))
+                        && matchesKill(m, stage.objective().str("entity")));
+        String key = "zw_bez_celow:" + def.id();
+        if (!rest.isEmpty()) {
+            p.getPersistentData().remove(key);
+            if (rest.size() <= 2) {
+                for (Mob m : rest) {
+                    if (!m.hasEffect(MobEffects.GLOWING)) m.addEffect(new MobEffectInstance(MobEffects.GLOWING, 400, 0, false, false));
+                }
+            }
+            return false;
+        }
+        // wrogów nie ma w pobliżu - liczy się tylko, gdy gracz jest na miejscu etapu
+        String loc = QuestEngine.locationOf(stage);
+        BlockPos at = loc != null ? Locations.peek(p.getServer(), loc) : null;
+        if (at == null || p.blockPosition().distSqr(at) > 64 * 64) return false;
+        long now = p.level().getGameTime();
+        if (!p.getPersistentData().contains(key)) {
+            p.getPersistentData().putLong(key, now);
+            return false;
+        }
+        if (now - p.getPersistentData().getLong(key) < 300) return false;
+        p.getPersistentData().remove(key);
+        p.sendSystemMessage(Component.literal("Reszta wrogów uciekła - droga wolna.").withStyle(ChatFormatting.GRAY));
+        QuestEngine.addProgress(p, def.id(), remaining);
+        return false;
+    }
+
+    private static boolean matchesKill(Mob m, String want) {
+        if (want.isEmpty() || want.equals("*")) return true;
+        ResourceLocation key = ForgeRegistries.ENTITY_TYPES.getKey(m.getType());
+        return key != null && key.toString().equals(want);
     }
 
     /** Obrona: co pół sekundy odliczanie; fale jako zdarzenia "fala_N"; za mało żywych - etap od nowa. */
@@ -452,6 +508,24 @@ public final class QuestTom2 {
                 });
             }
             case "crowd" -> pl.zwiadowcy.entity.CrowdDummyEntity.spawnGroup(p, a, ctx.quest());
+            case "companion_tp" -> {
+                // drużyna przenosi się do kotwicy (albo do gracza): {"type": "companion_tp", "to": "lokacja:kotwica"}
+                BlockPos to = a.has("to") ? Locations.resolve(server, str(a, "to")) : p.blockPosition();
+                if (to != null) Companions.teleportParty(p, to);
+            }
+            case "odkop" -> {
+                // usuwa żwir zawału wokół kotwicy (np. kryjówka Dafydda w kopalni)
+                BlockPos at = Locations.resolve(server, str(a, "at"));
+                ServerLevel level = Araluen.level(server);
+                int r = GsonHelper.getAsInt(a, "radius", 3);
+                if (at != null && level != null) {
+                    for (BlockPos b : BlockPos.betweenClosed(at.offset(-r, -1, -r), at.offset(r, 3, r))) {
+                        if (level.getBlockState(b).is(net.minecraft.world.level.block.Blocks.GRAVEL)) {
+                            level.setBlock(b, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState(), 3);
+                        }
+                    }
+                }
+            }
             case "advancement" -> QuestEngine.awardAdvancement(p, str(a, "id"));
             case "spawn_npc" -> {
                 // postacie nieunikalne (żołnierze, ranni) w kotwicach: {"npc": "zolnierz", "at": ["loc:a", ...], "ally": true, "mode": "idle"}

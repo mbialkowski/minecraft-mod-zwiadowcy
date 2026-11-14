@@ -2,6 +2,7 @@
   "title": "Łańcuchy",
   "act": "Tom II · Akt III: Płonący most",
   "tom": 2,
+  "keep_time": true,
   "order": 210,
   "advancement": "tom2/lancuchy",
   "description": "Noc nad Rozpadliną. Celtyccy jeńcy śpią w zagrodach przy moście, a nadzorcy z biczami chodzą między nimi. Najpierw ludzie - potem most.",

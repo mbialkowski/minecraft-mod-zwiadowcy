@@ -13,7 +13,7 @@ import java.util.*;
  */
 public record QuestDefinition(String id, String title, String act, String description, int order,
                               boolean repeatable, @Nullable String advancement, List<Stage> stages,
-                              JsonArray onStart, JsonArray onComplete, int tom) {
+                              JsonArray onStart, JsonArray onComplete, int tom, boolean keepTime) {
 
     public record Objective(String type, JsonObject params) {
         public int count() {
@@ -88,7 +88,8 @@ public record QuestDefinition(String id, String title, String act, String descri
                 Collections.unmodifiableList(stages),
                 GsonHelper.getAsJsonArray(json, "on_start", new JsonArray()),
                 GsonHelper.getAsJsonArray(json, "on_complete", new JsonArray()),
-                GsonHelper.getAsInt(json, "tom", 1));
+                GsonHelper.getAsInt(json, "tom", 1),
+                GsonHelper.getAsBoolean(json, "keep_time", false));
     }
 
     @Nullable

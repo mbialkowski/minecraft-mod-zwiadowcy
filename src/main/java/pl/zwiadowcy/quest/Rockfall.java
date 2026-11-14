@@ -29,6 +29,8 @@ public final class Rockfall {
         for (int i = 0; i < 2; i++) {
             int dx = level.random.nextInt(radius * 2 + 1) - radius, dz = level.random.nextInt(radius * 2 + 1) - radius;
             BlockPos base = at.offset(dx, 0, dz);
+            // nie zasypujemy postaci (Dafydd w swojej kryjówce, towarzysze)
+            if (!level.getEntitiesOfClass(pl.zwiadowcy.entity.StoryNpc.class, new net.minecraft.world.phys.AABB(base).inflate(3, 4, 3)).isEmpty()) continue;
             // szukamy stropu nad chodnikiem (do 4 bloków w górę)
             BlockPos ceiling = null;
             for (int up = 1; up <= 4; up++) {

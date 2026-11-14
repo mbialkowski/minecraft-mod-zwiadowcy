@@ -2,6 +2,7 @@
   "title": "Bitwa na Równinie Uthal",
   "act": "Tom II · Akt III: Płonący most",
   "tom": 2,
+  "keep_time": true,
   "order": 214,
   "advancement": "tom2/bitwa_uthal",
   "description": "Świt nad Uthal. Naprzeciw siebie stoją dwie armie: rycerze i łucznicy Araluenu oraz Wargale Morgaratha ze skandyjskimi najemnikami. Zwiadowcy nie walczą w szyku - mają zadania na skrzydłach.",

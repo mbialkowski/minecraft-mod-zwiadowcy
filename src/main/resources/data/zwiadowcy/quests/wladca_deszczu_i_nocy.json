@@ -2,6 +2,7 @@
   "title": "Władca Deszczu i Nocy",
   "act": "Tom II · Akt III: Płonący most",
   "tom": 2,
+  "keep_time": true,
   "order": 215,
   "advancement": "tom2/wladca_deszczu_i_nocy",
   "description": "Morgarath przebił się przez szyk i szuka w tłumie tego, kto spalił jego most. Żołnierze rozstępują się w krąg. Will ma przy sobie tylko łuk, saksę - i Horace'a.",
@@ -50,7 +51,7 @@
         {"type": "spawn", "entity": "zwiadowcy:morgarath", "at": "rownina_uthal:arena_morgarath", "boss_phase": 2, "face": "rownina_uthal:arena_will"}
       ],
       "on_start": [
-        {"type": "actionbar", "text": "Zapowiedź ciosu: błysk na mieczu. Cięcie z góry - w bok; poziome - w tył; pchnięcie - sparuj (PPM z mieczem)."}
+        {"type": "actionbar", "text": "Zapowiedź ciosu: błysk na mieczu. Cięcie z góry i pchnięcie - uskocz w bok; cięcie poziome - odskocz w tył."}
       ]
     },
     {

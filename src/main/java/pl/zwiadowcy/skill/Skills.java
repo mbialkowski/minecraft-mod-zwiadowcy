@@ -30,7 +30,7 @@ public final class Skills {
     public record Skill(String id, String name, String effect, String source) {}
 
     public static final List<Skill> ALL = List.of(
-            new Skill(LEKCJA_GILANA, "Lekcja Gilana", "Okno parowania dłuższe o 2 tiki.", "Misja „Miecz zwiadowcy”"),
+            new Skill(LEKCJA_GILANA, "Lekcja Gilana", "Miecz zwiadowcy zadaje o 2 obrażenia więcej.", "Misja „Miecz zwiadowcy”"),
             new Skill(OKO_TROPICIELA, "Oko tropiciela", "Oczy tropiciela sięgają 24 bloki, ślady widać dłużej.", "Misja „Ciche wzgórza”"),
             new Skill(CICHY_KROK, "Cichy krok", "Kroki po żwirze, kamieniu i deskach nie budzą podejrzeń.", "Misja „Dwie drogi”"),
             new Skill(PEWNA_REKA, "Pewna ręka", "Łuk zwiadowcy napina się o 15% szybciej.", "Misja „Czarny jeździec”"),

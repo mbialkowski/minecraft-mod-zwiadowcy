@@ -14,8 +14,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 /**
- * Miecz zwiadowcy (lekki, szybki, słabszy od rycerskiego) i drewniany miecz ćwiczebny. PPM to garda:
- * cios przyjęty tuż po jej podniesieniu jest parowany (patrz {@link pl.zwiadowcy.combat.Parry}).
+ * Miecz zwiadowcy (lekki, szybki, słabszy od rycerskiego) i drewniany miecz ćwiczebny do sparingu.
+ * Premie z umiejętności: {@link pl.zwiadowcy.combat.SwordBonus}.
  */
 public class RangerSwordItem extends SwordItem {
     public static final ForgeTier TIER = new ForgeTier(2, 450, 6.0f, 1.0f, 14,
@@ -28,22 +28,6 @@ public class RangerSwordItem extends SwordItem {
     public RangerSwordItem(Tier tier, int damage, float speed, int tooltipLines, Properties props) {
         super(tier, damage, speed, props);
         this.tooltipLines = tooltipLines;
-    }
-
-    @Override
-    public UseAnim getUseAnimation(ItemStack stack) {
-        return UseAnim.BLOCK;
-    }
-
-    @Override
-    public int getUseDuration(ItemStack stack) {
-        return 72000;
-    }
-
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        player.startUsingItem(hand);
-        return InteractionResultHolder.consume(player.getItemInHand(hand));
     }
 
     @Override

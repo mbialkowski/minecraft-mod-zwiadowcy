@@ -2,6 +2,7 @@
   "title": "Płonący most",
   "act": "Tom II · Akt III: Płonący most",
   "tom": 2,
+  "keep_time": true,
   "order": 211,
   "advancement": "tom2/plonacy_most",
   "description": "Most to drewno i liny. Drewno nasączone smołą płonie jak pochodnia. O świcie kolumna Wargali wejdzie na pomost - i wtedy most musi zniknąć.",

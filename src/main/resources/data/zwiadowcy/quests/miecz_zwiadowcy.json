@@ -19,20 +19,15 @@
       "location": "oboz_na_trakcie:gilan"
     },
     {
-      "objective": {"type": "event", "id": "parowanie", "count": 5},
-      "text": "Sparing z Gilanem: sparuj 5 ciosów (przytrzymaj PPM z mieczem tuż przed uderzeniem)",
+      "objective": {"type": "event", "id": "npc_pokonany:gilan"},
+      "text": "Sparing z Gilanem: uchylaj się przed jego ciosami i uderzaj mieczem ćwiczebnym, aż się podda",
       "location": "oboz_na_trakcie:sparing",
       "on_start": [
         {"type": "npc_item", "npc": "gilan", "item": "zwiadowcy:miecz_cwiczebny"},
         {"type": "npc_mode", "npc": "gilan", "mode": "duel"},
-        {"type": "title", "title": "Sparing", "subtitle": "Patrz na zamach - błysk to znak"},
-        {"type": "actionbar", "text": "Gilan zapowiada każdy cios zamachem. Podnieś gardę (PPM) tuż przed uderzeniem."}
-      ]
-    },
-    {
-      "objective": {"type": "event", "id": "kontra", "count": 3},
-      "text": "Po udanym parowaniu kontruj - 3 kontry",
-      "location": "oboz_na_trakcie:sparing",
+        {"type": "title", "title": "Sparing", "subtitle": "Błysk na mieczu to zapowiedź ciosu"},
+        {"type": "actionbar", "text": "Gdy miecz Gilana błyśnie, odskocz w bok albo w tył, a potem uderz - aż Gilan powie „dość”."}
+      ],
       "on_complete": [
         {"type": "npc_mode", "npc": "gilan", "mode": "companion"},
         {"type": "npc_item", "npc": "gilan", "item": "zwiadowcy:luk_zwiadowcy"}
@@ -64,7 +59,7 @@
   ],
   "on_complete": [
     {"type": "xp", "amount": 60},
-    {"type": "note", "title": "Lekcja Gilana", "text": "Gilan nauczył mnie gardy: patrzeć na zamach przeciwnika i podnieść miecz w ostatniej chwili. Sparowany cios zostawia przeciwnika odsłoniętego - wtedy kontra trafia podwójnie. Halt by powiedział, że to samo dotyczy rozmów z baronem."},
+    {"type": "note", "title": "Lekcja Gilana", "text": "Gilan nauczył mnie walczyć mieczem: patrzeć na zamach przeciwnika, w ostatniej chwili zejść z linii ciosu i uderzyć, zanim się zasłoni. Halt by powiedział, że to samo dotyczy rozmów z baronem."},
     {"type": "start_quest", "quest": "przelecz"}
   ]
 }

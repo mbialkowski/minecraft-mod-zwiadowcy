@@ -2,6 +2,7 @@
   "title": "Czarny rumak",
   "act": "Tom II · Misje poboczne",
   "tom": 2,
+  "keep_time": true,
   "order": 223,
   "advancement": "tom2/czarny_rumak",
   "description": "Morgarath jeździ na czarnym rumaku, którego boją się nawet Wargale. Koń stoi nocą przy koniowiązach za szykami wroga. Popręg poluzowany przed bitwą może zdecydować o wszystkim - a koniowi nic się nie stanie.",

@@ -362,6 +362,19 @@ final class Tom2Structures {
         s.fill(26, -4, 25, 31, -4, 26, "minecraft:stone");
         stairsZ(s, 30, -3, 27, 4, true);
         s.clear(29, 1, 31, 31, 3, 34);
+        // światło: latarnie pod stropem co kilka bloków na wszystkich poziomach (bez nich w kopalni nic nie widać)
+        for (int[] l : new int[][]{
+                // poziom 1 (strop y=-4)
+                {8, -5, 6}, {13, -5, 6}, {18, -5, 6}, {23, -5, 6}, {28, -5, 6}, {32, -5, 8}, {32, -5, 13}, {32, -5, 18},
+                {32, -5, 23}, {32, -5, 28}, {6, -5, 10}, {6, -5, 15}, {6, -5, 20},
+                // poziom 2 (strop y=-12; komora wydobywcza y=-11)
+                {12, -13, 30}, {17, -13, 30}, {23, -13, 30}, {29, -13, 30}, {10, -13, 14}, {10, -13, 19}, {10, -13, 24},
+                {17, -12, 21}, {25, -12, 27}, {6, -13, 30}, {13, -13, 10}, {10, -13, 7}, {10, -13, 3},
+                // poziom 3 (strop y=-20) i wyjście
+                {23, -21, 4}, {24, -21, 7}, {24, -21, 11}, {24, -21, 15}, {24, -21, 19}, {27, -21, 14}, {32, -21, 14},
+                {24, -21, 24}, {25, -11, 37}}) {
+            s.set(l[0], l[1], l[2], "minecraft:lantern[hanging=true,waterlogged=false]");
+        }
         // kotwice
         s.anchor(6, 1, 11, "wejscie");
         s.anchor(32, -15, 30, "poziom_2");
@@ -369,7 +382,8 @@ final class Tom2Structures {
         s.anchor(24, -15, 22, "wargal_2");
         s.anchor(14, -15, 30, "wargal_3");
         s.anchor(22, -15, 27, "wargal_4");
-        s.anchor(10, -15, 12, "zawal");
+        // zawał za plecami uciekającego (dalej od kryjówki Dafydda)
+        s.anchor(10, -15, 18, "zawal");
         s.anchor(10, -15, 3, "bezpieczna_komora");
         s.npc(14, -15, 10, "dafydd", 90f);
         s.anchor(24, -23, 4, "poziom_3");

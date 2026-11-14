@@ -24,7 +24,7 @@ import java.util.function.Consumer;
 
 /**
  * Przeciwnik z zapowiadanymi ciosami (tom II: Jeździec Morgaratha, Skandianie, Morgarath). Przed ciosem widać zamach,
- * błysk na broni i słychać świst - tyle trwa okno na unik albo gardę (parowanie, patrz {@link pl.zwiadowcy.combat.Parry}).
+ * błysk na broni i słychać świst - tyle trwa okno na unik (zejście z linii ciosu albo odskok).
  * Po ciosie, który chybił albo trafił w tarczę Horace'a, na chwilę odsłania się słaby punkt: trafienie w tym czasie
  * zadaje potrójne obrażenia (na poziomach Opowieść i Zwiadowca słaby punkt świeci).
  */
@@ -118,7 +118,7 @@ public abstract class StoryFoe extends Monster {
                 if (hit && s.onHit() != null) s.onHit().accept(t);
             }
         }
-        // chybiony albo zablokowany cios (unik, parowanie, tarcza Horace'a): słaby punkt odsłonięty
+        // chybiony albo zablokowany cios (unik, tarcza Horace'a): słaby punkt odsłonięty
         if (!hit || (t instanceof StoryNpc n && n.npcId().equals("horace"))) entityData.set(WEAK, 30);
         onSwingFinished(s, hit, t);
     }

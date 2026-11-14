@@ -22,24 +22,6 @@ public class SaxeKnifeItem extends SwordItem {
         super(TIER, 3, -2.0f, props);
     }
 
-    // tom II: PPM to garda - cios tuż po jej podniesieniu jest parowany (krótsze okno niż mieczem)
-    @Override
-    public net.minecraft.world.item.UseAnim getUseAnimation(ItemStack stack) {
-        return net.minecraft.world.item.UseAnim.BLOCK;
-    }
-
-    @Override
-    public int getUseDuration(ItemStack stack) {
-        return 72000;
-    }
-
-    @Override
-    public net.minecraft.world.InteractionResultHolder<ItemStack> use(Level level, net.minecraft.world.entity.player.Player player,
-                                                                       net.minecraft.world.InteractionHand hand) {
-        player.startUsingItem(hand);
-        return net.minecraft.world.InteractionResultHolder.consume(player.getItemInHand(hand));
-    }
-
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         TooltipItem.addLines(this, 1, tooltip);

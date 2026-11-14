@@ -15,9 +15,9 @@
       "text": "Kusznicy na skałach! Kryj się i zdejmij ich",
       "location": "przelecz_wiatrow:zawal",
       "on_start": [
-        {"type": "spawn", "entity": "zwiadowcy:wargal_kusznik", "at": "przelecz_wiatrow:kusznik_1", "face": "przelecz_wiatrow:podnoze"},
-        {"type": "spawn", "entity": "zwiadowcy:wargal_kusznik", "at": "przelecz_wiatrow:kusznik_2", "face": "przelecz_wiatrow:podnoze"},
-        {"type": "spawn", "entity": "zwiadowcy:wargal_kusznik", "at": "przelecz_wiatrow:kusznik_3", "face": "przelecz_wiatrow:podnoze"},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_kusznik", "at": "przelecz_wiatrow:kusznik_1", "face": "przelecz_wiatrow:podnoze", "home": "przelecz_wiatrow:kusznik_1", "home_radius": 12},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_kusznik", "at": "przelecz_wiatrow:kusznik_2", "face": "przelecz_wiatrow:podnoze", "home": "przelecz_wiatrow:kusznik_2", "home_radius": 12},
+        {"type": "spawn", "entity": "zwiadowcy:wargal_kusznik", "at": "przelecz_wiatrow:kusznik_3", "face": "przelecz_wiatrow:podnoze", "home": "przelecz_wiatrow:kusznik_3", "home_radius": 12},
         {"type": "title", "title": "Zasadzka!", "subtitle": "Kusze Wargali"},
         {"type": "message", "speaker": "Gilan", "text": "Kusze! Za skały! Słyszysz ten zgrzyt korby? Zanim wystrzelą, mają chwilę błysku na grocie - wtedy schowaj się albo zejdź z linii strzału."}
       ]

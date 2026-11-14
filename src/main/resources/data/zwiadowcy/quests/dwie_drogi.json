@@ -53,7 +53,9 @@
         {"type": "set_block", "at": "posterunek_dobosza:brama_3", "block": "minecraft:air", "height": 3},
         {"type": "set_block", "at": "posterunek_dobosza:brama_4", "block": "minecraft:air", "height": 3},
         {"type": "sound", "sound": "minecraft:block.wooden_door.open", "pitch": 0.6},
-        {"type": "companion_order", "order": "ZA_MNA"}
+        {"type": "companion_order", "order": "ZA_MNA"},
+        {"type": "companion_tp", "to": "posterunek_dobosza:brama_poludniowa"},
+        {"type": "message", "speaker": "Horace", "text": "Brama otwarta! Jesteśmy za tobą, Will."}
       ]
     },
     {
