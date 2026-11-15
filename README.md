@@ -509,6 +509,7 @@ gradlew runServer -Pselftest=true
 
 | Wersja | Najważniejsze |
 |---|---|
+| [2.0.3](publikacja/zmiany-2.0.3.md) | most nad Rozpadliną: liny wież jako proste odcinki (zamiast poszarpanych łańcuchów) i wieże wydobyte ze zbocza |
 | [2.0.2](publikacja/zmiany-2.0.2.md) | przedmioty zostają po śmierci, podświetlone podpory mostu i smoła bez limitu, żołnierze walczą pod Uthal, drużyna nie zabiera celów w „Czarnym jeźdźcu”, łatwiejsze oznaczanie lunetą, `/zwiadowcy` bez kodów |
 | [2.0.1](publikacja/zmiany-2.0.1.md) | bez parowania (sparing z Gilanem na uniki), pochodnia w dłoni świeci, jaśniejsza kopalnia, poranek na start misji, drużyna i uciekający wrogowie nie blokują misji, węższe konie |
 | [2.0.0](publikacja/zmiany-2.0.0.md) | tom II „Płonący most”: 16 misji, Celtyka, Rozpadlina, palenie mostu, bitwa, Morgarath, niewola |

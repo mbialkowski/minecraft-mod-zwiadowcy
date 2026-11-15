@@ -36,6 +36,17 @@ public final class BridgeBuilder {
             return axisX ? new BlockPos(cx + sign * u, y, cz + v) : new BlockPos(cx + v, y, cz + sign * u);
         }
 
+        /** Punkt świata: u i v liczone od środka bloku (u = 3 to środek bloku pos(3, …)), y wprost. */
+        public net.minecraft.world.phys.Vec3 point(double u, double y, double v) {
+            return axisX ? new net.minecraft.world.phys.Vec3(cx + sign * u + 0.5, y, cz + v + 0.5)
+                    : new net.minecraft.world.phys.Vec3(cx + v + 0.5, y, cz + sign * u + 0.5);
+        }
+
+        /** Odwrotność {@link #pos}: {u, v} bloku. */
+        public int[] uv(BlockPos p) {
+            return axisX ? new int[]{(p.getX() - cx) * sign, p.getZ() - cz} : new int[]{(p.getZ() - cz) * sign, p.getX() - cx};
+        }
+
         Direction.Axis along() {
             return axisX ? Direction.Axis.X : Direction.Axis.Z;
         }
@@ -72,6 +83,10 @@ public final class BridgeBuilder {
     private final Map<String, List<BlockPos>> groups = new LinkedHashMap<>();
     private final Map<String, BlockPos> anchors = new LinkedHashMap<>();
     private final Set<BlockPos> clear = new LinkedHashSet<>();
+    /** Kolumny przyczółków ścięte do poziomu pomostu (x, z spakowane jak ChunkPos). */
+    private final Set<Long> cut = new HashSet<>();
+    /** Prostokąty innych lokacji (minX, minZ, maxX, maxZ) - ich nie ścinamy. */
+    private final List<int[]> keepOut = new ArrayList<>();
     private int deckY, sEnd, nEnd;
 
     private BridgeBuilder(ServerLevel level, Frame f) {
@@ -90,6 +105,18 @@ public final class BridgeBuilder {
         int sign = (int) Math.signum(axisX ? north[0] : north[1]);
         if (sign == 0) sign = -1;
         BridgeBuilder b = new BridgeBuilder(level, new Frame((int) Math.round(c[0]), (int) Math.round(c[1]), axisX, sign));
+        for (Map.Entry<String, LocationData.Placed> e : data.allPlaced().entrySet()) {
+            if (e.getKey().equals(ID)) continue;
+            LocationData.Placed p = e.getValue();
+            int[] box = {p.center.getX(), p.center.getZ(), p.center.getX(), p.center.getZ()};
+            for (BlockPos a : p.anchors.values()) {
+                box[0] = Math.min(box[0], a.getX());
+                box[1] = Math.min(box[1], a.getZ());
+                box[2] = Math.max(box[2], a.getX());
+                box[3] = Math.max(box[3], a.getZ());
+            }
+            b.keepOut.add(new int[]{box[0] - 6, box[1] - 6, box[2] + 6, box[3] + 6});
+        }
         long t0 = System.currentTimeMillis();
         b.measure();
         b.design();
@@ -225,6 +252,9 @@ public final class BridgeBuilder {
             int ropeV = side == 0 ? -HALF - 1 : HALF + 1;
             for (int y = deckY; y >= deckY - 7; y--) put(spanOf(ropeU), ropeU, y, ropeV, ModBlocks.LINA.get().defaultBlockState());
         }
+        // przyczółki ścięte do poziomu pomostu: na stromym brzegu wieża i liny tkwiłyby w zboczu
+        bridgehead(sEnd, -1);
+        bridgehead(nEnd, 1);
         // wieże linowe (A) na obu brzegach; kotwy północnej wieży to podpora_3 (v<0) i podpora_4 (v>0)
         tower(nEnd + 3, true);
         tower(sEnd - 3, false);
@@ -279,33 +309,65 @@ public final class BridgeBuilder {
                 if (north) groups.computeIfAbsent(SUPPORTS[side < 0 ? 2 : 3], k -> new ArrayList<>()).add(f.pos(u, base + h, v));
             }
             // noga sięga gruntu
-            for (int y = base - 1; y > ground(u, side * 4) && y > base - 8; y--) put(g, u, y, side * 4, log(Blocks.DARK_OAK_LOG, Direction.Axis.Y));
-            // kotwa: pal wbity za wieżą i odciąg z łańcucha do szczytu
+            for (int y = base - 1; y > groundAfterCut(u, side * 4) && y > base - 8; y--) put(g, u, y, side * 4, log(Blocks.DARK_OAK_LOG, Direction.Axis.Y));
+            // kotwa: pal wbity za wieżą (odciąg z liny do nogi wieży dokłada BridgeRopes)
             int stakeU = north ? u + 5 : u - 5;
-            int gy = ground(stakeU, side * 4);
+            int gy = groundAfterCut(stakeU, side * 4);
             for (int y = gy + 1; y <= gy + 2; y++) {
                 put(g, stakeU, y, side * 4, log(Blocks.DARK_OAK_LOG, Direction.Axis.Y));
                 if (north) groups.computeIfAbsent(SUPPORTS[side < 0 ? 2 : 3], k -> new ArrayList<>()).add(f.pos(stakeU, y, side * 4));
             }
             if (north) anchors.put(SUPPORTS[side < 0 ? 2 : 3], f.pos(stakeU, gy + 1, side * 4));
-            chain(g, stakeU, gy + 3, u, base + 9, side * 2);
         }
         for (int v = -1; v <= 1; v++) put(g, u, base + 10, v, log(Blocks.DARK_OAK_LOG, f.across()));
         for (int v = -3; v <= 3; v++) put(g, u, base + 5, v, log(Blocks.SPRUCE_LOG, f.across()));
-        // liny nośne ze szczytu do pomostu (nad poręczami)
-        int len = nEnd - sEnd - 1;
-        int target = north ? nEnd - Math.max(6, len / 3) : sEnd + Math.max(6, len / 3);
-        for (int v : new int[]{-HALF, HALF}) chain(north ? SPANS[3] : SPANS[0], u, base + 9, target, deckY + 2, v);
+        // liny nośne ze szczytu do poręczy to proste odcinki liny (BridgeRopes), nie bloki
     }
 
-    /** Łańcuch (lina) jako schodkowa linia między dwoma punktami w płaszczyźnie (u, y). */
-    private void chain(String g, int u0, int y0, int u1, int y1, int v) {
-        int steps = Math.max(Math.abs(u1 - u0), Math.abs(y1 - y0));
-        for (int i = 1; i < steps; i++) {
-            int u = u0 + Math.round((u1 - u0) * i / (float) steps), y = y0 + Math.round((y1 - y0) * i / (float) steps);
-            BlockPos p = f.pos(u, y, v);
-            if (!blocks.containsKey(p)) put(g, u, y, v, Blocks.CHAIN.defaultBlockState().setValue(RotatedPillarBlock.AXIS, f.along()));
+    /**
+     * Słupek poręczy (bez latarni), do którego biegnie lina nośna z wieży: ok. 1/3 długości mostu od brzegu.
+     * Wspólne dla budowy i {@link BridgeRopes} (liny liczone z danych świata).
+     */
+    static int ropeTarget(int sEnd, int nEnd, boolean north) {
+        int len = nEnd - sEnd - 1;
+        int raw = north ? nEnd - Math.max(6, len / 3) : sEnd + Math.max(6, len / 3);
+        for (int d = 0; d <= 5; d++) {
+            for (int u : new int[]{raw + d, raw - d}) {
+                if (u > sEnd && u < nEnd && Math.floorMod(u, 5) == 0 && Math.floorMod(u, 10) != 0) return u;
+            }
         }
+        return raw;
+    }
+
+    /**
+     * Przyczółek: od krawędzi kanionu w głąb brzegu (za pale kotwy) i 5 bloków w bok od osi teren nad pomostem znika
+     * aż do nieba (przy bardzo wysokiej ścianie - 16 bloków nad pomostem). Omijamy obszary innych lokacji (obóz budowy).
+     */
+    private void bridgehead(int edge, int dir) {
+        for (int i = -1; i <= 10; i++) {
+            int u = edge + dir * i;
+            for (int v = -5; v <= 5; v++) {
+                BlockPos col = f.pos(u, 0, v);
+                if (keptOut(col)) continue;
+                level.getChunk(col.getX() >> 4, col.getZ() >> 4);
+                int top = level.getHeight(Heightmap.Types.WORLD_SURFACE, col.getX(), col.getZ()) - 1;
+                int to = top - deckY <= 48 ? top : deckY + 16;
+                for (int y = deckY + 1; y <= to; y++) clear.add(f.pos(u, y, v));
+                cut.add(net.minecraft.world.level.ChunkPos.asLong(col.getX(), col.getZ()));
+            }
+        }
+    }
+
+    private boolean keptOut(BlockPos p) {
+        for (int[] b : keepOut) if (p.getX() >= b[0] && p.getX() <= b[2] && p.getZ() >= b[1] && p.getZ() <= b[3]) return true;
+        return false;
+    }
+
+    /** Wysokość gruntu po ścięciu przyczółka (ścięte kolumny kończą się najwyżej na poziomie pomostu). */
+    private int groundAfterCut(int u, int v) {
+        int g = ground(u, v);
+        BlockPos col = f.pos(u, 0, v);
+        return cut.contains(net.minecraft.world.level.ChunkPos.asLong(col.getX(), col.getZ())) ? Math.min(g, deckY) : g;
     }
 
     /** Droga z pomostu w głąb brzegu: wcięcie na poziomie pomostu, potem podjazd 1:1 do terenu. */

@@ -151,6 +151,8 @@ final class SelfTestTom2 {
             BlockPos a = most.anchors.get(s);
             if (a != null && !level.getBlockState(a).is(net.minecraft.tags.BlockTags.LOGS)) problems.add("Most: kotwica " + s + " nie leży na belce @ " + a.toShortString());
         }
+        // liny wież (proste odcinki) i przyczółki ścięte tak, że wieże nie tkwią w zboczu
+        info.add("  " + pl.zwiadowcy.bridge.BridgeRopes.check(level, tag, problems));
         info.add("  " + pl.zwiadowcy.bridge.BridgeBurn.simulateForTest(server, problems));
     }
 

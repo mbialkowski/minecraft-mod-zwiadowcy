@@ -253,4 +253,4 @@ Gilana”) zostaje w formie sparingu bez parowania.
 | Przedmioty po śmierci | `keepInventory` włączane przy starcie świata | ✅ |
 | Misja znikała po „Na krawędzi” | Skutek skoku wstecz: „Łańcuchy” były już ukończone. `skok` zeruje misje dalej w fabule | ✅ |
 | `/zwiadowcy` niewidoczna w nowym świecie | Komenda dostępna dla właściciela świata jednoosobowego bez kodów (na serwerze nadal op) | ✅ |
-| Most w „Na krawędzi” renderuje się niepełnie | Czeka na zrzut ekranu - w logu most postawiony w całości (1053 bloki) | ⏳ |
+| Most w „Na krawędzi” renderuje się niepełnie | Zrzut gracza: ukośne liny z łańcuchów to schodki poziomych kresek (wyglądają jak niedorysowane), a wieża na stromym brzegu tkwi w zboczu. Liny to teraz proste odcinki z bloku liny (`BridgeRopes`, block_display, stawiane przy moście; w starszym świecie zastępują łańcuchy), przyczółki ścięte do poziomu pomostu (bez obszaru obozu). Selftest: 4 liny nośne + 4 odciągi, 0 bl. terenu przy wieżach; sesja zdjęciowa: 8 lin (122 odcinki), obie wieże widoczne. Wydanie 2.0.3 | ✅ |

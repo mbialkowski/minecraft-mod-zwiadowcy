@@ -77,7 +77,7 @@ public final class BridgeBurn {
         return burningNow;
     }
 
-    private static List<BlockPos> group(CompoundTag t, String name) {
+    static List<BlockPos> group(CompoundTag t, String name) {
         List<BlockPos> out = new ArrayList<>();
         for (long l : t.getCompound("groups").getLongArray(name)) out.add(BlockPos.of(l));
         return out;
@@ -323,6 +323,7 @@ public final class BridgeBurn {
         ServerLevel level = Araluen.level(server);
         if (level == null) return;
         long age = level.getGameTime() - t.getLong("start");
+        if (level.getGameTime() % 40 == 0) BridgeRopes.tick(server, level, t);
         if (st == BURNING) {
             if (runner == null) {
                 finishInstantly(server);
@@ -355,6 +356,7 @@ public final class BridgeBurn {
             BlockState c = charred(st);
             if (c != st) level.setBlock(p, c, 2);
         }
+        BridgeRopes.discard(level, null, false);
         if (t.getInt("state") != BURNT) {
             t.putInt("state", BURNT);
             t.putLong("start", level.getGameTime());
@@ -529,6 +531,8 @@ public final class BridgeBurn {
             // 30 s: zostają zwęglone kikuty
             if (!charredDone && age >= CHAR_AT) {
                 charredDone = true;
+                // odciągi wież spłonęły razem z wieżami
+                BridgeRopes.discard(level, null, true);
                 for (BlockPos p : group(t, BridgeBuilder.STUBS)) {
                     BlockState st = level.getBlockState(p);
                     BlockState c = charred(st);
@@ -544,6 +548,8 @@ public final class BridgeBurn {
 
         private void dropSpan(String span) {
             List<BlockPos> blocks = group(t, span);
+            // lina nośna przęsła pęka razem z nim
+            BridgeRopes.discard(level, span, true);
             if (blocks.isEmpty()) return;
             // od góry, żeby poręcze i latarnie spadały razem z pomostem
             blocks.sort((x, y) -> Integer.compare(y.getY(), x.getY()));
