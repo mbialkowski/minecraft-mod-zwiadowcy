@@ -112,6 +112,41 @@ public final class QuestTom2 {
             case "kill" -> {
                 if (o.bool("tagged")) return tickHunt(p, def, st, stage);
             }
+            case "oil_points" -> {
+                // olej się skończył (rzucony albo zgubiony), a podpory czekają: co 10 s podpowiedź, gdzie go odzyskać
+                if (st.progress < o.count(QuestCapability.get(p)) && p.tickCount % 200 < 10
+                        && QuestEngine.countItems(p, "zwiadowcy:flasza_oleju") == 0) {
+                    BlockPos store = Locations.peek(server, "budowa_mostu:sklad_smoly");
+                    p.displayClientMessage(Component.literal("Nie masz oleju. Beczki ze smołą w składzie obozu napełnią flaszę (PPM na beczce)"
+                            + (store != null ? " - " + whereIs(p, store) : "") + ".").withStyle(ChatFormatting.GOLD), true);
+                }
+            }
+            case "mark" -> {
+                // licznik obniżony w nowej wersji misji (zapis ma już dość oznaczonych celów) - etap kończy się sam
+                if (st.progress >= o.count(QuestCapability.get(p))) {
+                    QuestEngine.advance(p, def.id());
+                    return false;
+                }
+            }
+            case "event" -> {
+                // licznik zdarzeń na wrogach (np. trafienia z siodła): gdy wszyscy oznaczeni wrogowie misji padli, a licznik
+                // nie jest pełny, po 3 s uruchamiają się akcje "if_cleared" (np. nadjeżdża kolejny Wargal) - etap nie utknie
+                if (o.params().has("if_cleared") && st.progress < o.count(QuestCapability.get(p))) {
+                    boolean anyLeft = !p.level().getEntitiesOfClass(Mob.class, p.getBoundingBox().inflate(192),
+                            m -> m.isAlive() && !(m instanceof StoryNpc)
+                                    && def.id().equals(m.getPersistentData().getString(QuestActions.TAG_QUEST))).isEmpty();
+                    String key = "zw_dosylka:" + def.id();
+                    long now = p.level().getGameTime();
+                    if (anyLeft) {
+                        p.getPersistentData().remove(key);
+                    } else if (!p.getPersistentData().contains(key)) {
+                        p.getPersistentData().putLong(key, now);
+                    } else if (now - p.getPersistentData().getLong(key) >= 60) {
+                        p.getPersistentData().remove(key);
+                        QuestActions.run(p, GsonHelper.getAsJsonArray(o.params(), "if_cleared"), new QuestActions.Ctx(def.id(), null));
+                    }
+                }
+            }
             case "bridge_burnt" -> {
                 if (pl.zwiadowcy.bridge.BridgeBurn.state(server) == pl.zwiadowcy.bridge.BridgeBurn.BURNT) {
                     QuestEngine.advance(p, def.id());
@@ -178,22 +213,25 @@ public final class QuestTom2 {
         }
         List<String> npcs = o.list("npcs");
         int minAlive = (int) o.dbl("min_alive", 0);
-        if (!npcs.isEmpty() && minAlive > 0 && halfSeconds > 4) {
-            int alive = 0;
-            for (StoryNpc n : p.level().getEntitiesOfClass(StoryNpc.class, p.getBoundingBox().inflate(48),
-                    n -> npcs.contains(n.npcId()) && n.isAlive() && !n.isDowned() && n.getMode() != StoryNpc.Mode.WOUNDED)) alive++;
-            if (alive < minAlive) {
-                p.sendSystemMessage(Component.literal("Oddział nie wytrzymał - spróbuj jeszcze raz.").withStyle(ChatFormatting.RED));
-                QuestEngine.restartStage(p, def.id());
-                return true;
-            }
-        }
         if (halfSeconds >= seconds * 2) {
             QuestEngine.advance(p, def.id());
             return false;
         }
         if (halfSeconds % 10 == 0) {
-            p.displayClientMessage(Component.literal("Wytrzymaj jeszcze " + (seconds - halfSeconds / 2) + " s").withStyle(ChatFormatting.YELLOW), true);
+            // licznik nigdy się nie zeruje (2.0.2): słabnący oddział to tylko ostrzeżenie, nie powtórka etapu
+            int alive = -1;
+            if (!npcs.isEmpty() && minAlive > 0) {
+                alive = 0;
+                for (StoryNpc n : p.level().getEntitiesOfClass(StoryNpc.class, p.getBoundingBox().inflate(128),
+                        n -> npcs.contains(n.npcId()) && n.isAlive() && !n.isDowned() && n.getMode() != StoryNpc.Mode.WOUNDED)) alive++;
+            }
+            String left = "Wytrzymaj jeszcze " + (seconds - halfSeconds / 2) + " s";
+            if (alive >= 0 && alive < minAlive) {
+                p.displayClientMessage(Component.literal(left + " - oddział słabnie, pomóż im! (na nogach: " + alive + ")")
+                        .withStyle(ChatFormatting.RED), true);
+            } else {
+                p.displayClientMessage(Component.literal(left).withStyle(ChatFormatting.YELLOW), true);
+            }
         }
         return halfSeconds % 4 == 0;
     }
@@ -235,6 +273,8 @@ public final class QuestTom2 {
 
     private static boolean markable(Mob m, QuestDefinition.Objective o, String quest) {
         if (m.getPersistentData().getBoolean("zw_oznaczony")) return false;
+        // "any_enemy": dowolny wróg (Wargal każdego rodzaju, Skandianin…), bez zwierząt i postaci fabularnych
+        if (o.bool("any_enemy")) return m instanceof net.minecraft.world.entity.monster.Enemy && !(m instanceof StoryNpc);
         ResourceLocation key = ForgeRegistries.ENTITY_TYPES.getKey(m.getType());
         List<String> types = o.list("entity");
         if (!types.isEmpty() && (key == null || !types.contains(key.toString()))) return false;
@@ -266,7 +306,12 @@ public final class QuestTom2 {
             for (String anchor : o.list("anchors")) {
                 BlockPos at = Locations.peek(server, anchor);
                 String flag = o.type() + ":" + anchor;
-                if (at == null || at.distSqr(pos) > 2.5 * 2.5 || QuestCapability.get(p).hasFlag(flag)) continue;
+                if (at == null || QuestCapability.get(p).hasFlag(flag)) continue;
+                // podpory mostu: PPM w dowolny blok zastrzału/kotwy, nie tylko w punkt kotwicy
+                boolean near = at.distSqr(pos) <= 2.5 * 2.5
+                        || (o.type().equals("oil_points") && bridgeSupport(anchor) != null
+                            && pl.zwiadowcy.bridge.BridgeBurn.nearSupport(server, bridgeSupport(anchor), pos, 2.0));
+                if (!near) continue;
                 String item = o.type().equals("free") ? o.str("item") : o.type().equals("use") ? "" : "zwiadowcy:flasza_oleju";
                 if (!item.isEmpty() && QuestEngine.countItems(p, item) < 1) {
                     p.displayClientMessage(Component.literal(o.type().equals("free") ? "Potrzebujesz kluczy nadzorcy."
@@ -284,6 +329,83 @@ public final class QuestTom2 {
             }
         }
         return false;
+    }
+
+    /**
+     * Co sekundę, gdy gracz jest przy moście: podświetlenie podpór z bieżącego etapu - do polania (oil_points) albo do
+     * podpalenia (ignite_points). W innych etapach podświetlenie znika.
+     */
+    static void tickBridgeHighlights(ServerPlayer p) {
+        MinecraftServer server = p.getServer();
+        if (server == null || p.tickCount % 20 >= 10 || !Araluen.isAraluen(p.level())) return;
+        var placed = pl.zwiadowcy.world.LocationData.get(server).placed(pl.zwiadowcy.bridge.BridgeBuilder.ID);
+        if (placed == null || placed.center.distSqr(p.blockPosition()) > 192 * 192) return;
+        List<String> supports = new ArrayList<>();
+        boolean ignite = false;
+        for (var e : QuestCapability.get(p).states().entrySet()) {
+            if (e.getValue().status != QuestProgress.Status.ACTIVE) continue;
+            QuestDefinition def = QuestManager.INSTANCE.get(e.getKey());
+            QuestDefinition.Stage stage = def != null ? def.stage(e.getValue().stage) : null;
+            if (stage == null) continue;
+            String type = stage.objective().type();
+            if (!type.equals("oil_points") && !type.equals("ignite_points")) continue;
+            ignite = type.equals("ignite_points");
+            for (String anchor : stage.objective().list("anchors")) {
+                String support = bridgeSupport(anchor);
+                if (support != null) supports.add(support);
+            }
+            break;
+        }
+        pl.zwiadowcy.bridge.BridgeBurn.updateHighlights(server, supports, ignite);
+    }
+
+    private static final String[] DIRECTIONS = {"na północ", "na północny wschód", "na wschód", "na południowy wschód",
+            "na południe", "na południowy zachód", "na zachód", "na północny zachód"};
+
+    /** "ok. 40 bloków na zachód" - kierunek i odległość od gracza (północ = -z, wschód = +x). */
+    static String whereIs(ServerPlayer p, BlockPos to) {
+        double dx = to.getX() + 0.5 - p.getX(), dz = to.getZ() + 0.5 - p.getZ();
+        int dist = (int) Math.round(Math.sqrt(dx * dx + dz * dz));
+        if (dist < 6) return "tuż obok";
+        double deg = Math.toDegrees(Math.atan2(dx, -dz));
+        int idx = Math.floorMod((int) Math.round(deg / 45.0), 8);
+        return "ok. " + dist + " bloków " + DIRECTIONS[idx];
+    }
+
+    /** "most:podpora_2" -> "podpora_2" (nazwa grupy bloków mostu) albo null dla innych kotwic. */
+    @javax.annotation.Nullable
+    private static String bridgeSupport(String anchor) {
+        String prefix = pl.zwiadowcy.bridge.BridgeBuilder.ID + ":";
+        return anchor.startsWith(prefix) ? anchor.substring(prefix.length()) : null;
+    }
+
+    /**
+     * Rzucona flasza oleju rozbiła się przy nieoblanej podporze w etapie "oil_points" - liczy się jak polanie z ręki
+     * (zgubiona albo rzucona przez pomyłkę flasza nie przepada). Jedna flasza oblewa jedną podporę.
+     */
+    public static void onOilFlaskHit(ServerPlayer p, BlockPos pos) {
+        MinecraftServer server = p.getServer();
+        if (server == null) return;
+        for (var e : new ArrayList<>(QuestCapability.get(p).states().entrySet())) {
+            if (e.getValue().status != QuestProgress.Status.ACTIVE) continue;
+            QuestDefinition def = QuestManager.INSTANCE.get(e.getKey());
+            QuestDefinition.Stage stage = def != null ? def.stage(e.getValue().stage) : null;
+            if (stage == null || !stage.objective().type().equals("oil_points")) continue;
+            for (String anchor : stage.objective().list("anchors")) {
+                BlockPos at = Locations.peek(server, anchor);
+                String flag = "oil_points:" + anchor;
+                if (at == null || QuestCapability.get(p).hasFlag(flag)) continue;
+                String support = bridgeSupport(anchor);
+                boolean near = at.distSqr(pos) <= 3.5 * 3.5
+                        || (support != null && pl.zwiadowcy.bridge.BridgeBurn.nearSupport(server, support, pos, 3.0));
+                if (!near) continue;
+                QuestCapability.get(p).setFlag(flag, true);
+                if (support != null) pl.zwiadowcy.bridge.BridgeBurn.oil(server, support);
+                QuestEngine.fireEvent(p, "olej:" + anchor, 1);
+                QuestEngine.addProgress(p, def.id(), 1);
+                return;
+            }
+        }
     }
 
     /** Podpora mostu zapłonęła od strzały gracza (cel "ignite_points"). */

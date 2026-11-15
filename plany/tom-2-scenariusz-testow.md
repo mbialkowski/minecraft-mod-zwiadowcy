@@ -65,7 +65,7 @@ Nowy świat. Po wejściu otwiera się Kronika.
 1. `/zwiadowcy skok na_krawedzi`
    - [ ] Krawędź: ukryty obóz z ogniskiem. Po dojściu na skałę przerywnik **„Most nad Rozpadliną”**:
      kamera leci kanionem, widać most nad przepaścią i obóz jeńców.
-   - [ ] Luneta (jest w plecaku): PPM i patrz na strażnika ok. 1 s → „Oznaczono” i świecenie. 6 celów.
+   - [ ] Luneta (jest w plecaku): PPM i patrz na strażnika ok. 1 s → „Oznaczono” i świecenie. 2 cele.
    - [ ] Narada: Horace daje wybór „odciągnij uwagę”, Evanlyn rozmowa, potem sen do zmroku.
 2. Łańcuchy (startuje sama; nocą - w razie czego `/time set night`)
    - [ ] Zakradnięcie się do zagród (kucaj). Ognisko obozu oświetla teren.

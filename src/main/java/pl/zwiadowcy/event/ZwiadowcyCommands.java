@@ -26,6 +26,16 @@ import java.util.Arrays;
  */
 public final class ZwiadowcyCommands {
 
+    /**
+     * /zwiadowcy (skoki do misji, teleport, flagi): operator na serwerze albo właściciel świata w grze dla jednego
+     * gracza - także bez włączonych kodów (nowy świat ma je domyślnie wyłączone i komenda była niewidoczna).
+     */
+    private static boolean allowed(CommandSourceStack s) {
+        if (s.hasPermission(2)) return true;
+        return s.getServer().isSingleplayer() && s.getEntity() instanceof ServerPlayer p
+                && s.getServer().isSingleplayerOwner(p.getGameProfile());
+    }
+
     public static void register(CommandDispatcher<CommandSourceStack> d) {
         // dla każdego gracza: klikalny komunikat „Kontynuuj” z czatu (tom II) i ekran końca tomu
         d.register(Commands.literal("zwiadowcy_tom")
@@ -39,7 +49,7 @@ public final class ZwiadowcyCommands {
                                     com.mojang.brigadier.arguments.IntegerArgumentType.getInteger(c, "tom"));
                             return 1;
                         }))));
-        d.register(Commands.literal("zwiadowcy").requires(s -> s.hasPermission(2))
+        d.register(Commands.literal("zwiadowcy").requires(ZwiadowcyCommands::allowed)
                 .then(Commands.literal("misja")
                         .then(Commands.literal("start").then(questArg().executes(c -> {
                             QuestEngine.start(c.getSource().getPlayerOrException(), StringArgumentType.getString(c, "id"));
@@ -124,7 +134,11 @@ public final class ZwiadowcyCommands {
         if (QuestEngine.countItems(p, "zwiadowcy:gwizdek") < 1) p.getInventory().add(new net.minecraft.world.item.ItemStack(pl.zwiadowcy.registry.ModItems.GWIZDEK.get()));
         for (var e : new java.util.ArrayList<>(prog.states().entrySet())) {
             QuestDefinition other = QuestManager.INSTANCE.get(e.getKey());
-            if (other != null && other.tom() >= 2 && !other.id().equals(id)) QuestEngine.cancel(p, other.id(), 99);
+            if (other == null || other.tom() < 2 || other.id().equals(id)) continue;
+            QuestEngine.cancel(p, other.id(), 99);
+            // skok wstecz: misje dalej w fabule (także ukończone) zaczną się od nowa - inaczej start_quest kolejnej misji
+            // trafiłby na ukończoną i fabuła by się urwała (np. Na krawędzi -> Łańcuchy)
+            if (other.order() >= def.order()) prog.states().remove(other.id());
         }
         prog.states().remove(id);
         int order = def.order();

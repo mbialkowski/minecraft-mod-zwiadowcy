@@ -544,7 +544,7 @@ public class StoryNpc extends PathfinderMob implements RangedAttackMob {
         public boolean canUse() {
             NpcDefs.NpcDef d = def();
             LivingEntity t = getTarget();
-            return d != null && d.combat() == NpcDefs.Combat.ARCHER && getMode() == Mode.COMPANION
+            return d != null && d.combat() == NpcDefs.Combat.ARCHER && (getMode() == Mode.COMPANION || isBattleAlly())
                     && t != null && t.isAlive() && !downed
                     && !(npcId().equals("gilan") && distanceToSqr(t) < 16);
         }
@@ -575,14 +575,16 @@ public class StoryNpc extends PathfinderMob implements RangedAttackMob {
             Mode m = getMode();
             LivingEntity t = getTarget();
             boolean swordsman = npcId().equals("gilan") && t != null && distanceToSqr(t) < 16;
-            boolean melee = m == Mode.DUEL || (m == Mode.COMPANION && !downed && d != null && (d.combat() == NpcDefs.Combat.MELEE || swordsman));
+            // sojusznicy w bitwie (np. żołnierze oddziału sir Davida) walczą jak towarzysze
+            boolean fighter = m == Mode.COMPANION || isBattleAlly();
+            boolean melee = m == Mode.DUEL || (fighter && !downed && d != null && (d.combat() == NpcDefs.Combat.MELEE || swordsman));
             return melee && super.canUse();
         }
 
         @Override
         public boolean canContinueToUse() {
             Mode m = getMode();
-            return (m == Mode.DUEL || m == Mode.COMPANION) && super.canContinueToUse();
+            return (m == Mode.DUEL || m == Mode.COMPANION || isBattleAlly()) && !downed && super.canContinueToUse();
         }
 
         /** Pojedynek (sparing): każdy cios jest zapowiadany - 0,8 s zamachu z błyskiem i świstem, potem uderzenie. */

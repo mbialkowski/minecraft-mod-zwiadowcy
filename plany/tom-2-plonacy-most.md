@@ -424,7 +424,7 @@ daje Evanlyn +3.
 |---|---|---|---|
 | 1 | `reach` | krawedz:punkt_obserwacyjny | Ukryty obóz z ogniskiem. Szybka podróż blokuje się do końca M11 |
 | 2 | przerywnik **„Most nad Rozpadliną”** | - | Kamera leci wzdłuż kanionu do budowy: jeńcy, belki, liny |
-| 3 | `mark` ×6 | budowa_mostu | Przez lunetę: 2 nadzorców, 2 doboszy, 2 kuszników. Oznaczeni świecą do końca M11 |
+| 3 | `mark` ×2 | budowa_mostu | Przez lunetę: 2 dowolnych Wargali w obozie (`any_enemy`). Oznaczeni świecą do końca M11 (2.0.2: było 6 - nie dało się znaleźć wszystkich) |
 | 4 | `talk` horace, evanlyn | krawedz:ognisko | Plan: nocą uwolnić jeńców, o świcie spalić most. Wybór: czy Horace ma odciągnąć uwagę na sygnał (flaga dla M10) |
 | 5 | `night` | krawedz | Sen do zmroku |
 

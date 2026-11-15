@@ -9,22 +9,26 @@
   "stages": [
     {
       "objective": {"type": "collect", "item": "zwiadowcy:flasza_oleju", "count": 4},
-      "text": "Zdobądź 4 flasze oleju - beczki ze smołą w składzie obozu napełniają flasze (PPM na beczce)",
+      "text": "Zdobądź 4 flasze oleju - beczki ze smołą w składzie obozu napełniają flasze (PPM na beczce, smoły nie zabraknie)",
       "location": "budowa_mostu:sklad_smoly",
       "no_fast_travel": true,
       "on_start": [
         {"type": "message", "speaker": "Horace", "text": "Smoła, którą mieli smarować liny… Przyda się nam bardziej niż im."}
+      ],
+      "on_complete": [
+        {"type": "give_item", "item": "zwiadowcy:flasza_oleju", "count": 2},
+        {"type": "message", "speaker": "Horace", "text": "Masz jeszcze dwie na zapas - na wypadek, gdyby któraś się stłukła."}
       ]
     },
     {
       "objective": {"type": "oil_points", "anchors": ["most:podpora_1", "most:podpora_2", "most:podpora_3", "most:podpora_4"], "count": 4, "count_if_flag": {"flag": "rhys_uratowany", "count": 3}},
-      "text": "Polej olejem podpory mostu: 2 zastrzały pod pomostem (zejdź po linie) i kotwy wieży linowej (PPM z flaszą)",
+      "text": "Polej olejem podpory mostu świecące na żółto: 2 zastrzały pod pomostem (zejdź po linie) i kotwy wieży linowej (PPM z flaszą albo rzuć nią w podporę). Brak oleju? Beczki w składzie smoły napełnią flaszę",
       "location": "most:podpora_1",
       "no_fast_travel": true,
       "on_start": [
         {"type": "spawn", "entity": "zwiadowcy:wargal", "at": "most:patrol_1", "czujny": true, "patrol": "most:patrol"},
         {"type": "spawn", "entity": "zwiadowcy:wargal_oszczepnik", "at": "most:polnoc", "czujny": true, "sentry": true, "face": "most:srodek"},
-        {"type": "actionbar", "text": "Zastrzały wiszą pod pomostem przy naszej ścianie kanionu - zejdź po linie albo kotwiczką. Kotwy stoją za wieżą."},
+        {"type": "actionbar", "text": "Podpory do polania świecą na żółto: zastrzały pod pomostem (zejdź po linie albo kotwiczką) i kotwy za wieżą."},
         {"type": "message", "speaker": "Rhys", "text": "Liny przy prawej kotwie już podcięte. Wystarczą trzy podpory, zwiadowco.", "when": [{"flag": "rhys_uratowany"}]}
       ]
     },
@@ -54,7 +58,7 @@
     },
     {
       "objective": {"type": "ignite_points", "anchors": ["most:podpora_1", "most:podpora_2", "most:podpora_3", "most:podpora_4"], "count": 4, "count_if_flag": {"flag": "rhys_uratowany", "count": 3}},
-      "text": "Podpal polane podpory płonącymi strzałami (albo krzesiwem z bliska)!",
+      "text": "Podpal polane podpory - świecą na pomarańczowo - płonącymi strzałami (albo krzesiwem z bliska)!",
       "location": "most:podpora_3",
       "no_fast_travel": true,
       "on_start": [

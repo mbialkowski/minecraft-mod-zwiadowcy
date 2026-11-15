@@ -241,6 +241,7 @@ public final class QuestEngine {
     public static void tick(ServerPlayer p) {
         QuestProgress prog = QuestCapability.get(p);
         boolean dirty = false;
+        String soloQuest = null;
         for (Map.Entry<String, QuestProgress.State> e : new ArrayList<>(prog.states().entrySet())) {
             QuestProgress.State st = e.getValue();
             if (st.status != QuestProgress.Status.ACTIVE) continue;
@@ -254,6 +255,7 @@ public final class QuestEngine {
             QuestDefinition.Stage stage = def.stage(st.stage);
             if (stage == null) continue;
             QuestDefinition.Objective o = stage.objective();
+            if (o.bool("solo")) soloQuest = e.getKey();
             switch (o.type()) {
                 case "reach", "sneak_reach" -> {
                     if (!Araluen.isAraluen(p.level()) || p.getServer() == null) break;
@@ -289,6 +291,10 @@ public final class QuestEngine {
                 }
             }
         }
+        // zadanie w pojedynkę: drużyna odesłana na czas etapu "solo", wraca po jego wykonaniu
+        pl.zwiadowcy.companion.Companions.tickSolo(p, soloQuest);
+        // most nad Rozpadliną: podpory do polania/podpalenia świecą przez ściany
+        QuestTom2.tickBridgeHighlights(p);
         if (pl.zwiadowcy.travel.Campfires.tick(p)) dirty = true;
         // przyjęte postoje na szlaku: strzałka zależy od położenia gracza (postój przed nim czy już minięty)
         if (!dirty && p.tickCount % 40 == 0) {

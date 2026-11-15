@@ -110,6 +110,51 @@ public final class Companions {
         }
     }
 
+    // ------------------------------------------------------------------ zadania w pojedynkę
+
+    /** Klucz w danych gracza: "misja|horace,evanlyn" - kto został odesłany na czas zadania w pojedynkę. */
+    private static final String KEY_AWAY = "zw_druzyna_odeslana";
+
+    /**
+     * Etapy z "solo": true w celu misji (np. trafienia z siodła) gracz wykonuje sam - towarzysze nie idą za nim
+     * i nie zabierają mu wrogów. Wołane co 10 ticków z QuestEngine.tick: soloQuest to misja, której bieżący etap jest
+     * „solo” (albo null). Gdy takiego etapu już nie ma (zadanie wykonane, misja przerwana), drużyna pojawia się przy graczu.
+     */
+    public static void tickSolo(ServerPlayer p, @Nullable String soloQuest) {
+        var data = p.getPersistentData();
+        if (soloQuest != null) {
+            if (data.contains(KEY_AWAY)) return;
+            List<StoryNpc> team = of(p);
+            if (team.isEmpty()) return;
+            StringBuilder ids = new StringBuilder();
+            for (StoryNpc npc : team) {
+                if (ids.indexOf(npc.npcId()) >= 0) continue;
+                if (!ids.isEmpty()) ids.append(',');
+                ids.append(npc.npcId());
+                CompanionHorseEntity horse = horseOf(npc);
+                if (npc.isPassenger()) npc.stopRiding();
+                if (horse != null) horse.discard();
+                npc.discard();
+            }
+            data.putString(KEY_AWAY, soloQuest + "|" + ids);
+            p.displayClientMessage(Component.literal("Drużyna zostaje z tyłu - to zadanie wykonujesz sam.").withStyle(ChatFormatting.GRAY), true);
+            return;
+        }
+        if (!data.contains(KEY_AWAY) || !p.isAlive() || !pl.zwiadowcy.world.Araluen.isAraluen(p.level())) return;
+        String[] parts = data.getString(KEY_AWAY).split("\\|", 2);
+        data.remove(KEY_AWAY);
+        if (parts.length < 2 || parts[1].isEmpty()) return;
+        for (String id : parts[1].split(",")) join(p, id);
+        teleportParty(p, p.blockPosition());
+        p.level().playSound(null, p.blockPosition(), SoundEvents.HORSE_GALLOP, SoundSource.NEUTRAL, 1f, 1f);
+        p.displayClientMessage(Component.literal("Drużyna dołącza do ciebie.").withStyle(ChatFormatting.GREEN), true);
+    }
+
+    /** Czy drużyna jest teraz odesłana (zadanie w pojedynkę) - do testów i rozmów. */
+    public static boolean isAway(ServerPlayer p) {
+        return p.getPersistentData().contains(KEY_AWAY);
+    }
+
     // ------------------------------------------------------------------ tick (co 10 ticków na towarzysza)
 
     public static void tickNpc(StoryNpc npc) {

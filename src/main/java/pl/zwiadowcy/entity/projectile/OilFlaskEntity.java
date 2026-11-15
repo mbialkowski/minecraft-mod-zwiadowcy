@@ -45,6 +45,10 @@ public class OilFlaskEntity extends ThrowableItemProjectile {
             e.addEffect(new MobEffectInstance(ModEffects.OBLANY_OLEJEM.get(), 400, 0));
             if (e.isOnFire()) e.setSecondsOnFire(10);
         }
+        // tom II: flasza rozbita o podporę mostu polewa ją tak samo jak PPM z ręki
+        if (getOwner() instanceof net.minecraft.server.level.ServerPlayer sp) {
+            pl.zwiadowcy.quest.QuestTom2.onOilFlaskHit(sp, net.minecraft.core.BlockPos.containing(result.getLocation()));
+        }
         discard();
     }
 }

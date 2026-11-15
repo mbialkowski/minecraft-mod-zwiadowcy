@@ -5,16 +5,23 @@
   "order": 208,
   "advancement": "tom2/czarny_jezdziec",
   "description": "Za posterunkiem zaczynają się otwarte wrzosowiska - dobre miejsce do jazdy i jeszcze lepsze do pościgu. Ktoś jedzie ich tropem od samej doliny.",
+  "on_start": [
+    {"type": "message", "speaker": "Horace", "text": "Jedź przodem przez wrzosowiska, Will - Wyrwij jest szybszy od naszych koni. Dogonimy cię przy kurhanie."}
+  ],
   "stages": [
     {
-      "objective": {"type": "reach", "location": "wrzosowisko:kurhan", "radius": 8},
-      "text": "Jedź przez wrzosowiska do starego kurhanu",
+      "objective": {"type": "reach", "location": "wrzosowisko:kurhan", "radius": 8, "solo": true},
+      "text": "Jedź przodem przez wrzosowiska do starego kurhanu (drużyna dołączy później)",
       "on_complete": [
-        {"type": "message", "speaker": "Evanlyn", "text": "Will… ktoś jedzie za nami. Od samej doliny."}
+        {"type": "actionbar", "text": "Ktoś jedzie twoim tropem… od samej doliny."}
       ]
     },
     {
-      "objective": {"type": "event", "id": "trafienie_z_siodla", "count": 3},
+      "objective": {"type": "event", "id": "trafienie_z_siodla", "count": 3, "solo": true,
+        "if_cleared": [
+          {"type": "spawn", "entity": "zwiadowcy:wargal_zwiadowca", "at": "wrzosowisko:wargal_1", "angry": true},
+          {"type": "actionbar", "text": "Zza kurhanu wypada kolejny Wargal-zwiadowca!"}
+        ]},
       "text": "Wargale-zwiadowcy! Strzelaj do nich z siodła (3 trafienia)",
       "location": "wrzosowisko:kurhan",
       "on_start": [
@@ -25,13 +32,16 @@
       ]
     },
     {
-      "objective": {"type": "kill", "entity": "zwiadowcy:jezdziec_morgaratha", "count": 1, "tagged": true},
+      "objective": {"type": "kill", "entity": "zwiadowcy:jezdziec_morgaratha", "count": 1, "tagged": true, "solo": true},
       "text": "Pokonaj Jeźdźca Morgaratha - unikaj szarży, strzelaj w jeźdźca",
       "location": "wrzosowisko:kurhan",
       "no_fast_travel": true,
       "on_start": [
         {"type": "spawn", "entity": "zwiadowcy:jezdziec_morgaratha", "at": "wrzosowisko:jezdziec", "drop": "zwiadowcy:rozkazy_morgaratha", "face": "wrzosowisko:kurhan"},
         {"type": "title", "title": "Czarny jeździec", "subtitle": "Gdy koń staje dęba - zjedź z linii szarży!"}
+      ],
+      "on_complete": [
+        {"type": "message", "speaker": "Horace", "text": "Will! Widzieliśmy z daleka, jak spadał z siodła. Coś mu wypadło - zobacz, co to."}
       ]
     },
     {

@@ -121,6 +121,92 @@ public final class BridgeBurn {
         level.playSound(null, anchor(server, support), SoundEvents.HONEY_BLOCK_SLIDE, SoundSource.PLAYERS, 1f, 0.7f);
     }
 
+    // ------------------------------------------------------------------ podświetlenie podpór
+
+    private static final String GLOW_TAG = "zw_most_swiatlo";
+    private static final int COLOR_OIL = 0xFFD24A;
+    private static final int COLOR_IGNITE = 0xFF5A1E;
+
+    /**
+     * Podpory do polania (żółte) albo do podpalenia (pomarańczowe) mają obrys widoczny przez ściany - świecące kopie
+     * ich bloków (block_display). Wołane co sekundę, gdy gracz jest przy moście: supports to podpory z celu misji,
+     * ignite = etap podpalania. Pusta lista (inny etap) zdejmuje podświetlenie; podpora polana albo zapalona gaśnie sama.
+     */
+    public static void updateHighlights(MinecraftServer server, Collection<String> supports, boolean ignite) {
+        ServerLevel level = Araluen.level(server);
+        if (level == null) return;
+        CompoundTag t = tag(server);
+        Map<String, Integer> want = new HashMap<>();
+        if (t != null && t.getInt("state") == INTACT) {
+            Set<String> oiled = names(t, "oiled"), lit = names(t, "lit");
+            for (String s : supports) {
+                boolean show = ignite ? oiled.contains(s) && !lit.contains(s) : !oiled.contains(s);
+                if (show) want.put(s, ignite ? COLOR_IGNITE : COLOR_OIL);
+            }
+        }
+        Set<String> present = new HashSet<>();
+        for (net.minecraft.world.entity.Display.BlockDisplay d : level.getEntities(
+                net.minecraft.world.level.entity.EntityTypeTest.forClass(net.minecraft.world.entity.Display.BlockDisplay.class),
+                d -> d.getTags().contains(GLOW_TAG))) {
+            String key = d.getPersistentData().getString(GLOW_TAG);
+            String support = key.contains("#") ? key.substring(0, key.indexOf('#')) : key;
+            Integer color = want.get(support);
+            if (color == null || !key.equals(support + "#" + color)) d.discard();
+            else present.add(support);
+        }
+        if (t == null) return;
+        for (Map.Entry<String, Integer> e : want.entrySet()) {
+            if (present.contains(e.getKey())) continue;
+            for (BlockPos p : group(t, e.getKey())) {
+                if (!level.isLoaded(p)) continue;
+                BlockState st = level.getBlockState(p);
+                if (!st.isAir()) spawnGlow(level, p, st, e.getKey(), e.getValue());
+            }
+        }
+    }
+
+    private static void spawnGlow(ServerLevel level, BlockPos p, BlockState st, String support, int color) {
+        CompoundTag nbt = new CompoundTag();
+        nbt.putString("id", "minecraft:block_display");
+        nbt.put("block_state", net.minecraft.nbt.NbtUtils.writeBlockState(st));
+        nbt.putBoolean("Glowing", true);
+        nbt.putInt("glow_color_override", color);
+        nbt.putFloat("view_range", 4f);
+        // odrobinę większa kopia bloku: obrys nie zlewa się z prawdziwym blokiem
+        CompoundTag tr = new CompoundTag();
+        tr.put("translation", floats(-0.01f, -0.01f, -0.01f));
+        tr.put("left_rotation", floats(0f, 0f, 0f, 1f));
+        tr.put("scale", floats(1.02f, 1.02f, 1.02f));
+        tr.put("right_rotation", floats(0f, 0f, 0f, 1f));
+        nbt.put("transformation", tr);
+        ListTag tags = new ListTag();
+        tags.add(StringTag.valueOf(GLOW_TAG));
+        nbt.put("Tags", tags);
+        net.minecraft.world.entity.Entity e = net.minecraft.world.entity.EntityType.loadEntityRecursive(nbt, level, ent -> {
+            ent.moveTo(p.getX(), p.getY(), p.getZ(), 0f, 0f);
+            return ent;
+        });
+        if (e == null) return;
+        e.getPersistentData().putString(GLOW_TAG, support + "#" + color);
+        level.addFreshEntity(e);
+    }
+
+    private static ListTag floats(float... values) {
+        ListTag l = new ListTag();
+        for (float v : values) l.add(net.minecraft.nbt.FloatTag.valueOf(v));
+        return l;
+    }
+
+    /** Czy punkt leży przy podporze (dowolny jej blok w promieniu r) - PPM albo rzucona flasza w bok zastrzału też się liczy. */
+    public static boolean nearSupport(MinecraftServer server, String support, BlockPos at, double r) {
+        CompoundTag t = tag(server);
+        if (t == null) return false;
+        for (BlockPos p : group(t, support)) {
+            if (p.distSqr(at) <= r * r) return true;
+        }
+        return false;
+    }
+
     @Nullable
     private static BlockPos anchor(MinecraftServer server, String name) {
         LocationData.Placed p = LocationData.get(server).placed(BridgeBuilder.ID);
@@ -157,12 +243,7 @@ public final class BridgeBurn {
         BlockPos store = server == null ? null : Locations.peek(server, "budowa_mostu:sklad_smoly");
         if (store == null || LocationData.get(server).placed("budowa_mostu") == null || store.distSqr(pos) > 8 * 8) return false;
         if (!QuestTom2.collectingOil(p)) return false;
-        int taken = p.getPersistentData().getInt("zw_smola");
-        if (taken >= 8) {
-            p.displayClientMessage(Component.literal("Beczki są już puste.").withStyle(ChatFormatting.GRAY), true);
-            return true;
-        }
-        p.getPersistentData().putInt("zw_smola", taken + 1);
+        // smoły jest dość: beczki napełniają flasze bez limitu, dopóki trwa zbieranie i polewanie (zgubiona flasza = wróć tu)
         ItemStack flask = new ItemStack(ModItems.FLASZA_OLEJU.get());
         if (!p.getInventory().add(flask)) p.drop(flask, false);
         p.level().playSound(null, pos, SoundEvents.BOTTLE_FILL, SoundSource.PLAYERS, 1f, 0.8f);

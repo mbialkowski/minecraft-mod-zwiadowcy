@@ -19,8 +19,8 @@
       ]
     },
     {
-      "objective": {"type": "mark", "entity": ["zwiadowcy:wargal_nadzorca", "zwiadowcy:wargal_dobosz", "zwiadowcy:wargal_kusznik"], "count": 6},
-      "text": "Przez lunetę oznacz strażników obozu: 2 nadzorców, 2 doboszy i 2 kuszników (patrz na cel chwilę)",
+      "objective": {"type": "mark", "any_enemy": true, "count": 2},
+      "text": "Przez lunetę oznacz 2 dowolnych Wargali w obozie (patrz na cel chwilę)",
       "location": "budowa_mostu",
       "no_fast_travel": true,
       "on_start": [

@@ -56,11 +56,10 @@
     {
       "objective": {"type": "defend", "seconds": 60, "npcs": ["zolnierz"], "min_alive": 4,
         "waves": [{"t": 3, "event": "fala_1"}, {"t": 22, "event": "fala_2"}, {"t": 42, "event": "fala_3"}]},
-      "text": "Zadanie B: oddział piechoty jest otoczony - utrzymaj ich przy życiu przez minutę (co najmniej 4 z 6)",
+      "text": "Zadanie B: oddział piechoty jest otoczony - walcz razem z nim przez minutę",
       "no_fast_travel": true,
       "location": "rownina_uthal:oddzial",
       "battle": true,
-      "restart_on_death": true,
       "on_start": [
         {"type": "clear_mobs"},
         {"type": "spawn_npc", "npc": "zolnierz", "ally": true, "radius": 6, "face": "rownina_uthal:fala_2",
@@ -117,7 +116,6 @@
       "no_fast_travel": true,
       "location": "rownina_uthal:brod",
       "battle": true,
-      "restart_on_death": true,
       "on_start": [
         {"type": "clear_mobs"},
         {"type": "move_npc", "npc": "gilan", "to": "rownina_uthal:gilan_brod", "mode": "companion", "face": "rownina_uthal:skandianie_2"},

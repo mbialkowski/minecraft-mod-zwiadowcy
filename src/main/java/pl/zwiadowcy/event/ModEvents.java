@@ -149,6 +149,30 @@ public final class ModEvents {
         }
     }
 
+    /** Po śmierci gracz nie traci przedmiotów (2.0.2): zasada keepInventory jest włączana przy każdym starcie świata. */
+    @SubscribeEvent
+    public static void onServerStarted(net.minecraftforge.event.server.ServerStartedEvent event) {
+        var rule = event.getServer().getGameRules().getRule(net.minecraft.world.level.GameRules.RULE_KEEPINVENTORY);
+        if (!rule.get()) rule.set(true, event.getServer());
+    }
+
+    /**
+     * Tom II: trafienie z siodła. Liczy się każda strzała gracza jadącego konno - zwykła, specjalna, z łuku zwiadowcy
+     * albo zwykłego - która trafi wroga. Jedna strzała to jedno trafienie (odbita i lecąca drugi raz nie liczy się).
+     */
+    @SubscribeEvent
+    public static void onProjectileImpact(net.minecraftforge.event.entity.ProjectileImpactEvent event) {
+        if (!(event.getProjectile() instanceof net.minecraft.world.entity.projectile.AbstractArrow arrow) || arrow.level().isClientSide) return;
+        if (!(event.getRayTraceResult() instanceof net.minecraft.world.phys.EntityHitResult hit)) return;
+        if (!(arrow.getOwner() instanceof ServerPlayer sp)) return;
+        var tag = arrow.getPersistentData();
+        if (tag.getBoolean("zw_trafila") || (!tag.getBoolean("zw_z_siodla") && sp.getVehicle() == null)) return;
+        if (!(hit.getEntity() instanceof LivingEntity target) || !target.isAlive() || target == sp.getVehicle()) return;
+        if (!(target instanceof Enemy)) return;
+        tag.putBoolean("zw_trafila", true);
+        QuestEngine.fireEvent(sp, "trafienie_z_siodla", 1);
+    }
+
     /** Oblany olejem: ogień rani podwójnie. */
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {

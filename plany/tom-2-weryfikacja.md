@@ -238,3 +238,19 @@ test migracji zapisu z 1.0.2, potem wersje testowe i 2.0 na GitHubie (za zgodą)
 
 Plan zmieniony względem założeń: 9.5 (parowanie) usunięte na prośbę gracza; decyzja 28 („miecz zwiadowcy - lekcje
 Gilana”) zostaje w formie sparingu bez parowania.
+
+## Poprawki po testach gracza (2.0.2)
+
+| Zgłoszenie | Zmiana | Status |
+|---|---|---|
+| Czarny jeździec: strzały z konia nie liczone | Trafienie z siodła liczy `ModEvents.onProjectileImpact` dla każdej strzały gracza na koniu (zwykłej i specjalnej), raz na strzałę, tylko na wrogach | ✅ |
+| Towarzysze zabijają cele gracza | Cel etapu z `"solo": true`: drużyna znika na czas etapu i pojawia się przy graczu (z końmi), gdy etap się skończy. Czarny jeździec: etapy 1-3 solo. `if_cleared` dosyła Wargala, gdy wszyscy padli przed 3 trafieniami | ✅ |
+| Na krawędzi: 6 celów lunety za dużo, nie tylko kusznicy | `mark` ×2 z `any_enemy` (dowolny wróg); zapis z ≥ 2 oznaczonymi rusza sam | ✅ |
+| Płonący most: za mało oleju | Beczki bez limitu (było 8 na grę), +2 zapasowe flasze, rzucona flasza polewa podporę, PPM w dowolny blok podpory, podpowiedź z kierunkiem do beczek | ✅ |
+| Płonący most: nie wiadomo, co polać | Obrys podpór przez ściany (block_display z poświatą): żółte do polania, pomarańczowe do podpalenia; znika po polaniu/zapaleniu i poza etapami | ✅ |
+| Uthal: licznik się resetuje | Obrona nie zaczyna się od nowa przy słabnącym oddziale (ostrzeżenie zamiast powtórki; liczenie w promieniu 128); zadania B i D bez restartu po śmierci | ✅ |
+| Uthal: żołnierze nie walczą | Sojusznicy bitwy (`zw_sojusznik`) używają celów walki wręcz i z łuku jak towarzysze | ✅ |
+| Przedmioty po śmierci | `keepInventory` włączane przy starcie świata | ✅ |
+| Misja znikała po „Na krawędzi” | Skutek skoku wstecz: „Łańcuchy” były już ukończone. `skok` zeruje misje dalej w fabule | ✅ |
+| `/zwiadowcy` niewidoczna w nowym świecie | Komenda dostępna dla właściciela świata jednoosobowego bez kodów (na serwerze nadal op) | ✅ |
+| Most w „Na krawędzi” renderuje się niepełnie | Czeka na zrzut ekranu - w logu most postawiony w całości (1053 bloki) | ⏳ |

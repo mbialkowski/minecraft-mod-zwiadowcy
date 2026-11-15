@@ -35,7 +35,7 @@ koń Wyrwij, towarzysze, bossowie i otwarty świat po zakończeniu kampanii. Ca�
 - [Zawartość](#zawartość)
 - [Struktura projektu](#struktura-projektu) · [Edycja fabuły bez kompilacji](#edycja-fabuły-bez-kompilacji) ·
   [Tekstury i struktury](#tekstury-i-struktury)
-- [Komendy testowe (op)](#komendy-testowe-op) · [Autotest](#autotest)
+- [Komendy testowe](#komendy-testowe) · [Autotest](#autotest)
 - [Wydajność](#wydajność) · [Ograniczenia](#ograniczenia)
 - [Historia zmian](#historia-zmian) · [Publikacja](#publikacja) · [Autorzy](#autorzy) · [Licencja](#licencja)
 - [English](#english)
@@ -202,6 +202,7 @@ a obudzisz się o zmroku. Zwykły sen w Araluenie przewija noc do rana. Wyjątki
 **Punkt odrodzenia.** Gdy misja zaczyna się albo przenosi w nowe miejsce, punkt odrodzenia ustawia się w bezpiecznym
 punkcie tej lokacji: w Redmont przy bramie, przy chacie Halta przed chatą, pod Gorlanem w obozie przed ruinami, a nie
 na arenie. Po śmierci nie trzeba więc wracać przez pół królestwa. Czat pokazuje komunikat „✚ Punkt odrodzenia: …”.
+Po śmierci nie tracisz też przedmiotów: mod włącza zasadę `keepInventory` przy każdym starcie świata.
 
 ## Świat Araluenu
 
@@ -458,13 +459,16 @@ się pojawiają, są w tagach `tags/worldgen/biome/has_structure/`. Struktury mo
 poprawić ręcznie i nadpisać pliki `.nbt`.
 Znaczniki (`npc:halt;yaw=0`, `anchor:gabinet`, `dummy`, `tug`) muszą zostać na swoich miejscach.
 
-## Komendy testowe (op)
+## Komendy testowe
+
+W grze dla jednego gracza działają zawsze, także bez włączonych kodów. Na serwerze wymagają operatora.
 
 ```
 /zwiadowcy misja start|dalej|ukoncz <id>   /zwiadowcy misja reset
 /zwiadowcy tp <lokacja[:kotwica]>           /zwiadowcy kotwice <lokacja>
 /zwiadowcy podroz                            /zwiadowcy flaga <nazwa>
 /zwiadowcy przestaw <lokacja>                (stawia lokację od nowa w lepszym miejscu, bez Redmontu)
+/zwiadowcy skok <misja>                      (tom II: skok do misji; późniejsze misje zaczną się od nowa)
 ```
 
 ## Autotest
@@ -505,6 +509,7 @@ gradlew runServer -Pselftest=true
 
 | Wersja | Najważniejsze |
 |---|---|
+| [2.0.2](publikacja/zmiany-2.0.2.md) | przedmioty zostają po śmierci, podświetlone podpory mostu i smoła bez limitu, żołnierze walczą pod Uthal, drużyna nie zabiera celów w „Czarnym jeźdźcu”, łatwiejsze oznaczanie lunetą, `/zwiadowcy` bez kodów |
 | [2.0.1](publikacja/zmiany-2.0.1.md) | bez parowania (sparing z Gilanem na uniki), pochodnia w dłoni świeci, jaśniejsza kopalnia, poranek na start misji, drużyna i uciekający wrogowie nie blokują misji, węższe konie |
 | [2.0.0](publikacja/zmiany-2.0.0.md) | tom II „Płonący most”: 16 misji, Celtyka, Rozpadlina, palenie mostu, bitwa, Morgarath, niewola |
 | [1.0.2](publikacja/zmiany-1.0.2.md) | łagodny teren w okolicy pierwszych aktów |
